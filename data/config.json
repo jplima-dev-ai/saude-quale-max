@@ -1,0 +1,27 @@
+{
+  "loja": {
+    "nome": "Saúde Qualemax",
+    "descricao": "Produtos naturais, chás, vitaminas, suplementos e cuidados pessoais",
+    "logo": "🌿",
+    "corPrimaria": "#176b4d",
+    "corSecundaria": "#0d4532",
+    "corAcento": "#c99a45",
+    "corFundo": "#fbfaf6"
+  },
+  "contato": {
+    "whatsapp": "5527992820798",
+    "email": "contato@saudequalemax.com",
+    "telefone": "(27) 99282-0798",
+    "endereco": "Av. Segunda Avenida, 500 - Serra, ES"
+  },
+  "redes": {
+    "instagram": "saudequalemax",
+    "facebook": "saudequalemax",
+    "tiktok": "saudequalemax"
+  },
+  "empresa": {
+    "nome": "Saúde Qualemax",
+    "site": "https://www.saudequalemax.com",
+    "cep": "29165-390"
+  }
+}

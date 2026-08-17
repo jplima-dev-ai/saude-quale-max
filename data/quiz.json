@@ -1,0 +1,153 @@
+{
+  "titulo": "Descubra os Produtos Ideais para Você",
+  "descricao": "Responda 4 perguntas simples e recomendaremos os melhores produtos naturais para sua rotina.",
+  "perguntas": [
+    {
+      "id": 1,
+      "pergunta": "Qual é seu principal objetivo?",
+      "tipo": "multipla-escolha",
+      "opcoes": [
+        {
+          "id": "energia",
+          "texto": "⚡ Mais energia e disposição",
+          "icone": "⚡",
+          "categoria": "vitaminas"
+        },
+        {
+          "id": "relaxamento",
+          "texto": "🧘 Relaxamento e bem-estar",
+          "icone": "🧘",
+          "categoria": "chas"
+        },
+        {
+          "id": "saude",
+          "texto": "❤️ Saúde e imunidade",
+          "icone": "❤️",
+          "categoria": "suplementos"
+        },
+        {
+          "id": "beleza",
+          "texto": "✨ Beleza e cuidado pessoal",
+          "icone": "✨",
+          "categoria": "cuidados-pessoais"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "pergunta": "Qual é sua preferência de formato?",
+      "tipo": "multipla-escolha",
+      "opcoes": [
+        {
+          "id": "natural",
+          "texto": "🍃 100% natural e orgânico",
+          "icone": "🍃"
+        },
+        {
+          "id": "liquido",
+          "texto": "💧 Líquidos e sucos",
+          "icone": "💧"
+        },
+        {
+          "id": "capsula",
+          "texto": "💊 Cápsulas e comprimidos",
+          "icone": "💊"
+        },
+        {
+          "id": "cha",
+          "texto": "☕ Chás e bebidas quentes",
+          "icone": "☕"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "pergunta": "Você tem alguma restrição alimentar?",
+      "tipo": "multipla-escolha",
+      "opcoes": [
+        {
+          "id": "nenhuma",
+          "texto": "❌ Nenhuma",
+          "icone": "❌"
+        },
+        {
+          "id": "vegana",
+          "texto": "🌱 Vegana",
+          "icone": "🌱"
+        },
+        {
+          "id": "sem-gluten",
+          "texto": "🚫 Sem glúten",
+          "icone": "🚫"
+        },
+        {
+          "id": "alergias",
+          "texto": "⚠️ Alérgica a vários itens",
+          "icone": "⚠️"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "pergunta": "Com qual frequência você toma produtos naturais?",
+      "tipo": "multipla-escolha",
+      "opcoes": [
+        {
+          "id": "iniciante",
+          "texto": "🌱 Sou iniciante nisto",
+          "icone": "🌱",
+          "experiencia": "iniciante"
+        },
+        {
+          "id": "regular",
+          "texto": "📅 Uso regularmente",
+          "icone": "📅",
+          "experiencia": "regular"
+        },
+        {
+          "id": "frequente",
+          "texto": "⭐ Sou fã de naturais",
+          "icone": "⭐",
+          "experiencia": "frequente"
+        },
+        {
+          "id": "expert",
+          "texto": "🎓 Sou especialista",
+          "icone": "🎓",
+          "experiencia": "expert"
+        }
+      ]
+    }
+  ],
+  "recomendacoes": {
+    "energia": {
+      "titulo": "Sua Recomendação: Vitaminas e Suplementos",
+      "descricao": "Baseado nas suas respostas, recomendamos produtos que aumentam energia e disposição.",
+      "produtos_ids": [1, 2, 3],
+      "mensagem": "💪 Estes produtos vão potencializar sua energia diária!"
+    },
+    "relaxamento": {
+      "titulo": "Sua Recomendação: Chás e Ervas Calmantes",
+      "descricao": "Perfeito para quem busca momentos de relaxamento e tranquilidade.",
+      "produtos_ids": [5, 6, 7],
+      "mensagem": "🍵 Pronto para seus momentos de paz?"
+    },
+    "saude": {
+      "titulo": "Sua Recomendação: Suplementos de Saúde",
+      "descricao": "Produtos que fortalecem a imunidade e melhoram a saúde geral.",
+      "produtos_ids": [2, 4, 8],
+      "mensagem": "🛡️ Reforce suas defesas naturalmente!"
+    },
+    "beleza": {
+      "titulo": "Sua Recomendação: Cuidados Pessoais",
+      "descricao": "Produtos naturais para deixar você mais bonito por dentro e por fora.",
+      "produtos_ids": [6, 7, 8],
+      "mensagem": "✨ Sua beleza natural em primeiro lugar!"
+    }
+  },
+  "cta_final": {
+    "titulo": "Pronto para sua transformação?",
+    "texto": "Escolha seus produtos ideais e converse com nossa equipe sobre como usá-los.",
+    "botao": "Falar com especialista"
+  }
+}
