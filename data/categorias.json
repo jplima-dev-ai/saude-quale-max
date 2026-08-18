@@ -1,0 +1,70 @@
+{
+  "categorias": [
+    {
+      "id": "produtos-naturais",
+      "nome": "Produtos Naturais",
+      "descricao": "Produtos e escolhas inspiradas em um estilo de vida mais natural.",
+      "imagem": "produtos-naturais.webp"
+    },
+    {
+      "id": "vitaminas",
+      "nome": "Vitaminas",
+      "descricao": "Vitaminas para quem deseja conhecer diferentes opções para sua rotina.",
+      "imagem": "vitaminas-suplementos.webp"
+    },
+    {
+      "id": "suplementos",
+      "nome": "Suplementos",
+      "descricao": "Opções de suplementos para diferentes preferências e momentos.",
+      "imagem": "bem-estar-natural.webp"
+    },
+    {
+      "id": "chas",
+      "nome": "Chás e Ervas",
+      "descricao": "Aromas, sabores e tradições para pequenos momentos do dia.",
+      "imagem": "chas-ervas.webp"
+    },
+    {
+      "id": "cuidados-pessoais",
+      "nome": "Cuidados Pessoais",
+      "descricao": "Produtos para momentos de autocuidado e cuidado pessoal.",
+      "imagem": "cuidados-pessoais.webp"
+    },
+    {
+      "id": "sementes",
+      "nome": "Sementes",
+      "descricao": "Sementes para receitas, bebidas e combinações do dia a dia.",
+      "imagem": "produtos-naturais.webp"
+    },
+    {
+      "id": "fibras",
+      "nome": "Fibras",
+      "descricao": "Opções em pó e alimentos ricos em fibras para diferentes preparações.",
+      "imagem": "produtos-naturais.webp"
+    },
+    {
+      "id": "cereais",
+      "nome": "Cereais e Granolas",
+      "descricao": "Aveias, granolas e outros cereais para cafés da manhã e receitas.",
+      "imagem": "produtos-naturais.webp"
+    },
+    {
+      "id": "oleaginosas",
+      "nome": "Castanhas e Oleaginosas",
+      "descricao": "Castanhas, sementes e mixes para lanches e receitas.",
+      "imagem": "produtos-naturais.webp"
+    },
+    {
+      "id": "alimentos",
+      "nome": "Alimentos Naturais",
+      "descricao": "Óleos, pastas e outros itens para a despensa natural.",
+      "imagem": "produtos-naturais.webp"
+    },
+    {
+      "id": "temperos",
+      "nome": "Temperos e Especiarias",
+      "descricao": "Ervas, especiarias e ingredientes para preparações culinárias.",
+      "imagem": "produtos-naturais.webp"
+    }
+  ]
+}

@@ -3,9 +3,11 @@ class QuizInterativo {
         this.container = document.querySelector(seletor);
         this.quizData = null;
         this.produtosData = null;
+        this.categoriasData = [];
         this.respostas = {};
         this.perguntaAtual = 0;
         this.respondendo = false;
+        this.config = null;
         this.init();
     }
 
@@ -15,6 +17,7 @@ class QuizInterativo {
         }
 
         try {
+            await this.carregarConfig();
             await this.carregarDados();
             this.renderizarPergunta();
         } catch (erro) {
@@ -26,14 +29,26 @@ class QuizInterativo {
         }
     }
 
+    async carregarConfig() {
+        if (window.QualemaxConfig) {
+            this.config = window.QualemaxConfig;
+            return;
+        }
+        await new Promise((resolve) => document.addEventListener("qualemax:config-ready", (evento) => {
+            this.config = evento.detail || {};
+            resolve();
+        }, { once: true }));
+    }
+
     async carregarDados() {
-        const [respostaQuiz, respostaProdutos] =
+        const [respostaQuiz, respostaProdutos, respostaCategorias] =
             await Promise.all([
                 fetch("./data/quiz.json"),
-                fetch("./data/produtos.json")
+                fetch("./data/produtos.json"),
+                fetch("./data/categorias.json")
             ]);
 
-        if (!respostaQuiz.ok || !respostaProdutos.ok) {
+        if (!respostaQuiz.ok || !respostaProdutos.ok || !respostaCategorias.ok) {
             throw new Error(
                 "Não foi possível carregar os dados do quiz."
             );
@@ -41,6 +56,8 @@ class QuizInterativo {
 
         this.quizData = await respostaQuiz.json();
         this.produtosData = await respostaProdutos.json();
+        const categoriasJson = await respostaCategorias.json();
+        this.categoriasData = Array.isArray(categoriasJson.categorias) ? categoriasJson.categorias : [];
 
         if (
             !Array.isArray(this.quizData.perguntas) ||
@@ -419,6 +436,10 @@ class QuizInterativo {
         };
     }
 
+    obterNomeCategoria(id) {
+        return this.categoriasData.find((categoria) => categoria.id === id)?.nome || id || "Sem categoria";
+    }
+
     mostrarResultado() {
         if (!this.container) {
             return;
@@ -514,8 +535,8 @@ class QuizInterativo {
                     <h3>${this.quizData.cta_final.titulo}</h3>
                     <p>${this.quizData.cta_final.texto}</p>
                     <a
-                        href="https://wa.me/5527992820798?text=Ol%C3%A1%21%20Fiz%20o%20quiz%20de%20produtos%20e%20gostaria%20de%20saber%20mais."
-                        class="botao botao-principal"
+                        href="#"
+                        class="botao botao-principal quiz-whatsapp"
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="Falar com especialista pelo WhatsApp - abre em nova aba"
@@ -546,51 +567,73 @@ class QuizInterativo {
                 this.reiniciar();
             });
 
+        this.container.querySelectorAll("[data-quiz-produto-id]").forEach((botao) => {
+            botao.addEventListener("click", () => {
+                const id = Number(botao.dataset.quizProdutoId);
+                const produto = this.produtosData.produtos.find((item) => Number(item.id) === id);
+                if (produto && window.QualemaxProdutos?.abrirModal) window.QualemaxProdutos.abrirModal(produto);
+            });
+        });
+
+        const numeroWhatsAppProduto = String(this.config?.contato?.whatsapp || "").replace(/\D/g, "");
+        this.container.querySelectorAll("[data-quiz-whatsapp-id]").forEach((link) => {
+            const id = Number(link.dataset.quizWhatsappId);
+            const produto = this.produtosData.produtos.find((item) => Number(item.id) === id);
+            if (!produto || !numeroWhatsAppProduto) { link.hidden = true; return; }
+            const nomeLojaProduto = this.config?.empresa?.nome || "a loja";
+            const mensagemProduto = `Olá! Fiz o quiz da ${nomeLojaProduto} e uma das opções foi ${produto.nome}. Gostaria de consultar disponibilidade e detalhes.`;
+            link.href = `https://wa.me/${numeroWhatsAppProduto}?text=${encodeURIComponent(mensagemProduto)}`;
+            link.setAttribute("aria-label", `Consultar ${produto.nome} pelo WhatsApp, abre em nova aba`);
+        });
+
+        const whatsapp = this.container.querySelector(".quiz-whatsapp");
+        const numero = String(this.config?.contato?.whatsapp || "").replace(/\D/g, "");
+        const nomeLoja = this.config?.empresa?.nome || "a loja";
+        if (whatsapp && numero) {
+            const nomesProdutos = produtos.map((produto) => produto.nome).join(", ");
+            const contextoProdutos = nomesProdutos ? ` As opções que apareceram para mim foram: ${nomesProdutos}.` : "";
+            const mensagem = `Olá! Fiz o quiz de produtos da ${nomeLoja}.${contextoProdutos} Gostaria de confirmar disponibilidade e receber orientação da equipe.`;
+            whatsapp.href = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
+        } else if (whatsapp) {
+            whatsapp.hidden = true;
+        }
+
         if (titulo) {
             window.setTimeout(() => titulo.focus(), 50);
         }
     }
 
     renderizarCardProduto(produto) {
+        const categoria = this.obterNomeCategoria(produto.categoria);
+        const descricao = produto.copy || produto.descricao || "Confira os detalhes deste produto.";
         return `
             <article class="quiz-produto-card" role="listitem">
                 <div class="quiz-produto-imagem">
                     <img
-                        src="img/${produto.imagem}"
-                        alt="${produto.nome}"
+                        src="img/thumbs/${produto.imagem}"
+                        alt="${produto.nome} — ${categoria}"
                         loading="lazy"
+                        decoding="async"
+                        width="464"
+                        height="576"
                     >
                 </div>
 
                 <div class="quiz-produto-conteudo">
-                    <span class="quiz-produto-categoria">
-                        ${produto.categoria}
-                    </span>
-
+                    <span class="quiz-produto-categoria">${categoria}</span>
                     <h4>${produto.nome}</h4>
+                    <p class="quiz-produto-descricao">${descricao}</p>
 
-                    <p class="quiz-produto-descricao">
-                        ${produto.descricao}
-                    </p>
+                    <div class="quiz-produto-badges" aria-label="Características do produto">
+                        ${produto.vegana ? '<span class="badge badge-vegana">Vegano</span>' : ""}
+                        ${produto.sem_gluten ? '<span class="badge badge-gluten">Sem glúten</span>' : ""}
+                    </div>
 
-                    <p class="quiz-produto-preco">
-                        ${produto.preco}
-                    </p>
-
-                    <div
-                        class="quiz-produto-badges"
-                        aria-label="Características do produto"
-                    >
-                        ${
-                            produto.vegana
-                                ? '<span class="badge badge-vegana">🌱 Vegana</span>'
-                                : ""
-                        }
-                        ${
-                            produto.sem_gluten
-                                ? '<span class="badge badge-gluten">🚫 S/ Glúten</span>'
-                                : ""
-                        }
+                    <div class="quiz-produto-acoes">
+                        <button type="button" class="botao botao-secundario quiz-produto-detalhes" data-quiz-produto-id="${produto.id}">
+                            Ver detalhes
+                        </button>
+                        <a href="#" class="quiz-produto-whatsapp" data-quiz-whatsapp-id="${produto.id}" target="_blank" rel="noopener noreferrer">Consultar no WhatsApp →</a>
                     </div>
                 </div>
             </article>

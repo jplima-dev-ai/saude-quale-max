@@ -2441,3 +2441,472 @@ select:focus-visible {
     border-radius: var(--raio-medio);
     text-align: center;
 }
+
+/* =========================================================
+   SAÚDE QUALEMAX v1.1 — catálogo, modal, acessibilidade e chatbot
+   ========================================================= */
+.catalogo-controles{margin:2rem 0 1rem;padding:1.25rem;border:1px solid var(--cor-borda,#d9dfda);border-radius:1rem;background:#fff;box-shadow:0 8px 30px rgba(13,69,50,.06)}
+.campo-busca label,.filtros-produtos label,.chat-input label{display:block;font-weight:700;margin-bottom:.4rem}
+.campo-busca input,.filtros-produtos select,.chat-input input{width:100%;min-height:48px;padding:.75rem 1rem;border:2px solid #b8c7bf;border-radius:.65rem;background:#fff;color:inherit;font:inherit}
+.campo-busca input:focus,.filtros-produtos select:focus,.chat-input input:focus{outline:3px solid #c99a45;outline-offset:2px;border-color:#176b4d}
+.filtros-produtos{display:grid;grid-template-columns:repeat(3,1fr) auto;gap:1rem;align-items:end;margin-top:1rem}
+.produtos-contador{font-weight:700;margin:1rem 0}.produtos-vazio{padding:1.5rem;border:2px dashed #b8c7bf;border-radius:1rem;text-align:center}.produto-acoes{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;margin-top:1rem}.botao-detalhes{border:0;cursor:pointer}
+.produto-modal{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:1rem;background:rgba(0,0,0,.65)}
+.produto-modal[hidden],.chatbot[hidden]{display:none}.produto-modal-dialog{width:min(680px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:1rem;padding:2rem;box-shadow:0 20px 70px rgba(0,0,0,.3)}
+.produto-modal-fechar{float:right;border:2px solid #176b4d;background:#fff;color:#0d4532;border-radius:.5rem;padding:.55rem .8rem;font:inherit;font-weight:700;cursor:pointer}.produto-modal-dialog h2{clear:both;margin-top:1.5rem}.produto-modal-categoria{font-weight:700;color:#176b4d}.produto-modal-lista{padding-left:1.4rem}.produto-modal-aviso{padding:1rem;border-left:4px solid #c99a45;background:#fbfaf6}
+.acessibilidade-barra{background:#0d4532;color:#fff}.acessibilidade-conteudo{display:flex;align-items:center;justify-content:flex-end;gap:1rem;padding:.5rem 1rem}.botao-acessibilidade,.acessibilidade-painel button{min-height:42px;border:1px solid #fff;border-radius:.45rem;padding:.5rem .75rem;background:transparent;color:#fff;font:inherit;cursor:pointer}.acessibilidade-painel{display:flex;gap:.5rem;flex-wrap:wrap}.acessibilidade-painel[hidden]{display:none}.acessibilidade-painel button{background:#fff;color:#0d4532}
+html.texto-grande{font-size:112.5%}html.alto-contraste body{background:#000;color:#fff}html.alto-contraste .catalogo-controles,html.alto-contraste .produto-card,html.alto-contraste .contato-card,html.alto-contraste .faq-list details{background:#111;color:#fff;border-color:#fff}html.alto-contraste a{color:#fff}html.leitura-facil body{letter-spacing:.02em;line-height:1.8}html.leitura-facil .hero-card-principal,html.leitura-facil .categoria-card img,html.leitura-facil .sobre-imagem{filter:grayscale(1)}
+.chatbot-abrir{position:fixed;right:1.25rem;bottom:5.5rem;z-index:900;display:flex;gap:.5rem;align-items:center;border:0;border-radius:999px;padding:.85rem 1.1rem;background:#176b4d;color:#fff;font:inherit;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,.2);cursor:pointer}.chatbot{position:fixed;right:1.25rem;bottom:1.25rem;z-index:1001;width:min(420px,calc(100vw - 2rem))}.chatbot-dialog{overflow:hidden;border-radius:1rem;background:#fff;box-shadow:0 20px 70px rgba(0,0,0,.3);border:1px solid #d9dfda}.chatbot-header{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem;background:#0d4532;color:#fff}.chatbot-header h2{margin:0}.chatbot-kicker{margin:0;font-size:.8rem}.chatbot-header button{border:1px solid #fff;background:transparent;color:#fff;border-radius:.4rem;padding:.45rem .7rem;cursor:pointer}.chat-mensagens{height:260px;overflow:auto;padding:1rem;background:#fbfaf6}.chat-mensagem{max-width:90%;padding:.7rem .85rem;border-radius:.75rem;margin-bottom:.75rem;line-height:1.5}.chat-mensagem-bot{background:#e7f1ec}.chat-mensagem-usuario{margin-left:auto;background:#176b4d;color:#fff}.chat-acoes{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;padding:.75rem}.chat-acoes button{padding:.65rem;border:1px solid #176b4d;border-radius:.5rem;background:#fff;color:#0d4532;font:inherit;cursor:pointer}.chat-input{padding:.75rem;border-top:1px solid #d9dfda}.chat-input>div{display:flex;gap:.5rem}.chat-input button{border:0;border-radius:.5rem;padding:0 1rem;background:#176b4d;color:#fff;font:inherit;font-weight:700;cursor:pointer}
+@media (max-width:850px){.filtros-produtos{grid-template-columns:1fr 1fr}.filtros-produtos .botao{grid-column:1/-1}.acessibilidade-conteudo{justify-content:flex-start;align-items:flex-start;flex-direction:column}.acessibilidade-painel{width:100%}}
+@media (max-width:650px){.filtros-produtos{grid-template-columns:1fr}.produto-acoes{align-items:stretch;flex-direction:column}.produto-acoes>*{width:100%}.chatbot-abrir{right:.75rem;bottom:5rem}.chatbot{right:.75rem;bottom:.75rem}.chat-acoes{grid-template-columns:1fr}.produto-modal-dialog{padding:1.25rem}}
+@media (prefers-reduced-motion:reduce){.chatbot-abrir,.chatbot,.produto-modal{scroll-behavior:auto!important;transition:none!important}}
+
+
+/* v1.1 — refinamentos de acessibilidade e interação */
+.botao:focus-visible,.link-destaque:focus-visible,.botao-menu:focus-visible,.navegacao a:focus-visible,.botao-acessibilidade:focus-visible,.acessibilidade-painel button:focus-visible,.chatbot button:focus-visible,.chatbot input:focus-visible,.produto-modal button:focus-visible,.produto-modal a:focus-visible { outline: 3px solid var(--cor-acento, #c99a45); outline-offset: 3px; }
+.chatbot[aria-hidden="true"] { visibility: hidden; }
+.chatbot[aria-hidden="false"] { visibility: visible; }
+.produto-modal[aria-hidden="true"] { visibility: hidden; }
+.produto-modal[aria-hidden="false"] { visibility: visible; }
+body.modal-aberto, body.chat-aberto { overflow: hidden; }
+@media (max-width: 650px) {
+  .whatsapp-flutuante { bottom: .75rem; left: .75rem; right: .75rem; justify-content: center; }
+  .chatbot-abrir { bottom: 4.8rem; }
+}
+
+/* v1.1 — refinamentos de acessibilidade, estados e fallback */
+.link-indisponivel { opacity: .65; cursor: not-allowed; pointer-events: none; }
+.noscript-aviso { margin: 0; padding: 1rem; background: #fff3cd; color: #332701; border-bottom: 2px solid #8a6d1d; font-weight: 700; }
+.acessibilidade-painel button[aria-pressed="true"] { box-shadow: inset 0 0 0 3px var(--cor-acento, #c99a45); font-weight: 800; }
+.produto-modal-dialog { scrollbar-gutter: stable; }
+.chatbot-dialog { max-height: min(720px, calc(100vh - 2rem)); }
+.chat-mensagens { overscroll-behavior: contain; }
+@media (max-width: 650px) {
+  .chatbot-dialog { max-height: calc(100vh - 1.5rem); }
+  .chat-mensagens { height: min(36vh, 260px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+}
+
+
+/* ==========================================================
+   RODADA 5 — experiência de conversão, mobile e NVDA
+   ========================================================== */
+.hero-busca-atalho {
+    margin-top: 24px;
+    padding: 16px;
+    max-width: 620px;
+    border: 1px solid var(--borda);
+    border-radius: var(--raio-medio);
+    background: rgba(255,255,255,.82);
+    box-shadow: var(--sombra-suave);
+}
+.hero-busca-atalho label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--verde-escuro);
+    font-size: .88rem;
+    font-weight: 800;
+}
+.hero-busca-linha {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+}
+.hero-busca-linha input {
+    width: 100%;
+    min-height: 48px;
+    padding: 0 15px;
+    border: 2px solid var(--borda);
+    border-radius: 12px;
+    background: var(--branco);
+    color: var(--texto);
+}
+.hero-busca-linha input::placeholder { color: var(--texto-claro); }
+.hero-busca-linha input:focus { border-color: var(--verde-principal); }
+.botao-pequeno { min-height: 48px; padding-inline: 18px; background: var(--verde-escuro); color: var(--branco); }
+.botao-pequeno:hover { background: var(--verde-profundo); }
+
+/* Evita que links/botões críticos desapareçam visualmente durante navegação por teclado. */
+.hero-busca-linha button,
+.produto-acoes .botao,
+.chat-acoes button,
+.chat-input button { min-height: 46px; }
+
+.produtos-contador {
+    margin-top: 18px;
+    font-size: .9rem;
+    font-weight: 700;
+    color: var(--verde-escuro);
+}
+.produtos-vazio {
+    margin-top: 20px;
+    padding: 24px;
+    border: 1px dashed var(--verde-principal);
+    border-radius: var(--raio-medio);
+    background: var(--verde-suave);
+}
+
+/* Modal: camada visual mais consistente e menos agressiva no mobile. */
+.produto-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    background: rgba(8,47,35,.62);
+    backdrop-filter: blur(4px);
+}
+.produto-modal[hidden] { display: none; }
+.produto-modal-dialog {
+    width: min(680px, 100%);
+    max-height: min(760px, calc(100vh - 40px));
+    overflow: auto;
+    padding: clamp(24px, 4vw, 38px);
+    border: 1px solid var(--borda);
+    border-radius: var(--raio-grande);
+    background: var(--branco);
+    box-shadow: var(--sombra-forte);
+}
+.produto-modal-fechar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    margin-bottom: 20px;
+    padding: 0 16px;
+    border: 1px solid var(--borda);
+    border-radius: 999px;
+    background: var(--branco);
+    color: var(--verde-escuro);
+    font-weight: 800;
+    cursor: pointer;
+}
+.produto-modal-dialog h2 { margin-bottom: 14px; color: var(--verde-profundo); }
+.produto-modal-lista { margin: 18px 0; padding-left: 22px; list-style: disc; }
+.produto-modal-lista li { margin-bottom: 8px; }
+.produto-modal-aviso { margin: 18px 0; padding: 14px 16px; border-radius: 12px; background: var(--dourado-claro); color: var(--verde-profundo); font-size: .9rem; }
+
+/* Chatbot: mais legível em leitura ampliada e em telas pequenas. */
+.chatbot { max-width: 440px; }
+.chatbot-dialog { border-radius: 22px; }
+.chatbot-header { padding: 16px 18px; }
+.chatbot-header h2 { font-size: 1.15rem; }
+.chat-mensagens { min-height: 240px; }
+.chat-input input { min-height: 46px; width: 100%; padding: 0 12px; border: 2px solid var(--borda); border-radius: 10px; }
+.chat-input input:focus { border-color: var(--verde-principal); }
+
+/* Reduz a dependência de hover para usuários de teclado/touch. */
+@media (hover: none) {
+    .botao:hover { transform: none; }
+    .navegacao a:hover::after { transform: none; }
+}
+
+@media (max-width: 650px) {
+    .hero-busca-linha { grid-template-columns: 1fr; }
+    .hero-busca-linha .botao { width: 100%; }
+    .hero-busca-atalho { padding: 14px; }
+    .produto-modal { padding: 10px; }
+    .produto-modal-dialog { max-height: calc(100vh - 20px); border-radius: 18px; }
+}
+
+@media (max-width: 380px) {
+    .hero-busca-atalho label { font-size: .82rem; }
+    .hero-busca-linha input { font-size: .9rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .produto-modal,
+    .produto-modal-dialog,
+    .hero-busca-atalho { scroll-behavior: auto; }
+}
+\n\n/* =========================================================\n   SAÚDE QUALEMAX v1.2 — catálogo visual premium\n   ========================================================= */\n.produtos-grid { align-items: stretch; }\n.produto-card-dinamico {\n    border-radius: 1.15rem;\n    border-color: rgba(23,107,77,.18);\n    box-shadow: 0 12px 34px rgba(13,69,50,.09);\n    background: linear-gradient(180deg,#fff 0%,#fdfdfb 100%);\n}\n.produto-card-dinamico .produto-imagem {\n    position: relative;\n    height: auto;\n    aspect-ratio: 4 / 5;\n    background: #f4f1e9;\n    border-bottom: 1px solid rgba(23,107,77,.12);\n}\n.produto-card-dinamico .produto-imagem::after {\n    content: "";\n    position: absolute;\n    inset: auto 0 0;\n    height: 22%;\n    pointer-events: none;\n    background: linear-gradient(to top,rgba(0,0,0,.045),transparent);\n}\n.produto-card-dinamico .produto-imagem img {\n    display: block;\n    width: 100%;\n    height: 100%;\n    object-fit: cover;\n    object-position: center;\n}\n.produto-card-dinamico .produto-conteudo { padding: 1.35rem; }\n.produto-card-dinamico .produto-conteudo h3 { margin: .35rem 0 .65rem; line-height: 1.22; }\n.produto-card-dinamico .produto-conteudo > p { margin: 0; color: var(--texto-suave,#51615a); }\n.produto-card-dinamico .produto-acoes { margin-top: auto; padding-top: 1.1rem; }\n.produto-card-dinamico .produto-categoria {\n    width: fit-content;\n    border: 1px solid rgba(23,107,77,.16);\n    border-radius: 999px;\n}\n.produto-modal-dialog { width: min(920px,100%); }\n.produto-modal-layout { display:grid; grid-template-columns:minmax(240px,.85fr) minmax(0,1.15fr); gap:2rem; align-items:start; }\n.produto-modal-imagem { overflow:hidden; aspect-ratio:4/5; border-radius:1rem; background:#f4f1e9; border:1px solid rgba(23,107,77,.14); }\n.produto-modal-imagem img { width:100%; height:100%; object-fit:cover; display:block; }\n.produto-modal-informacoes { min-width:0; }\n.produto-modal-informacoes .botao { display:inline-flex; justify-content:center; margin-top:.5rem; }\n@media (max-width: 720px) {\n  .produto-modal-layout { grid-template-columns:1fr; gap:1.25rem; }\n  .produto-modal-imagem { max-width:360px; width:100%; margin-inline:auto; }\n}\n@media (prefers-reduced-motion: reduce) {\n  .produto-card-dinamico,.produto-card-dinamico .produto-imagem img { transform:none!important; transition:none!important; }\n}\n\n\n/* Saúde Qualemax v1.3 — camada visual premium */\n.destaques { padding: 110px 0; background: linear-gradient(180deg, #f4f8f2 0%, #fbfaf6 100%); }\n.destaques-cabecalho { display:grid; grid-template-columns:minmax(0,1fr) minmax(280px,.72fr); gap:48px; align-items:end; margin-bottom:42px; text-align:left; }\n.destaques-cabecalho h2 { max-width:680px; margin:0; }\n.destaques-cabecalho > p { margin:0; line-height:1.8; }\n.destaques-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:22px; }\n.destaques-grid .produto-card:nth-child(n+5) { display:none; }\n.destaques-rodape { display:flex; justify-content:center; margin-top:36px; }\n.produto-card { border-radius:20px; border-color:rgba(23,107,77,.14); box-shadow:0 10px 35px rgba(13,69,50,.08); }\n.produto-imagem { position:relative; height:auto; aspect-ratio:4/5; background:linear-gradient(145deg,#f7f5ef,#fff); }\n.produto-imagem img { object-fit:cover; }\n.produto-selo-destaque { position:absolute; top:14px; left:14px; z-index:2; padding:7px 10px; border-radius:999px; background:rgba(255,255,255,.94); color:var(--verde-escuro); font-size:.72rem; font-weight:800; box-shadow:0 5px 18px rgba(0,0,0,.09); }\n.produto-conteudo { padding:22px; }\n.produto-conteudo h3 { font-size:1.18rem; line-height:1.3; }\n.produto-acoes { display:grid; gap:12px; margin-top:auto; }\n.produto-acoes .link-destaque { text-align:center; }\n.catalogo-controles { border:1px solid rgba(23,107,77,.13); border-radius:20px; padding:24px; background:#fbfcfa; box-shadow:0 12px 35px rgba(13,69,50,.06); }\n.hero-imagem { object-fit:cover; }\n@media (max-width: 1024px) { .destaques-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .destaques-cabecalho { grid-template-columns:1fr; gap:16px; } }\n@media (max-width: 600px) { .destaques { padding:76px 0; } .destaques-grid { grid-template-columns:1fr 1fr; gap:12px; } .destaques-grid .produto-conteudo { padding:15px; } .destaques-grid .produto-conteudo p { display:none; } .destaques-grid .produto-acoes .link-destaque { display:none; } .destaques-grid .produto-conteudo h3 { font-size:1rem; } }\n@media (prefers-reduced-motion: reduce) { .produto-card, .produto-imagem img { transition:none !important; } .produto-card:hover { transform:none; } .produto-card:hover .produto-imagem img { transform:none; } }\n
+/* =========================================================
+   SAÚDE QUALEMAX v1.3.1 — entrada premium do assistente
+   ========================================================= */
+.hero-assistente {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 1rem;
+    align-items: center;
+    margin: 1.4rem 0 1.2rem;
+    padding: 1rem 1.1rem;
+    border: 1px solid rgba(23,107,77,.16);
+    border-radius: 1.1rem;
+    background: rgba(255,255,255,.84);
+    box-shadow: 0 12px 32px rgba(13,69,50,.075);
+    backdrop-filter: blur(8px);
+}
+.hero-assistente-icone {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: .85rem;
+    background: linear-gradient(145deg, var(--verde-escuro), var(--verde-principal));
+    color: #fff;
+    font-size: 1.15rem;
+    box-shadow: 0 8px 20px rgba(13,69,50,.18);
+}
+.hero-assistente-texto { min-width: 0; }
+.hero-assistente-kicker {
+    margin: 0 0 .15rem;
+    color: var(--verde-principal);
+    font-size: .76rem;
+    font-weight: 800;
+    letter-spacing: .055em;
+    text-transform: uppercase;
+}
+.hero-assistente h2 {
+    margin: 0;
+    color: var(--verde-escuro);
+    font-size: 1rem;
+    line-height: 1.3;
+}
+.hero-assistente-texto > p:last-child {
+    margin: .28rem 0 0;
+    color: var(--texto-suave, #51615a);
+    font-size: .88rem;
+    line-height: 1.55;
+}
+.botao-assistente-hero {
+    min-height: 46px;
+    padding-inline: 1rem;
+    white-space: nowrap;
+    border: 1px solid var(--verde-principal);
+    background: var(--verde-principal);
+    color: #fff;
+    cursor: pointer;
+}
+.botao-assistente-hero:hover { background: var(--verde-escuro); border-color: var(--verde-escuro); }
+.botao-assistente-hero:focus-visible {
+    outline: 3px solid var(--cor-acento, #c99a45);
+    outline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+    .hero-assistente { grid-template-columns: auto minmax(0,1fr); }
+    .botao-assistente-hero { grid-column: 1 / -1; width: 100%; justify-content: center; }
+}
+@media (max-width: 420px) {
+    .hero-assistente { padding: .9rem; gap: .8rem; }
+    .hero-assistente-icone { width: 2.4rem; height: 2.4rem; }
+    .hero-assistente-texto > p:last-child { font-size: .82rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .hero-assistente, .botao-assistente-hero { transition: none !important; }
+}
+
+
+/* v1.5 — Conversão e Assistente Qualemax */
+.produto-conteudo > p { line-height: 1.65; }
+.chat-produtos { display:grid; gap:.75rem; margin:.75rem 0; }
+.chat-produto-card { display:grid; gap:.45rem; padding:.9rem; border:1px solid var(--borda, #d8e2d7); border-radius:14px; background:#fff; box-shadow:0 8px 24px rgba(20,55,35,.08); }
+.chat-produto-card strong { color:var(--verde-escuro, #173f2a); font-size:1rem; }
+.chat-produto-card span { font-size:.9rem; line-height:1.5; color:var(--texto-suave, #526158); }
+.chat-produto-card button { justify-self:start; border:0; border-radius:999px; padding:.6rem .85rem; font-weight:700; cursor:pointer; background:var(--verde-principal, #287a4b); color:#fff; }
+.chat-produto-card button:focus-visible { outline:3px solid currentColor; outline-offset:3px; }
+
+/* Saúde Qualemax v1.6 — estabilização e refinamentos */
+.chat-produto-card img {
+  width: 72px;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid rgba(23,107,77,.14);
+  background: #f4f1e9;
+}
+.chat-produto-card { grid-template-columns: 72px 1fr; align-items:start; }
+.chat-produto-card strong,
+.chat-produto-card span,
+.chat-produto-card button { grid-column: 2; }
+.chat-produto-card img { grid-column: 1; grid-row: 1 / span 3; }
+.quiz-produto-detalhes { margin-top: .85rem; width: 100%; }
+.imagem-indisponivel::before {
+  content: "Imagem indisponível";
+  display:grid;
+  place-items:center;
+  min-height:100%;
+  padding:1rem;
+  color:var(--texto-suave,#51615a);
+  font-weight:700;
+  text-align:center;
+}
+@media (max-width: 480px) {
+  .chat-produto-card { grid-template-columns: 56px 1fr; }
+  .chat-produto-card img { width:56px; }
+}
+
+
+/* v1.7 — conversão, miniaturas e refinamento mobile */
+.quiz-produto-acoes { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; margin-top: auto; }
+.quiz-produto-whatsapp { font-weight: 700; text-decoration-thickness: 2px; text-underline-offset: .2em; }
+.chat-produto-card img { object-fit: cover; border-radius: .75rem; flex: 0 0 auto; }
+@media (max-width: 640px) {
+  .quiz-produto-acoes { align-items: stretch; flex-direction: column; }
+  .quiz-produto-whatsapp { padding: .75rem 0; }
+  .chat-produto-card { grid-template-columns: 72px minmax(0,1fr); }
+  .chat-produto-card img { width: 72px; height: 90px; }
+  .chat-produto-card button { grid-column: 1 / -1; width: 100%; }
+}
+
+
+/* v1.8 — redes sociais configuráveis */
+.redes-bloco {
+    margin-top: 30px;
+    padding: 28px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(280px, 1fr);
+    gap: 28px;
+    align-items: center;
+    border: 1px solid var(--borda);
+    border-radius: var(--raio-medio);
+    background: linear-gradient(135deg, rgba(255,255,255,.92), rgba(241,248,244,.9));
+    box-shadow: var(--sombra-suave);
+}
+.redes-bloco[hidden], .rodape-redes[hidden] { display: none !important; }
+.redes-bloco h3 { margin: 4px 0 8px; color: var(--verde-escuro); font-size: clamp(1.25rem, 2vw, 1.65rem); }
+.redes-bloco-texto > p:last-child { max-width: 620px; color: var(--texto-suave); line-height: 1.7; }
+.redes-lista { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.rede-link {
+    min-height: 56px; padding: 12px 16px; display: flex; align-items: center; gap: 12px;
+    border: 1px solid var(--borda); border-radius: 14px; background: var(--branco);
+    color: var(--verde-escuro); font-weight: 800; box-shadow: 0 8px 24px rgba(15,65,45,.06);
+    transition: transform var(--transicao), border-color var(--transicao), box-shadow var(--transicao);
+}
+.rede-link:hover { transform: translateY(-2px); border-color: var(--verde-principal); box-shadow: 0 12px 28px rgba(15,65,45,.11); }
+.rede-icone {
+    width: 34px; height: 34px; flex: 0 0 34px; display: grid; place-items: center;
+    border-radius: 50%; background: var(--verde-suave); color: var(--verde-principal); font-size: .72rem; letter-spacing: .03em; font-weight: 900;
+}
+.rodape-redes { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.rodape-rede-link { display: inline-flex; align-items: center; gap: 7px; color: rgba(255,255,255,.78) !important; }
+.rodape-rede-link .rede-icone { width: 28px; height: 28px; flex-basis: 28px; background: rgba(255,255,255,.1); color: var(--branco); font-size: .62rem; }
+.rodape-rede-link:hover { color: var(--branco) !important; }
+@media (max-width: 760px) {
+    .redes-bloco { grid-template-columns: 1fr; padding: 22px; }
+    .redes-lista { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 420px) { .redes-lista { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .rede-link { transition: none; } .rede-link:hover { transform: none; } }
+html.reduzir-movimento .rede-link { transition: none; }
+html.reduzir-movimento .rede-link:hover { transform: none; }
+
+.chat-redes { display:flex; flex-wrap:wrap; gap:8px; margin:8px 0 4px; }
+.chat-redes a { padding:9px 12px; border:1px solid var(--borda); border-radius:999px; background:var(--branco); color:var(--verde-principal); font-size:.82rem; font-weight:800; }
+.chat-redes a:hover { text-decoration:underline; }
+
+/* v1.9 — confiança comercial e estados de recuperação */
+.confianca-comercial {
+    padding: clamp(56px, 7vw, 88px) 0;
+    background: linear-gradient(180deg, rgba(23, 107, 77, .055), rgba(255, 255, 255, 0));
+    border-top: 1px solid var(--borda);
+    border-bottom: 1px solid var(--borda);
+}
+.confianca-comercial-cabecalho { max-width: 780px; margin: 0 auto 30px; text-align: center; }
+.confianca-comercial-cabecalho h2 { margin-bottom: 14px; color: var(--verde-profundo); }
+.confianca-comercial-cabecalho > p:last-child { color: var(--texto-suave); line-height: 1.75; }
+.confianca-comercial-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.confianca-comercial-grid article { padding: 24px; border: 1px solid var(--borda); border-radius: var(--raio-medio); background: rgba(255,255,255,.86); box-shadow: var(--sombra-suave); }
+.confianca-comercial-grid strong { display: block; margin-bottom: 8px; color: var(--verde-escuro); font-size: 1.05rem; }
+.confianca-comercial-grid span { color: var(--texto-suave); line-height: 1.65; }
+.produtos-vazio { display: grid; gap: 16px; }
+.produtos-vazio[hidden] { display: none !important; }
+.produtos-vazio p { margin: 0; }
+.produtos-vazio-acoes { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 12px; }
+.botao-assistente-vazio { border: 1px solid var(--verde-principal); background: var(--verde-principal); color: #fff; cursor: pointer; }
+.chat-whatsapp-cta { display: block; margin: 0 0 .85rem; padding: .7rem .85rem; border-radius: .65rem; background: var(--verde-principal); color: #fff; font-weight: 750; text-align: center; }
+.chat-whatsapp-cta:hover { text-decoration: underline; }
+@media (max-width: 760px) {
+    .confianca-comercial-grid { grid-template-columns: 1fr; }
+    .produtos-vazio-acoes { align-items: stretch; flex-direction: column; }
+    .produtos-vazio-acoes > * { width: 100%; text-align: center; }
+}
+
+/* v2.0 — banco local, favoritos, lista de interesse e histórico */
+.botao-escolhas { display:inline-flex; align-items:center; justify-content:center; gap:.55rem; }
+.contador-badge { min-width:1.55rem; height:1.55rem; padding:0 .38rem; display:inline-grid; place-items:center; border-radius:999px; background:var(--verde-principal); color:#fff; font-size:.78rem; font-weight:900; }
+.produto-acoes-secundarias, .produto-modal-acoes-secundarias { display:flex; flex-wrap:wrap; gap:.55rem; margin-top:.35rem; }
+.produto-acao-secundaria { min-height:42px; padding:.58rem .72rem; border:1px solid var(--borda); border-radius:999px; background:var(--branco); color:var(--verde-escuro); font:inherit; font-size:.82rem; font-weight:800; cursor:pointer; }
+.produto-acao-secundaria[aria-pressed="true"] { border-color:var(--verde-principal); background:var(--verde-suave); color:var(--verde-principal); }
+.produto-acao-secundaria:hover { border-color:var(--verde-principal); }
+
+.recentes { padding:clamp(44px,6vw,72px) 0; background:rgba(246,249,246,.72); border-top:1px solid var(--borda); }
+.recentes[hidden] { display:none !important; }
+.recentes-cabecalho { display:grid; grid-template-columns:minmax(0,1fr) minmax(280px,.8fr); gap:24px; align-items:end; margin-bottom:24px; }
+.recentes-cabecalho > p { color:var(--texto-suave); line-height:1.7; }
+.recentes-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; }
+.recente-card { display:grid; grid-template-columns:96px minmax(0,1fr); gap:14px; align-items:center; padding:14px; border:1px solid var(--borda); border-radius:18px; background:var(--branco); box-shadow:var(--sombra-suave); }
+.recente-card img { width:96px; height:120px; object-fit:cover; border-radius:12px; background:#f3f5f2; }
+.recente-card strong { display:block; color:var(--verde-escuro); margin-bottom:10px; }
+.recente-card button { border:0; background:transparent; color:var(--verde-principal); font:inherit; font-weight:850; cursor:pointer; padding:0; text-align:left; }
+
+.escolhas-modal { position:fixed; inset:0; z-index:1200; display:grid; place-items:center; padding:24px; background:rgba(7,25,18,.72); backdrop-filter:blur(5px); }
+.escolhas-modal[hidden] { display:none !important; }
+.escolhas-dialog { position:relative; width:min(1040px,100%); max-height:min(88vh,860px); overflow:auto; padding:clamp(22px,4vw,38px); border-radius:26px; background:var(--branco); box-shadow:0 30px 90px rgba(0,0,0,.28); }
+.escolhas-fechar { position:absolute; top:18px; right:18px; min-height:44px; padding:.6rem .8rem; border:1px solid var(--borda); border-radius:999px; background:var(--branco); color:var(--verde-escuro); font:inherit; font-weight:800; cursor:pointer; }
+.escolhas-cabecalho { max-width:760px; padding-right:90px; margin-bottom:26px; }
+.escolhas-cabecalho h2 { margin:.2rem 0 .7rem; color:var(--verde-profundo); }
+.escolhas-cabecalho > p:last-child { color:var(--texto-suave); line-height:1.7; }
+.escolhas-colunas { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+.escolhas-colunas > section { min-width:0; padding:20px; border:1px solid var(--borda); border-radius:20px; background:#fbfcfa; }
+.escolhas-titulo { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:14px; }
+.escolhas-titulo h3 { margin:0; color:var(--verde-escuro); }
+.escolhas-titulo button { border:0; background:transparent; color:var(--texto-suave); font:inherit; font-weight:700; cursor:pointer; }
+.escolhas-lista { display:grid; gap:12px; }
+.escolha-item { display:grid; grid-template-columns:72px minmax(0,1fr); gap:12px; padding:12px; border:1px solid var(--borda); border-radius:15px; background:var(--branco); }
+.escolha-item img { width:72px; height:90px; object-fit:cover; border-radius:10px; }
+.escolha-item strong { color:var(--verde-escuro); }
+.escolha-item p { margin:.3rem 0 .55rem; color:var(--texto-suave); font-size:.86rem; line-height:1.45; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.escolha-item-acoes { display:flex; flex-wrap:wrap; gap:.65rem; }
+.escolha-item-acoes button { border:0; background:transparent; padding:0; color:var(--verde-principal); font:inherit; font-size:.82rem; font-weight:800; cursor:pointer; }
+.escolhas-whatsapp { width:100%; margin-top:16px; }
+.escolhas-whatsapp:disabled { opacity:.55; cursor:not-allowed; }
+.escolhas-privacidade { margin:20px 0 0; color:var(--texto-suave); font-size:.82rem; line-height:1.55; }
+
+.produto-relacionados { margin-top:28px; padding-top:22px; border-top:1px solid var(--borda); }
+.produto-relacionados h3 { margin:0 0 14px; color:var(--verde-escuro); }
+.produto-relacionados-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+.produto-relacionado { display:grid; grid-template-columns:64px minmax(0,1fr); gap:10px; align-items:center; padding:10px; border:1px solid var(--borda); border-radius:14px; background:var(--branco); color:var(--verde-escuro); font:inherit; font-weight:800; text-align:left; cursor:pointer; }
+.produto-relacionado img { width:64px; height:80px; object-fit:cover; border-radius:9px; }
+.produto-relacionado:hover { border-color:var(--verde-principal); }
+
+@media (max-width:900px) {
+  .recentes-grid { grid-template-columns:1fr 1fr; }
+  .escolhas-colunas { grid-template-columns:1fr; }
+}
+@media (max-width:640px) {
+  .recentes-cabecalho { grid-template-columns:1fr; }
+  .recentes-grid { grid-template-columns:1fr; }
+  .escolhas-modal { padding:10px; align-items:end; }
+  .escolhas-dialog { max-height:94vh; border-radius:22px 22px 0 0; padding:22px 16px 26px; }
+  .escolhas-cabecalho { padding-right:68px; }
+  .produto-acoes-secundarias, .produto-modal-acoes-secundarias { flex-direction:column; }
+  .produto-acao-secundaria { width:100%; }
+  .produto-relacionados-grid { grid-template-columns:1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .escolhas-modal { backdrop-filter:none; }
+}
+.produto-pagina-acoes-inline { display:flex; flex-wrap:wrap; align-items:center; gap:14px; margin-top:12px; }
+.produto-compartilhar { border:0; background:transparent; padding:0; color:var(--verde-principal); font:inherit; font-weight:850; cursor:pointer; text-decoration:underline; text-underline-offset:3px; }
+
+
+/* v2.0 revisão de estabilidade */
+.chat-categoria-cta {
+    width: 100%;
+    margin-top: .65rem;
+    padding: .8rem 1rem;
+    border: 1px solid var(--verde-principal, #176b4d);
+    border-radius: .75rem;
+    background: transparent;
+    color: var(--verde-principal, #176b4d);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+.chat-categoria-cta:hover { background: rgba(23, 107, 77, .08); }
+.chat-categoria-cta:focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }

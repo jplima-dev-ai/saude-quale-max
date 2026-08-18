@@ -13,33 +13,23 @@
 <meta property="og:title" content="Saúde Qualemax | Cuidado que começa nas escolhas">
 <meta property="og:description" content="Descubra produtos naturais, chás, vitaminas e cuidados para tornar sua rotina mais consciente.">
 <meta property="og:locale" content="pt_BR">
+<meta property="og:url" content="https://www.saudequalemax.com/">
+<link rel="canonical" href="https://www.saudequalemax.com/">
 
 <title>Saúde Qualemax | Produtos Naturais e Bem-Estar</title>
+<link rel="preload" as="image" href="img/hero-produtos-naturais.webp" fetchpriority="high">
 
 <link rel="stylesheet" href="style.css">
 
-<script type="application/ld+json">
+<script type="application/ld+json" id="dados-estruturados">
 {
     "@context": "https://schema.org",
-    "@type": "HealthAndBeautyBusiness",
-    "name": "Saúde Qualemax",
-    "description": "Produtos naturais, chás, vitaminas, suplementos e cuidados pessoais.",
-    "telephone": "+55 27 99282-0798",
-    "email": "contato@saudequalemax.com",
-    "url": "https://www.saudequalemax.com",
-    "sameAs": [
-        "https://www.instagram.com/saudequalemax/"
-    ],
-    "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Av. Segunda Avenida, 500",
-        "addressLocality": "Serra",
-        "addressRegion": "ES",
-        "postalCode": "29165-390",
-        "addressCountry": "BR"
-    }
+    "@type": "Organization",
+    "name": "Saúde Qualemax"
 }
 </script>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#176b4d">
 </head>
 
 <body>
@@ -50,14 +40,14 @@
 <div class="barra-superior" role="region" aria-label="Informações rápidas">
 <div class="container barra-superior-conteudo">
 <p>🌿 Pequenas escolhas podem transformar a sua rotina.</p>
-<a href="https://wa.me/5527992820798?text=Ol%C3%A1%21%20Vim%20pelo%20site%20da%20Sa%C3%BAde%20Qualemax." target="_blank" rel="noopener noreferrer" data-evento="whatsapp-topo" aria-label="Atendimento pelo WhatsApp - abre em nova aba">Atendimento pelo WhatsApp →</a>
+<a href="#" data-configurable-whatsapp data-whatsapp-mensagem="Olá! Vim pelo site da loja e gostaria de falar com a equipe." target="_blank" rel="noopener noreferrer"  data-evento="whatsapp-topo" aria-label="Atendimento pelo WhatsApp - abre em nova aba">Atendimento pelo WhatsApp →</a>
 </div>
 </div>
 
 <header class="cabecalho">
 <div class="container cabecalho-conteudo">
 
-<a href="#inicio" class="logo" aria-label="Saúde Qualemax - voltar ao início">
+<a href="#inicio" class="logo" data-config-logo-label aria-label="Loja - voltar ao início">
 <span class="logo-icone" aria-hidden="true">🌿</span>
 <span class="logo-texto">Saúde Qualemax</span>
 </a>
@@ -79,10 +69,28 @@
 <a href="#contato">Contato</a>
 </nav>
 
-<a href="https://wa.me/5527992820798?text=Ol%C3%A1%21%20Vim%20pelo%20site%20da%20Sa%C3%BAde%20Qualemax%20e%20gostaria%20de%20conhecer%20os%20produtos." class="botao botao-header" target="_blank" rel="noopener noreferrer" data-evento="whatsapp-header" aria-label="Falar conosco pelo WhatsApp - abre em nova aba">Falar conosco</a>
+<a href="#" class="botao botao-header" target="_blank" rel="noopener noreferrer" data-configurable-whatsapp data-evento="whatsapp-header" aria-label="Falar conosco pelo WhatsApp - abre em nova aba">Falar conosco</a>
 
 </div>
 </header>
+
+<aside class="acessibilidade-barra" aria-label="Opções de acessibilidade">
+<div class="container acessibilidade-conteudo">
+<button type="button" class="botao-acessibilidade" data-acessibilidade-toggle aria-controls="painel-acessibilidade" aria-expanded="false">Opções de acessibilidade</button>
+<div id="painel-acessibilidade" class="acessibilidade-painel" data-acessibilidade-painel hidden>
+<button type="button" data-texto-maior aria-pressed="false">Aumentar texto</button>
+<button type="button" data-texto-normal>Texto normal</button>
+<button type="button" data-alto-contraste aria-pressed="false">Alto contraste</button>
+<button type="button" data-reduzir-movimento aria-pressed="false">Reduzir animações</button>
+<button type="button" data-leitura-facil aria-pressed="false">Modo leitura fácil</button>
+<button type="button" data-acessibilidade-reset>Restaurar padrão</button>
+</div>
+</div>
+</aside>
+
+<noscript><div class="noscript-aviso" role="alert">Este site utiliza JavaScript para carregar catálogo, categorias, quiz e assistente. Para atendimento direto, use os canais de contato disponíveis no rodapé.</div></noscript>
+
+<div class="sr-only" id="status-global" aria-live="polite" aria-atomic="true"></div>
 
 <main id="conteudo" role="main">
 
@@ -94,12 +102,30 @@
 
 <h1 id="titulo-principal">Mais equilíbrio para a sua rotina começa com escolhas que fazem sentido para você.</h1>
 
-<p class="hero-texto">Na Saúde Qualemax, você encontra uma seleção de produtos naturais, chás, vitaminas, suplementos e cuidados pessoais para descobrir novas possibilidades de bem-estar no seu dia a dia.</p>
+<p class="hero-texto">Na <span data-config-nome>Saúde Qualemax</span>, você encontra uma seleção de produtos naturais, chás, vitaminas, suplementos e cuidados pessoais para descobrir novas possibilidades de bem-estar no seu dia a dia.</p>
 
 <div class="hero-botoes">
-<a href="#produtos" class="botao botao-principal" data-evento="cta-hero-produtos">Conhecer produtos</a>
+<a href="#produtos" class="botao botao-principal" data-evento="cta-hero-produtos">Explorar catálogo</a>
 
-<a href="https://wa.me/5527992820798?text=Ol%C3%A1%21%20Vim%20pelo%20site%20da%20Sa%C3%BAde%20Qualemax%20e%20quero%20uma%20ajuda%20para%20encontrar%20um%20produto." class="botao botao-secundario" target="_blank" rel="noopener noreferrer" data-evento="cta-hero-whatsapp" aria-label="Quero uma indicação - envia mensagem pelo WhatsApp em nova aba">Quero uma indicação</a>
+<a href="#" class="botao botao-secundario" target="_blank" rel="noopener noreferrer" data-configurable-whatsapp data-evento="cta-hero-whatsapp" aria-label="Falar pelo WhatsApp - abre em nova aba">Falar no WhatsApp</a>
+</div>
+
+<div class="hero-assistente" aria-labelledby="hero-assistente-titulo">
+<div class="hero-assistente-icone" aria-hidden="true">✦</div>
+<div class="hero-assistente-texto">
+<p class="hero-assistente-kicker">Precisa de ajuda para encontrar algo?</p>
+<h2 id="hero-assistente-titulo">Converse com <span data-chatbot-nome>Assistente Qualemax</span></h2>
+<p>Use o assistente para buscar produtos, navegar por categorias ou começar o quiz sem sair da página.</p>
+</div>
+<button type="button" class="botao botao-assistente-hero" data-chat-abrir aria-haspopup="dialog" aria-controls="chatbot-qualemax">Abrir assistente</button>
+</div>
+
+<div class="hero-busca-atalho" aria-label="Busca rápida no catálogo">
+<label for="busca-atalho">Já sabe o que procura?</label>
+<div class="hero-busca-linha">
+<input id="busca-atalho" type="search" placeholder="Ex.: chá, vitamina, suplemento" autocomplete="off" data-busca-atalho>
+<button type="button" class="botao botao-pequeno" data-ir-busca>Buscar</button>
+</div>
 </div>
 
 <ul class="hero-informacoes">
@@ -110,10 +136,10 @@
 </div>
 
 <div class="hero-visual">
-<img src="img/hero-produtos-naturais.webp" alt="Composição de produtos naturais, ervas e elementos associados ao bem-estar." class="hero-imagem">
+<img src="img/hero-produtos-naturais.webp" alt="Composição de produtos naturais, ervas e elementos associados ao bem-estar." class="hero-imagem" width="1536" height="1024" fetchpriority="high">
 
 <div class="hero-card-principal" role="complementary" aria-label="Card promocional">
-<p class="hero-card-pequeno" aria-hidden="true">Saúde Qualemax</p>
+<p class="hero-card-pequeno" aria-hidden="true" data-config-nome>Saúde Qualemax</p>
 <h2>Descubra o que combina com a sua rotina.</h2>
 <p>Produtos escolhidos para quem gosta de cuidar de si com mais consciência.</p>
 </div>
@@ -160,29 +186,12 @@
 </div>
 </section>
 
-<section class="estatisticas" aria-label="Números da Saúde Qualemax">
+<section class="estatisticas" aria-label="Informações sobre a experiência da loja">
 <div class="container estatisticas-grid">
-
-<div class="estatistica-item">
-<strong>+500</strong>
-<span>clientes atendidos</span>
-</div>
-
-<div class="estatistica-item">
-<strong>4,9/5</strong>
-<span>avaliação média</span>
-</div>
-
-<div class="estatistica-item">
-<strong>24h</strong>
-<span>prazo de resposta</span>
-</div>
-
-<div class="estatistica-item">
-<strong>+200</strong>
-<span>itens em linha</span>
-</div>
-
+<div class="estatistica-item"><strong>Catálogo</strong><span>Produtos organizados por categoria</span></div>
+<div class="estatistica-item"><strong>Quiz</strong><span>Descoberta baseada nas preferências</span></div>
+<div class="estatistica-item"><strong>Atendimento</strong><span>Conversa direta com a equipe</span></div>
+<div class="estatistica-item"><strong>Local</strong><span>Atendimento e entrega local</span></div>
 </div>
 </section>
 
@@ -198,7 +207,7 @@
 
 <h2 id="titulo-sobre">Um espaço para descobrir novas formas de cuidar de você.</h2>
 
-<p>A Saúde Qualemax nasceu de uma ideia simples: tornar mais fácil encontrar produtos que possam fazer parte de uma rotina de cuidado, equilíbrio e bem-estar.</p>
+<p>A <span data-config-nome>Saúde Qualemax</span> parte de uma ideia simples: tornar mais fácil encontrar produtos que possam fazer parte de uma rotina de cuidado, equilíbrio e bem-estar.</p>
 
 <p>Aqui, você não precisa saber exatamente o que procura. Pode chegar com uma dúvida, uma curiosidade ou simplesmente vontade de conhecer algo novo.</p>
 
@@ -216,65 +225,20 @@
 <div class="secao-cabecalho centralizado">
 <p class="secao-subtitulo">Explore nosso universo</p>
 <h2 id="titulo-categorias">Encontre uma categoria para começar sua descoberta.</h2>
-<p>Conheça algumas das categorias que fazem parte da experiência Saúde Qualemax.</p>
+<p>Conheça algumas das categorias disponíveis no catálogo e encontre um ponto de partida para sua busca.</p>
 </div>
 
-<div class="categorias-grid">
+<div class="categorias-grid" data-categorias-grid aria-live="polite"></div>
 
-<article class="categoria-card">
-<img src="img/produtos-naturais.webp" alt="Seleção de produtos naturais." loading="lazy">
-<div class="categoria-conteudo">
-<h3>Produtos Naturais</h3>
-<p>Para quem aprecia ingredientes, produtos e escolhas inspiradas em um estilo de vida mais natural.</p>
-<a href="#produtos" data-evento="categoria-produtos-naturais">Conhecer →</a>
-</div>
-</article>
-
-<article class="categoria-card">
-<img src="img/vitaminas-suplementos.webp" alt="Vitaminas e suplementos organizados em uma composição profissional." loading="lazy">
-<div class="categoria-conteudo">
-<h3>Vitaminas e Suplementos</h3>
-<p>Opções para quem busca conhecer diferentes produtos para complementar sua rotina.</p>
-<a href="#produtos" data-evento="categoria-vitaminas">Ver opções →</a>
-</div>
-</article>
-
-<article class="categoria-card">
-<img src="img/chas-ervas.webp" alt="Chás, ervas e ingredientes naturais." loading="lazy">
-<div class="categoria-conteudo">
-<h3>Chás e Ervas</h3>
-<p>Aromas, sabores e tradições para transformar pequenos momentos do dia em experiências especiais.</p>
-<a href="#produtos" data-evento="categoria-chas">Explorar →</a>
-</div>
-</article>
-
-<article class="categoria-card">
-<img src="img/cuidados-pessoais.webp" alt="Produtos naturais voltados para cuidados pessoais." loading="lazy">
-<div class="categoria-conteudo">
-<h3>Cuidados Pessoais</h3>
-<p>Produtos para quem acredita que autocuidado também pode fazer parte dos pequenos momentos.</p>
-<a href="#produtos" data-evento="categoria-cuidados">Descobrir →</a>
-</div>
-</article>
-
-<article class="categoria-card">
-<img src="img/bem-estar-natural.webp" alt="Composição de produtos e elementos associados ao bem-estar natural." loading="lazy">
-<div class="categoria-conteudo">
-<h3>Bem-Estar</h3>
-<p>Um espaço para conhecer produtos que podem acompanhar diferentes momentos da sua rotina.</p>
-<a href="#produtos" data-evento="categoria-bem-estar">Explorar →</a>
-</div>
-</article>
-
+<div class="categoria-fallback">
 <article class="categoria-card categoria-card-destaque">
 <div class="categoria-destaque-conteudo">
 <span aria-hidden="true" class="categoria-destaque-icone">✨</span>
 <h3>Não encontrou o que procurava?</h3>
 <p>Conte o que você está buscando e nossa equipe poderá verificar as opções disponíveis.</p>
-<a href="https://wa.me/5527992820798?text=Ol%C3%A1%21%20Estou%20procurando%20um%20produto%20e%20gostaria%20de%20uma%20ajuda." target="_blank" rel="noopener noreferrer" data-evento="whatsapp-categoria">Falar com a equipe →</a>
+<a href="#contato" data-evento="categoria-contato">Falar com a equipe →</a>
 </div>
 </article>
-
 </div>
 </div>
 </section>
@@ -316,84 +280,117 @@
 </div>
 </section>
 
-<section id="quiz" class="quiz-secao" aria-labelledby="titulo-quiz">
+<section id="destaques" class="destaques" aria-labelledby="titulo-destaques">
 <div class="container">
-<div class="secao-cabecalho centralizado">
-<p class="secao-subtitulo">Encontre seus produtos ideais</p>
-<h2 id="titulo-quiz">Descubra Qual Produto é Perfeito para Você</h2>
-<p>Responda 4 perguntas rápidas e recomendaremos os melhores produtos para sua rotina.</p>
+<div class="secao-cabecalho destaques-cabecalho">
+<div><p class="secao-subtitulo">Seleção para começar</p><h2 id="titulo-destaques">Destaques do catálogo.</h2></div>
+<p>Uma seleção de categorias diferentes para você conhecer a variedade da loja. Sem rankings ou promessas: apenas atalhos para explorar o catálogo.</p>
 </div>
-
-<div class="quiz-container"></div>
+<div class="destaques-grid" data-destaques-grid aria-live="polite"></div>
+<div class="destaques-rodape"><a href="#produtos" class="botao botao-secundario">Explorar catálogo completo</a></div>
 </div>
 </section>
 
 <section id="produtos" class="produtos" aria-labelledby="titulo-produtos">
 <div class="container">
-
 <div class="secao-cabecalho centralizado">
-<p class="secao-subtitulo">Conheça nossas opções</p>
-<h2 id="titulo-produtos">Produtos que podem fazer parte da sua rotina.</h2>
-<p>Consulte nossa equipe para conhecer disponibilidade, valores e opções atuais.</p>
+<p class="secao-subtitulo">Catálogo inteligente</p>
+<h2 id="titulo-produtos">Encontre produtos de acordo com o que você procura.</h2>
+<p>Pesquise no catálogo, use os filtros e abra os detalhes de qualquer produto cadastrado.</p>
 </div>
 
-<div class="produtos-grid">
+<div class="catalogo-controles" aria-label="Controles de busca e filtros">
+<div class="campo-busca">
+<label for="busca-produtos">Buscar produtos</label>
+<input id="busca-produtos" type="search" placeholder="Digite nome, categoria ou palavra-chave" autocomplete="off" list="sugestoes-produtos" data-busca-produtos>
+<datalist id="sugestoes-produtos" data-sugestoes-produtos></datalist>
+</div>
+<div class="filtros-produtos">
+<div><label for="filtro-categoria">Categoria</label><select id="filtro-categoria" data-filtro-categoria><option value="">Todas</option></select></div>
+<div><label for="filtro-tipo">Formato</label><select id="filtro-tipo" data-filtro-tipo><option value="">Todos</option></select></div>
+<div><label for="filtro-caracteristica">Característica</label><select id="filtro-caracteristica" data-filtro-caracteristica><option value="">Todas</option><option value="vegana">Vegano</option><option value="sem-gluten">Sem glúten</option></select></div>
+<button type="button" class="botao botao-secundario" data-limpar-filtros>Limpar filtros</button>
+<button type="button" class="botao botao-escolhas" data-escolhas-abrir aria-haspopup="dialog" aria-controls="minhas-escolhas">Minhas escolhas <span class="contador-badge" data-escolhas-count>0</span></button>
+</div>
+</div>
 
-<article class="produto-card">
-<div class="produto-imagem">
-<img src="img/produtos-naturais.webp" alt="Produtos naturais disponíveis na Saúde Qualemax." loading="lazy">
+<p class="produtos-contador" role="status" aria-live="polite" aria-atomic="true" data-produtos-contador>Carregando catálogo…</p>
+<div class="produtos-grid" data-produtos-grid></div>
+<div class="produtos-vazio" data-produtos-vazio hidden role="status" aria-live="polite">
+<p data-produtos-vazio-texto>Nenhum produto corresponde aos critérios informados.</p>
+<div class="produtos-vazio-acoes">
+<button type="button" class="botao botao-secundario" data-vazio-limpar>Limpar filtros</button>
+<button type="button" class="botao botao-assistente-vazio" data-chat-abrir aria-haspopup="dialog" aria-controls="chatbot-qualemax">Perguntar ao assistente</button>
+<a href="#" class="link-destaque" data-configurable-whatsapp data-whatsapp-mensagem="Olá! Não encontrei o produto que procurava no catálogo e gostaria de ajuda." target="_blank" rel="noopener noreferrer">Falar com a equipe →</a>
 </div>
-<div class="produto-conteudo">
-<span class="produto-categoria">Produtos Naturais</span>
-<h3>Seleção de Produtos Naturais</h3>
-<p>Conheça opções selecionadas para diferentes preferências e momentos da rotina.</p>
-<a href="https://wa.me/5527992820798?text=Ol%C3%A1%21%20Vi%20a%20categoria%20de%20Produtos%20Naturais%20no%20site%20da%20Sa%C3%BAde%20Qualemax%20e%20gostaria%20de%20conhecer%20as%20op%C3%A7%C3%B5es%20dispon%C3%ADveis." class="botao botao-produto" target="_blank" rel="noopener noreferrer" data-evento="produto-naturais" aria-label="Consultar produtos naturais pelo WhatsApp - abre em nova aba">Consultar opções</a>
-</div>
-</article>
-
-<article class="produto-card">
-<div class="produto-imagem">
-<img src="img/vitaminas-suplementos.webp" alt="Vitaminas e suplementos disponíveis para consulta." loading="lazy">
-</div>
-<div class="produto-conteudo">
-<span class="produto-categoria">Vitaminas e Suplementos</span>
-<h3>Vitaminas e Suplementos</h3>
-<p>Consulte nossa equipe para conhecer as opções disponíveis atualmente.</p>
-<a href="https://wa.me/5527992820798?text=Ol%C3%A1%21%20Vi%20a%20categoria%20de%20Vitaminas%20e%20Suplementos%20no%20site%20da%20Sa%C3%BAde%20Qualemax%20e%20gostaria%20de%20consultar%20as%20op%C3%A7%C3%B5es." class="botao botao-produto" target="_blank" rel="noopener noreferrer" data-evento="produto-vitaminas" aria-label="Consultar vitaminas e suplementos pelo WhatsApp - abre em nova aba">Consultar opções</a>
-</div>
-</article>
-
-<article class="produto-card">
-<div class="produto-imagem">
-<img src="img/chas-ervas.webp" alt="Chás e ervas disponíveis na Saúde Qualemax." loading="lazy">
-</div>
-<div class="produto-conteudo">
-<span class="produto-categoria">Chás e Ervas</span>
-<h3>Chás e Ervas</h3>
-<p>Descubra aromas, sabores e diferentes opções para sua rotina.</p>
-<a href="https://wa.me/5527992820798?text=Ol%C3%A1%21%20Vi%20a%20categoria%20de%20Ch%C3%A1s%20e%20Ervas%20no%20site%20da%20Sa%C3%BAde%20Qualemax%20e%20gostaria%20de%20conhecer%20as%20op%C3%A7%C3%B5es." class="botao botao-produto" target="_blank" rel="noopener noreferrer" data-evento="produto-chas" aria-label="Consultar chás e ervas pelo WhatsApp - abre em nova aba">Consultar opções</a>
-</div>
-</article>
-
-<article class="produto-card">
-<div class="produto-imagem">
-<img src="img/cuidados-pessoais.webp" alt="Produtos de cuidados pessoais disponíveis na Saúde Qualemax." loading="lazy">
-</div>
-<div class="produto-conteudo">
-<span class="produto-categoria">Cuidados Pessoais</span>
-<h3>Cuidados Pessoais</h3>
-<p>Conheça produtos voltados para momentos de autocuidado.</p>
-<a href="https://wa.me/5527992820798?text=Ol%C3%A1%21%20Vi%20a%20categoria%20de%20Cuidados%20Pessoais%20no%20site%20da%20Sa%C3%BAde%20Qualemax%20e%20gostaria%20de%20consultar%20as%20op%C3%A7%C3%B5es." class="botao botao-produto" target="_blank" rel="noopener noreferrer" data-evento="produto-cuidados" aria-label="Consultar cuidados pessoais pelo WhatsApp - abre em nova aba">Consultar opções</a>
-</div>
-</article>
-
 </div>
 
 <div class="produtos-cta">
 <p>Está procurando algo específico?</p>
-<a href="https://wa.me/5527992820798?text=Ol%C3%A1%21%20Vim%20pelo%20site%20da%20Sa%C3%BAde%20Qualemax%20e%20estou%20procurando%20um%20produto%20espec%C3%ADfico." class="link-destaque" target="_blank" rel="noopener noreferrer" data-evento="produto-especifico">Perguntar pelo WhatsApp →</a>
+<a href="#contato" class="link-destaque">Perguntar pelo WhatsApp →</a>
+</div>
+</div>
+</section>
+
+<section class="recentes" data-recentes-secao hidden aria-labelledby="titulo-recentes">
+<div class="container">
+<div class="secao-cabecalho recentes-cabecalho">
+<div><p class="secao-subtitulo">Continue de onde parou</p><h2 id="titulo-recentes">Vistos recentemente</h2></div>
+<p>Os produtos abertos ficam salvos neste navegador para você encontrá-los novamente com facilidade.</p>
+</div>
+<div class="recentes-grid" data-recentes-grid></div>
+</div>
+</section>
+
+<div class="produto-modal" data-produto-modal hidden aria-hidden="true">
+<div class="produto-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-produto-titulo" aria-describedby="modal-produto-conteudo">
+<button type="button" class="produto-modal-fechar" data-modal-fechar aria-label="Fechar detalhes do produto">Fechar</button>
+<h2 id="modal-produto-titulo" data-modal-titulo>Detalhes do produto</h2>
+<div id="modal-produto-conteudo" data-modal-conteudo></div>
+</div>
 </div>
 
+<div id="minhas-escolhas" class="escolhas-modal" data-escolhas-modal hidden aria-hidden="true">
+<div class="escolhas-dialog" role="dialog" aria-modal="true" aria-labelledby="titulo-minhas-escolhas">
+<button type="button" class="escolhas-fechar" data-escolhas-fechar aria-label="Fechar minhas escolhas">Fechar</button>
+<div class="escolhas-cabecalho">
+<p class="secao-subtitulo">Sua seleção neste navegador</p>
+<h2 id="titulo-minhas-escolhas">Minhas escolhas</h2>
+<p>Favoritos e lista de interesse ficam salvos localmente neste dispositivo. Nenhum cadastro é necessário.</p>
+</div>
+<p class="sr-only" role="status" aria-live="polite" data-escolhas-status></p>
+<div class="escolhas-colunas">
+<section aria-labelledby="titulo-favoritos"><div class="escolhas-titulo"><h3 id="titulo-favoritos">Favoritos <span data-favoritos-count>0</span></h3><button type="button" data-favoritos-limpar>Limpar</button></div><div class="escolhas-lista" data-favoritos-lista><p>Carregando…</p></div></section>
+<section aria-labelledby="titulo-lista-interesse"><div class="escolhas-titulo"><h3 id="titulo-lista-interesse">Lista de interesse <span data-lista-count>0</span></h3><button type="button" data-lista-limpar>Limpar</button></div><div class="escolhas-lista" data-interesse-lista><p>Carregando…</p></div><button type="button" class="botao botao-principal escolhas-whatsapp" data-lista-whatsapp>Consultar lista no WhatsApp</button></section>
+</div>
+<p class="escolhas-privacidade">Armazenamento local: IndexedDB, com fallback local quando necessário. A lista não é enviada à loja até você escolher falar pelo WhatsApp.</p>
+</div>
+</div>
+
+<section class="confianca-comercial" aria-labelledby="titulo-confianca-comercial">
+<div class="container">
+<div class="confianca-comercial-cabecalho">
+<p class="secao-subtitulo">Compra com mais clareza</p>
+<h2 id="titulo-confianca-comercial">Você explora primeiro. A equipe confirma o que precisa ser confirmado.</h2>
+<p>Use o catálogo, os filtros, o quiz e o assistente para descobrir opções. Disponibilidade, valores e condições comerciais são confirmados diretamente no atendimento.</p>
+</div>
+<div class="confianca-comercial-grid">
+<article><strong>Catálogo organizado</strong><span>Busque por produto, categoria, formato ou característica.</span></article>
+<article><strong>Informação transparente</strong><span>O site não inventa preço, estoque ou disponibilidade.</span></article>
+<article><strong>Atendimento conectado</strong><span>Do produto ou do quiz, você pode seguir para a equipe com contexto.</span></article>
+</div>
+</div>
+</section>
+
+<section id="quiz" class="quiz-secao" aria-labelledby="titulo-quiz">
+<div class="container">
+<div class="secao-cabecalho centralizado">
+<p class="secao-subtitulo">Descoberta guiada</p>
+<h2 id="titulo-quiz">Explore opções de acordo com suas preferências.</h2>
+<p>Responda 4 perguntas rápidas e veja produtos do catálogo relacionados às preferências que você informou.</p>
+</div>
+
+<div class="quiz-container"></div>
 </div>
 </section>
 
@@ -440,7 +437,7 @@
 <div class="container">
 
 <div class="secao-cabecalho centralizado">
-<p class="secao-subtitulo">Por que a Qualemax?</p>
+<p class="secao-subtitulo">Uma experiência mais simples</p>
 <h2 id="titulo-diferenciais">Porque comprar também pode ser uma experiência agradável.</h2>
 </div>
 
@@ -480,9 +477,9 @@
 <div class="entrega-conteudo">
 <p class="secao-subtitulo">Praticidade até a sua porta</p>
 <h2 id="titulo-entrega">Gostou de alguma coisa? A gente leva até você.</h2>
-<p>A Saúde Qualemax realiza entregas em toda a cidade de Serra, no Espírito Santo.</p>
+<p>Consulte a equipe para confirmar área atendida, prazo e condições de entrega na sua região.</p>
 <p>Consulte pelo WhatsApp a disponibilidade, prazo, valor da entrega e condições para o seu endereço.</p>
-<a href="https://wa.me/5527992820798?text=Ol%C3%A1%21%20Gostaria%20de%20consultar%20a%20entrega%20para%20o%20meu%20endere%C3%A7o." class="botao botao-principal" target="_blank" rel="noopener noreferrer" data-evento="whatsapp-entrega">Consultar entrega</a>
+<a href="#" class="botao botao-principal" target="_blank" rel="noopener noreferrer" data-configurable-whatsapp data-evento="whatsapp-entrega">Consultar entrega</a>
 </div>
 
 <div class="entrega-visual">
@@ -504,7 +501,7 @@
 <p class="secao-subtitulo">Sua próxima descoberta pode estar aqui.</p>
 <h2 id="titulo-cta">Não precisa saber exatamente o que procura.</h2>
 <p>Conte para nossa equipe o que você está buscando. A conversa começa pelo WhatsApp.</p>
-<a href="https://wa.me/5527992820798?text=Ol%C3%A1%21%20Vim%20pelo%20site%20da%20Sa%C3%BAde%20Qualemax%20e%20gostaria%20de%20uma%20ajuda." class="botao botao-principal" target="_blank" rel="noopener noreferrer" data-evento="cta-final-whatsapp">Falar com a Qualemax</a>
+<a href="#" class="botao botao-principal" target="_blank" rel="noopener noreferrer" data-configurable-whatsapp data-evento="cta-final-whatsapp">Falar com a equipe</a>
 </div>
 </div>
 </section>
@@ -516,37 +513,10 @@
 <p class="secao-subtitulo">Perguntas frequentes</p>
 <h2 id="titulo-faq">Antes de comprar, você pode perguntar.</h2>
 <p>Reunimos algumas respostas para deixar sua experiência mais simples.</p>
-<a href="https://wa.me/5527992820798?text=Ol%C3%A1%21%20Tenho%20uma%20d%C3%BAvida%20sobre%20um%20produto." class="link-destaque" target="_blank" rel="noopener noreferrer" data-evento="faq-whatsapp">Ainda tenho uma dúvida →</a>
+<a href="#" class="link-destaque" target="_blank" rel="noopener noreferrer" data-configurable-whatsapp data-evento="faq-whatsapp">Ainda tenho uma dúvida →</a>
 </div>
 
-<div class="faq-list">
-
-<details>
-<summary>Quais produtos vocês oferecem?</summary>
-<p>Trabalhamos com diferentes categorias, incluindo produtos naturais, vitaminas, suplementos, chás, ervas, alimentos naturais e cuidados pessoais.</p>
-</details>
-
-<details>
-<summary>Vocês fazem entregas?</summary>
-<p>Sim. Realizamos entregas na cidade de Serra. Consulte nossa equipe para verificar disponibilidade, prazo e condições.</p>
-</details>
-
-<details>
-<summary>Como faço um pedido?</summary>
-<p>Entre em contato pelo WhatsApp e informe o produto ou categoria que deseja consultar. Nossa equipe verificará a disponibilidade.</p>
-</details>
-
-<details>
-<summary>Posso tirar dúvidas antes de comprar?</summary>
-<p>Claro. Você pode falar conosco para esclarecer dúvidas sobre produtos, disponibilidade e atendimento.</p>
-</details>
-
-<details>
-<summary>Os produtos substituem orientação profissional?</summary>
-<p>Não. Produtos naturais, vitaminas e suplementos não substituem avaliação, diagnóstico ou orientação de profissionais de saúde. Em caso de dúvida, procure um profissional habilitado.</p>
-</details>
-
-</div>
+<div class="faq-list" data-faq-list aria-live="polite"></div>
 </div>
 </section>
 
@@ -564,36 +534,33 @@
 <article class="contato-card">
 <span class="contato-icone" aria-hidden="true">📱</span>
 <h3>WhatsApp</h3>
-<p>(27) 99282-0798</p>
-<a href="https://wa.me/5527992820798?text=Ol%C3%A1%21%20Vim%20pelo%20site%20da%20Sa%C3%BAde%20Qualemax." target="_blank" rel="noopener noreferrer" data-evento="contato-whatsapp">Chamar no WhatsApp →</a>
+<p data-config-telefone>Telefone não informado</p>
+<a href="#" data-configurable-whatsapp data-whatsapp-mensagem="Olá! Vim pelo site da loja e gostaria de falar com a equipe." target="_blank" rel="noopener noreferrer"  data-evento="contato-whatsapp">Chamar no WhatsApp →</a>
 </article>
 
 <article class="contato-card">
 <span class="contato-icone" aria-hidden="true">📧</span>
 <h3>E-mail</h3>
-<p>contato@saudequalemax.com</p>
-<a href="mailto:contato@saudequalemax.com" data-evento="contato-email">Enviar e-mail →</a>
-</article>
-
-<article class="contato-card">
-<span class="contato-icone" aria-hidden="true">📸</span>
-<h3>Instagram</h3>
-<p>@saudequalemax</p>
-<a href="https://www.instagram.com/saudequalemax/" target="_blank" rel="noopener noreferrer" data-evento="contato-instagram">Visitar Instagram →</a>
+<p data-config-email>E-mail não informado</p>
+<a href="#" data-config-email-link data-evento="contato-email">Enviar e-mail →</a>
 </article>
 
 <article class="contato-card">
 <span class="contato-icone" aria-hidden="true">📍</span>
 <h3>Onde estamos</h3>
-<address>
-Av. Segunda Avenida, 500<br>
-Bairro: Parque Residencial Laranjeiras<br>
-Serra - ES<br>
-CEP: 29165-390
-</address>
+<address data-config-endereco>Endereço não informado</address>
 </article>
 
 </div>
+<div class="redes-bloco" data-redes-container hidden aria-labelledby="titulo-redes-sociais">
+<div class="redes-bloco-texto">
+<p class="secao-subtitulo">Conteúdo e novidades</p>
+<h3 id="titulo-redes-sociais">Siga <span data-config-nome>Saúde Qualemax</span> nas redes sociais</h3>
+<p>Acompanhe produtos, novidades da loja e conteúdos publicados nos canais oficiais.</p>
+</div>
+<nav class="redes-lista" data-redes-lista aria-label="Redes sociais oficiais da loja"></nav>
+</div>
+
 </div>
 </section>
 
@@ -603,16 +570,36 @@ CEP: 29165-390
 
 <button type="button" class="botao-topo" aria-label="Voltar ao topo da página">↑</button>
 
-<a href="https://wa.me/5527992820798?text=Ol%C3%A1%21%20Vim%20pelo%20site%20da%20Sa%C3%BAde%20Qualemax%20e%20gostaria%20de%20uma%20ajuda." class="whatsapp-flutuante" target="_blank" rel="noopener noreferrer" aria-label="Falar com a Saúde Qualemax pelo WhatsApp" data-evento="whatsapp-flutuante">
+<a href="#" class="whatsapp-flutuante" target="_blank" rel="noopener noreferrer" data-configurable-whatsapp data-whatsapp-mensagem="Olá! Vim pelo site da loja e gostaria de falar com a equipe." data-config-whatsapp-label aria-label="Falar com a loja pelo WhatsApp" data-evento="whatsapp-flutuante">
 <span aria-hidden="true">💬</span>
 <span class="whatsapp-flutuante-texto">Fale conosco</span>
 </a>
+
+<button type="button" class="chatbot-abrir" data-chat-abrir aria-haspopup="dialog" aria-controls="chatbot-qualemax" data-chatbot-label aria-label="Abrir assistente da loja">
+<span aria-hidden="true">💬</span>
+<span>Assistente</span>
+</button>
+
+<section id="chatbot-qualemax" class="chatbot" data-chatbot hidden aria-hidden="true" aria-label="Assistente da loja" data-chatbot-region>
+<div class="chatbot-dialog" role="dialog" aria-modal="true" aria-labelledby="titulo-chatbot">
+<header class="chatbot-header"><div><p class="chatbot-kicker">Atendimento digital</p><h2 id="titulo-chatbot" data-chatbot-nome>Assistente Qualemax</h2></div><button type="button" data-chat-fechar aria-label="Fechar assistente">Fechar</button></header>
+<div class="chat-mensagens" data-chat-mensagens role="log" aria-live="polite" aria-atomic="false"><div class="chat-mensagem chat-mensagem-bot" data-chat-saudacao>Olá! Posso encontrar produtos, explorar categorias, abrir o quiz ou encaminhar você para a equipe.</div></div>
+<div class="chat-acoes" aria-label="Atalhos do assistente">
+<button type="button" data-chat-acao="produto">Encontrar produto</button>
+<button type="button" data-chat-acao="categorias">Ver categorias</button>
+<button type="button" data-chat-acao="quiz">Fazer o quiz</button>
+<button type="button" data-chat-acao="whatsapp">Falar pelo WhatsApp</button>
+<button type="button" data-chat-acao="redes" hidden>Redes sociais</button>
+</div>
+<div class="chat-input"><label for="chat-input">O que você procura?</label><div><input id="chat-input" type="text" data-chat-input placeholder="Ex.: chia, chá, creatina, castanhas..."><button type="button" data-chat-enviar>Enviar</button></div></div>
+</div>
+</section>
 
 <footer class="rodape">
 <div class="container rodape-grid">
 
 <div class="rodape-marca">
-<a href="#inicio" class="logo" aria-label="Saúde Qualemax - voltar ao início">
+<a href="#inicio" class="logo" data-config-logo-label aria-label="Loja - voltar ao início">
 <span class="logo-icone" aria-hidden="true">🌿</span>
 <span class="logo-texto">Saúde Qualemax</span>
 </a>
@@ -640,21 +627,30 @@ CEP: 29165-390
 
 <div class="rodape-coluna">
 <h3>Fale conosco</h3>
-<a href="https://wa.me/5527992820798?text=Ol%C3%A1%21%20Vim%20pelo%20site%20da%20Sa%C3%BAde%20Qualemax." target="_blank" rel="noopener noreferrer" data-evento="rodape-whatsapp">WhatsApp</a>
-<a href="mailto:contato@saudequalemax.com" data-evento="rodape-email">contato@saudequalemax.com</a>
-<p>(27) 99282-0798</p>
-<p>Serra - ES</p>
+<a href="#" data-configurable-whatsapp data-whatsapp-mensagem="Olá! Vim pelo site da loja e gostaria de falar com a equipe." target="_blank" rel="noopener noreferrer"  data-evento="rodape-whatsapp">WhatsApp</a>
+<a href="#" data-config-email-link data-config-email data-evento="rodape-email">E-mail não informado</a>
+<p data-config-telefone>Telefone não informado</p>
+<p data-config-cidade>Localidade não informada</p>
+<nav class="rodape-redes" data-redes-rodape aria-label="Redes sociais" hidden></nav>
 </div>
 
 </div>
 
 <div class="container rodape-final">
-<p>© <span class="ano-atual">2026</span> Saúde Qualemax. Todos os direitos reservados.</p>
-<p>Av. Segunda Avenida, 500 — Parque Residencial Laranjeiras — Serra - ES</p>
+<p>© <span class="ano-atual">2026</span> <span data-config-nome>Saúde Qualemax</span>. Todos os direitos reservados.</p>
+<p data-config-endereco>Endereço não informado</p>
 </div>
 </footer>
 
+<script src="js/config.js" defer></script>
+<script src="js/categorias.js" defer></script>
+<script src="js/faq.js" defer></script>
 <script src="js/quiz.js" defer></script>
+<script src="js/db.js" defer></script>
+<script src="js/colecoes.js" defer></script>
+<script src="js/produtos.js" defer></script>
+<script src="js/chatbot.js" defer></script>
+<script src="js/acessibilidade.js" defer></script>
 <script src="script.js" defer></script>
 
 </body>

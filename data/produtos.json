@@ -4,113 +4,836 @@
       "id": 1,
       "nome": "Vitamina C Natural",
       "categoria": "vitaminas",
-      "preco": "R$ 45,00",
       "imagem": "produtos-naturais.webp",
-      "descricao": "Vitamina C 100% natural extraída de fontes orgânicas",
-      "beneficios": ["Energia", "Imunidade", "Antioxidante"],
+      "descricao": "Vitamina C cadastrada no catálogo da Saúde Qualemax.",
+      "beneficios": [
+        "Energia",
+        "Imunidade",
+        "Antioxidante"
+      ],
       "tipo": "capsula",
       "vegana": true,
       "sem_gluten": true,
       "experiencia_minima": "iniciante",
-      "tags": ["energia", "imunidade", "vitamina"]
+      "tags": [
+        "energia",
+        "imunidade",
+        "vitamina"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": false,
+      "copy": "Uma escolha prática para quem quer manter a rotina de suplementação simples, organizada e fácil de levar para o dia a dia.",
+      "cta": "Quero saber mais",
+      "slug": "vitamina-c-natural"
     },
     {
       "id": 2,
       "nome": "Complexo B Completo",
       "categoria": "vitaminas",
-      "preco": "R$ 52,00",
       "imagem": "vitaminas-suplementos.webp",
-      "descricao": "8 vitaminas B essenciais para energia mental e física",
-      "beneficios": ["Energia", "Concentração", "Bem-estar"],
+      "descricao": "Complexo com vitaminas do grupo B, conforme cadastro do produto.",
+      "beneficios": [
+        "Energia",
+        "Concentração",
+        "Bem-estar"
+      ],
       "tipo": "capsula",
       "vegana": true,
       "sem_gluten": true,
       "experiencia_minima": "iniciante",
-      "tags": ["energia", "foco", "vitaminas"]
+      "tags": [
+        "energia",
+        "foco",
+        "vitaminas"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": false,
+      "copy": "Um complexo versátil para quem prefere reunir vitaminas do grupo B em uma única opção e simplificar a rotina.",
+      "cta": "Quero saber mais",
+      "slug": "complexo-b-completo"
     },
     {
       "id": 3,
       "nome": "Ferro + Vitamina C",
       "categoria": "suplementos",
-      "preco": "R$ 48,00",
       "imagem": "bem-estar-natural.webp",
-      "descricao": "Ferro de alta absorção com vitamina C para melhor assimilação",
-      "beneficios": ["Energia", "Saúde", "Vitalidade"],
+      "descricao": "Combinação de ferro e vitamina C, conforme cadastro do produto.",
+      "beneficios": [
+        "Energia",
+        "Bem-estar",
+        "Vitalidade"
+      ],
       "tipo": "capsula",
       "vegana": false,
       "sem_gluten": true,
       "experiencia_minima": "regular",
-      "tags": ["energia", "saude", "ferro"]
+      "tags": [
+        "energia",
+        "saude",
+        "ferro"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": false,
+      "copy": "Uma combinação clássica em um só produto, pensada para quem busca praticidade na hora de organizar sua suplementação.",
+      "cta": "Quero saber mais",
+      "slug": "ferro-vitamina-c"
     },
     {
       "id": 4,
       "nome": "Própolis Premium",
       "categoria": "suplementos",
-      "preco": "R$ 65,00",
       "imagem": "produtos-naturais.webp",
-      "descricao": "Própolis pura com máxima concentração de ativos",
-      "beneficios": ["Imunidade", "Saúde", "Antioxidante"],
+      "descricao": "Própolis cadastrada no catálogo, com informações a confirmar com a equipe.",
+      "beneficios": [
+        "Imunidade",
+        "Bem-estar",
+        "Antioxidante"
+      ],
       "tipo": "liquido",
       "vegana": false,
       "sem_gluten": true,
       "experiencia_minima": "regular",
-      "tags": ["imunidade", "saude", "propolis"]
+      "tags": [
+        "imunidade",
+        "saude",
+        "propolis"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": false,
+      "copy": "O própolis é presença tradicional nas casas de produtos naturais — uma opção prática para ter sempre por perto.",
+      "cta": "Quero saber mais",
+      "slug": "propolis-premium"
     },
     {
       "id": 5,
       "nome": "Chá Camomila Premium",
       "categoria": "chas",
-      "preco": "R$ 28,00",
       "imagem": "chas-ervas.webp",
-      "descricao": "Camomila de alta qualidade para relaxamento profundo",
-      "beneficios": ["Relaxamento", "Sono", "Calma"],
+      "descricao": "Chá de camomila cadastrado no catálogo para diferentes momentos do dia.",
+      "beneficios": [
+        "Relaxamento",
+        "Sono",
+        "Calma"
+      ],
       "tipo": "cha",
       "vegana": true,
       "sem_gluten": true,
       "experiencia_minima": "iniciante",
-      "tags": ["relaxamento", "sono", "cha"]
+      "tags": [
+        "relaxamento",
+        "sono",
+        "cha"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": false,
+      "copy": "Aquele chá que combina com uma pausa tranquila: aroma delicado, preparo simples e um ritual acolhedor para o fim do dia.",
+      "cta": "Quero saber mais",
+      "slug": "cha-camomila-premium"
     },
     {
       "id": 6,
       "nome": "Óleo de Coco Orgânico",
       "categoria": "cuidados-pessoais",
-      "preco": "R$ 42,00",
       "imagem": "cuidados-pessoais.webp",
-      "descricao": "Óleo de coco 100% puro para pele e cabelo",
-      "beneficios": ["Beleza", "Hidratação", "Saúde"],
+      "descricao": "Óleo de coco cadastrado para cuidados pessoais, conforme informações do produto.",
+      "beneficios": [
+        "Beleza",
+        "Hidratação",
+        "Bem-estar"
+      ],
       "tipo": "natural",
       "vegana": true,
       "sem_gluten": true,
       "experiencia_minima": "iniciante",
-      "tags": ["beleza", "hidratacao", "oleo"]
+      "tags": [
+        "beleza",
+        "hidratacao",
+        "oleo"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": false,
+      "copy": "Versátil da cozinha aos cuidados pessoais, o óleo de coco é um daqueles itens naturais que encontram espaço em diferentes rotinas.",
+      "cta": "Quero saber mais",
+      "slug": "oleo-de-coco-organico"
     },
     {
       "id": 7,
       "nome": "Chá Verde Matcha",
       "categoria": "chas",
-      "preco": "R$ 55,00",
       "imagem": "chas-ervas.webp",
-      "descricao": "Matcha premium com antioxidantes poderosos",
-      "beneficios": ["Energia", "Foco", "Antioxidante"],
+      "descricao": "Chá verde matcha cadastrado no catálogo da Saúde Qualemax.",
+      "beneficios": [
+        "Energia",
+        "Foco",
+        "Antioxidante"
+      ],
       "tipo": "cha",
       "vegana": true,
       "sem_gluten": true,
       "experiencia_minima": "regular",
-      "tags": ["energia", "foco", "matcha"]
+      "tags": [
+        "energia",
+        "foco",
+        "matcha"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": false,
+      "copy": "Sabor marcante, cor vibrante e personalidade: o matcha transforma o momento do chá em uma experiência diferente.",
+      "cta": "Quero saber mais",
+      "slug": "cha-verde-matcha"
     },
     {
       "id": 8,
       "nome": "Colágeno Hidrolisado",
       "categoria": "suplementos",
-      "preco": "R$ 78,00",
       "imagem": "bem-estar-natural.webp",
-      "descricao": "Colágeno de alta pureza para pele, cabelo e unhas",
-      "beneficios": ["Beleza", "Saúde", "Juventude"],
+      "descricao": "Colágeno hidrolisado cadastrado no catálogo para consulta de características.",
+      "beneficios": [
+        "Beleza",
+        "Bem-estar",
+        "Cuidados pessoais"
+      ],
       "tipo": "capsula",
       "vegana": false,
       "sem_gluten": true,
       "experiencia_minima": "regular",
-      "tags": ["beleza", "saude", "colageno"]
+      "tags": [
+        "beleza",
+        "saude",
+        "colageno"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": false,
+      "copy": "Uma opção prática para quem deseja incluir colágeno na rotina sem complicação e consultar a melhor forma de uso com a equipe.",
+      "cta": "Quero saber mais",
+      "slug": "colageno-hidrolisado"
+    },
+    {
+      "id": 9,
+      "nome": "Semente de Chia",
+      "categoria": "sementes",
+      "imagem": "semente-chia.webp",
+      "descricao": "Semente de chia para uso em receitas, bebidas e preparações do dia a dia.",
+      "beneficios": [
+        "Culinária",
+        "Fibras",
+        "Versatilidade"
+      ],
+      "tipo": "semente",
+      "vegana": true,
+      "sem_gluten": true,
+      "experiencia_minima": "iniciante",
+      "tags": [
+        "chia",
+        "semente",
+        "fibras",
+        "grãos"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": true,
+      "copy": "Pequena no tamanho, enorme em possibilidades: a chia combina com frutas, iogurtes, vitaminas, receitas e preparos do dia a dia.",
+      "cta": "Quero saber mais",
+      "slug": "semente-de-chia"
+    },
+    {
+      "id": 10,
+      "nome": "Semente de Linhaça Dourada",
+      "categoria": "sementes",
+      "imagem": "semente-linhaca-dourada.webp",
+      "descricao": "Linhaça dourada para complementar receitas, vitaminas, iogurtes e preparações naturais.",
+      "beneficios": [
+        "Culinária",
+        "Fibras",
+        "Versatilidade"
+      ],
+      "tipo": "semente",
+      "vegana": true,
+      "sem_gluten": true,
+      "experiencia_minima": "iniciante",
+      "tags": [
+        "linhaça",
+        "semente",
+        "fibras"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": false,
+      "copy": "Uma semente versátil para deixar cafés da manhã, frutas, massas e receitas com um toque natural e textura especial.",
+      "cta": "Quero saber mais",
+      "slug": "semente-de-linhaca-dourada"
+    },
+    {
+      "id": 11,
+      "nome": "Psyllium em Pó",
+      "categoria": "fibras",
+      "imagem": "psyllium-po.webp",
+      "descricao": "Psyllium em pó para preparo conforme as orientações do rótulo do produto.",
+      "beneficios": [
+        "Fibras",
+        "Praticidade",
+        "Rotina alimentar"
+      ],
+      "tipo": "po",
+      "vegana": true,
+      "sem_gluten": true,
+      "experiencia_minima": "iniciante",
+      "tags": [
+        "psyllium",
+        "fibra",
+        "po"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": false,
+      "copy": "Prático, neutro e fácil de combinar: o psyllium se encaixa em diferentes preparos e é um clássico das lojas naturais.",
+      "cta": "Quero saber mais",
+      "slug": "psyllium-em-po"
+    },
+    {
+      "id": 12,
+      "nome": "Aveia em Flocos",
+      "categoria": "cereais",
+      "imagem": "aveia-em-flocos.webp",
+      "descricao": "Aveia em flocos para cafés da manhã, receitas e preparações do cotidiano.",
+      "beneficios": [
+        "Culinária",
+        "Café da manhã",
+        "Versatilidade"
+      ],
+      "tipo": "cereal",
+      "vegana": true,
+      "sem_gluten": false,
+      "experiencia_minima": "iniciante",
+      "tags": [
+        "aveia",
+        "cereal",
+        "cafe da manha"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": true,
+      "copy": "Do café da manhã às receitas caseiras, a aveia é aquele ingrediente coringa que merece espaço permanente na despensa.",
+      "cta": "Quero saber mais",
+      "slug": "aveia-em-flocos"
+    },
+    {
+      "id": 13,
+      "nome": "Granola Tradicional",
+      "categoria": "cereais",
+      "imagem": "granola-tradicional.webp",
+      "descricao": "Granola para acompanhar frutas, iogurtes e outras preparações do dia a dia.",
+      "beneficios": [
+        "Café da manhã",
+        "Crocância",
+        "Praticidade"
+      ],
+      "tipo": "cereal",
+      "vegana": true,
+      "sem_gluten": false,
+      "experiencia_minima": "iniciante",
+      "tags": [
+        "granola",
+        "cereal",
+        "cafe da manha"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": false,
+      "copy": "Crocância que transforma o café da manhã: uma opção prática para combinar com frutas, iogurtes ou consumir do seu jeito.",
+      "cta": "Quero saber mais",
+      "slug": "granola-tradicional"
+    },
+    {
+      "id": 14,
+      "nome": "Castanha-do-Pará",
+      "categoria": "oleaginosas",
+      "imagem": "castanha-do-para.webp",
+      "descricao": "Castanha-do-Pará para consumo e uso em receitas e lanches.",
+      "beneficios": [
+        "Lanche",
+        "Culinária",
+        "Praticidade"
+      ],
+      "tipo": "oleaginosa",
+      "vegana": true,
+      "sem_gluten": true,
+      "experiencia_minima": "iniciante",
+      "tags": [
+        "castanha",
+        "oleaginosa",
+        "lanche"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": false,
+      "copy": "Sabor brasileiro inconfundível e textura marcante. Uma escolha especial para lanches, receitas ou para saborear pura.",
+      "cta": "Quero saber mais",
+      "slug": "castanha-do-para"
+    },
+    {
+      "id": 15,
+      "nome": "Castanha de Caju",
+      "categoria": "oleaginosas",
+      "imagem": "castanha-de-caju.webp",
+      "descricao": "Castanha de caju para lanches, receitas e preparações variadas.",
+      "beneficios": [
+        "Lanche",
+        "Culinária",
+        "Praticidade"
+      ],
+      "tipo": "oleaginosa",
+      "vegana": true,
+      "sem_gluten": true,
+      "experiencia_minima": "iniciante",
+      "tags": [
+        "castanha de caju",
+        "oleaginosa",
+        "lanche"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": true,
+      "copy": "Crocante, saborosa e extremamente versátil: perfeita para ter por perto quando bate a vontade de um lanche prático.",
+      "cta": "Quero saber mais",
+      "slug": "castanha-de-caju"
+    },
+    {
+      "id": 16,
+      "nome": "Mix de Castanhas e Sementes",
+      "categoria": "oleaginosas",
+      "imagem": "mix-castanhas-sementes.webp",
+      "descricao": "Mix de castanhas e sementes para lanches e combinações do cotidiano.",
+      "beneficios": [
+        "Lanche",
+        "Praticidade",
+        "Culinária"
+      ],
+      "tipo": "mix",
+      "vegana": true,
+      "sem_gluten": true,
+      "experiencia_minima": "iniciante",
+      "tags": [
+        "mix",
+        "castanhas",
+        "sementes",
+        "lanche"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": false,
+      "copy": "Uma combinação pronta para quem gosta de variedade: diferentes texturas e sabores reunidos em uma opção fácil de levar e servir.",
+      "cta": "Quero saber mais",
+      "slug": "mix-de-castanhas-e-sementes"
+    },
+    {
+      "id": 17,
+      "nome": "Pasta de Amendoim Integral",
+      "categoria": "alimentos",
+      "imagem": "pasta-amendoim-integral.webp",
+      "descricao": "Pasta de amendoim para acompanhar frutas, pães, vitaminas e receitas.",
+      "beneficios": [
+        "Praticidade",
+        "Lanches",
+        "Culinária"
+      ],
+      "tipo": "pasta",
+      "vegana": true,
+      "sem_gluten": true,
+      "experiencia_minima": "iniciante",
+      "tags": [
+        "pasta de amendoim",
+        "amendoim",
+        "lanche"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": true,
+      "copy": "Sabor intenso de amendoim e muita versatilidade: combina com frutas, pães, panquecas, vitaminas e receitas criativas.",
+      "cta": "Quero saber mais",
+      "slug": "pasta-de-amendoim-integral"
+    },
+    {
+      "id": 18,
+      "nome": "Óleo de Coco Extravirgem",
+      "categoria": "alimentos",
+      "imagem": "oleo-coco-extravirgem.webp",
+      "descricao": "Óleo de coco extravirgem para uso culinário e outras aplicações indicadas no rótulo.",
+      "beneficios": [
+        "Culinária",
+        "Versatilidade",
+        "Praticidade"
+      ],
+      "tipo": "oleo",
+      "vegana": true,
+      "sem_gluten": true,
+      "experiencia_minima": "iniciante",
+      "tags": [
+        "oleo de coco",
+        "coco",
+        "culinaria"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": false,
+      "copy": "Um ingrediente natural extremamente versátil para quem gosta de explorar novas possibilidades na cozinha e na rotina.",
+      "cta": "Quero saber mais",
+      "slug": "oleo-de-coco-extravirgem"
+    },
+    {
+      "id": 19,
+      "nome": "Vinagre de Maçã",
+      "categoria": "alimentos",
+      "imagem": "vinagre-de-maca.webp",
+      "descricao": "Vinagre de maçã para uso culinário, conforme as orientações do rótulo.",
+      "beneficios": [
+        "Culinária",
+        "Versatilidade",
+        "Praticidade"
+      ],
+      "tipo": "liquido",
+      "vegana": true,
+      "sem_gluten": true,
+      "experiencia_minima": "iniciante",
+      "tags": [
+        "vinagre de maca",
+        "vinagre",
+        "culinaria"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": false,
+      "copy": "Um clássico da despensa natural, com sabor característico e inúmeras possibilidades culinárias para molhos, temperos e preparos.",
+      "cta": "Quero saber mais",
+      "slug": "vinagre-de-maca"
+    },
+    {
+      "id": 20,
+      "nome": "Cúrcuma em Pó",
+      "categoria": "temperos",
+      "imagem": "curcuma-po.webp",
+      "descricao": "Cúrcuma em pó para temperos, bebidas e preparações culinárias.",
+      "beneficios": [
+        "Culinária",
+        "Tempero",
+        "Versatilidade"
+      ],
+      "tipo": "po",
+      "vegana": true,
+      "sem_gluten": true,
+      "experiencia_minima": "iniciante",
+      "tags": [
+        "curcuma",
+        "acafrao da terra",
+        "tempero"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": false,
+      "copy": "Cor intensa, aroma marcante e presença garantida na cozinha natural. Um tempero que transforma receitas simples em preparos cheios de personalidade.",
+      "cta": "Quero saber mais",
+      "slug": "curcuma-em-po"
+    },
+    {
+      "id": 21,
+      "nome": "Gengibre em Pó",
+      "categoria": "temperos",
+      "imagem": "gengibre-po.webp",
+      "descricao": "Gengibre em pó para temperos, infusões e preparações culinárias.",
+      "beneficios": [
+        "Culinária",
+        "Tempero",
+        "Versatilidade"
+      ],
+      "tipo": "po",
+      "vegana": true,
+      "sem_gluten": true,
+      "experiencia_minima": "iniciante",
+      "tags": [
+        "gengibre",
+        "tempero",
+        "cha"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": false,
+      "copy": "Aroma vivo e sabor levemente picante para dar personalidade a chás, receitas, temperos e preparos do cotidiano.",
+      "cta": "Quero saber mais",
+      "slug": "gengibre-em-po"
+    },
+    {
+      "id": 22,
+      "nome": "Canela em Pó",
+      "categoria": "temperos",
+      "imagem": "canela-po.webp",
+      "descricao": "Canela em pó para receitas, bebidas e preparações culinárias.",
+      "beneficios": [
+        "Culinária",
+        "Aroma",
+        "Versatilidade"
+      ],
+      "tipo": "po",
+      "vegana": true,
+      "sem_gluten": true,
+      "experiencia_minima": "iniciante",
+      "tags": [
+        "canela",
+        "tempero",
+        "receita"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": false,
+      "copy": "O aroma que muda o clima da receita. Perfeita para frutas, cafés, mingaus, sobremesas e inúmeras combinações.",
+      "cta": "Quero saber mais",
+      "slug": "canela-em-po"
+    },
+    {
+      "id": 23,
+      "nome": "Chá de Hibisco",
+      "categoria": "chas",
+      "imagem": "cha-hibisco.webp",
+      "descricao": "Chá de hibisco para preparo de infusões e consumo conforme a preferência pessoal.",
+      "beneficios": [
+        "Infusão",
+        "Sabor",
+        "Momento do dia"
+      ],
+      "tipo": "cha",
+      "vegana": true,
+      "sem_gluten": true,
+      "experiencia_minima": "iniciante",
+      "tags": [
+        "hibisco",
+        "cha",
+        "infusao"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": false,
+      "copy": "Cor rubi, sabor característico e uma xícara cheia de personalidade. Ótimo para quem gosta de variar os chás do dia a dia.",
+      "cta": "Quero saber mais",
+      "slug": "cha-de-hibisco"
+    },
+    {
+      "id": 24,
+      "nome": "Chá de Erva-Cidreira",
+      "categoria": "chas",
+      "imagem": "cha-erva-cidreira.webp",
+      "descricao": "Erva-cidreira para preparo de infusões e momentos de relaxamento na rotina.",
+      "beneficios": [
+        "Infusão",
+        "Relaxamento",
+        "Sabor"
+      ],
+      "tipo": "cha",
+      "vegana": true,
+      "sem_gluten": true,
+      "experiencia_minima": "iniciante",
+      "tags": [
+        "erva cidreira",
+        "cha",
+        "infusao",
+        "relaxamento"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": false,
+      "copy": "Leve, aromático e familiar: um chá que combina naturalmente com momentos de pausa e uma rotina mais tranquila.",
+      "cta": "Quero saber mais",
+      "slug": "cha-de-erva-cidreira"
+    },
+    {
+      "id": 25,
+      "nome": "Chá de Gengibre",
+      "categoria": "chas",
+      "imagem": "cha-gengibre.webp",
+      "descricao": "Gengibre para preparo de infusões e bebidas quentes.",
+      "beneficios": [
+        "Infusão",
+        "Sabor",
+        "Aroma"
+      ],
+      "tipo": "cha",
+      "vegana": true,
+      "sem_gluten": true,
+      "experiencia_minima": "iniciante",
+      "tags": [
+        "gengibre",
+        "cha",
+        "infusao"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": true,
+      "copy": "A intensidade do gengibre em uma bebida quente e aromática — simples de preparar e cheia de personalidade.",
+      "cta": "Quero saber mais",
+      "slug": "cha-de-gengibre"
+    },
+    {
+      "id": 26,
+      "nome": "Whey Protein",
+      "categoria": "suplementos",
+      "imagem": "whey-protein.webp",
+      "descricao": "Suplemento proteico para consulta de opções, sabores e composição disponível na loja.",
+      "beneficios": [
+        "Proteína",
+        "Praticidade",
+        "Rotina de treino"
+      ],
+      "tipo": "po",
+      "vegana": false,
+      "sem_gluten": false,
+      "experiencia_minima": "regular",
+      "tags": [
+        "whey",
+        "proteina",
+        "suplemento"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": true,
+      "copy": "Uma opção prática para quem quer organizar a ingestão de proteínas na rotina e prefere a conveniência de um suplemento em pó.",
+      "cta": "Quero saber mais",
+      "slug": "whey-protein"
+    },
+    {
+      "id": 27,
+      "nome": "Creatina Monohidratada",
+      "categoria": "suplementos",
+      "imagem": "creatina-monohidratada.webp",
+      "descricao": "Creatina monohidratada para consulta de marcas, composição e apresentação disponíveis.",
+      "beneficios": [
+        "Praticidade",
+        "Rotina de treino",
+        "Suplementação"
+      ],
+      "tipo": "po",
+      "vegana": true,
+      "sem_gluten": true,
+      "experiencia_minima": "regular",
+      "tags": [
+        "creatina",
+        "suplemento",
+        "treino"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": false,
+      "copy": "Um dos suplementos mais conhecidos do universo esportivo, em formato simples e prático para integrar à rotina conforme orientação adequada.",
+      "cta": "Quero saber mais",
+      "slug": "creatina-monohidratada"
+    },
+    {
+      "id": 28,
+      "nome": "Magnésio",
+      "categoria": "suplementos",
+      "imagem": "magnesio.webp",
+      "descricao": "Opções de magnésio para consulta de formas, composição e disponibilidade na loja.",
+      "beneficios": [
+        "Rotina",
+        "Praticidade",
+        "Suplementação"
+      ],
+      "tipo": "capsula",
+      "vegana": true,
+      "sem_gluten": true,
+      "experiencia_minima": "regular",
+      "tags": [
+        "magnesio",
+        "suplemento",
+        "capsula"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": false,
+      "copy": "Uma alternativa prática para quem procura suplementação de magnésio e quer confirmar apresentação, composição e disponibilidade com a equipe.",
+      "cta": "Quero saber mais",
+      "slug": "magnesio"
+    },
+    {
+      "id": 29,
+      "nome": "Multivitamínico",
+      "categoria": "vitaminas",
+      "imagem": "multivitaminico.webp",
+      "descricao": "Multivitamínico para consulta de composição, apresentação e marcas disponíveis.",
+      "beneficios": [
+        "Praticidade",
+        "Rotina",
+        "Vitaminas"
+      ],
+      "tipo": "capsula",
+      "vegana": false,
+      "sem_gluten": true,
+      "experiencia_minima": "regular",
+      "tags": [
+        "multivitaminico",
+        "vitaminas",
+        "capsula"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": true,
+      "copy": "Várias vitaminas reunidas em uma única opção para quem valoriza praticidade e uma rotina de suplementação mais organizada.",
+      "cta": "Quero saber mais",
+      "slug": "multivitaminico"
+    },
+    {
+      "id": 30,
+      "nome": "Vitamina D",
+      "categoria": "vitaminas",
+      "imagem": "vitamina-d.webp",
+      "descricao": "Vitamina D para consulta de apresentação, composição e disponibilidade no catálogo.",
+      "beneficios": [
+        "Praticidade",
+        "Rotina",
+        "Vitaminas"
+      ],
+      "tipo": "capsula",
+      "vegana": false,
+      "sem_gluten": true,
+      "experiencia_minima": "regular",
+      "tags": [
+        "vitamina d",
+        "vitaminas",
+        "capsula"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": false,
+      "copy": "Uma opção direta e prática para quem procura vitamina D e deseja conferir concentração, apresentação e disponibilidade antes da compra.",
+      "cta": "Quero saber mais",
+      "slug": "vitamina-d"
+    },
+    {
+      "id": 31,
+      "nome": "Sabonete Natural de Ervas",
+      "categoria": "cuidados-pessoais",
+      "imagem": "sabonete-natural-ervas.webp",
+      "descricao": "Sabonete de perfil natural para rotina de higiene e autocuidado.",
+      "beneficios": [
+        "Higiene",
+        "Autocuidado",
+        "Aroma"
+      ],
+      "tipo": "natural",
+      "vegana": true,
+      "sem_gluten": true,
+      "experiencia_minima": "iniciante",
+      "tags": [
+        "sabonete",
+        "higiene",
+        "autocuidado"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": true,
+      "copy": "Um cuidado simples que transforma o banho em um momento mais agradável, com proposta natural e aroma de ervas.",
+      "cta": "Quero saber mais",
+      "slug": "sabonete-natural-de-ervas"
+    },
+    {
+      "id": 32,
+      "nome": "Óleo Essencial de Lavanda",
+      "categoria": "cuidados-pessoais",
+      "imagem": "oleo-essencial-lavanda.webp",
+      "descricao": "Óleo essencial de lavanda para usos compatíveis com a orientação do fabricante e do rótulo.",
+      "beneficios": [
+        "Aroma",
+        "Autocuidado",
+        "Ambiente"
+      ],
+      "tipo": "oleo",
+      "vegana": true,
+      "sem_gluten": true,
+      "experiencia_minima": "regular",
+      "tags": [
+        "lavanda",
+        "oleo essencial",
+        "aromaterapia"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": false,
+      "copy": "Aroma floral marcante em poucas gotas. Uma escolha especial para quem aprecia lavanda e quer trazer seu perfume para diferentes momentos da rotina.",
+      "cta": "Quero saber mais",
+      "slug": "oleo-essencial-de-lavanda"
     }
   ]
 }

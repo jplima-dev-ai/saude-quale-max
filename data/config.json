@@ -1,27 +1,42 @@
 {
-  "loja": {
+  "empresa": {
     "nome": "Saúde Qualemax",
     "descricao": "Produtos naturais, chás, vitaminas, suplementos e cuidados pessoais",
-    "logo": "🌿",
-    "corPrimaria": "#176b4d",
-    "corSecundaria": "#0d4532",
-    "corAcento": "#c99a45",
-    "corFundo": "#fbfaf6"
+    "cidade": "Serra",
+    "estado": "ES",
+    "site": "https://www.saudequalemax.com",
+    "cep": "29165-390"
   },
   "contato": {
     "whatsapp": "5527992820798",
     "email": "contato@saudequalemax.com",
     "telefone": "(27) 99282-0798",
-    "endereco": "Av. Segunda Avenida, 500 - Serra, ES"
+    "endereco": "Av. Segunda Avenida, 500 - Parque Residencial Laranjeiras - Serra, ES"
+  },
+  "marca": {
+    "logo": "🌿",
+    "corPrincipal": "#176b4d",
+    "corSecundaria": "#0d4532",
+    "corAcento": "#c99a45",
+    "corFundo": "#fbfaf6"
   },
   "redes": {
-    "instagram": "saudequalemax",
-    "facebook": "saudequalemax",
-    "tiktok": "saudequalemax"
+    "instagram": "",
+    "facebook": "",
+    "tiktok": "",
+    "youtube": "",
+    "pinterest": ""
   },
-  "empresa": {
-    "nome": "Saúde Qualemax",
-    "site": "https://www.saudequalemax.com",
-    "cep": "29165-390"
+  "chatbot": {
+    "ativo": true,
+    "nome": "Assistente Qualemax"
+  },
+  "analytics": {
+    "enabled": false
+  },
+  "seo": {
+    "title": "Saúde Qualemax | Produtos Naturais e Bem-Estar",
+    "description": "Conheça produtos naturais, chás, vitaminas, suplementos e cuidados pessoais da Saúde Qualemax. Consulte a equipe para disponibilidade e atendimento.",
+    "canonical": "https://www.saudequalemax.com/"
   }
 }

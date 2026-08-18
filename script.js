@@ -150,6 +150,28 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    const buscaAtalho = document.querySelector("[data-busca-atalho]");
+    const botaoIrBusca = document.querySelector("[data-ir-busca]");
+    const executarBuscaAtalho = () => {
+        const valor = buscaAtalho?.value.trim();
+        const buscaCatalogo = document.querySelector("[data-busca-produtos]");
+        if (!buscaCatalogo) return;
+        document.querySelector("#produtos")?.scrollIntoView({
+            behavior: movimentoReduzido ? "auto" : "smooth",
+            block: "start"
+        });
+        buscaCatalogo.value = valor || "";
+        buscaCatalogo.dispatchEvent(new Event("input", { bubbles: true }));
+        window.setTimeout(() => buscaCatalogo.focus(), movimentoReduzido ? 0 : 350);
+    };
+    botaoIrBusca?.addEventListener("click", executarBuscaAtalho);
+    buscaAtalho?.addEventListener("keydown", (evento) => {
+        if (evento.key === "Enter") {
+            evento.preventDefault();
+            executarBuscaAtalho();
+        }
+    });
+
     const elementosAnimados = document.querySelectorAll(
         [
             ".categoria-card",
@@ -476,3 +498,9 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     }
 });
+
+
+// v2.0 — PWA leve: registra cache do shell em navegadores compatíveis.
+if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));
+}

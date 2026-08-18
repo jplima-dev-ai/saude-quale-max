@@ -1,6 +1,6 @@
 {
   "titulo": "Descubra os Produtos Ideais para Você",
-  "descricao": "Responda 4 perguntas simples e recomendaremos os melhores produtos naturais para sua rotina.",
+  "descricao": "Responda 4 perguntas simples e veja quais produtos cadastrados se relacionam às preferências informadas.",
   "perguntas": [
     {
       "id": 1,
@@ -21,7 +21,7 @@
         },
         {
           "id": "saude",
-          "texto": "❤️ Saúde e imunidade",
+          "texto": "❤️ Bem-estar e rotina de cuidados",
           "icone": "❤️",
           "categoria": "suplementos"
         },
@@ -121,33 +121,49 @@
   ],
   "recomendacoes": {
     "energia": {
-      "titulo": "Sua Recomendação: Vitaminas e Suplementos",
-      "descricao": "Baseado nas suas respostas, recomendamos produtos que aumentam energia e disposição.",
-      "produtos_ids": [1, 2, 3],
-      "mensagem": "💪 Estes produtos vão potencializar sua energia diária!"
+      "titulo": "Opções relacionadas à sua preferência",
+      "descricao": "Com base nas preferências informadas, estas são opções do catálogo relacionadas ao tema que você selecionou. Confira as informações do produto e confirme detalhes com a equipe antes de comprar.",
+      "produtos_ids": [
+        1,
+        2,
+        3
+      ],
+      "mensagem": "💪 Estas opções foram relacionadas às preferências que você informou."
     },
     "relaxamento": {
-      "titulo": "Sua Recomendação: Chás e Ervas Calmantes",
-      "descricao": "Perfeito para quem busca momentos de relaxamento e tranquilidade.",
-      "produtos_ids": [5, 6, 7],
-      "mensagem": "🍵 Pronto para seus momentos de paz?"
+      "titulo": "Opções relacionadas a relaxamento e bem-estar",
+      "descricao": "Opções relacionadas à preferência por momentos de relaxamento e bem-estar.",
+      "produtos_ids": [
+        5,
+        6,
+        7
+      ],
+      "mensagem": "🍵 Estas opções foram relacionadas às preferências que você informou."
     },
     "saude": {
-      "titulo": "Sua Recomendação: Suplementos de Saúde",
-      "descricao": "Produtos que fortalecem a imunidade e melhoram a saúde geral.",
-      "produtos_ids": [2, 4, 8],
-      "mensagem": "🛡️ Reforce suas defesas naturalmente!"
+      "titulo": "Opções relacionadas a bem-estar e rotina",
+      "descricao": "Produtos do catálogo relacionados ao tema de bem-estar e rotina informado por você.",
+      "produtos_ids": [
+        2,
+        4,
+        8
+      ],
+      "mensagem": "🛡️ Estas opções foram relacionadas às preferências que você informou."
     },
     "beleza": {
       "titulo": "Sua Recomendação: Cuidados Pessoais",
-      "descricao": "Produtos naturais para deixar você mais bonito por dentro e por fora.",
-      "produtos_ids": [6, 7, 8],
-      "mensagem": "✨ Sua beleza natural em primeiro lugar!"
+      "descricao": "Opções de produtos relacionadas à preferência por beleza e cuidado pessoal.",
+      "produtos_ids": [
+        6,
+        7,
+        8
+      ],
+      "mensagem": "✨ Estas opções foram relacionadas às preferências que você informou."
     }
   },
   "cta_final": {
-    "titulo": "Pronto para sua transformação?",
-    "texto": "Escolha seus produtos ideais e converse com nossa equipe sobre como usá-los.",
-    "botao": "Falar com especialista"
+    "titulo": "Quer confirmar suas opções?",
+    "texto": "O resultado do quiz é apenas uma forma de explorar o catálogo. Confirme disponibilidade e informações atuais com a equipe.",
+    "botao": "Falar com a equipe"
   }
 }
