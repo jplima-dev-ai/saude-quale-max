@@ -1,6 +1,6 @@
 # Chatbot
 
-O Assistente Qualemax v1.1 é local e baseado nos dados do catálogo.
+O Assistente Qualimax v1.1 é local e baseado nos dados do catálogo.
 
 Ele não usa API externa de IA e não deve conter chaves secretas no frontend.
 

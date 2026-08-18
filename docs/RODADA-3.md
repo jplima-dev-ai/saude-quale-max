@@ -1,8 +1,8 @@
-# Saúde Qualemax v1.1 — Rodada 3
+# Saúde Qualimax v1.1 — Rodada 3
 
 ## Implementado
 
-- Configuração centralizada com evento `qualemax:config-ready`.
+- Configuração centralizada com evento `qualimax:config-ready`.
 - SEO configurável a partir de `data/config.json`.
 - Catálogo e chatbot aguardam a configuração antes de montar links dependentes do contato.
 - Removidos fallbacks de WhatsApp hardcoded dos módulos de catálogo e chatbot.

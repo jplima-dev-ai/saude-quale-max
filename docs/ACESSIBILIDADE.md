@@ -1,4 +1,4 @@
-# Acessibilidade — Saúde Qualemax v1.1
+# Acessibilidade — Saúde Qualimax v1.1
 
 A arquitetura considera navegação por teclado, foco visível, semântica HTML, nomes acessíveis, estados ARIA quando necessários, redução de movimento e componentes dinâmicos com gerenciamento de foco.
 

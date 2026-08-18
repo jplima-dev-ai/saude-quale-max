@@ -1,4 +1,4 @@
-# Auditoria e evolução — Saúde Qualemax v1.1
+# Auditoria e evolução — Saúde Qualimax v1.1
 
 ## Rodada 2 — Catálogo, dados, SEO e acessibilidade
 

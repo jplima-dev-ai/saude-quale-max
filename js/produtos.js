@@ -21,13 +21,13 @@
     };
 
     const construirMensagem = (produto) => {
-        const nomeLoja = window.QualemaxConfig?.empresa?.nome || "a loja";
+        const nomeLoja = window.QualimaxConfig?.empresa?.nome || "a loja";
         return encodeURIComponent(
             `Olá! Vi o produto ${produto.nome} no site da ${nomeLoja} e gostaria de consultar disponibilidade e detalhes.`
         );
     };
 
-    const numeroWhatsApp = () => String(window.QualemaxConfig?.contato?.whatsapp || "").replace(/\D/g, "");
+    const numeroWhatsApp = () => String(window.QualimaxConfig?.contato?.whatsapp || "").replace(/\D/g, "");
     const linkWhatsApp = (produto) => `https://wa.me/${numeroWhatsApp()}?text=${construirMensagem(produto)}`;
     const imagemMiniatura = (produto) => `img/thumbs/${produto.imagem}`;
 
@@ -170,8 +170,8 @@
             const correspondeCategoria = !estado.filtroCategoria || produto.categoria === estado.filtroCategoria;
             const correspondeTipo = !estado.filtroTipo || produto.tipo === estado.filtroTipo;
             const correspondeCaracteristica = !estado.filtroCaracteristica ||
-                (estado.filtroCaracteristica === "vegana" && produto.vegana === true) ||
-                (estado.filtroCaracteristica === "sem-gluten" && produto.sem_gluten === true);
+                (["vegano", "vegana"].includes(estado.filtroCaracteristica) && produto.vegana === true) ||
+                (["sem_gluten", "sem-gluten"].includes(estado.filtroCaracteristica) && produto.sem_gluten === true);
 
             return correspondeBusca && correspondeCategoria && correspondeTipo && correspondeCaracteristica;
         });
@@ -192,7 +192,7 @@
                     : "Nenhum produto está disponível para exibição neste momento. Fale com a equipe para receber ajuda.";
             }
         }
-        document.dispatchEvent(new CustomEvent("qualemax:produtos-renderizados"));
+        document.dispatchEvent(new CustomEvent("qualimax:produtos-renderizados"));
     };
 
     const preencherFiltros = () => {
@@ -207,8 +207,9 @@
             });
         }
         if (tipo) {
+            const existentes = new Set([...tipo.options].map((option) => option.value));
             const tipos = [...new Set(estado.produtos.map((item) => item.tipo).filter(Boolean))].sort();
-            tipos.forEach((item) => {
+            tipos.filter((item) => !existentes.has(item)).forEach((item) => {
                 const option = document.createElement("option");
                 option.value = item;
                 option.textContent = item.charAt(0).toUpperCase() + item.slice(1);
@@ -339,7 +340,7 @@
             conteudo.append(secaoRelacionados);
         }
 
-        document.dispatchEvent(new CustomEvent("qualemax:produto-visto", { detail: { produto } }));
+        document.dispatchEvent(new CustomEvent("qualimax:produto-visto", { detail: { produto } }));
         modal.hidden = false;
         document.body.classList.add("modal-aberto");
         modal.setAttribute("aria-hidden", "false");
@@ -356,11 +357,43 @@
         ultimoFoco = null;
     };
 
-    window.QualemaxProdutos = { abrirModal, fecharModal, obterTodos: () => [...estado.produtos], relacionados };
+    window.QualimaxProdutos = { abrirModal, fecharModal, obterTodos: () => [...estado.produtos], relacionados };
+
+    const aplicarParametrosURL = () => {
+        const params = new URLSearchParams(window.location.search);
+        const busca = params.get("busca") || "";
+        const categoria = params.get("categoria") || "";
+        const tipo = params.get("tipo") || "";
+        const caracteristica = params.get("caracteristica") || "";
+
+        if (busca) estado.busca = busca;
+        if (categoria && estado.categorias.some((item) => item.id === categoria)) estado.filtroCategoria = categoria;
+        if (tipo) estado.filtroTipo = tipo;
+        if (caracteristica) estado.filtroCaracteristica = caracteristica;
+
+        const campoBusca = document.querySelector("[data-busca-produtos]");
+        const campoCategoria = document.querySelector("[data-filtro-categoria]");
+        const campoTipo = document.querySelector("[data-filtro-tipo]");
+        const campoCaracteristica = document.querySelector("[data-filtro-caracteristica]");
+        if (campoBusca) campoBusca.value = estado.busca;
+        if (campoCategoria) campoCategoria.value = estado.filtroCategoria;
+        if (campoTipo && [...campoTipo.options].some((o) => o.value === estado.filtroTipo)) campoTipo.value = estado.filtroTipo;
+        if (campoCaracteristica && [...campoCaracteristica.options].some((o) => o.value === estado.filtroCaracteristica)) campoCaracteristica.value = estado.filtroCaracteristica;
+    };
+
+    const sincronizarURL = () => {
+        const params = new URLSearchParams();
+        if (estado.busca.trim()) params.set("busca", estado.busca.trim());
+        if (estado.filtroCategoria) params.set("categoria", estado.filtroCategoria);
+        if (estado.filtroTipo) params.set("tipo", estado.filtroTipo);
+        if (estado.filtroCaracteristica) params.set("caracteristica", estado.filtroCaracteristica);
+        const novaURL = `${window.location.pathname}${params.size ? `?${params}` : ""}${window.location.hash || ""}`;
+        history.replaceState(null, "", novaURL);
+    };
 
     document.addEventListener("DOMContentLoaded", async () => {
-        if (!window.QualemaxConfig) {
-            await new Promise((resolve) => document.addEventListener("qualemax:config-ready", resolve, { once: true }));
+        if (!window.QualimaxConfig) {
+            await new Promise((resolve) => document.addEventListener("qualimax:config-ready", resolve, { once: true }));
         }
         try {
             const [produtosResposta, categoriasResposta] = await Promise.all([
@@ -372,7 +405,7 @@
             const categoriasDados = await categoriasResposta.json();
             estado.produtos = Array.isArray(produtosDados.produtos) ? produtosDados.produtos : [];
             estado.categorias = Array.isArray(categoriasDados.categorias) ? categoriasDados.categorias : [];
-            await window.QualemaxDB?.seedProdutos?.(estado.produtos);
+            await window.QualimaxDB?.seedProdutos?.(estado.produtos);
             const sugestoes = document.querySelector("[data-sugestoes-produtos]");
             if (sugestoes) {
                 const valores = new Set();
@@ -383,6 +416,7 @@
                 }));
             }
             preencherFiltros();
+            aplicarParametrosURL();
             const categoriaPendente = document.documentElement.dataset.categoriaPendente || "";
             if (categoriaPendente && estado.categorias.some((item) => item.id === categoriaPendente)) {
                 estado.filtroCategoria = categoriaPendente;
@@ -392,8 +426,8 @@
             }
             renderizar();
             renderizarDestaques();
-            document.dispatchEvent(new CustomEvent("qualemax:catalog-ready", { detail: { produtos: estado.produtos, categorias: estado.categorias } }));
-            window.setTimeout(() => document.dispatchEvent(new CustomEvent("qualemax:colecoes-refresh")), 0);
+            document.dispatchEvent(new CustomEvent("qualimax:catalog-ready", { detail: { produtos: estado.produtos, categorias: estado.categorias } }));
+            window.setTimeout(() => document.dispatchEvent(new CustomEvent("qualimax:colecoes-refresh")), 0);
         } catch (erro) {
             console.error(erro);
             const vazio = document.querySelector("[data-produtos-vazio]");
@@ -406,18 +440,22 @@
         document.querySelector("[data-busca-produtos]")?.addEventListener("input", (evento) => {
             estado.busca = evento.target.value;
             renderizar();
+            sincronizarURL();
         });
         document.querySelector("[data-filtro-categoria]")?.addEventListener("change", (evento) => {
             estado.filtroCategoria = evento.target.value;
             renderizar();
+            sincronizarURL();
         });
         document.querySelector("[data-filtro-tipo]")?.addEventListener("change", (evento) => {
             estado.filtroTipo = evento.target.value;
             renderizar();
+            sincronizarURL();
         });
         document.querySelector("[data-filtro-caracteristica]")?.addEventListener("change", (evento) => {
             estado.filtroCaracteristica = evento.target.value;
             renderizar();
+            sincronizarURL();
         });
         const limparFiltros = () => {
             estado.busca = "";
@@ -433,6 +471,7 @@
             if (tipo) tipo.value = "";
             if (caracteristica) caracteristica.value = "";
             renderizar();
+            sincronizarURL();
             busca?.focus();
         };
         document.querySelector("[data-limpar-filtros]")?.addEventListener("click", limparFiltros);

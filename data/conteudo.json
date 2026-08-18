@@ -1,0 +1,47 @@
+{
+  "hero": {
+    "titulo": "O caminho natural para uma vida com mais energia e bem-estar.",
+    "subtitulo": "Descubra nossa seleção exclusiva de produtos naturais, suplementos e itens a granel para transformar sua rotina com saúde e sabor.",
+    "cta": "Falar com um Especialista no WhatsApp"
+  },
+  "beneficios": [
+    {
+      "titulo": "100% Selecionados",
+      "texto": "Produtos de alta qualidade, rigorosamente escolhidos para cuidar de você e da sua família."
+    },
+    {
+      "titulo": "Variedade e Frescor",
+      "texto": "Grãos, sementes, chás, oleaginosas e suplementos sempre frescos e com excelente custo-benefício."
+    },
+    {
+      "titulo": "Atendimento Humanizado",
+      "texto": "Nossa equipe está pronta para orientar você a encontrar o produto ideal para os seus objetivos de saúde."
+    }
+  ],
+  "categoriasPopulares": [
+    {
+      "titulo": "Suplementos e Vitaminas",
+      "texto": "Potencialize seus treinos e sua imunidade.",
+      "link": "catalogo.html?categoria=suplementos"
+    },
+    {
+      "titulo": "Produtos a Granel",
+      "texto": "Grãos, castanhas e farinhas na medida certa para a sua dieta.",
+      "link": "catalogo.html"
+    },
+    {
+      "titulo": "Alimentação Saudável",
+      "texto": "Opções sem glúten, sem lactose, integrais e funcionais.",
+      "link": "catalogo.html"
+    },
+    {
+      "titulo": "Chás e Ervas Medicinais",
+      "texto": "O poder da natureza para o seu relaxamento e equilíbrio diário.",
+      "link": "catalogo.html?categoria=chas"
+    }
+  ],
+  "ctaFinal": {
+    "titulo": "Cuide de quem você ama com o melhor que a natureza oferece.",
+    "subtitulo": "Faça seu pedido diretamente pelo WhatsApp e receba com comodidade ou venha nos visitar em Laranjeiras!"
+  }
+}

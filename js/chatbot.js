@@ -31,9 +31,21 @@
         }, reduzirMovimento ? 0 : 350);
     };
 
+    const paginaAtual = () => location.pathname.split("/").pop() || "index.html";
+    const irCatalogo = ({ busca = "", categoria = "" } = {}) => {
+        if (paginaAtual() === "catalogo.html") {
+            if (categoria) { const select = document.querySelector("[data-filtro-categoria]"); if (select) { select.value = categoria; select.dispatchEvent(new Event("change", { bubbles:true })); } }
+            abrirSecao("#produtos", "[data-busca-produtos]", busca || null);
+            return;
+        }
+        const q = new URLSearchParams(); if (busca) q.set("busca", busca); if (categoria) q.set("categoria", categoria);
+        location.href = `catalogo.html${q.toString() ? `?${q}` : ""}#produtos`;
+    };
+    const irQuiz = () => { location.href = paginaAtual() === "quiz.html" ? "#quiz" : "quiz.html#quiz"; };
+
     const mostrarRedesNoChat = () => {
         const area = mensagens();
-        const redes = Array.isArray(window.QualemaxRedesAtivas) ? window.QualemaxRedesAtivas : [];
+        const redes = Array.isArray(window.QualimaxRedesAtivas) ? window.QualimaxRedesAtivas : [];
         if (!area) return;
         if (!redes.length) {
             adicionarMensagem("Os perfis oficiais da loja ainda não foram configurados neste site.");
@@ -58,12 +70,12 @@
 
     const adicionarWhatsAppNoChat = (mensagem = "Falar com a equipe no WhatsApp") => {
         const area = mensagens();
-        const numero = String(window.QualemaxConfig?.contato?.whatsapp || "").replace(/\D/g, "");
+        const numero = String(window.QualimaxConfig?.contato?.whatsapp || "").replace(/\D/g, "");
         if (!area || !numero) {
             adicionarMensagem("O WhatsApp ainda não está configurado. Use outro canal disponível na página de contato.");
             return;
         }
-        const nome = window.QualemaxConfig?.empresa?.nome || "a loja";
+        const nome = window.QualimaxConfig?.empresa?.nome || "a loja";
         const link = document.createElement("a");
         link.className = "chat-whatsapp-cta";
         link.href = `https://wa.me/${numero}?text=${encodeURIComponent(`Olá! Vim pelo site da ${nome} e gostaria de falar com a equipe.`)}`;
@@ -100,14 +112,14 @@
             botao.textContent = "Abrir detalhes";
             botao.addEventListener("click", () => {
                 document.querySelector("[data-chat-fechar]")?.click();
-                if (window.QualemaxProdutos?.abrirModal) window.QualemaxProdutos.abrirModal(produto);
-                else abrirSecao("#produtos", "[data-busca-produtos]", produto.nome);
+                if (window.QualimaxProdutos?.abrirModal) window.QualimaxProdutos.abrirModal(produto);
+                else location.href = `produto/${produto.slug}.html`;
             });
             const lista = document.createElement("button");
             lista.type = "button";
             lista.textContent = "Adicionar à minha lista";
             lista.addEventListener("click", async () => {
-                const ativo = await window.QualemaxColecoes?.toggleInteresse?.(produto.id);
+                const ativo = await window.QualimaxColecoes?.toggleInteresse?.(produto.id);
                 lista.textContent = ativo ? "Adicionado à minha lista" : "Adicionar à minha lista";
             });
             card.append(imagem, nome, texto, botao, lista);
@@ -124,7 +136,7 @@
         if (/meus favoritos|favoritos|minha lista|minhas escolhas|lista de interesse/.test(termo)) {
             adicionarMensagem("Vou abrir suas escolhas salvas neste navegador.");
             document.querySelector("[data-chat-fechar]")?.click();
-            window.setTimeout(() => window.QualemaxColecoes?.abrirDialogo?.(), 0);
+            window.setTimeout(() => window.QualimaxColecoes?.abrirDialogo?.(), 0);
             return;
         }
         if (/esse produto|este produto|ultimo produto|último produto|o que eu vi|ele mesmo/.test(termo) && ultimoProdutoVisto) {
@@ -151,7 +163,7 @@
         if (/quiz|escolher|indicacao|indicação|nao sei/.test(termo)) {
             adicionarMensagem("Posso ajudar você a explorar algumas opções. Vou abrir o quiz para continuar.");
             document.querySelector("[data-chat-fechar]")?.click();
-            abrirSecao("#quiz", "#quiz button");
+            irQuiz();
             return;
         }
         if (/entrega|entregam|entregar|frete/.test(termo)) {
@@ -162,7 +174,7 @@
         if (/preco|preço|valor|custa|custo/.test(termo)) {
             adicionarMensagem("Os valores e a disponibilidade precisam ser confirmados com a equipe. Vou abrir o catálogo para você localizar o produto.");
             document.querySelector("[data-chat-fechar]")?.click();
-            abrirSecao("#produtos", "#busca-produtos");
+            irCatalogo();
             return;
         }
         if (/vegano|vegana|veganos|veganas/.test(termo)) {
@@ -200,13 +212,8 @@
                 verCategoria.className = "chat-categoria-cta";
                 verCategoria.textContent = `Ver ${categoria.nome} no catálogo`;
                 verCategoria.addEventListener("click", () => {
-                    const selectCategoria = document.querySelector("[data-filtro-categoria]");
-                    if (selectCategoria) {
-                        selectCategoria.value = categoria.id;
-                        selectCategoria.dispatchEvent(new Event("change", { bubbles: true }));
-                    }
                     document.querySelector("[data-chat-fechar]")?.click();
-                    abrirSecao("#produtos", "[data-busca-produtos]");
+                    irCatalogo({ categoria: categoria.id });
                 });
                 area.append(verCategoria);
                 area.scrollTop = area.scrollHeight;
@@ -231,17 +238,17 @@
         adicionarMensagem("Não encontrei uma correspondência segura para essa busca. Tente o nome do produto, uma categoria como ‘chás’ ou ‘castanhas’, uma característica como ‘vegano’ ou ‘sem glúten’, ou faça o quiz.");
     };
 
-    document.addEventListener("qualemax:produto-visto", (evento) => {
+    document.addEventListener("qualimax:produto-visto", (evento) => {
         ultimoProdutoVisto = evento.detail?.produto || ultimoProdutoVisto;
     });
 
     document.addEventListener("DOMContentLoaded", async () => {
         const widget = document.querySelector("[data-chatbot]");
         if (!widget) return;
-        if (!window.QualemaxConfig) {
-            await new Promise((resolve) => document.addEventListener("qualemax:config-ready", resolve, { once: true }));
+        if (!window.QualimaxConfig) {
+            await new Promise((resolve) => document.addEventListener("qualimax:config-ready", resolve, { once: true }));
         }
-        if (window.QualemaxConfig?.chatbot?.ativo === false) {
+        if (window.QualimaxConfig?.chatbot?.ativo === false) {
             widget.hidden = true;
             document.querySelectorAll("[data-chat-abrir]").forEach((botao) => botao.remove());
             return;
@@ -291,9 +298,9 @@
         });
         document.querySelectorAll("[data-chat-acao]").forEach((botao) => botao.addEventListener("click", () => {
             const acao = botao.dataset.chatAcao;
-            if (acao === "produto") { fechar(); abrirSecao("#produtos", "#busca-produtos"); return; }
-            if (acao === "categorias") { fechar(); abrirSecao("#categorias", "#categorias a"); return; }
-            if (acao === "quiz") { fechar(); abrirSecao("#quiz", "#quiz button"); return; }
+            if (acao === "produto") { fechar(); irCatalogo(); return; }
+            if (acao === "categorias") { fechar(); irCatalogo(); return; }
+            if (acao === "quiz") { fechar(); irQuiz(); return; }
             if (acao === "redes") { mostrarRedesNoChat(); return; }
             if (acao === "whatsapp") {
                 adicionarMensagem("Você pode continuar diretamente com a equipe:");

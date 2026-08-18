@@ -6,10 +6,10 @@
         const aplicar = () => {
             try {
                 const estados = {
-                    texto: localStorage.getItem("qualemax-texto") === "grande",
-                    contraste: localStorage.getItem("qualemax-contraste") === "alto",
-                    leitura: localStorage.getItem("qualemax-leitura") === "sim",
-                    movimento: localStorage.getItem("qualemax-movimento") === "sim"
+                    texto: localStorage.getItem("qualimax-texto") === "grande",
+                    contraste: localStorage.getItem("qualimax-contraste") === "alto",
+                    leitura: localStorage.getItem("qualimax-leitura") === "sim",
+                    movimento: localStorage.getItem("qualimax-movimento") === "sim"
                 };
                 root.classList.toggle("texto-grande", estados.texto);
                 root.classList.toggle("alto-contraste", estados.contraste);
@@ -39,21 +39,21 @@
                 toggle?.focus();
             }
         });
-        document.querySelector("[data-texto-maior]")?.addEventListener("click", () => { salvar("qualemax-texto", "grande"); aplicar(); });
-        document.querySelector("[data-texto-normal]")?.addEventListener("click", () => { salvar("qualemax-texto", "normal"); aplicar(); });
+        document.querySelector("[data-texto-maior]")?.addEventListener("click", () => { salvar("qualimax-texto", "grande"); aplicar(); });
+        document.querySelector("[data-texto-normal]")?.addEventListener("click", () => { salvar("qualimax-texto", "normal"); aplicar(); });
         document.querySelector("[data-alto-contraste]")?.addEventListener("click", () => {
             const ativo = root.classList.contains("alto-contraste");
-            salvar("qualemax-contraste", ativo ? "normal" : "alto"); aplicar();
+            salvar("qualimax-contraste", ativo ? "normal" : "alto"); aplicar();
         });
         document.querySelector("[data-reduzir-movimento]")?.addEventListener("click", () => {
             const ativo = root.classList.contains("movimento-reduzido");
-            salvar("qualemax-movimento", ativo ? "nao" : "sim"); aplicar();
+            salvar("qualimax-movimento", ativo ? "nao" : "sim"); aplicar();
         });
         document.querySelector("[data-leitura-facil]")?.addEventListener("click", () => {
             const ativo = root.classList.contains("leitura-facil");
-            salvar("qualemax-leitura", ativo ? "nao" : "sim"); aplicar();
+            salvar("qualimax-leitura", ativo ? "nao" : "sim"); aplicar();
         });
-        document.querySelector("[data-acessibilidade-reset]")?.addEventListener("click", () => { ["qualemax-texto","qualemax-contraste","qualemax-leitura","qualemax-movimento"].forEach((key) => { try { localStorage.removeItem(key); } catch {} }); aplicar(); });
+        document.querySelector("[data-acessibilidade-reset]")?.addEventListener("click", () => { ["qualimax-texto","qualimax-contraste","qualimax-leitura","qualimax-movimento"].forEach((key) => { try { localStorage.removeItem(key); } catch {} }); aplicar(); });
         atualizarPainel();
         aplicar();
     });

@@ -1,8 +1,12 @@
-const CACHE = "qualemax-v2-shell-r1";
+const CACHE = "qualimax-v2.0.2";
 const SHELL = [
-  "./", "./index.html", "./style.css", "./script.js", "./manifest.webmanifest",
-  "./data/config.json", "./data/produtos.json", "./data/categorias.json", "./data/quiz.json", "./data/faq.json",
-  "./js/config.js", "./js/db.js", "./js/colecoes.js", "./js/produtos.js", "./js/chatbot.js", "./js/quiz.js", "./js/categorias.js", "./js/faq.js", "./js/acessibilidade.js"
+  "./", "./index.html",
+  "./catalogo.html",
+  "./quiz.html",
+  "./sobre.html",
+  "./contato.html", "./style.css", "./script.js", "./manifest.webmanifest",
+  "./data/config.json", "./data/conteudo.json", "./data/produtos.json", "./data/categorias.json", "./data/quiz.json", "./data/faq.json",
+  "./img/logo-saude-qualimax.webp", "./js/config.js", "./js/db.js", "./js/colecoes.js", "./js/produtos.js", "./js/chatbot.js", "./js/quiz.js", "./js/categorias.js", "./js/faq.js", "./js/acessibilidade.js", "./js/produto-page.js"
 ];
 
 self.addEventListener("install", event => {

@@ -1,4 +1,4 @@
-# Privacidade — Saúde Qualemax v1.1
+# Privacidade — Saúde Qualimax v1.1
 
 A versão estática do template não deve armazenar conversas do assistente, credenciais, tokens ou chaves secretas no navegador.
 

@@ -7,12 +7,12 @@
     let ultimoFoco = null;
 
     const porId = (id) => produtos.find(p => Number(p.id) === Number(id));
-    const numeroWhatsApp = () => String(window.QualemaxConfig?.contato?.whatsapp || "").replace(/\D/g, "");
+    const numeroWhatsApp = () => String(window.QualimaxConfig?.contato?.whatsapp || "").replace(/\D/g, "");
 
     const carregarEstado = async () => {
-        if (!window.QualemaxDB) return;
-        favoritos = new Set((await window.QualemaxDB.getFavoritos()).map(x => Number(x.produtoId)));
-        interesse = new Set((await window.QualemaxDB.getInteresse()).map(x => Number(x.produtoId)));
+        if (!window.QualimaxDB) return;
+        favoritos = new Set((await window.QualimaxDB.getFavoritos()).map(x => Number(x.produtoId)));
+        interesse = new Set((await window.QualimaxDB.getInteresse()).map(x => Number(x.produtoId)));
         atualizarContadores();
         atualizarBotoes();
         await renderizarDialogo();
@@ -40,8 +40,8 @@
     };
 
     const toggleFavorito = async (id) => {
-        if (!window.QualemaxDB) return false;
-        const ativo = await window.QualemaxDB.toggleFavorito(Number(id));
+        if (!window.QualimaxDB) return false;
+        const ativo = await window.QualimaxDB.toggleFavorito(Number(id));
         ativo ? favoritos.add(Number(id)) : favoritos.delete(Number(id));
         atualizarContadores(); atualizarBotoes(); await renderizarDialogo();
         anunciar(ativo ? "Produto adicionado aos favoritos." : "Produto removido dos favoritos.");
@@ -49,8 +49,8 @@
     };
 
     const toggleInteresse = async (id) => {
-        if (!window.QualemaxDB) return false;
-        const ativo = await window.QualemaxDB.toggleInteresse(Number(id));
+        if (!window.QualimaxDB) return false;
+        const ativo = await window.QualimaxDB.toggleInteresse(Number(id));
         ativo ? interesse.add(Number(id)) : interesse.delete(Number(id));
         atualizarContadores(); atualizarBotoes(); await renderizarDialogo();
         anunciar(ativo ? "Produto adicionado à sua lista de interesse." : "Produto removido da sua lista de interesse.");
@@ -73,7 +73,7 @@
         const p = document.createElement("p"); p.textContent = produto.copy || produto.descricao || "";
         const acoes = document.createElement("div"); acoes.className = "escolha-item-acoes";
         const abrir = document.createElement("button"); abrir.type = "button"; abrir.textContent = "Ver detalhes";
-        abrir.addEventListener("click", () => { fecharDialogo(); window.QualemaxProdutos?.abrirModal?.(produto); });
+        abrir.addEventListener("click", () => { fecharDialogo(); window.QualimaxProdutos?.abrirModal?.(produto); });
         const remover = document.createElement("button"); remover.type = "button"; remover.textContent = "Remover";
         remover.addEventListener("click", () => tipo === "favorito" ? toggleFavorito(produto.id) : toggleInteresse(produto.id));
         acoes.append(abrir, remover); box.append(strong, p, acoes); article.append(img, box); return article;
@@ -97,8 +97,8 @@
     const renderizarRecentes = async () => {
         const secao = document.querySelector("[data-recentes-secao]");
         const grade = document.querySelector("[data-recentes-grid]");
-        if (!secao || !grade || !window.QualemaxDB) return;
-        const ids = (await window.QualemaxDB.getHistorico()).sort((a,b) => (b.vistoEm || 0) - (a.vistoEm || 0)).slice(0,4).map(x => Number(x.produtoId));
+        if (!secao || !grade || !window.QualimaxDB) return;
+        const ids = (await window.QualimaxDB.getHistorico()).sort((a,b) => (b.vistoEm || 0) - (a.vistoEm || 0)).slice(0,4).map(x => Number(x.produtoId));
         const itens = ids.map(porId).filter(Boolean);
         secao.hidden = !itens.length;
         grade.replaceChildren(...itens.map(produto => {
@@ -106,14 +106,14 @@
             const img = document.createElement("img"); img.src = `img/thumbs/${produto.imagem}`; img.alt = ""; img.loading = "lazy"; img.width=116; img.height=144;
             const box = document.createElement("div");
             const strong = document.createElement("strong"); strong.textContent = produto.nome;
-            const btn = document.createElement("button"); btn.type="button"; btn.textContent="Ver novamente"; btn.addEventListener("click", () => window.QualemaxProdutos?.abrirModal?.(produto));
+            const btn = document.createElement("button"); btn.type="button"; btn.textContent="Ver novamente"; btn.addEventListener("click", () => window.QualimaxProdutos?.abrirModal?.(produto));
             box.append(strong, btn); article.append(img, box); return article;
         }));
     };
 
     const registrarVisualizacao = async (produto) => {
-        if (!produto || !window.QualemaxDB) return;
-        await window.QualemaxDB.addHistorico(Number(produto.id));
+        if (!produto || !window.QualimaxDB) return;
+        await window.QualimaxDB.addHistorico(Number(produto.id));
         await renderizarRecentes();
     };
 
@@ -130,15 +130,15 @@
     const enviarLista = () => {
         const numero = numeroWhatsApp(); if (!numero || !interesse.size) return;
         const nomes = [...interesse].map(porId).filter(Boolean).map(p => p.nome);
-        const nomeLoja = window.QualemaxConfig?.empresa?.nome || "a loja";
+        const nomeLoja = window.QualimaxConfig?.empresa?.nome || "a loja";
         const texto = `Olá! Montei uma lista de interesse no site da ${nomeLoja}: ${nomes.join(", ")}. Gostaria de consultar disponibilidade, valores e detalhes.`;
         window.open(`https://wa.me/${numero}?text=${encodeURIComponent(texto)}`, "_blank", "noopener,noreferrer");
     };
 
-    document.addEventListener("qualemax:catalog-ready", async (e) => { produtos = e.detail?.produtos || []; await carregarEstado(); });
-    document.addEventListener("qualemax:produtos-renderizados", atualizarBotoes);
-    document.addEventListener("qualemax:colecoes-refresh", atualizarBotoes);
-    document.addEventListener("qualemax:produto-visto", async (e) => registrarVisualizacao(e.detail?.produto));
+    document.addEventListener("qualimax:catalog-ready", async (e) => { produtos = e.detail?.produtos || []; await carregarEstado(); });
+    document.addEventListener("qualimax:produtos-renderizados", atualizarBotoes);
+    document.addEventListener("qualimax:colecoes-refresh", atualizarBotoes);
+    document.addEventListener("qualimax:produto-visto", async (e) => registrarVisualizacao(e.detail?.produto));
     document.addEventListener("click", (e) => {
         const fav = e.target.closest?.("[data-favorito-id]"); if (fav) { toggleFavorito(fav.dataset.favoritoId); return; }
         const lista = e.target.closest?.("[data-interesse-id]"); if (lista) { toggleInteresse(lista.dataset.interesseId); return; }
@@ -147,8 +147,8 @@
     });
     document.addEventListener("DOMContentLoaded", () => {
         document.querySelector("[data-lista-whatsapp]")?.addEventListener("click", enviarLista);
-        document.querySelector("[data-lista-limpar]")?.addEventListener("click", async () => { await window.QualemaxDB?.limparInteresse?.(); interesse.clear(); atualizarContadores(); atualizarBotoes(); await renderizarDialogo(); anunciar("Lista de interesse limpa."); });
-        document.querySelector("[data-favoritos-limpar]")?.addEventListener("click", async () => { await window.QualemaxDB?.limparFavoritos?.(); favoritos.clear(); atualizarContadores(); atualizarBotoes(); await renderizarDialogo(); anunciar("Favoritos limpos."); });
+        document.querySelector("[data-lista-limpar]")?.addEventListener("click", async () => { await window.QualimaxDB?.limparInteresse?.(); interesse.clear(); atualizarContadores(); atualizarBotoes(); await renderizarDialogo(); anunciar("Lista de interesse limpa."); });
+        document.querySelector("[data-favoritos-limpar]")?.addEventListener("click", async () => { await window.QualimaxDB?.limparFavoritos?.(); favoritos.clear(); atualizarContadores(); atualizarBotoes(); await renderizarDialogo(); anunciar("Favoritos limpos."); });
         document.querySelector("[data-escolhas-modal]")?.addEventListener("click", e => { if (e.target === e.currentTarget) fecharDialogo(); });
         document.addEventListener("keydown", e => {
             const m=document.querySelector("[data-escolhas-modal]");
@@ -163,5 +163,5 @@
         });
     });
 
-    window.QualemaxColecoes = { toggleFavorito, toggleInteresse, registrarVisualizacao, abrirDialogo, getFavoritos: () => [...favoritos], getInteresse: () => [...interesse] };
+    window.QualimaxColecoes = { toggleFavorito, toggleInteresse, registrarVisualizacao, abrirDialogo, getFavoritos: () => [...favoritos], getInteresse: () => [...interesse] };
 })();

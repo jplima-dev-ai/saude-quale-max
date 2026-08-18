@@ -34,8 +34,9 @@
             }
         } catch {}
 
-        const nomeLoja = config.empresa?.nome || "Saúde Qualemax";
+        const nomeLoja = config.empresa?.nome || "Saúde Qualimax";
         document.querySelectorAll(".logo-texto").forEach(el => el.textContent = nomeLoja);
+        document.querySelectorAll(".logo-imagem").forEach(img => { if (config.marca?.logoImagem) img.src = `../${config.marca.logoImagem}`; img.alt = nomeLoja; });
         if (produto) document.title = `${produto.nome} | ${nomeLoja}`;
 
         const numero = String(config.contato?.whatsapp || "").replace(/\D/g, "");
@@ -55,9 +56,9 @@
 
         // Integra a página individual aos mesmos favoritos/lista do catálogo.
         const acoes = document.querySelector(".produto-pagina-acoes");
-        if (acoes && produto && window.QualemaxDB) {
-            await window.QualemaxDB.init?.();
-            await window.QualemaxDB.seedProdutos?.(catalogo);
+        if (acoes && produto && window.QualimaxDB) {
+            await window.QualimaxDB.init?.();
+            await window.QualimaxDB.seedProdutos?.(catalogo);
 
             const fav = document.createElement("button");
             fav.type = "button";
@@ -71,8 +72,8 @@
 
             const atualizarEstados = async () => {
                 const [isFav, isLista] = await Promise.all([
-                    window.QualemaxDB.isFavorito(produto.id),
-                    window.QualemaxDB.isInteresse(produto.id)
+                    window.QualimaxDB.isFavorito(produto.id),
+                    window.QualimaxDB.isInteresse(produto.id)
                 ]);
                 fav.setAttribute("aria-pressed", String(isFav));
                 fav.textContent = isFav ? "★ Favorito" : "☆ Favoritar";
@@ -81,12 +82,12 @@
             };
 
             fav.addEventListener("click", async () => {
-                const ativo = await window.QualemaxDB.toggleFavorito(produto.id);
+                const ativo = await window.QualimaxDB.toggleFavorito(produto.id);
                 if (status) status.textContent = ativo ? "Produto adicionado aos favoritos." : "Produto removido dos favoritos.";
                 await atualizarEstados();
             });
             lista.addEventListener("click", async () => {
-                const ativo = await window.QualemaxDB.toggleInteresse(produto.id);
+                const ativo = await window.QualimaxDB.toggleInteresse(produto.id);
                 if (status) status.textContent = ativo ? "Produto adicionado à lista de interesse." : "Produto removido da lista de interesse.";
                 await atualizarEstados();
             });
@@ -97,7 +98,7 @@
             if (compartilhar) acoes.insertBefore(lista, compartilhar);
             else acoes.append(lista);
             await atualizarEstados();
-            await window.QualemaxDB.addHistorico?.(produto.id);
+            await window.QualimaxDB.addHistorico?.(produto.id);
         }
 
         document.querySelector("[data-compartilhar]")?.addEventListener("click", async () => {

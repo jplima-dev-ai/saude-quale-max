@@ -3,7 +3,7 @@
 
     const normalizarNumero = (valor) => String(valor ?? "").replace(/\D/g, "");
     const fallback = {
-        empresa: { nome: "Saúde Qualemax", descricao: "" },
+        empresa: { nome: "Saúde Qualimax", descricao: "" },
         contato: {},
         marca: {},
         redes: {},
@@ -95,7 +95,7 @@
         const contato = config.contato || {};
         const redes = config.redes || {};
         const seo = config.seo || {};
-        const nome = empresa.nome || "Saúde Qualemax";
+        const nome = empresa.nome || "Saúde Qualimax";
         const dados = {
             "@context": "https://schema.org",
             "@type": "Organization",
@@ -118,17 +118,23 @@
 
     const aplicarSEO = (config) => {
         const seo = config.seo || {};
-        if (seo.title) document.title = seo.title;
+        const pagina = document.body?.dataset.page || "home";
+        const especifico = seo.paginas?.[pagina] || {};
+        const dados = pagina === "home"
+            ? { title: seo.title, description: seo.description, canonical: seo.canonical, ...especifico }
+            : especifico;
+
+        if (dados.title) document.title = dados.title;
         const meta = document.querySelector('meta[name="description"]');
-        if (meta && seo.description) meta.content = seo.description;
+        if (meta && dados.description) meta.content = dados.description;
         const canonical = document.querySelector('link[rel="canonical"]');
-        if (canonical && seo.canonical) canonical.href = seo.canonical;
+        if (canonical && dados.canonical) canonical.href = dados.canonical;
         const ogTitle = document.querySelector('meta[property="og:title"]');
         const ogDescription = document.querySelector('meta[property="og:description"]');
         const ogUrl = document.querySelector('meta[property="og:url"]');
-        if (ogTitle && seo.title) ogTitle.content = seo.title;
-        if (ogDescription && seo.description) ogDescription.content = seo.description;
-        if (ogUrl && seo.canonical) ogUrl.content = seo.canonical;
+        if (ogTitle && dados.title) ogTitle.content = dados.title;
+        if (ogDescription && dados.description) ogDescription.content = dados.description;
+        if (ogUrl && dados.canonical) ogUrl.content = dados.canonical;
     };
 
     document.addEventListener("DOMContentLoaded", async () => {
@@ -160,15 +166,19 @@
 
         document.querySelectorAll(".logo-texto, [data-config-nome]").forEach((el) => { el.textContent = nome; });
         document.querySelectorAll("[data-config-logo]").forEach((el) => { el.textContent = marca.logo || "🌿"; });
+        document.querySelectorAll("[data-config-logo-img]").forEach((img) => {
+            if (marca.logoImagem) { img.src = marca.logoImagem; img.alt = nome; img.hidden = false; }
+            else { img.hidden = true; }
+        });
         document.querySelectorAll("[data-config-logo-label]").forEach((el) => { el.setAttribute("aria-label", `${nome} - voltar ao início`); });
         document.querySelectorAll("[data-config-whatsapp-label]").forEach((el) => { el.setAttribute("aria-label", `Falar com ${nome} pelo WhatsApp - abre em nova aba`); });
-        document.querySelectorAll("[data-config-telefone]").forEach((el) => { el.textContent = contato.telefone || "Telefone não informado"; });
-        document.querySelectorAll("[data-config-email]").forEach((el) => { el.textContent = contato.email || "E-mail não informado"; });
-        document.querySelectorAll("[data-config-endereco]").forEach((el) => { el.textContent = contato.endereco || "Endereço não informado"; });
+        document.querySelectorAll("[data-config-telefone]").forEach((el) => { el.textContent = contato.telefone || ""; });
+        document.querySelectorAll("[data-config-email]").forEach((el) => { el.textContent = contato.email || ""; });
+        document.querySelectorAll("[data-config-endereco]").forEach((el) => { el.textContent = contato.endereco || ""; });
         document.querySelectorAll("[data-config-cidade]").forEach((el) => { el.textContent = [empresa.cidade, empresa.estado].filter(Boolean).join(" - "); });
 
         const redesAtivas = aplicarRedesSociais(redes);
-        window.QualemaxRedesAtivas = redesAtivas;
+        window.QualimaxRedesAtivas = redesAtivas;
         document.querySelectorAll('[data-chat-acao="redes"]').forEach((botao) => { botao.hidden = redesAtivas.length === 0; });
 
         document.querySelectorAll("[data-configurable-whatsapp]").forEach((link) => aplicarLinkWhatsApp(link, numero, nome));
@@ -186,7 +196,7 @@
         aplicarSEO(config);
         aplicarDadosEstruturados(config);
 
-        window.QualemaxConfig = config;
-        document.dispatchEvent(new CustomEvent("qualemax:config-ready", { detail: config }));
+        window.QualimaxConfig = config;
+        document.dispatchEvent(new CustomEvent("qualimax:config-ready", { detail: config }));
     });
 })();

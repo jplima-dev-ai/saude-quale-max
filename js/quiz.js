@@ -30,11 +30,11 @@ class QuizInterativo {
     }
 
     async carregarConfig() {
-        if (window.QualemaxConfig) {
-            this.config = window.QualemaxConfig;
+        if (window.QualimaxConfig) {
+            this.config = window.QualimaxConfig;
             return;
         }
-        await new Promise((resolve) => document.addEventListener("qualemax:config-ready", (evento) => {
+        await new Promise((resolve) => document.addEventListener("qualimax:config-ready", (evento) => {
             this.config = evento.detail || {};
             resolve();
         }, { once: true }));
@@ -571,7 +571,7 @@ class QuizInterativo {
             botao.addEventListener("click", () => {
                 const id = Number(botao.dataset.quizProdutoId);
                 const produto = this.produtosData.produtos.find((item) => Number(item.id) === id);
-                if (produto && window.QualemaxProdutos?.abrirModal) window.QualemaxProdutos.abrirModal(produto);
+                if (produto && window.QualimaxProdutos?.abrirModal) window.QualimaxProdutos.abrirModal(produto);
             });
         });
 

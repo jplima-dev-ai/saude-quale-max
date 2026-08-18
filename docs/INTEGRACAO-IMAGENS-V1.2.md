@@ -1,4 +1,4 @@
-# Integração de imagens — Saúde Qualemax v1.2
+# Integração de imagens — Saúde Qualimax v1.2
 
 ## Resultado
 

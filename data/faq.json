@@ -1,9 +1,24 @@
 {
   "faq": [
-    {"pergunta":"Quais tipos de produtos vocês oferecem?","resposta":"A Saúde Qualemax apresenta produtos naturais, vitaminas, suplementos, chás e itens de cuidados pessoais. A disponibilidade deve ser confirmada com a equipe."},
-    {"pergunta":"Os produtos possuem disponibilidade garantida?","resposta":"Não. O catálogo apresenta os produtos cadastrados no projeto, mas disponibilidade e condições atuais devem ser confirmadas com a equipe."},
-    {"pergunta":"Como faço para comprar?","resposta":"Você pode consultar um produto no catálogo e falar com a equipe pelo WhatsApp para confirmar disponibilidade, valor e orientações de atendimento."},
-    {"pergunta":"Vocês fazem entrega?","resposta":"A loja informa atendimento com entrega local. Consulte a equipe pelo WhatsApp para verificar se o seu endereço está dentro da área atendida."},
-    {"pergunta":"O quiz fornece orientação médica?","resposta":"Não. O quiz apenas relaciona suas preferências informadas aos produtos cadastrados no catálogo. Ele não substitui avaliação ou orientação de profissional de saúde."}
+    {
+      "pergunta": "Quais tipos de produtos vocês oferecem?",
+      "resposta": "A Saúde Qualimax apresenta produtos naturais, vitaminas, suplementos, chás e itens de cuidados pessoais. A disponibilidade deve ser confirmada com a equipe."
+    },
+    {
+      "pergunta": "Os produtos possuem disponibilidade garantida?",
+      "resposta": "Não. O catálogo apresenta os produtos cadastrados no projeto, mas disponibilidade e condições atuais devem ser confirmadas com a equipe."
+    },
+    {
+      "pergunta": "Como faço para comprar?",
+      "resposta": "Você pode consultar um produto no catálogo e falar com a equipe pelo WhatsApp para confirmar disponibilidade, valor e orientações de atendimento."
+    },
+    {
+      "pergunta": "Vocês fazem entrega?",
+      "resposta": "A loja informa atendimento com entrega local. Consulte a equipe pelo WhatsApp para verificar se o seu endereço está dentro da área atendida."
+    },
+    {
+      "pergunta": "O quiz fornece orientação médica?",
+      "resposta": "Não. O quiz apenas relaciona suas preferências informadas aos produtos cadastrados no catálogo. Ele não substitui avaliação ou orientação de profissional de saúde."
+    }
   ]
 }

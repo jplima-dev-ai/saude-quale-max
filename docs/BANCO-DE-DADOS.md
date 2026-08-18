@@ -1,4 +1,4 @@
-# Banco de dados — Saúde Qualemax v2.0
+# Banco de dados — Saúde Qualimax v2.0
 
 ## Tecnologia
 A v2.0 usa IndexedDB, banco de dados local nativo do navegador. Isso mantém o projeto compatível com GitHub Pages e outras hospedagens estáticas.
@@ -14,7 +14,7 @@ A v2.0 usa IndexedDB, banco de dados local nativo do navegador. Isso mantém o p
 - `meta`: metadados de sincronização.
 
 ## Privacidade
-Esses dados ficam no navegador/dispositivo do visitante. Não são enviados automaticamente para a Saúde Qualemax. A lista de interesse só vira informação enviada à loja quando o visitante escolhe consultar pelo WhatsApp.
+Esses dados ficam no navegador/dispositivo do visitante. Não são enviados automaticamente para a Saúde Qualimax. A lista de interesse só vira informação enviada à loja quando o visitante escolhe consultar pelo WhatsApp.
 
 ## Fallback
 Se IndexedDB não puder ser aberto, o sistema possui fallback local para evitar quebra dos recursos principais.

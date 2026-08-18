@@ -1,4 +1,4 @@
-# Saúde Qualemax — Rodada 1.2
+# Saúde Qualimax — Rodada 1.2
 
 ## Objetivo
 Revisão corretiva da base v1.1 rodada 7, priorizando bugs funcionais, acessibilidade e consistência entre componentes dinâmicos.

@@ -5,7 +5,7 @@
       "nome": "Vitamina C Natural",
       "categoria": "vitaminas",
       "imagem": "produtos-naturais.webp",
-      "descricao": "Vitamina C cadastrada no catálogo da Saúde Qualemax.",
+      "descricao": "Vitamina C cadastrada no catálogo da Saúde Qualimax.",
       "beneficios": [
         "Energia",
         "Imunidade",
@@ -161,7 +161,7 @@
       "nome": "Chá Verde Matcha",
       "categoria": "chas",
       "imagem": "chas-ervas.webp",
-      "descricao": "Chá verde matcha cadastrado no catálogo da Saúde Qualemax.",
+      "descricao": "Chá verde matcha cadastrado no catálogo da Saúde Qualimax.",
       "beneficios": [
         "Energia",
         "Foco",

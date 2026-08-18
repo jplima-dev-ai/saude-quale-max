@@ -1,9 +1,9 @@
 (() => {
     "use strict";
 
-    const DB_NAME = "qualemax-db";
+    const DB_NAME = "qualimax-db";
     const DB_VERSION = 2;
-    const fallbackKey = "qualemax-db-fallback-v2";
+    const fallbackKey = "qualimax-db-fallback-v2";
     let dbPromise = null;
 
     const abrirDB = () => {
@@ -140,7 +140,7 @@
         await put("historico", { produtoId, vistoEm: Date.now() });
     };
 
-    window.QualemaxDB = {
+    window.QualimaxDB = {
         init: abrirDB,
         seedProdutos,
         getProdutos: () => getAll("produtos"),
