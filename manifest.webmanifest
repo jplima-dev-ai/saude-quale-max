@@ -1,7 +1,7 @@
 {
   "name": "Saúde Qualimax",
   "short_name": "Saúde Qualimax",
-  "description": "Produtos naturais, suplementos, vitaminas, itens a granel e alimentação saudável.",
+  "description": "Produtos naturais, chás, castanhas, sementes, vitaminas e suplementos com atendimento humano.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

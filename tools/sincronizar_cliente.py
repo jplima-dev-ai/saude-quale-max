@@ -434,6 +434,11 @@ def validar(config: dict, produtos: list[dict]):
     exigir(len(produtos) > 0, "O catálogo não possui produtos.")
     slugs = [str(p.get("slug") or "") for p in produtos]
     exigir(len(slugs) == len(set(slugs)), "Existem slugs de produtos duplicados.")
+    for produto in produtos:
+        slug = str(produto.get("slug") or "")
+        imagem = str(produto.get("imagem") or "")
+        exigir(bool(re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug)), f"Slug inválido: {slug!r}")
+        exigir(bool(re.fullmatch(r"[A-Za-z0-9._-]+", imagem)), f"Nome de imagem inválido no produto {produto.get('nome')!r}")
 
     recursos = config.get("recursos", {})
     for chave in ("quiz", "jornadaLocal", "colecoes", "pwa"):

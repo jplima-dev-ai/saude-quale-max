@@ -1,4 +1,4 @@
-const CACHE = "qualimax-v2.9";
+const CACHE = "qualimax-v2.9.2";
 const SHELL = [
   "./", "./index.html", "./offline.html",
   "./catalogo.html",
@@ -40,6 +40,21 @@ self.addEventListener("fetch", event => {
   event.respondWith((async () => {
     const cache = await caches.open(CACHE);
     const semQuery = url.search === "";
+    const dadoDinamico = /\/data\/[^/]+\.json$/i.test(url.pathname);
+
+    // Configuração e catálogo mudam com frequência e devem priorizar a rede.
+    if (dadoDinamico) {
+      try {
+        const response = await fetch(event.request, { cache: "no-store" });
+        if (response && response.ok && response.type === "basic") {
+          cache.put(event.request, response.clone()).catch(() => {});
+        }
+        return response;
+      } catch {
+        const cached = await caches.match(event.request, { ignoreSearch: true });
+        return cached || Response.error();
+      }
+    }
 
     // Navegações usam rede primeiro para reduzir risco de conteúdo obsoleto.
     if (event.request.mode === "navigate") {

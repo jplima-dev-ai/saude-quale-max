@@ -57,7 +57,8 @@
         link.className = "produto-relacionado-pagina-link";
 
         const img = document.createElement("img");
-        img.src = `../img/thumbs/${nomeArquivoSeguro(produto.imagem)}`;
+        const arquivoImagem = nomeArquivoSeguro(produto.imagem);
+        if (arquivoImagem) img.src = `../img/thumbs/${arquivoImagem}`;
         img.alt = "";
         img.loading = "lazy";
         img.decoding = "async";
@@ -71,7 +72,8 @@
         const copy = document.createElement("span");
         copy.textContent = produto.copy || produto.descricao || "Conheça esta opção do catálogo.";
         box.append(nome, copy);
-        link.append(img, box);
+        if (arquivoImagem) link.append(img);
+        link.append(box);
         artigo.append(link);
         return artigo;
     };

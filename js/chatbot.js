@@ -112,6 +112,10 @@
     };
 
     const quizAtivo = () => window.QualimaxConfig?.recursos?.quiz !== false;
+    const colecoesAtivas = () =>
+        window.QualimaxConfig?.recursos?.colecoes !== false &&
+        window.QualimaxColecoes?.ativa?.() !== false;
+
 
     const irQuiz = () => {
         if (!quizAtivo()) {
@@ -172,7 +176,8 @@
         card.className = "chat-produto-card";
 
         const imagem = document.createElement("img");
-        imagem.src = `img/thumbs/${nomeArquivoSeguro(produto.imagem)}`;
+        const arquivoImagem = nomeArquivoSeguro(produto.imagem);
+        if (arquivoImagem) imagem.src = `img/thumbs/${arquivoImagem}`;
         imagem.alt = "";
         imagem.loading = "lazy";
         imagem.width = 96;
@@ -205,7 +210,7 @@
         });
         acoes.append(abrir);
 
-        if (window.QualimaxColecoes?.toggleInteresse) {
+        if (colecoesAtivas() && window.QualimaxColecoes?.toggleInteresse) {
             const lista = document.createElement("button");
             lista.type = "button";
             lista.textContent = "Adicionar à minha lista";
@@ -218,7 +223,8 @@
         }
 
         conteudo.append(nome, texto, acoes);
-        card.append(imagem, conteudo);
+        if (arquivoImagem) card.append(imagem);
+        card.append(conteudo);
         return card;
     };
 
@@ -269,11 +275,12 @@
         estado.contextoResultados = contexto;
         if (!itens.length) {
             adicionarMensagem("Não encontrei produtos que combinem com todos esses critérios no catálogo atual.");
-            adicionarAcoes([
-                { texto: "Limpar preferências", valor: "limpar preferencias" },
-                { texto: "Fazer o quiz", acao: () => { fecharChat(); irQuiz(); } },
-                { texto: "Falar com a equipe", acao: () => adicionarWhatsAppNoChat() }
-            ]);
+            const acoes = [
+                { texto: "Limpar preferências", valor: "limpar preferencias" }
+            ];
+            if (quizAtivo()) acoes.push({ texto: "Fazer o quiz", acao: () => { fecharChat(); irQuiz(); } });
+            acoes.push({ texto: "Falar com a equipe", acao: () => adicionarWhatsAppNoChat() });
+            adicionarAcoes(acoes);
             return;
         }
         mostrarPaginaResultados(true);
@@ -439,7 +446,9 @@
         }
 
         if (/meus favoritos|favoritos|minha lista|minhas escolhas|lista de interesse/.test(termo)) {
-            if (window.QualimaxColecoes?.abrirDialogo) {
+            if (window.QualimaxConfig?.recursos?.colecoes === false) {
+                adicionarMensagem("Favoritos e lista de interesse não estão ativos nesta configuração da loja.");
+            } else if (colecoesAtivas() && window.QualimaxColecoes?.abrirDialogo) {
                 adicionarMensagem("Vou abrir suas escolhas salvas neste navegador.");
                 fecharChat();
                 window.setTimeout(() => window.QualimaxColecoes.abrirDialogo(), 0);
@@ -547,11 +556,12 @@
         }
 
         adicionarMensagem("Não encontrei uma correspondência segura no catálogo com esses critérios.");
-        adicionarAcoes([
-            { texto: "Limpar preferências", valor: "limpar preferencias" },
-            { texto: "Fazer o quiz", acao: () => { fecharChat(); irQuiz(); } },
-            { texto: "Falar com a equipe", acao: () => adicionarWhatsAppNoChat() }
-        ]);
+        const acoes = [
+            { texto: "Limpar preferências", valor: "limpar preferencias" }
+        ];
+        if (quizAtivo()) acoes.push({ texto: "Fazer o quiz", acao: () => { fecharChat(); irQuiz(); } });
+        acoes.push({ texto: "Falar com a equipe", acao: () => adicionarWhatsAppNoChat() });
+        adicionarAcoes(acoes);
     };
 
     document.addEventListener("qualimax:produto-visto", (evento) => {

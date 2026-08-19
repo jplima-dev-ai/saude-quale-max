@@ -2,6 +2,27 @@
 
 Histórico consolidado das principais evoluções da Saúde Qualimax. Relatórios antigos de rodada foram removidos da pasta `docs/` para evitar duplicação.
 
+## 2.9.2 — Copywriting de produto e experiência
+
+- reescrita das 32 copys de produto com identidade própria e CTAs contextuais;
+- home reposicionada para descoberta, clareza e conversão sem promessas médicas;
+- catálogo com microcopy mais orientada a busca, comparação e salvamento;
+- páginas Sobre, Contato e Quiz com mensagens mais objetivas e humanas;
+- SEO descriptions refinadas para intenção local e termos reais do catálogo;
+- redução de repetição entre seções e melhor progressão narrativa da jornada.
+
+## 2.9.1 — QA, correções e estabilidade modular
+
+- Max deixa de sugerir Quiz em fluxos de fallback quando o módulo está desativado;
+- Max e cards deixam de expor lista/favoritos quando coleções estão desativadas;
+- bloco “Suas escolhas” do catálogo passa a respeitar corretamente `recursos.colecoes`;
+- Quiz em acesso direto exibe estado indisponível quando o módulo está desligado;
+- cards do catálogo deixam de criar controles de coleção quando o recurso está desativado;
+- JSONs dinâmicos da PWA passam a usar network-first com fallback offline;
+- imagens inválidas deixam de gerar requisições para diretórios;
+- sincronizador e auditoria validam slugs e nomes de arquivo;
+- auditoria passa a testar coerência de módulos opcionais.
+
 ## 2.9 — Módulos e auditoria comercial
 
 - recursos passam a ser ativáveis por cliente via `data/config.json`;

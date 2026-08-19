@@ -1,7 +1,7 @@
 {
   "empresa": {
     "nome": "Saúde Qualimax",
-    "descricao": "Produtos naturais, suplementos, vitaminas, itens a granel e alimentação saudável.",
+    "descricao": "Produtos naturais, chás, castanhas, sementes, vitaminas e suplementos com atendimento humano.",
     "cidade": "Serra",
     "estado": "ES",
     "site": "https://jplima-dev-ai.github.io/saude-quali-max/",
@@ -37,32 +37,32 @@
   },
   "seo": {
     "title": "Saúde Qualimax | Produtos Naturais em Serra - ES",
-    "description": "Produtos naturais, suplementos, vitaminas, itens a granel e alimentação saudável em Serra - ES. Fale com a Saúde Qualimax pelo WhatsApp.",
+    "description": "Explore produtos naturais, chás, castanhas, sementes, vitaminas e suplementos na Saúde Qualimax em Serra - ES. Tire dúvidas e consulte disponibilidade pelo WhatsApp.",
     "canonical": "https://jplima-dev-ai.github.io/saude-quali-max/",
     "paginas": {
       "home": {
         "title": "Saúde Qualimax | Produtos Naturais em Serra - ES",
-        "description": "Produtos naturais, suplementos, vitaminas e itens a granel com atendimento humanizado em Laranjeiras, Serra - ES.",
+        "description": "Descubra produtos naturais, chás, alimentos, vitaminas e suplementos com catálogo inteligente e atendimento humano em Serra - ES.",
         "canonical": "https://jplima-dev-ai.github.io/saude-quali-max/"
       },
       "catalogo": {
         "title": "Catálogo de Produtos Naturais | Saúde Qualimax",
-        "description": "Explore o catálogo da Saúde Qualimax com produtos naturais, suplementos, vitaminas, chás, sementes, castanhas e alimentos.",
+        "description": "Explore e compare produtos naturais, suplementos, vitaminas, chás, sementes, castanhas e alimentos no catálogo da Saúde Qualimax.",
         "canonical": "https://jplima-dev-ai.github.io/saude-quali-max/catalogo.html"
       },
       "quiz": {
         "title": "Quiz de Produtos | Saúde Qualimax",
-        "description": "Responda ao quiz da Saúde Qualimax e explore produtos do catálogo relacionados às suas preferências.",
+        "description": "Responda a perguntas rápidas e encontre produtos do catálogo da Saúde Qualimax relacionados às suas preferências.",
         "canonical": "https://jplima-dev-ai.github.io/saude-quali-max/quiz.html"
       },
       "sobre": {
         "title": "Sobre a Saúde Qualimax | Serra - ES",
-        "description": "Conheça a Saúde Qualimax, sua proposta de atendimento humanizado e sua seleção de produtos naturais em Laranjeiras, Serra - ES.",
+        "description": "Conheça a Saúde Qualimax: curadoria de produtos naturais, experiência acessível e atendimento humano em Laranjeiras, Serra - ES.",
         "canonical": "https://jplima-dev-ai.github.io/saude-quali-max/sobre.html"
       },
       "contato": {
         "title": "Contato | Saúde Qualimax em Serra - ES",
-        "description": "Fale com a Saúde Qualimax pelo WhatsApp, e-mail ou Instagram e encontre a loja em Laranjeiras, Serra - ES.",
+        "description": "Fale com a Saúde Qualimax para consultar produtos, disponibilidade, retirada e entrega em Serra - ES.",
         "canonical": "https://jplima-dev-ai.github.io/saude-quali-max/contato.html"
       }
     }

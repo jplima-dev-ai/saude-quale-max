@@ -22,8 +22,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": false,
-      "copy": "Um pequeno frasco, uma rotina mais simples. Para quem gosta de deixar a suplementação organizada e ter a Vitamina C sempre à mão.",
-      "cta": "Quero saber mais",
+      "copy": "Vitamina C sem complicação: uma opção prática para quem quer consultar composição, apresentação e encaixar a suplementação na rotina com mais clareza.",
+      "cta": "Conhecer esta opção",
       "slug": "vitamina-c-natural"
     },
     {
@@ -48,8 +48,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": false,
-      "copy": "Quando praticidade importa, reunir as vitaminas do grupo B em uma única opção pode deixar a rotina muito mais fácil de acompanhar.",
-      "cta": "Quero saber mais",
+      "copy": "Uma fórmula, várias vitaminas do complexo B. Compare a composição e descubra se esta apresentação combina com a praticidade que você procura no dia a dia.",
+      "cta": "Ver composição e detalhes",
       "slug": "complexo-b-completo"
     },
     {
@@ -74,8 +74,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": false,
-      "copy": "Dois nomes conhecidos reunidos em uma única opção. Uma combinação para conhecer melhor e comparar com calma antes de incluir na rotina.",
-      "cta": "Quero saber mais",
+      "copy": "Ferro e vitamina C reunidos em uma única apresentação. Veja os detalhes da fórmula, compare com outras opções e tire suas dúvidas antes de escolher.",
+      "cta": "Conhecer a fórmula",
       "slug": "ferro-vitamina-c"
     },
     {
@@ -100,8 +100,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": false,
-      "copy": "Um clássico que atravessa gerações e continua encontrando espaço nas prateleiras naturais. Daqueles produtos que vale a pena conhecer de perto.",
-      "cta": "Quero saber mais",
+      "copy": "Um clássico das casas de produtos naturais que continua despertando interesse. Conheça esta opção de própolis, confira a apresentação e veja os detalhes com a equipe.",
+      "cta": "Descobrir esta opção",
       "slug": "propolis-premium"
     },
     {
@@ -126,8 +126,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": false,
-      "copy": "Abra o pacote e o aroma já muda o ritmo do momento. Camomila para quem aprecia uma xícara suave, uma pausa e alguns minutos sem pressa.",
-      "cta": "Quero saber mais",
+      "copy": "Aroma delicado, sabor suave e uma xícara que combina com momentos sem pressa. Conheça nossa camomila e transforme uma pausa simples em um pequeno ritual.",
+      "cta": "Quero conhecer",
       "slug": "cha-camomila-premium"
     },
     {
@@ -152,8 +152,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": false,
-      "copy": "Um daqueles produtos que fazem a gente pensar: quantas possibilidades cabem em um único pote? Conheça as formas de uso indicadas no rótulo.",
-      "cta": "Quero saber mais",
+      "copy": "Um pote que desperta ideias: conheça o óleo de coco orgânico, confira as orientações do rótulo e descubra as possibilidades de uso desta apresentação.",
+      "cta": "Ver possibilidades de uso",
       "slug": "oleo-de-coco-organico"
     },
     {
@@ -178,8 +178,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": false,
-      "copy": "Verde intenso, sabor marcante e um ritual diferente do chá de todo dia. O matcha é para quem gosta de experimentar algo com personalidade.",
-      "cta": "Quero saber mais",
+      "copy": "Cor intensa, sabor vegetal marcante e uma experiência diferente do chá tradicional. Se você ainda não provou matcha, este pode ser um ótimo começo.",
+      "cta": "Descobrir o matcha",
       "slug": "cha-verde-matcha"
     },
     {
@@ -204,8 +204,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": false,
-      "copy": "Quer conhecer melhor as opções de colágeno? Este é um bom ponto de partida para comparar apresentação, composição e formas de uso.",
-      "cta": "Quero saber mais",
+      "copy": "Colágeno não é tudo igual. Compare apresentação, composição e modo de uso desta opção para entender melhor o que você está escolhendo.",
+      "cta": "Comparar detalhes",
       "slug": "colageno-hidrolisado"
     },
     {
@@ -231,8 +231,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": true,
-      "copy": "Tão pequena que quase passa despercebida — até começar a aparecer em frutas, iogurtes, vitaminas e receitas. A chia é pura versatilidade.",
-      "cta": "Quero saber mais",
+      "copy": "Pequena no tamanho, enorme nas possibilidades culinárias. A chia entra em frutas, iogurtes, vitaminas, massas e receitas sem roubar a cena.",
+      "cta": "Ver ideias para a rotina",
       "slug": "semente-de-chia"
     },
     {
@@ -257,8 +257,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": false,
-      "copy": "Dourada no nome e cheia de possibilidades na cozinha. Experimente imaginar a linhaça em frutas, massas, vitaminas e cafés da manhã.",
-      "cta": "Quero saber mais",
+      "copy": "Uma semente versátil para quem gosta de variar sem complicar. A linhaça dourada combina com frutas, vitaminas, massas e diferentes preparos do dia a dia.",
+      "cta": "Conhecer a linhaça",
       "slug": "semente-de-linhaca-dourada"
     },
     {
@@ -283,8 +283,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": false,
-      "copy": "Discreto no sabor, versátil no preparo. O psyllium é daqueles ingredientes que despertam curiosidade justamente porque cabe em diferentes combinações.",
-      "cta": "Quero saber mais",
+      "copy": "Um ingrediente discreto que cabe em diferentes preparos. Conheça o psyllium, confira as orientações de uso e veja se essa apresentação faz sentido para sua rotina.",
+      "cta": "Entender como usar",
       "slug": "psyllium-em-po"
     },
     {
@@ -309,8 +309,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": true,
-      "copy": "Tem ingrediente que nunca cansa porque sempre encontra um novo jeito de aparecer. A aveia vai do café da manhã à receita improvisada sem esforço.",
-      "cta": "Quero saber mais",
+      "copy": "Do café da manhã à receita de última hora, a aveia é daquelas escolhas que sempre encontram espaço. Simples, versátil e pronta para novas combinações.",
+      "cta": "Quero novas combinações",
       "slug": "aveia-em-flocos"
     },
     {
@@ -335,8 +335,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": false,
-      "copy": "A colher entra, a crocância aparece e o café da manhã ganha outra textura. Granola é convite para misturar, combinar e criar do seu jeito.",
-      "cta": "Quero saber mais",
+      "copy": "Crocância que muda o café da manhã em segundos. Sirva com frutas, iogurte ou do seu jeito e descubra como uma colher pode deixar a rotina mais interessante.",
+      "cta": "Descobrir a granola",
       "slug": "granola-tradicional"
     },
     {
@@ -361,8 +361,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": false,
-      "copy": "Uma castanha de sabor inconfundível e identidade brasileira. Boa para saborear pura, misturar ou transformar um lanche simples em algo especial.",
-      "cta": "Quero saber mais",
+      "copy": "Sabor brasileiro, textura marcante e praticidade para levar ou compartilhar. A castanha-do-pará transforma um intervalo comum em um lanche com personalidade.",
+      "cta": "Quero experimentar",
       "slug": "castanha-do-para"
     },
     {
@@ -387,8 +387,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": true,
-      "copy": "Difícil parar na primeira. A castanha de caju une crocância, sabor e praticidade em um daqueles lanches que dá vontade de ter sempre por perto.",
-      "cta": "Quero saber mais",
+      "copy": "Crocante, saborosa e fácil de levar: a castanha de caju é o tipo de escolha que desaparece do pote antes do esperado.",
+      "cta": "Quero conhecer",
       "slug": "castanha-de-caju"
     },
     {
@@ -414,8 +414,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": false,
-      "copy": "Cada punhado pode trazer uma combinação diferente. Castanhas e sementes juntas para quem gosta de variedade até nos pequenos intervalos do dia.",
-      "cta": "Quero saber mais",
+      "copy": "Um punhado, várias texturas. Este mix reúne castanhas e sementes para quem prefere variedade e gosta de descobrir uma combinação diferente a cada mordida.",
+      "cta": "Descobrir o mix",
       "slug": "mix-de-castanhas-e-sementes"
     },
     {
@@ -440,8 +440,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": true,
-      "copy": "Cremosa, intensa e pronta para mudar uma fruta, uma torrada, uma panqueca ou uma vitamina. Um pote, muitas ideias.",
-      "cta": "Quero saber mais",
+      "copy": "Cremosa, intensa e pronta para acompanhar frutas, torradas, panquecas e vitaminas. Um daqueles potes que fazem nascer novas ideias na cozinha.",
+      "cta": "Quero ideias para combinar",
       "slug": "pasta-de-amendoim-integral"
     },
     {
@@ -466,8 +466,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": false,
-      "copy": "Um ingrediente, várias possibilidades. O óleo de coco extravirgem convida quem gosta de experimentar novos usos e sabores na cozinha.",
-      "cta": "Quero saber mais",
+      "copy": "Um ingrediente versátil para quem gosta de explorar sabores e preparos. Conheça o óleo de coco extravirgem e confira as orientações desta apresentação.",
+      "cta": "Conhecer esta opção",
       "slug": "oleo-de-coco-extravirgem"
     },
     {
@@ -492,8 +492,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": false,
-      "copy": "Ácido, marcante e cheio de personalidade. O vinagre de maçã pode dar outro rumo a molhos, temperos e preparos que pedem um toque especial.",
-      "cta": "Quero saber mais",
+      "copy": "Acidez marcante para dar personalidade a molhos, saladas e temperos. Um ingrediente simples capaz de mudar completamente o rumo de uma receita.",
+      "cta": "Descobrir combinações",
       "slug": "vinagre-de-maca"
     },
     {
@@ -518,8 +518,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": false,
-      "copy": "A cor chega antes do sabor. A cúrcuma transforma o visual do prato e abre espaço para novas combinações na cozinha.",
-      "cta": "Quero saber mais",
+      "copy": "A cor dourada chama atenção antes mesmo do primeiro aroma. Use a cúrcuma para explorar novas combinações e dar identidade a diferentes preparos.",
+      "cta": "Quero explorar sabores",
       "slug": "curcuma-em-po"
     },
     {
@@ -544,8 +544,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": false,
-      "copy": "Basta um toque para o aroma aparecer. O gengibre em pó leva intensidade a chás, receitas e temperos sem ocupar quase espaço na despensa.",
-      "cta": "Quero saber mais",
+      "copy": "Aroma intenso sem precisar descascar ou ralar. O gengibre em pó entra em chás, receitas e temperos quando você quer praticidade com personalidade.",
+      "cta": "Ver como combinar",
       "slug": "gengibre-em-po"
     },
     {
@@ -570,8 +570,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": false,
-      "copy": "Tem aromas que fazem a receita parecer pronta antes mesmo da primeira colherada. A canela é um deles — e combina com muito mais do que sobremesas.",
-      "cta": "Quero saber mais",
+      "copy": "Um aroma que entrega aconchego antes da primeira colherada. A canela passeia por frutas, bebidas, mingaus, massas e sobremesas com facilidade.",
+      "cta": "Descobrir novas combinações",
       "slug": "canela-em-po"
     },
     {
@@ -596,8 +596,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": false,
-      "copy": "Uma xícara de cor rubi que chama atenção antes mesmo do primeiro gole. Hibisco para quem gosta de chás com presença e personalidade.",
-      "cta": "Quero saber mais",
+      "copy": "Cor rubi, sabor característico e presença na xícara. O hibisco é para quem quer sair dos chás de sempre e experimentar algo visualmente marcante.",
+      "cta": "Quero descobrir o hibisco",
       "slug": "cha-de-hibisco"
     },
     {
@@ -623,8 +623,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": false,
-      "copy": "Leve no aroma e familiar no sabor. A erva-cidreira combina com aqueles momentos em que tudo o que você quer é preparar uma xícara e desacelerar.",
-      "cta": "Quero saber mais",
+      "copy": "Aroma familiar e sabor delicado para acompanhar pausas tranquilas. A erva-cidreira transforma água quente e alguns minutos em um ritual simples.",
+      "cta": "Preparar uma nova pausa",
       "slug": "cha-de-erva-cidreira"
     },
     {
@@ -649,8 +649,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": true,
-      "copy": "Quente, aromático e com o toque marcante do gengibre. Uma escolha interessante para quem gosta de chás que não passam despercebidos.",
-      "cta": "Quero saber mais",
+      "copy": "Aroma quente e sabor marcante: o chá de gengibre é uma escolha para quem prefere uma xícara com personalidade do primeiro ao último gole.",
+      "cta": "Conhecer este chá",
       "slug": "cha-de-gengibre"
     },
     {
@@ -675,8 +675,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": true,
-      "copy": "Para quem quer conhecer uma opção prática de suplemento proteico em pó e comparar sabores, composição e apresentação antes de escolher.",
-      "cta": "Quero saber mais",
+      "copy": "Proteína em pó com praticidade para diferentes rotinas. Compare sabor, composição, porção e apresentação antes de decidir qual whey combina melhor com você.",
+      "cta": "Comparar esta opção",
       "slug": "whey-protein"
     },
     {
@@ -701,8 +701,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": false,
-      "copy": "Um nome que aparece o tempo todo no universo esportivo. Aqui você pode conhecer a creatina com calma, conferir detalhes e tirar dúvidas antes de decidir.",
-      "cta": "Quero saber mais",
+      "copy": "Um dos suplementos mais conhecidos do universo esportivo merece uma escolha bem informada. Confira composição, apresentação e detalhes desta creatina antes de decidir.",
+      "cta": "Ver detalhes da creatina",
       "slug": "creatina-monohidratada"
     },
     {
@@ -727,8 +727,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": false,
-      "copy": "Magnésio aparece em diferentes apresentações e composições. Esta opção é um convite para conferir os detalhes e entender exatamente o que está levando.",
-      "cta": "Quero saber mais",
+      "copy": "Magnésio existe em diferentes formas e apresentações. Conheça esta opção, confira exatamente o que ela oferece e compare antes de colocar no carrinho.",
+      "cta": "Conferir esta opção",
       "slug": "magnesio"
     },
     {
@@ -753,8 +753,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": true,
-      "copy": "Várias vitaminas, uma única opção para explorar. Ideal para quem quer comparar composição e praticidade sem transformar a rotina em uma coleção de frascos.",
-      "cta": "Quero saber mais",
+      "copy": "Várias vitaminas reunidas em uma única apresentação. Veja a composição completa e descubra se a praticidade deste multivitamínico combina com o que você procura.",
+      "cta": "Ver vitaminas da fórmula",
       "slug": "multivitaminico"
     },
     {
@@ -779,8 +779,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": false,
-      "copy": "Direta ao ponto: uma opção de Vitamina D para quem quer conferir concentração, apresentação e detalhes antes de escolher.",
-      "cta": "Quero saber mais",
+      "copy": "Uma opção direta para quem está pesquisando Vitamina D. Confira concentração, apresentação e orientações do rótulo antes de escolher.",
+      "cta": "Conferir concentração",
       "slug": "vitamina-d"
     },
     {
@@ -805,8 +805,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": true,
-      "copy": "O banho também pode ter seus pequenos rituais. Aroma de ervas e proposta natural para transformar um gesto cotidiano em um momento mais agradável.",
-      "cta": "Quero saber mais",
+      "copy": "Aroma de ervas e uma proposta natural para tornar o banho um momento mais agradável. Um cuidado cotidiano que começa pela experiência.",
+      "cta": "Quero conhecer",
       "slug": "sabonete-natural-de-ervas"
     },
     {
@@ -831,8 +831,8 @@
       ],
       "disponibilidade": "consultar",
       "destaque": false,
-      "copy": "Poucas gotas, um aroma impossível de ignorar. A lavanda tem presença delicada e transforma pequenos momentos pelo perfume.",
-      "cta": "Quero saber mais",
+      "copy": "O aroma delicado da lavanda transforma a atmosfera em poucos instantes. Conheça esta apresentação, confira as orientações do rótulo e descubra novas formas de apreciar a fragrância.",
+      "cta": "Descobrir a lavanda",
       "slug": "oleo-essencial-de-lavanda"
     }
   ]

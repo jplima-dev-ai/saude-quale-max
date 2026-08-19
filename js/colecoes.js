@@ -44,7 +44,7 @@
     };
 
     const toggleFavorito = async (id) => {
-        if (!window.QualimaxDB) return false;
+        if (!colecoesAtivas || !window.QualimaxDB) return false;
         const ativo = await window.QualimaxDB.toggleFavorito(Number(id));
         ativo ? favoritos.add(Number(id)) : favoritos.delete(Number(id));
         atualizarContadores(); atualizarBotoes(); await renderizarDialogo();
@@ -53,7 +53,7 @@
     };
 
     const toggleInteresse = async (id) => {
-        if (!window.QualimaxDB) return false;
+        if (!colecoesAtivas || !window.QualimaxDB) return false;
         const ativo = await window.QualimaxDB.toggleInteresse(Number(id));
         ativo ? interesse.add(Number(id)) : interesse.delete(Number(id));
         atualizarContadores(); atualizarBotoes(); await renderizarDialogo();
@@ -128,12 +128,13 @@
     };
 
     const registrarVisualizacao = async (produto) => {
-        if (!produto || !window.QualimaxDB) return;
+        if (!colecoesAtivas || !produto || !window.QualimaxDB) return;
         await window.QualimaxDB.addHistorico(Number(produto.id));
         await renderizarRecentes();
     };
 
     const abrirDialogo = () => {
+        if (!colecoesAtivas) return;
         const modal = document.querySelector("[data-escolhas-modal]"); if (!modal) return;
         ultimoFoco = document.activeElement; modal.hidden = false; modal.setAttribute("aria-hidden", "false"); document.body.classList.add("modal-aberto");
         modal.querySelector("[data-escolhas-fechar]")?.focus();
@@ -156,6 +157,7 @@
     document.addEventListener("qualimax:colecoes-refresh", atualizarBotoes);
     document.addEventListener("qualimax:produto-visto", async (e) => registrarVisualizacao(e.detail?.produto));
     document.addEventListener("click", (e) => {
+        if (!colecoesAtivas) return;
         const fav = e.target.closest?.("[data-favorito-id]"); if (fav) { toggleFavorito(fav.dataset.favoritoId); return; }
         const lista = e.target.closest?.("[data-interesse-id]"); if (lista) { toggleInteresse(lista.dataset.interesseId); return; }
         if (e.target.closest?.("[data-escolhas-abrir]")) abrirDialogo();
@@ -179,5 +181,13 @@
         });
     });
 
-    window.QualimaxColecoes = { toggleFavorito, toggleInteresse, registrarVisualizacao, abrirDialogo, getFavoritos: () => [...favoritos], getInteresse: () => [...interesse] };
+    window.QualimaxColecoes = {
+        toggleFavorito,
+        toggleInteresse,
+        registrarVisualizacao,
+        abrirDialogo,
+        getFavoritos: () => colecoesAtivas ? [...favoritos] : [],
+        getInteresse: () => colecoesAtivas ? [...interesse] : [],
+        ativa: () => colecoesAtivas
+    };
 })();

@@ -40,7 +40,10 @@
 
     const numeroWhatsApp = () => String(window.QualimaxConfig?.contato?.whatsapp || "").replace(/\D/g, "");
     const linkWhatsApp = (produto) => `https://wa.me/${numeroWhatsApp()}?text=${construirMensagem(produto)}`;
-    const imagemMiniatura = (produto) => `img/thumbs/${nomeArquivoSeguro(produto.imagem)}`;
+    const imagemMiniatura = (produto) => {
+        const arquivo = nomeArquivoSeguro(produto.imagem);
+        return arquivo ? `img/thumbs/${arquivo}` : "";
+    };
 
     const criarBotaoFavorito = (produto) => {
         const botao = document.createElement("button");
@@ -86,7 +89,8 @@
         if (produto.destaque) artigo.classList.add("produto-card-destaque");
 
         const imagem = document.createElement("img");
-        imagem.src = imagemMiniatura(produto);
+        const srcMiniatura = imagemMiniatura(produto);
+        if (srcMiniatura) imagem.src = srcMiniatura;
         imagem.alt = `${produto.nome} — ${categoriaNome(produto.categoria)}.`;
         imagem.loading = "lazy";
         imagem.decoding = "async";
@@ -100,7 +104,11 @@
 
         const imagemWrap = document.createElement("div");
         imagemWrap.className = "produto-imagem";
-        imagemWrap.append(imagem);
+        if (srcMiniatura) imagemWrap.append(imagem);
+        else {
+            imagemWrap.classList.add("imagem-indisponivel");
+            imagemWrap.setAttribute("aria-label", `Imagem de ${produto.nome} indisponível.`);
+        }
 
         const conteudo = document.createElement("div");
         conteudo.className = "produto-conteudo";
@@ -125,10 +133,12 @@
         detalhes.addEventListener("click", () => abrirModal(produto));
 
         acoes.append(detalhes);
-        const acoesSecundarias = document.createElement("div");
-        acoesSecundarias.className = "produto-acoes-secundarias";
-        acoesSecundarias.append(criarBotaoFavorito(produto), criarBotaoInteresse(produto));
-        acoes.append(acoesSecundarias);
+        if (window.QualimaxConfig?.recursos?.colecoes !== false) {
+            const acoesSecundarias = document.createElement("div");
+            acoesSecundarias.className = "produto-acoes-secundarias";
+            acoesSecundarias.append(criarBotaoFavorito(produto), criarBotaoInteresse(produto));
+            acoes.append(acoesSecundarias);
+        }
         if (numeroWhatsApp()) {
             const whatsapp = document.createElement("a");
             whatsapp.className = "link-destaque";
@@ -299,7 +309,8 @@
         const imagemWrap = document.createElement("div");
         imagemWrap.className = "produto-modal-imagem";
         const imagem = document.createElement("img");
-        imagem.src = `img/${nomeArquivoSeguro(produto.imagem)}`;
+        const arquivoImagem = nomeArquivoSeguro(produto.imagem);
+        if (arquivoImagem) imagem.src = `img/${arquivoImagem}`;
         imagem.alt = `${produto.nome} — ${categoriaNome(produto.categoria)}.`;
         imagem.decoding = "async";
         imagem.width = 928;

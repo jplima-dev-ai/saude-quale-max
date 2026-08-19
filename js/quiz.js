@@ -34,6 +34,10 @@ class QuizInterativo {
 
         try {
             await this.carregarConfig();
+            if (this.config?.recursos?.quiz === false) {
+                this.renderizarIndisponivel();
+                return;
+            }
             await this.carregarDados();
             this.renderizarPergunta();
         } catch (erro) {
@@ -93,6 +97,17 @@ class QuizInterativo {
                 "Estrutura de dados do quiz inválida."
             );
         }
+    }
+
+    renderizarIndisponivel() {
+        this.container.innerHTML = `
+            <section class="quiz-card" role="status" aria-labelledby="quiz-indisponivel-titulo">
+                <p class="secao-subtitulo">Descoberta guiada</p>
+                <h2 id="quiz-indisponivel-titulo">Este recurso não está disponível nesta loja.</h2>
+                <p>Você ainda pode explorar o catálogo ou conversar com o assistente da loja.</p>
+                <p><a class="botao botao-principal" href="catalogo.html#produtos">Explorar catálogo</a></p>
+            </section>
+        `;
     }
 
     mostrarErro() {

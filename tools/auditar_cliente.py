@@ -60,6 +60,12 @@ def main() -> int:
     for produto in produtos:
         slug = str(produto.get("slug") or "")
         imagem = str(produto.get("imagem") or "")
+        if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug):
+            erros.append(f"Slug inválido: {slug!r}")
+            continue
+        if not re.fullmatch(r"[A-Za-z0-9._-]+", imagem):
+            erros.append(f"Nome de imagem inválido no produto {produto.get('nome')!r}")
+            continue
         if str(produto.get("categoria")) not in cat_ids:
             erros.append(f"Categoria inválida no produto {produto.get('nome')}.")
         if not (ROOT / "produto" / f"{slug}.html").exists():
@@ -114,6 +120,26 @@ def main() -> int:
     manifest = carregar(ROOT / "manifest.webmanifest")
     if manifest.get("name") != nome:
         erros.append("manifest.webmanifest não está sincronizado com empresa.nome.")
+    recursos = config.get("recursos", {})
+    quiz_ativo = recursos.get("quiz", True) is not False
+    quiz_html = (ROOT / "quiz.html").read_text(encoding="utf-8")
+    if quiz_ativo:
+        if "quiz.html" not in sitemap:
+            erros.append("Quiz ativo, mas ausente do sitemap.")
+        if 'content="noindex, nofollow"' in quiz_html:
+            erros.append("Quiz ativo, mas marcado como noindex.")
+    else:
+        if "quiz.html" in sitemap:
+            erros.append("Quiz desativado ainda aparece no sitemap.")
+        if 'content="noindex, nofollow"' not in quiz_html:
+            erros.append("Quiz desativado não está marcado como noindex.")
+
+    if recursos.get("colecoes", True) is False:
+        catalogo_html = (ROOT / "catalogo.html").read_text(encoding="utf-8")
+        tags_colecoes = re.findall(r'<[^>]+data-recurso=["\']colecoes["\'][^>]*>', catalogo_html, re.I)
+        if any(not re.search(r'\bhidden\b', tag, re.I) for tag in tags_colecoes):
+            erros.append("Coleções desativadas possuem bloco estático visível no catálogo.")
+
 
     # Marca principal deve aparecer nas páginas públicas centrais e produtos.
     centrais = [ROOT / x for x in ("index.html", "catalogo.html", "quiz.html", "sobre.html", "contato.html")]

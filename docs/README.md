@@ -1,6 +1,6 @@
 # Documentação — Saúde Qualimax
 
-Documentação técnica da plataforma web Saúde Qualimax, atualmente na versão **2.9**.
+Documentação técnica da plataforma web Saúde Qualimax, atualmente na versão **2.9.2**.
 
 ## Guia rápido
 
