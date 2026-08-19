@@ -10,7 +10,7 @@
     const titulo = document.createElement("h1");
     titulo.textContent = "Conteúdo protegido";
     const texto = document.createElement("p");
-    texto.textContent = "Por segurança, esta página deve ser aberta diretamente no site da Saúde Qualimax.";
+    texto.textContent = "Por segurança, esta página deve ser aberta diretamente no site oficial da loja.";
     aviso.append(titulo, texto);
     document.body?.replaceChildren(aviso);
   };

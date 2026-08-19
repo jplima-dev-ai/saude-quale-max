@@ -24,7 +24,7 @@ Exemplo:
 ```bash
 git add --renormalize .
 git add .
-git commit -m "release: Saúde Qualimax v2.8"
+git commit -m "release: Saúde Qualimax v2.9"
 git push
 ```
 

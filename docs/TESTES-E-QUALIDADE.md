@@ -88,3 +88,16 @@ Testar:
 ## Publicação
 
 Depois do deploy, repetir um smoke test diretamente na URL pública.
+
+
+## Auditoria white-label
+
+Antes de entregar uma cópia para outro cliente:
+
+```bash
+python tools/sincronizar_cliente.py --check
+python tools/sincronizar_cliente.py
+python tools/auditar_cliente.py
+```
+
+Quando estiver partindo do template Qualimax, também procure resíduos da marca anterior com `--proibir`.

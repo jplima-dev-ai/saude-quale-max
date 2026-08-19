@@ -574,7 +574,7 @@
             const url = location.href;
             try {
                 if (navigator.share) {
-                    await navigator.share({ title: document.title, text: "Confira esta seleção no catálogo da Saúde Qualimax.", url });
+                    await navigator.share({ title: document.title, text: `Confira esta seleção no catálogo da ${window.QualimaxConfig?.empresa?.nome || "loja"}.`, url });
                     return;
                 }
                 if (!navigator.clipboard || !window.isSecureContext) throw new Error("clipboard-indisponivel");

@@ -4358,3 +4358,54 @@ html.movimento-reduzido .interacao-toque::after {
         text-align: left;
     }
 }
+
+
+/* ==========================================================
+   SAÚDE QUALIMAX v2.9 — módulos comerciais configuráveis
+   ========================================================== */
+
+.comercial-info-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.comercial-info-grid article {
+    min-width: 0;
+    padding: 1.15rem;
+    border: 1px solid rgba(23,107,77,.14);
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 10px 28px rgba(13,69,50,.06);
+}
+
+.comercial-info-grid h3 {
+    margin: 0 0 .45rem;
+    color: var(--verde-profundo,#0d4532);
+    font-size: 1rem;
+}
+
+.comercial-info-grid p {
+    margin: 0;
+    color: var(--texto-suave,#555);
+    line-height: 1.6;
+}
+
+[data-recurso][hidden],
+[data-comercial-item][hidden],
+[data-comercial-container][hidden] {
+    display: none !important;
+}
+
+@media (max-width: 980px) {
+    .comercial-info-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 620px) {
+    .comercial-info-grid {
+        grid-template-columns: 1fr;
+    }
+}

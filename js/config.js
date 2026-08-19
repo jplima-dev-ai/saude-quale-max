@@ -3,7 +3,7 @@
 
     const normalizarNumero = (valor) => String(valor ?? "").replace(/\D/g, "");
     const fallback = {
-        empresa: { nome: "Saúde Qualimax", descricao: "" },
+        empresa: { nome: "Loja", descricao: "" },
         contato: {},
         marca: {},
         redes: {},
@@ -109,14 +109,18 @@
         return ativas;
     };
 
-    const aplicarLinkWhatsApp = (link, numero, nome) => {
+    const aplicarLinkWhatsApp = (link, numero, nome, empresa = {}) => {
         if (!numero) {
             link.removeAttribute("href");
             link.setAttribute("aria-disabled", "true");
             link.classList.add("link-indisponivel");
             return;
         }
-        const texto = link.dataset.whatsappMensagem || `Olá! Vim pelo site da ${nome}.`;
+        const modelo = link.dataset.whatsappMensagem || "Olá! Vim pelo site da {empresa}.";
+        const texto = modelo
+            .replaceAll("{empresa}", nome)
+            .replaceAll("{cidade}", empresa.cidade || "")
+            .replaceAll("{estado}", empresa.estado || "");
         link.href = `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`;
         link.setAttribute("aria-disabled", "false");
         link.classList.remove("link-indisponivel");
@@ -127,7 +131,7 @@
         const contato = config.contato || {};
         const redes = config.redes || {};
         const seo = config.seo || {};
-        const nome = empresa.nome || "Saúde Qualimax";
+        const nome = empresa.nome || "Loja";
         const site = String(empresa.site || seo.canonical || "").replace(/\/?$/, "/");
         const pagina = document.body?.dataset.page || "home";
         const paginaSEO = seo.paginas?.[pagina] || {};
@@ -262,12 +266,62 @@
         document.querySelectorAll("[data-config-email]").forEach((el) => { el.textContent = contato.email || ""; });
         document.querySelectorAll("[data-config-endereco]").forEach((el) => { el.textContent = contato.endereco || ""; });
         document.querySelectorAll("[data-config-cidade]").forEach((el) => { el.textContent = [empresa.cidade, empresa.estado].filter(Boolean).join(" - "); });
+        document.querySelectorAll("[data-config-descricao]").forEach((el) => { el.textContent = empresa.descricao || ""; });
+        document.querySelectorAll("[data-config-localidade]").forEach((el) => { el.textContent = [empresa.cidade, empresa.estado].filter(Boolean).join(" - "); });
+        document.querySelectorAll("[data-config-frase-rodape]").forEach((el) => {
+            const local = [empresa.cidade, empresa.estado].filter(Boolean).join(" - ");
+            el.textContent = local
+                ? `Produtos naturais e atendimento humanizado em ${local}.`
+                : (empresa.descricao || "Produtos naturais e atendimento humanizado.");
+        });
+
+        const recursos = config.recursos || {};
+        document.querySelectorAll("[data-recurso]").forEach((el) => {
+            const chave = el.dataset.recurso;
+            if (Object.prototype.hasOwnProperty.call(recursos, chave)) {
+                el.hidden = recursos[chave] === false;
+            }
+        });
+
+        const comercial = config.comercial || {};
+        let possuiComercial = false;
+        ["horario","entrega","retirada","observacoes"].forEach((chave) => {
+            const valor = String(comercial[chave] || "").trim();
+            const item = document.querySelector(`[data-comercial-item="${chave}"]`);
+            document.querySelectorAll(`[data-config-comercial-${chave}]`).forEach((el) => {
+                el.textContent = valor;
+            });
+            if (item) item.hidden = !valor;
+            if (valor) possuiComercial = true;
+        });
+        const comercialContainer = document.querySelector("[data-comercial-container]");
+        if (comercialContainer) comercialContainer.hidden = !possuiComercial;
 
         const redesAtivas = aplicarRedesSociais(redes);
         window.QualimaxRedesAtivas = redesAtivas;
+        const instagram = redesAtivas.find((rede) => rede.chave === "instagram");
+        document.querySelectorAll("[data-config-instagram-handle]").forEach((el) => {
+            const bruto = String(redes.instagram || "").trim();
+            el.textContent = bruto && !/^https?:\/\//i.test(bruto)
+                ? (bruto.startsWith("@") ? bruto : `@${bruto}`)
+                : (instagram ? "Instagram" : "");
+            el.hidden = !instagram;
+        });
+        document.querySelectorAll("[data-config-instagram-link]").forEach((el) => {
+            if (instagram) {
+                el.href = instagram.url;
+                el.hidden = false;
+            } else {
+                el.removeAttribute("href");
+                el.hidden = true;
+            }
+        });
+        document.querySelectorAll("[data-config-instagram-card]").forEach((el) => {
+            el.hidden = !instagram;
+        });
         document.querySelectorAll('[data-chat-acao="redes"]').forEach((botao) => { botao.hidden = redesAtivas.length === 0; });
 
-        document.querySelectorAll("[data-configurable-whatsapp]").forEach((link) => aplicarLinkWhatsApp(link, numero, nome));
+        document.querySelectorAll("[data-configurable-whatsapp]").forEach((link) => aplicarLinkWhatsApp(link, numero, nome, empresa));
 
         document.querySelectorAll("[data-config-email-link]").forEach((link) => {
             const email = emailSeguro(contato.email); if (email) link.href = `mailto:${email}`;

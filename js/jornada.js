@@ -97,6 +97,20 @@ const init = async () => {
     const secao = document.querySelector("[data-jornada-local]");
     if (!secao || !window.QualimaxDB) return;
 
+    if (!window.QualimaxConfig) {
+        await new Promise((resolve) => {
+            const timer = window.setTimeout(resolve, 1200);
+            document.addEventListener("qualimax:config-ready", () => {
+                clearTimeout(timer);
+                resolve();
+            }, { once: true });
+        });
+    }
+    if (window.QualimaxConfig?.recursos?.jornadaLocal === false) {
+        secao.hidden = true;
+        return;
+    }
+
     try {
         const [pd, cd] = await Promise.all([
             carregarJSON("./data/produtos.json"),

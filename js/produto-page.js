@@ -161,7 +161,7 @@
             console.error("Produto:", erro);
         }
 
-        const nomeLoja = config.empresa?.nome || "Saúde Qualimax";
+        const nomeLoja = config.empresa?.nome || "Loja";
         document.querySelectorAll(".logo-texto").forEach(el => el.textContent = nomeLoja);
         document.querySelectorAll(".logo-imagem").forEach(img => {
             if (config.marca?.logoImagem && !config.marca.logoImagem.includes("..")) img.src = `../${config.marca.logoImagem}`;
@@ -191,7 +191,7 @@
 
         // Integra a página individual aos mesmos favoritos/lista do catálogo.
         const acoes = document.querySelector(".produto-pagina-acoes");
-        if (acoes && produto && window.QualimaxDB) {
+        if (acoes && produto && window.QualimaxDB && config.recursos?.colecoes !== false) {
             await window.QualimaxDB.init?.();
             await window.QualimaxDB.seedProdutos?.(catalogo);
 

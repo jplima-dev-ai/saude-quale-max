@@ -43,7 +43,7 @@ const renderHome = () => {
   grid.replaceChildren(...ordem.map(criarTrilha));
   const destaques=[
     ["Descubra por um novo ângulo","Hoje, deixe a curiosidade escolher o caminho.","Nem toda descoberta começa pelo nome de um produto. Às vezes começa por uma textura, um aroma, uma pausa ou uma nova ideia para a cozinha."],
-    ["Uma visita, vários caminhos","O que combina com o seu momento agora?","Explore a Qualimax por sensações e situações do cotidiano. Amanhã, outra trilha pode chamar mais a sua atenção."],
+    ["Uma visita, vários caminhos","O que combina com o seu momento agora?","Explore o catálogo por sensações e situações do cotidiano. Amanhã, outra trilha pode chamar mais a sua atenção."],
     ["Além da lista de produtos","Transforme o catálogo em uma coleção de ideias.","Comece por algo familiar, siga por uma categoria diferente e salve o que despertar vontade de conhecer melhor."]
   ];
   const d=destaques[hashDoDia()%destaques.length];

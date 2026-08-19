@@ -1,6 +1,6 @@
 # Saúde Qualimax — Plataforma Web
 
-**Versão atual: 2.8**
+**Versão atual: 2.9**
 
 Plataforma web multipágina para descoberta e atendimento de produtos naturais, construída com foco em acessibilidade, navegação orientada a dados e conversão via WhatsApp.
 
@@ -76,3 +76,19 @@ Não há autenticação, checkout, pagamento, estoque central ou backend remoto.
 ## Publicação
 
 A implantação atual é compatível com GitHub Pages. Antes de publicar uma nova versão, execute o checklist em [`docs/TESTES-E-QUALIDADE.md`](docs/TESTES-E-QUALIDADE.md).
+
+
+## Adaptação para clientes
+
+A plataforma possui fluxo white-label para reutilização comercial.
+
+Edite `data/config.json` e execute:
+
+```bash
+python tools/sincronizar_cliente.py --check
+python tools/sincronizar_cliente.py
+```
+
+A ferramenta sincroniza metadados, páginas individuais, manifest, sitemap e arquivos estáticos derivados.
+
+Consulte [`docs/WHITE-LABEL-E-CLIENTES.md`](docs/WHITE-LABEL-E-CLIENTES.md).

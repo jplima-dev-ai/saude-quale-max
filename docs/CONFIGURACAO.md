@@ -96,3 +96,37 @@ Ao trocar domínio, nome de repositório ou cliente:
 6. revise `/.well-known/security.txt`;
 7. valide as páginas de produto e seus dados estruturados.
 
+
+
+## Recursos opcionais
+
+A seção `recursos` permite simplificar o pacote entregue ao cliente:
+
+```json
+"recursos": {
+  "quiz": true,
+  "jornadaLocal": true,
+  "colecoes": true,
+  "pwa": true
+}
+```
+
+- `quiz`: controla links de descoberta guiada e a presença no sitemap;
+- `jornadaLocal`: controla a seção “Continue de onde você parou”;
+- `colecoes`: controla favoritos, lista e recentes;
+- `pwa`: controla registro/instalação da PWA.
+
+Essas flags são de produto/apresentação, não mecanismos de autorização.
+
+## Informações comerciais opcionais
+
+```json
+"comercial": {
+  "horario": "",
+  "entrega": "",
+  "retirada": "",
+  "observacoes": ""
+}
+```
+
+Campos vazios não são exibidos. A plataforma não inventa horário, entrega ou retirada.

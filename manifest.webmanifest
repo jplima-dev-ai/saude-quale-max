@@ -1,7 +1,7 @@
 {
   "name": "Saúde Qualimax",
-  "short_name": "Qualimax",
-  "description": "Plataforma acessível de catálogo e atendimento da Saúde Qualimax.",
+  "short_name": "Saúde Qualimax",
+  "description": "Produtos naturais, suplementos, vitaminas, itens a granel e alimentação saudável.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

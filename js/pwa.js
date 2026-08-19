@@ -5,6 +5,21 @@
   const raiz = paginaProduto ? "../" : "./";
   let promptInstalacao = null;
   let registroSW = null;
+  let nomeApp = "Aplicativo";
+
+  const obterConfig = () => new Promise((resolve) => {
+    if (window.QualimaxConfig) {
+      resolve(window.QualimaxConfig);
+      return;
+    }
+    const timer = window.setTimeout(() => resolve(window.QualimaxConfig || {}), 1400);
+    document.addEventListener("qualimax:config-ready", (evento) => {
+      clearTimeout(timer);
+      resolve(evento.detail || window.QualimaxConfig || {});
+    }, { once: true });
+  });
+
+  const pwaAtiva = () => window.QualimaxConfig?.recursos?.pwa !== false;
 
   const criarStatusConexao = () => {
     let status = document.querySelector("[data-conexao-status]");
@@ -24,6 +39,7 @@
   };
 
   const atualizarConexao = () => {
+    if (!pwaAtiva()) return;
     const status = criarStatusConexao();
     if (navigator.onLine) {
       if (!status.hidden) {
@@ -69,7 +85,7 @@
     botao.type = "button";
     botao.className = "pwa-botao";
     botao.dataset.instalarApp = "";
-    botao.textContent = "Instalar Saúde Qualimax";
+    botao.textContent = `Instalar ${nomeApp}`;
     botao.addEventListener("click", async () => {
       if (!promptInstalacao) return;
       botao.disabled = true;
@@ -93,7 +109,7 @@
     bloco.setAttribute("role", "status");
 
     const texto = document.createElement("span");
-    texto.textContent = "Uma nova versão da Saúde Qualimax está disponível.";
+    texto.textContent = `Uma nova versão de ${nomeApp} está disponível.`;
 
     const botao = document.createElement("button");
     botao.type = "button";
@@ -130,10 +146,12 @@
   window.addEventListener("offline", atualizarConexao);
   document.addEventListener("DOMContentLoaded", atualizarConexao);
 
-  window.addEventListener("beforeinstallprompt", (evento) => {
+  window.addEventListener("beforeinstallprompt", async (evento) => {
     evento.preventDefault();
     promptInstalacao = evento;
-    criarBotaoInstalar();
+    const config = await obterConfig();
+    nomeApp = config.empresa?.nome || nomeApp;
+    if (config.recursos?.pwa !== false) criarBotaoInstalar();
   });
 
   window.addEventListener("appinstalled", () => {
@@ -146,9 +164,24 @@
     let atualizacaoSolicitada = false;
 
     window.addEventListener("load", async () => {
+      const config = await obterConfig();
+      nomeApp = config.empresa?.nome || nomeApp;
+      if (config.recursos?.pwa === false) {
+        promptInstalacao = null;
+        document.querySelector("[data-pwa-acoes]")?.remove();
+        try {
+          const escopoEsperado = new URL(raiz, location.href).href;
+          const registros = await navigator.serviceWorker.getRegistrations();
+          await Promise.all(registros
+            .filter((registro) => registro.scope === escopoEsperado)
+            .map((registro) => registro.unregister()));
+        } catch {}
+        return;
+      }
       try {
         registroSW = await navigator.serviceWorker.register(`${raiz}sw.js`, { scope: raiz });
         observarRegistro(registroSW);
+        criarBotaoInstalar();
       } catch (erro) {
         console.warn("PWA: não foi possível registrar o Service Worker.", erro);
       }

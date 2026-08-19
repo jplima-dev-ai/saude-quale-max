@@ -18,7 +18,7 @@ Não inclua dados pessoais de terceiros no relato.
 
 ## Escopo atual
 
-A versão **2.8** é uma aplicação frontend estática. Não possui autenticação, checkout, armazenamento de cartões ou backend próprio.
+A versão **2.9** é uma aplicação frontend estática. Não possui autenticação, checkout, armazenamento de cartões ou backend próprio.
 
 Favoritos, lista de interesse e histórico ficam no navegador do visitante por meio de IndexedDB, com fallback local.
 

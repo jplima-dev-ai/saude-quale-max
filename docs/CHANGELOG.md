@@ -2,7 +2,27 @@
 
 Histórico consolidado das principais evoluções da Saúde Qualimax. Relatórios antigos de rodada foram removidos da pasta `docs/` para evitar duplicação.
 
-## 2.8 — QA e correções
+## 2.9 — Módulos e auditoria comercial
+
+- recursos passam a ser ativáveis por cliente via `data/config.json`;
+- Quiz pode sair da navegação e do sitemap;
+- jornada local e coleções podem ser ocultadas;
+- PWA pode ser desativada e usa o nome real da empresa nos textos;
+- página Contato ganha informações comerciais opcionais;
+- sincronizador passa a refletir módulos e informações comerciais;
+- nova ferramenta `tools/auditar_cliente.py` valida a entrega white-label.
+
+## 2.8.1 — White-label e configuração comercial
+
+- Instagram da página de contato deixa de ser hardcoded;
+- mensagens de WhatsApp usam placeholders de empresa;
+- localização e marca ganham hooks configuráveis em conteúdo visível;
+- páginas individuais recebem hooks de marca consistentes;
+- ferramenta `tools/sincronizar_cliente.py` sincroniza SEO, manifest, sitemap, security.txt e páginas de produto;
+- fallback estático acompanha `config.json`, mesmo antes da execução do JavaScript;
+- teste white-label realizado com uma segunda marca fictícia sem resíduos públicos da Qualimax.
+
+## 2.7.2 — QA e correções
 
 - revisão da jornada local;
 - textos diferentes para histórico, favoritos e lista;

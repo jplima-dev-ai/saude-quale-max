@@ -111,7 +111,13 @@
         location.href = `catalogo.html${query ? `?${query}` : ""}#produtos`;
     };
 
+    const quizAtivo = () => window.QualimaxConfig?.recursos?.quiz !== false;
+
     const irQuiz = () => {
+        if (!quizAtivo()) {
+            adicionarMensagem("O quiz não está disponível nesta configuração da loja.");
+            return;
+        }
         location.href = paginaAtual() === "quiz.html" ? "#quiz" : "quiz.html#quiz";
     };
 
@@ -124,7 +130,7 @@
             adicionarMensagem("O WhatsApp não está disponível neste momento. Consulte a página de contato.");
             return;
         }
-        const nome = window.QualimaxConfig?.empresa?.nome || "Saúde Qualimax";
+        const nome = window.QualimaxConfig?.empresa?.nome || "a loja";
         const link = document.createElement("a");
         link.className = "chat-whatsapp-cta";
         const complemento = contexto ? ` ${contexto}` : "";
@@ -390,13 +396,14 @@
 
     const responderAjudaEscolha = () => {
         adicionarMensagem("Posso refinar com você. Vamos descobrir juntos. Qual desses caminhos desperta mais a sua curiosidade agora?");
-        adicionarAcoes([
+        const acoes = [
             { texto: "Alimentos e lanches", valor: "alimentos" },
             { texto: "Chás", valor: "chás" },
             { texto: "Vitaminas", valor: "vitaminas" },
-            { texto: "Suplementos", valor: "suplementos" },
-            { texto: "Prefiro fazer o quiz", acao: () => { fecharChat(); irQuiz(); } }
-        ]);
+            { texto: "Suplementos", valor: "suplementos" }
+        ];
+        if (quizAtivo()) acoes.push({ texto: "Prefiro fazer o quiz", acao: () => { fecharChat(); irQuiz(); } });
+        adicionarAcoes(acoes);
     };
 
     const ehPerguntaMedica = (termo) =>
@@ -481,6 +488,11 @@
         }
 
         if (/quiz/.test(termo)) {
+            if (!quizAtivo()) {
+                adicionarMensagem("O quiz não está disponível nesta configuração da loja. Posso continuar a descoberta por aqui ou abrir o catálogo.");
+                adicionarAcoes([{ texto: "Explorar catálogo", acao: () => { fecharChat(); irCatalogo(); } }]);
+                return;
+            }
             adicionarMensagem("Vou abrir o quiz de descoberta.");
             fecharChat();
             irQuiz();
@@ -562,6 +574,9 @@
             widget.hidden = true;
             document.querySelectorAll("[data-chat-abrir]").forEach((botao) => botao.remove());
             return;
+        }
+        if (!quizAtivo()) {
+            document.querySelectorAll('[data-chat-acao="quiz"]').forEach((botao) => { botao.hidden = true; });
         }
 
         try {

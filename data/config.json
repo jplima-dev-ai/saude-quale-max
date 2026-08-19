@@ -66,5 +66,17 @@
         "canonical": "https://jplima-dev-ai.github.io/saude-quali-max/contato.html"
       }
     }
+  },
+  "recursos": {
+    "quiz": true,
+    "jornadaLocal": true,
+    "colecoes": true,
+    "pwa": true
+  },
+  "comercial": {
+    "horario": "",
+    "entrega": "",
+    "retirada": "",
+    "observacoes": ""
   }
 }

@@ -18,7 +18,7 @@ A ação não é simulada em navegadores que não oferecem suporte.
 
 O Service Worker usa cache versionado.
 
-Na versão 2.8, novas versões aguardam até a ação explícita **Atualizar agora**. O frontend envia `SKIP_WAITING` somente quando o visitante solicita a atualização.
+Na implementação atual, novas versões aguardam até a ação explícita **Atualizar agora**. O frontend envia `SKIP_WAITING` somente quando o visitante solicita a atualização.
 
 A primeira instalação não deve provocar reload inesperado.
 
