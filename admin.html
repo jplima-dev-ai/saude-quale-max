@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Admin Studio local da plataforma.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self'; script-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'">
+<title>Admin Studio | Loja</title>
+<link rel="stylesheet" href="style.css">
+<script src="js/frame-guard.js" defer></script>
+<script src="js/admin.js" defer></script>
+<script src="js/acessibilidade.js" defer></script>
+<script src="js/interacoes.js" defer></script>
+</head>
+<body class="admin-body" data-page="admin">
+<a class="skip-link" href="#admin-conteudo">Ir para o conteúdo</a>
+<header class="admin-topo">
+  <div>
+    <p class="admin-eyebrow">Admin Studio local</p>
+    <h1>Gerencie a plataforma sem editar JSON à mão.</h1>
+    <p>Rascunhos ficam neste navegador. Use Exportar para levar as alterações ao repositório publicado.</p>
+  </div>
+  <div class="admin-topo-acoes">
+    <a class="botao botao-secundario" href="conta.html">Minha conta</a>
+    <a class="botao botao-secundario" href="index.html">Ver site</a>
+  </div>
+</header>
+
+<div class="admin-app">
+  <nav class="admin-nav" aria-label="Admin Studio">
+    <button type="button" class="admin-nav-item ativo" data-admin-tab="visao" aria-current="page">Visão geral</button>
+    <button type="button" class="admin-nav-item" data-admin-tab="produtos">Produtos</button>
+    <button type="button" class="admin-nav-item" data-admin-tab="loja">Minha loja</button>
+    <button type="button" class="admin-nav-item" data-admin-tab="recursos">Recursos</button>
+    <button type="button" class="admin-nav-item" data-admin-tab="exportar">Exportar e backup</button>
+  </nav>
+
+  <main id="admin-conteudo" class="admin-main">
+    <div class="admin-aviso" role="note">
+      <strong>Modo local:</strong> esta área não altera automaticamente o GitHub Pages ou Netlify. Ela prepara e exporta os dados que você publica depois.
+    </div>
+
+    <section class="admin-tab" data-admin-panel="visao">
+      <div class="admin-section-head">
+        <div><p class="admin-kicker">Resumo</p><h2>Visão geral</h2></div>
+        <button class="botao botao-secundario" type="button" data-admin-restaurar-base>Restaurar dados da versão publicada</button>
+      </div>
+      <div class="admin-metricas">
+        <article><strong data-admin-metrica-produtos>0</strong><span>produtos no rascunho</span></article>
+        <article><strong data-admin-metrica-destaques>0</strong><span>produtos em destaque</span></article>
+        <article><strong data-admin-metrica-imagens>0</strong><span>imagens locais enviadas</span></article>
+        <article><strong data-admin-metrica-status>Salvo</strong><span>estado do rascunho</span></article>
+      </div>
+      <div class="admin-grid-2">
+        <section class="admin-card">
+          <h3>Comece por aqui</h3>
+          <ol class="admin-passos">
+            <li>Edite ou adicione produtos.</li>
+            <li>Envie imagens e revise a prévia.</li>
+            <li>Ajuste os dados da loja e recursos.</li>
+            <li>Exporte os arquivos para publicar.</li>
+          </ol>
+        </section>
+        <section class="admin-card">
+          <h3>Saúde do rascunho</h3>
+          <div data-admin-auditoria class="admin-auditoria" role="status" aria-live="polite"></div>
+          <button type="button" class="botao botao-secundario" data-admin-auditar>Verificar rascunho</button>
+        </section>
+      </div>
+    </section>
+
+    <section class="admin-tab" data-admin-panel="produtos" hidden>
+      <div class="admin-section-head">
+        <div><p class="admin-kicker">Catálogo</p><h2>Produtos</h2></div>
+        <button class="botao botao-principal" type="button" data-admin-novo-produto>+ Novo produto</button>
+      </div>
+
+      <div class="admin-produtos-layout">
+        <aside class="admin-lista-produtos">
+          <label for="admin-busca-produto">Buscar produto</label>
+          <input id="admin-busca-produto" type="search" data-admin-busca-produto placeholder="Nome, categoria ou slug">
+          <div data-admin-lista-produtos class="admin-lista-scroll" aria-label="Produtos"></div>
+        </aside>
+
+        <section class="admin-editor" aria-labelledby="admin-editor-titulo">
+          <div class="admin-editor-placeholder" data-admin-editor-placeholder>
+            <h3 id="admin-editor-titulo">Selecione um produto</h3>
+            <p>Escolha um item à esquerda ou crie um novo produto.</p>
+          </div>
+
+          <form data-admin-produto-form hidden>
+            <input type="hidden" name="id">
+            <div class="admin-form-grid">
+              <div class="admin-campo-largo">
+                <label for="adm-nome">Nome do produto</label>
+                <input id="adm-nome" name="nome" required maxlength="120">
+              </div>
+              <div>
+                <label for="adm-slug">Endereço da página</label>
+                <input id="adm-slug" name="slug" required pattern="[a-z0-9]+(?:-[a-z0-9]+)*">
+                <small>Ex.: creatina-monohidratada</small>
+              </div>
+              <div>
+                <label for="adm-categoria">Categoria</label>
+                <select id="adm-categoria" name="categoria" required data-admin-categorias></select>
+              </div>
+              <div>
+                <label for="adm-tipo">Formato</label>
+                <input id="adm-tipo" name="tipo" maxlength="50" placeholder="pó, cápsula, chá...">
+              </div>
+              <div>
+                <label for="adm-imagem">Nome da imagem</label>
+                <input id="adm-imagem" name="imagem" maxlength="160" pattern="[A-Za-z0-9._-]+">
+              </div>
+              <div class="admin-campo-largo">
+                <label for="adm-copy">Copy de destaque</label>
+                <textarea id="adm-copy" name="copy" rows="4" maxlength="700"></textarea>
+                <small data-admin-contador-copy></small>
+              </div>
+              <div class="admin-campo-largo">
+                <label for="adm-descricao">Descrição</label>
+                <textarea id="adm-descricao" name="descricao" rows="3" maxlength="700"></textarea>
+              </div>
+              <div class="admin-campo-largo">
+                <label for="adm-cta">Texto do botão</label>
+                <input id="adm-cta" name="cta" maxlength="80">
+              </div>
+              <div class="admin-campo-largo">
+                <label for="adm-beneficios">Benefícios / características cadastradas</label>
+                <textarea id="adm-beneficios" name="beneficios" rows="3" placeholder="Um por linha"></textarea>
+              </div>
+              <div class="admin-campo-largo">
+                <label for="adm-tags">Tags de busca</label>
+                <textarea id="adm-tags" name="tags" rows="2" placeholder="Separadas por vírgula"></textarea>
+              </div>
+            </div>
+
+            <fieldset class="admin-checks">
+              <legend>Características</legend>
+              <label><input type="checkbox" name="vegana"> Vegano</label>
+              <label><input type="checkbox" name="sem_gluten"> Sem glúten</label>
+              <label><input type="checkbox" name="destaque"> Produto em destaque</label>
+            </fieldset>
+
+            <section class="admin-upload">
+              <div>
+                <h3>Imagem local</h3>
+                <p>Envie uma imagem para pré-visualização e exportação. Ela não é publicada automaticamente.</p>
+                <input type="file" accept="image/png,image/jpeg,image/webp" data-admin-upload-imagem>
+              </div>
+              <div class="admin-preview-imagem" data-admin-preview-imagem></div>
+            </section>
+
+            <section class="admin-preview-card" aria-labelledby="admin-preview-titulo">
+              <p class="admin-kicker">Prévia</p>
+              <h3 id="admin-preview-titulo">Como o produto vai parecer</h3>
+              <article class="admin-produto-preview" data-admin-produto-preview></article>
+            </section>
+
+            <div class="admin-editor-acoes">
+              <button class="botao botao-principal" type="submit">Salvar no rascunho</button>
+              <button class="botao botao-secundario" type="button" data-admin-duplicar>Duplicar</button>
+              <button class="botao botao-perigo" type="button" data-admin-excluir>Excluir</button>
+            </div>
+            <p class="admin-status" data-admin-produto-status role="status" aria-live="polite"></p>
+          </form>
+        </section>
+      </div>
+    </section>
+
+    <section class="admin-tab" data-admin-panel="loja" hidden>
+      <div class="admin-section-head"><div><p class="admin-kicker">Identidade</p><h2>Minha loja</h2></div></div>
+      <form data-admin-loja-form class="admin-card admin-form-grid">
+        <div class="admin-campo-largo"><label for="loja-nome">Nome da loja</label><input id="loja-nome" name="empresa.nome" required></div>
+        <div class="admin-campo-largo"><label for="loja-descricao">Descrição</label><textarea id="loja-descricao" name="empresa.descricao" rows="3"></textarea></div>
+        <div><label for="loja-email">E-mail</label><input id="loja-email" name="contato.email" type="email"></div>
+        <div><label for="loja-telefone">Telefone</label><input id="loja-telefone" name="contato.telefone"></div>
+        <div><label for="loja-whatsapp">WhatsApp com DDI</label><input id="loja-whatsapp" name="contato.whatsapp"></div>
+        <div><label for="loja-instagram">Instagram</label><input id="loja-instagram" name="redes.instagram"></div>
+        <div class="admin-campo-largo"><label for="loja-endereco">Endereço</label><input id="loja-endereco" name="contato.endereco"></div>
+        <div><label for="loja-cidade">Cidade</label><input id="loja-cidade" name="empresa.cidade"></div>
+        <div><label for="loja-estado">Estado</label><input id="loja-estado" name="empresa.estado" maxlength="2"></div>
+        <div><label for="loja-site">Site</label><input id="loja-site" name="empresa.site" type="url"></div>
+        <div><label for="loja-cor-principal">Cor principal</label><input id="loja-cor-principal" name="marca.corPrincipal" type="color"></div>
+        <div><label for="loja-cor-acento">Cor de destaque</label><input id="loja-cor-acento" name="marca.corAcento" type="color"></div>
+        <div class="admin-campo-largo admin-editor-acoes"><button class="botao botao-principal" type="submit">Salvar dados da loja</button></div>
+        <p class="admin-status admin-campo-largo" data-admin-loja-status role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="admin-tab" data-admin-panel="recursos" hidden>
+      <div class="admin-section-head"><div><p class="admin-kicker">Módulos</p><h2>Recursos da plataforma</h2></div></div>
+      <form data-admin-recursos-form class="admin-card">
+        <div class="admin-switch-lista">
+          <label><span><strong>Quiz</strong><small>Descoberta guiada de produtos.</small></span><input type="checkbox" name="quiz"></label>
+          <label><span><strong>Jornada local</strong><small>Continue de onde o visitante parou.</small></span><input type="checkbox" name="jornadaLocal"></label>
+          <label><span><strong>Favoritos e lista</strong><small>Coleções salvas no navegador.</small></span><input type="checkbox" name="colecoes"></label>
+          <label><span><strong>PWA</strong><small>Permite instalação e modo offline.</small></span><input type="checkbox" name="pwa"></label>
+        </div>
+        <button class="botao botao-principal" type="submit">Salvar recursos</button>
+        <p class="admin-status" data-admin-recursos-status role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="admin-tab" data-admin-panel="exportar" hidden>
+      <div class="admin-section-head"><div><p class="admin-kicker">Publicação</p><h2>Exportar e backup</h2></div></div>
+      <div class="admin-grid-2">
+        <section class="admin-card">
+          <h3>Arquivos para publicar</h3>
+          <p>Baixe os JSONs atualizados e substitua os arquivos correspondentes no projeto.</p>
+          <div class="admin-export-acoes">
+            <button class="botao botao-principal" type="button" data-admin-exportar-produtos>Baixar produtos.json</button>
+            <button class="botao botao-secundario" type="button" data-admin-exportar-config>Baixar config.json</button>
+          </div>
+        </section>
+        <section class="admin-card">
+          <h3>Backup completo do Admin Studio</h3>
+          <p>Guarde catálogo, configuração e referências de imagens locais em um único arquivo de backup.</p>
+          <div class="admin-export-acoes">
+            <button class="botao botao-secundario" type="button" data-admin-exportar-backup>Exportar backup</button>
+            <label class="botao botao-secundario admin-import-label">Importar backup<input type="file" accept="application/json" data-admin-importar-backup hidden></label>
+          </div>
+        </section>
+      </div>
+      <section class="admin-card">
+        <h3>Imagens locais</h3>
+        <p>Imagens enviadas no Admin Studio precisam ser adicionadas à pasta <code>img/</code> do projeto antes da publicação.</p>
+        <div data-admin-imagens-exportar class="admin-imagens-exportar"></div>
+      </section>
+      <p class="admin-status" data-admin-export-status role="status" aria-live="polite"></p>
+    </section>
+  </main>
+</div>
+</body>
+</html>

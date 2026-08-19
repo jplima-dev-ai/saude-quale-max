@@ -421,6 +421,20 @@
         const termo = normalizar(original);
         if (!termo) return;
 
+        if (/^\/(?:adm|admin)$/.test(termo.trim())) {
+            adicionarMensagem("Abrindo o Admin Studio local. As alterações feitas lá ficam neste navegador até serem exportadas e publicadas.");
+            fecharChat();
+            window.setTimeout(() => { location.href = "admin.html"; }, 120);
+            return;
+        }
+
+        if (/^\/(?:conta|minha-conta)$/.test(termo.trim())) {
+            adicionarMensagem("Abrindo sua área local.");
+            fecharChat();
+            window.setTimeout(() => { location.href = "conta.html"; }, 120);
+            return;
+        }
+
         if (mostrarUsuario) adicionarMensagem(original, "usuario");
 
         if (/^(oi|ola|olá|bom dia|boa tarde|boa noite|hey)\b/.test(termo)) {

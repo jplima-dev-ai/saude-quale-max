@@ -1,6 +1,6 @@
 # Documentação — Saúde Qualimax
 
-Documentação técnica da plataforma web Saúde Qualimax, atualmente na versão **2.9.2**.
+Documentação técnica da plataforma web Saúde Qualimax, atualmente na versão **3.0**.
 
 ## Guia rápido
 
@@ -18,6 +18,7 @@ Documentação técnica da plataforma web Saúde Qualimax, atualmente na versão
 | [TESTES-E-QUALIDADE.md](TESTES-E-QUALIDADE.md) | Checklist de QA antes de cada publicação |
 | [PUBLICACAO.md](PUBLICACAO.md) | Processo de publicação no GitHub Pages |
 | [WHITE-LABEL-E-CLIENTES.md](WHITE-LABEL-E-CLIENTES.md) | Adaptação comercial, módulos e auditoria por cliente |
+| [V3.0-CONTA-LOCAL-E-ADMIN-STUDIO.md](V3.0-CONTA-LOCAL-E-ADMIN-STUDIO.md) | Conta local, Admin Studio e fluxo estático de publicação |
 | [CHANGELOG.md](CHANGELOG.md) | Histórico consolidado das principais evoluções |
 
 ## Segurança

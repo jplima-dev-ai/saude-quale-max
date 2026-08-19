@@ -1,6 +1,6 @@
 # Saúde Qualimax — Plataforma Web
 
-**Versão atual: 2.9.2**
+**Versão atual: 3.0**
 
 Plataforma web multipágina para descoberta e atendimento de produtos naturais, construída com foco em acessibilidade, navegação orientada a dados e conversão via WhatsApp.
 
@@ -92,3 +92,15 @@ python tools/sincronizar_cliente.py
 A ferramenta sincroniza metadados, páginas individuais, manifest, sitemap e arquivos estáticos derivados.
 
 Consulte [`docs/WHITE-LABEL-E-CLIENTES.md`](docs/WHITE-LABEL-E-CLIENTES.md).
+
+
+## Conta local e Admin Studio
+
+A v3.0 adiciona duas áreas estáticas:
+
+- `conta.html` — perfil local, favoritos, lista e histórico;
+- `admin.html` — CMS local para editar catálogo e configuração antes da publicação.
+
+O Admin Studio não altera o site publicado diretamente. Ele exporta os dados para o fluxo normal de publicação.
+
+Veja [`docs/V3.0-CONTA-LOCAL-E-ADMIN-STUDIO.md`](docs/V3.0-CONTA-LOCAL-E-ADMIN-STUDIO.md).

@@ -152,7 +152,7 @@ def main() -> int:
             erros.append(f"Marca do cliente ausente em {page.relative_to(ROOT)}")
 
     # Busca por resíduos explicitamente proibidos.
-    publicos = centrais + list((ROOT / "produto").glob("*.html")) + list((ROOT / "js").glob("*.js")) + [
+    publicos = centrais + [ROOT / "conta.html", ROOT / "admin.html"] + list((ROOT / "produto").glob("*.html")) + list((ROOT / "js").glob("*.js")) + [
         ROOT / "script.js", ROOT / "manifest.webmanifest", ROOT / "sitemap.xml", ROOT / "robots.txt"
     ]
     for termo in args.proibir:

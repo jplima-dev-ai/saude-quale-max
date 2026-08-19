@@ -214,7 +214,12 @@
             ? { title: seo.title, description: seo.description, canonical: seo.canonical, ...especifico }
             : especifico;
 
-        if (dados.title) document.title = dados.title;
+        if (pagina === "conta") {
+            const nome = config.empresa?.nome || "Loja";
+            document.title = `Minha Conta | ${nome}`;
+        } else if (dados.title) {
+            document.title = dados.title;
+        }
         const meta = document.querySelector('meta[name="description"]');
         if (meta && dados.description) meta.content = dados.description;
         const canonical = document.querySelector('link[rel="canonical"]');

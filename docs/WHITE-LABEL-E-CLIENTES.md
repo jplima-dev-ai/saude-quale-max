@@ -111,3 +111,18 @@ Ao adaptar a base Qualimax para outro cliente, você pode proibir resíduos da m
 ```bash
 python tools/auditar_cliente.py   --proibir "Saúde Qualimax"   --proibir "contato.sqm@gmail.com"
 ```
+
+
+## Admin Studio v3.0
+
+O Admin Studio oferece uma camada visual para preparar `produtos.json` e `config.json`.
+
+Após exportar:
+
+1. copie os JSONs para `data/`;
+2. copie imagens exportadas para `img/` e gere/adicione as miniaturas em `img/thumbs/`;
+3. execute `python tools/sincronizar_cliente.py`;
+4. execute `python tools/auditar_cliente.py`;
+5. publique.
+
+O sincronizador cria e remove páginas individuais conforme o catálogo.

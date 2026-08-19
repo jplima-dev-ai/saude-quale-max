@@ -301,18 +301,143 @@ def atualizar_paginas_principais(config: dict):
         texto = recalcular_csp(texto)
         path.write_text(texto, encoding="utf-8", newline="\n")
 
-def atualizar_produtos(config: dict, produtos: list[dict]):
+
+def gerar_pagina_produto(config: dict, produto: dict, categoria_nome: str) -> str:
+    empresa = config.get("empresa", {})
+    marca = config.get("marca", {})
+    nome_loja = str(empresa.get("nome") or "Loja")
+    base = site_base(empresa.get("site"))
+    slug = str(produto.get("slug") or "")
+    nome = str(produto.get("nome") or "")
+    descricao = str(produto.get("copy") or produto.get("descricao") or "")
+    imagem_nome = str(produto.get("imagem") or "")
+    url = urljoin(base, f"produto/{slug}.html")
+    imagem_url = urljoin(base, f"img/{imagem_nome}")
+    logo = str(marca.get("logoImagem") or "img/logo-saude-qualimax.webp")
+    logo_rel = "../" + logo
+    categoria = str(produto.get("categoria") or "")
+
+    itens = []
+    if produto.get("tipo"):
+        itens.append(f"Formato: {produto['tipo']}")
+    if produto.get("vegana"):
+        itens.append("Cadastrado como vegano")
+    if produto.get("sem_gluten"):
+        itens.append("Cadastrado como sem glúten")
+    itens.extend(str(x) for x in produto.get("beneficios", []) if str(x).strip())
+    lista_html = "".join(f"<li>{html.escape(x)}</li>" for x in itens)
+
+    estruturado = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Product",
+                "name": nome,
+                "description": descricao,
+                "image": imagem_url,
+                "category": categoria_nome,
+                "url": url,
+                "brand": {"@type": "Brand", "name": nome_loja},
+            },
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {"@type": "ListItem", "position": 1, "name": "Início", "item": base},
+                    {"@type": "ListItem", "position": 2, "name": "Catálogo", "item": urljoin(base, "catalogo.html")},
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": categoria_nome,
+                        "item": urljoin(base, f"catalogo.html?categoria={categoria}#produtos"),
+                    },
+                    {"@type": "ListItem", "position": 4, "name": nome, "item": url},
+                ],
+            },
+        ],
+    }
+
+    texto = f'''<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; frame-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script src="../js/frame-guard.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{html.escape(nome)} | {html.escape(nome_loja)}</title>
+<meta name="description" content="{html.escape(descricao, quote=True)}">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="{html.escape(str(marca.get("corPrincipal") or "#176b4d"), quote=True)}">
+<link rel="canonical" href="{html.escape(url, quote=True)}">
+<meta property="og:type" content="product">
+<meta property="og:title" content="{html.escape(nome + " | " + nome_loja, quote=True)}">
+<meta property="og:description" content="{html.escape(descricao, quote=True)}">
+<meta property="og:url" content="{html.escape(url, quote=True)}">
+<meta property="og:image" content="{html.escape(imagem_url, quote=True)}">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{html.escape(nome + " | " + nome_loja, quote=True)}">
+<meta name="twitter:description" content="{html.escape(descricao, quote=True)}">
+<meta name="twitter:image" content="{html.escape(imagem_url, quote=True)}">
+<link rel="manifest" href="../manifest.webmanifest">
+<script type="application/ld+json" id="produto-estruturado">{json.dumps(estruturado, ensure_ascii=False, separators=(",", ":"))}</script>
+<link rel="stylesheet" href="../style.css">
+<script src="../js/pwa.js" defer></script>
+<script src="../js/interacoes.js" defer></script>
+</head>
+<body class="produto-pagina" data-produto-id="{int(produto.get("id") or 0)}">
+<a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+<header class="produto-pagina-topo"><div class="container produto-topo-conteudo"><a href="../index.html" class="logo logo-imagem-link" data-config-logo-label aria-label="{html.escape(nome_loja, quote=True)} - voltar ao início"><img src="{html.escape(logo_rel, quote=True)}" data-config-logo-img class="logo-imagem" alt="{html.escape(nome_loja, quote=True)}"><span class="sr-only logo-texto">{html.escape(nome_loja)}</span></a><div class="produto-topo-acoes"><a href="../catalogo.html#produtos">Catálogo</a><a href="../conta.html">Minha conta</a></div></div></header>
+<nav class="breadcrumb container produto-breadcrumb" aria-label="Você está aqui"><ol><li><a href="../index.html">Início</a></li><li><a href="../catalogo.html">Catálogo</a></li><li><a href="../catalogo.html?categoria={html.escape(categoria, quote=True)}#produtos">{html.escape(categoria_nome)}</a></li><li aria-current="page">{html.escape(nome)}</li></ol></nav>
+<main id="conteudo" class="produto-pagina-main"><div class="container produto-pagina-grid">
+<div><img class="produto-pagina-img" src="../img/{html.escape(imagem_nome, quote=True)}" alt="{html.escape(nome, quote=True)}"></div>
+<article class="produto-pagina-info">
+<p class="secao-subtitulo"><a class="produto-categoria-link" href="../catalogo.html?categoria={html.escape(categoria, quote=True)}#produtos">{html.escape(categoria_nome)}</a></p>
+<h1>{html.escape(nome)}</h1>
+<p class="produto-pagina-copy">{html.escape(descricao)}</p>
+<ul class="produto-modal-lista">{lista_html}</ul>
+<p class="produto-pagina-aviso">Disponibilidade, valor atual e condições comerciais devem ser confirmados diretamente com a equipe.</p>
+<div class="produto-pagina-acoes"><a class="botao botao-principal" href="#" data-produto-whatsapp>Consultar pelo WhatsApp</a><button class="botao botao-secundario" type="button" data-compartilhar>Compartilhar produto</button><a class="botao botao-secundario" href="../catalogo.html#produtos" data-retomar-catalogo>Voltar ao catálogo</a></div>
+<p class="sr-only" role="status" aria-live="polite" data-share-status></p>
+</article></div>
+<div class="container produto-pos-conteudo">
+<section class="produto-relacionados-pagina" aria-labelledby="relacionados-titulo" data-produto-relacionados hidden><h2 id="relacionados-titulo">Você também pode explorar</h2><div class="produto-relacionados-grid-pagina" data-relacionados-grid></div></section>
+<nav class="produto-navegacao" aria-label="Navegação entre produtos" data-produto-navegacao></nav>
+</div></main>
+<script src="../js/db.js" defer></script>
+<script src="../js/produto-page.js" defer></script>
+</body>
+</html>'''
+    return recalcular_csp(texto)
+
+def atualizar_produtos(config: dict, produtos: list[dict], categorias: list[dict]):
     empresa = config.get("empresa", {})
     marca = config.get("marca", {})
     nome_loja = str(empresa.get("nome") or "Loja")
     base = site_base(empresa.get("site"))
     logo = str(marca.get("logoImagem") or "")
 
+    nomes_categorias = {str(c.get("id")): str(c.get("nome") or c.get("id") or "") for c in categorias}
+
+    slugs_ativos = set()
+
     for produto in produtos:
         slug = str(produto.get("slug") or "")
+        slugs_ativos.add(slug)
         path = ROOT / "produto" / f"{slug}.html"
-        if not path.exists():
-            raise ValueError(f"Página ausente para produto: {slug}")
+        path.parent.mkdir(exist_ok=True)
+        categoria_nome = nomes_categorias.get(
+            str(produto.get("categoria") or ""),
+            str(produto.get("categoria") or "").replace("-", " ").title(),
+        )
+
+        # Regenera a página inteira para que alterações feitas no Admin Studio
+        # (nome, copy, imagem, categoria, características etc.) apareçam no HTML.
+        path.write_text(
+            gerar_pagina_produto(config, produto, categoria_nome),
+            encoding="utf-8",
+            newline="\n",
+        )
 
         texto = path.read_text(encoding="utf-8")
         nome = str(produto.get("nome") or "")
@@ -373,6 +498,14 @@ def atualizar_produtos(config: dict, produtos: list[dict]):
 
         texto = recalcular_csp(texto)
         path.write_text(texto, encoding="utf-8", newline="\n")
+
+
+    # Remove páginas individuais de produtos excluídos do catálogo.
+    pasta_produtos = ROOT / "produto"
+    for pagina in pasta_produtos.glob("*.html"):
+        if pagina.stem not in slugs_ativos:
+            pagina.unlink()
+
 
 def atualizar_manifest(config: dict):
     path = ROOT / "manifest.webmanifest"
@@ -458,6 +591,7 @@ def main():
     try:
         config = carregar_json(CONFIG)
         produtos = carregar_json(PRODUTOS).get("produtos", [])
+        categorias = carregar_json(ROOT / "data" / "categorias.json").get("categorias", [])
         validar(config, produtos)
         if args.check:
             print("Configuração válida.")
@@ -467,7 +601,7 @@ def main():
             return 0
 
         atualizar_paginas_principais(config)
-        atualizar_produtos(config, produtos)
+        atualizar_produtos(config, produtos, categorias)
         atualizar_manifest(config)
         atualizar_sitemap(config, produtos)
         atualizar_security(config)

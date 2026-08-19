@@ -2,6 +2,21 @@
 
 Histórico consolidado das principais evoluções da Saúde Qualimax. Relatórios antigos de rodada foram removidos da pasta `docs/` para evitar duplicação.
 
+## 3.0 — Conta local e Admin Studio
+
+- nova página Minha Conta com perfil local, favoritos, lista e histórico;
+- consulta da lista pelo WhatsApp;
+- exportação e exclusão de dados locais;
+- Admin Studio local compatível com hospedagem estática;
+- CRUD local de produtos;
+- editor de copy, CTA, descrição, tags e características;
+- upload e pré-visualização de imagens via IndexedDB;
+- edição local de dados da loja e módulos;
+- auditoria do rascunho;
+- exportação de produtos, configuração, backup e imagens;
+- atalhos `/conta` e `/adm` no Max;
+- novas áreas mantêm o projeto sem backend e sem credenciais no frontend.
+
 ## 2.9.2 — Copywriting de produto e experiência
 
 - reescrita das 32 copys de produto com identidade própria e CTAs contextuais;
