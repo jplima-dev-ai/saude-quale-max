@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; frame-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#176b4d">
+<title>Sem conexão | Saúde Qualimax</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="style.css">
+<script src="./js/frame-guard.js"></script>
+<script src="./js/interacoes.js" defer></script></head>
+<body class="pagina-offline">
+<a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+<main id="conteudo" class="offline-main" tabindex="-1">
+  <div class="offline-card">
+    <img src="img/logo-saude-qualimax.webp" alt="Saúde Qualimax" class="offline-logo" width="448" height="148">
+    <p class="secao-kicker">Modo offline</p>
+    <h1>Você está sem conexão no momento.</h1>
+    <p>Algumas páginas e produtos que você já visitou podem continuar disponíveis. Recursos que precisam de internet, como WhatsApp e atualização do catálogo, voltarão a funcionar quando a conexão for restabelecida.</p>
+    <div class="offline-acoes">
+      <a class="botao botao-principal" href="./index.html">Voltar ao início</a>
+      <a class="botao botao-secundario" href="./catalogo.html">Abrir catálogo salvo</a>
+      <button class="botao botao-secundario" type="button" data-recarregar> Tentar novamente</button>
+    </div>
+  </div>
+</main>
+<script src="./js/offline.js"></script></body>
+</html>

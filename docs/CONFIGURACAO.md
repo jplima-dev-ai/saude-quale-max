@@ -1,61 +1,98 @@
-# Configuração
+# Configuração da loja
 
-As alterações comuns da loja devem ser feitas em `data/config.json`.
+As alterações comuns de cliente devem ser feitas principalmente em `data/config.json`.
 
 ## Empresa
 
-- `nome`
-- `descricao`
-- `cidade`
-- `estado`
-- `site`
-- `cep`
-
-## Contato
-
-- `whatsapp`: somente números, com código do país e DDD
-- `telefone`
-- `email`
-- `endereco`
-
-## Marca
-
-- `logo`
-- `corPrincipal`
-- `corSecundaria`
-- `corAcento`
-- `corFundo`
-
-## Redes
-
-Configure somente perfis reais.
-
-## Chatbot
-
-- `ativo`: `true` ou `false`
-- `nome`: nome exibido no assistente
-
-## SEO
-
-- `title`
-- `description`
-- `canonical`
-
-Depois de alterar os dados, revise o conteúdo e valide a publicação.
-
-
-## Redes sociais — v1.8
-
-Configure em `data/config.json`:
-
 ```json
-"redes": {
-  "instagram": "https://www.instagram.com/seu-perfil/",
-  "facebook": "https://www.facebook.com/sua-pagina/",
-  "tiktok": "https://www.tiktok.com/@seu-perfil",
-  "youtube": "https://www.youtube.com/@seu-canal",
-  "pinterest": "https://www.pinterest.com/seu-perfil/"
+"empresa": {
+  "nome": "Saúde Qualimax",
+  "descricao": "...",
+  "cidade": "Serra",
+  "estado": "ES",
+  "site": "https://...",
+  "cep": "29165-130"
 }
 ```
 
-Também é aceito apenas o usuário/handle. Deixe uma rede como string vazia quando a empresa não possuir perfil oficial. O componente é ocultado automaticamente quando nenhuma rede está configurada. Não use perfis fictícios.
+O campo `site` deve apontar para a URL pública final da implantação.
+
+## Contato
+
+```json
+"contato": {
+  "whatsapp": "5527992820798",
+  "email": "contato@example.com",
+  "telefone": "(27) 00000-0000",
+  "endereco": "..."
+}
+```
+
+Para `whatsapp`, use apenas dígitos, incluindo código do país e DDD.
+
+## Marca
+
+```json
+"marca": {
+  "logo": "🌿",
+  "logoImagem": "img/logo-saude-qualimax.webp",
+  "corPrincipal": "#176b4d",
+  "corSecundaria": "#0d4532",
+  "corAcento": "#c99a45",
+  "corFundo": "#fbfaf6"
+}
+```
+
+As cores configuráveis aceitas pelo frontend seguem o formato hexadecimal de seis dígitos.
+
+## Redes sociais
+
+Somente perfis oficiais devem ser configurados. Redes vazias são ocultadas automaticamente.
+
+```json
+"redes": {
+  "instagram": "@saudequalimax",
+  "facebook": "",
+  "tiktok": "",
+  "youtube": "",
+  "pinterest": ""
+}
+```
+
+Quando uma URL completa é utilizada, o frontend valida protocolo HTTPS e o domínio esperado da plataforma.
+
+## Max
+
+```json
+"chatbot": {
+  "ativo": true,
+  "nome": "Max"
+}
+```
+
+`ativo: false` remove os pontos de abertura do assistente.
+
+## Analytics
+
+```json
+"analytics": {
+  "enabled": false
+}
+```
+
+A configuração atual não ativa rastreamento por conta própria.
+
+## SEO
+
+Existem metadados gerais e metadados específicos por página em `seo.paginas`.
+
+Ao trocar domínio, nome de repositório ou cliente:
+
+1. atualize `empresa.site`;
+2. atualize `seo.canonical`;
+3. revise todos os canonicals de `seo.paginas`;
+4. atualize `sitemap.xml`;
+5. atualize `robots.txt`;
+6. revise `/.well-known/security.txt`;
+7. valide as páginas de produto e seus dados estruturados.
+

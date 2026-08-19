@@ -11,6 +11,22 @@ class QuizInterativo {
         this.init();
     }
 
+
+    escaparHTML(valor) {
+        return String(valor ?? "").replace(/[&<>"']/g, (caractere) => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        }[caractere]));
+    }
+
+    nomeArquivoSeguro(valor) {
+        const nome = String(valor ?? "").trim();
+        return /^[A-Za-z0-9._-]+$/.test(nome) ? nome : "";
+    }
+
     async init() {
         if (!this.container) {
             return;
@@ -84,11 +100,11 @@ class QuizInterativo {
             return;
         }
 
-        this.container.innerHTML = `
-            <p class="quiz-erro" role="alert">
-                Não foi possível carregar o quiz agora. Tente novamente mais tarde.
-            </p>
-        `;
+        const aviso = document.createElement("p");
+        aviso.className = "quiz-erro";
+        aviso.setAttribute("role", "alert");
+        aviso.textContent = "Não foi possível carregar o quiz agora. Tente novamente mais tarde.";
+        this.container.replaceChildren(aviso);
     }
 
     renderizarPergunta() {
@@ -122,15 +138,15 @@ class QuizInterativo {
                 return `
                     <button
                         class="quiz-opcao"
-                        data-id="${opcao.id}"
-                        data-categoria="${categoria}"
-                        data-experiencia="${experiencia}"
+                        data-id="${this.escaparHTML(opcao.id)}"
+                        data-categoria="${this.escaparHTML(categoria)}"
+                        data-experiencia="${this.escaparHTML(experiencia)}"
                         type="button"
                         aria-pressed="false"
-                        aria-label="Opção ${index + 1}: ${opcao.texto}"
+                        aria-label="Opção ${index + 1}: ${this.escaparHTML(opcao.texto)}"
                     >
-                        <span class="quiz-icone" aria-hidden="true">${opcao.icone}</span>
-                        <span class="quiz-texto">${opcao.texto}</span>
+                        <span class="quiz-icone" aria-hidden="true">${this.escaparHTML(opcao.icone)}</span>
+                        <span class="quiz-texto">${this.escaparHTML(opcao.texto)}</span>
                     </button>
                 `;
             })
@@ -140,7 +156,7 @@ class QuizInterativo {
             <div
                 class="quiz-card"
                 role="group"
-                aria-labelledby="quiz-pergunta-${pergunta.id}"
+                aria-labelledby="quiz-pergunta-${this.escaparHTML(pergunta.id)}"
             >
                 <div
                     class="quiz-progresso"
@@ -167,9 +183,9 @@ class QuizInterativo {
 
                 <h2
                     class="quiz-pergunta"
-                    id="quiz-pergunta-${pergunta.id}"
+                    id="quiz-pergunta-${this.escaparHTML(pergunta.id)}"
                 >
-                    ${pergunta.pergunta}
+                    ${this.escaparHTML(pergunta.pergunta)}
                 </h2>
 
                 <div
@@ -455,11 +471,10 @@ class QuizInterativo {
             this.quizData.recomendacoes?.[objetivo];
 
         if (!recomendacao) {
-            this.container.innerHTML = `
-                <p role="alert">
-                    Não foi possível processar suas respostas. Tente novamente.
-                </p>
-            `;
+            const aviso = document.createElement("p");
+            aviso.setAttribute("role", "alert");
+            aviso.textContent = "Não foi possível processar suas respostas. Tente novamente.";
+            this.container.replaceChildren(aviso);
             return;
         }
 
@@ -509,18 +524,18 @@ class QuizInterativo {
                         id="quiz-resultado-titulo"
                         tabindex="-1"
                     >
-                        ${tituloResultado}
+                        ${this.escaparHTML(tituloResultado)}
                     </h2>
 
                     <p class="quiz-resultado-mensagem">
                         ${temRestricaoAlergia
                             ? "Sua segurança vem antes de uma recomendação automática."
-                            : recomendacao.mensagem}
+                            : this.escaparHTML(recomendacao.mensagem)}
                     </p>
                 </div>
 
                 <p class="quiz-resultado-descricao">
-                    ${descricaoResultado}
+                    ${this.escaparHTML(descricaoResultado)}
                 </p>
 
                 ${tituloProdutos}
@@ -532,8 +547,8 @@ class QuizInterativo {
                 }
 
                 <div class="quiz-cta">
-                    <h3>${this.quizData.cta_final.titulo}</h3>
-                    <p>${this.quizData.cta_final.texto}</p>
+                    <h3>${this.escaparHTML(this.quizData.cta_final.titulo)}</h3>
+                    <p>${this.escaparHTML(this.quizData.cta_final.texto)}</p>
                     <a
                         href="#"
                         class="botao botao-principal quiz-whatsapp"
@@ -541,7 +556,7 @@ class QuizInterativo {
                         rel="noopener noreferrer"
                         aria-label="Falar com especialista pelo WhatsApp - abre em nova aba"
                     >
-                        💬 ${this.quizData.cta_final.botao}
+                        💬 ${this.escaparHTML(this.quizData.cta_final.botao)}
                     </a>
                 </div>
 
@@ -610,8 +625,8 @@ class QuizInterativo {
             <article class="quiz-produto-card" role="listitem">
                 <div class="quiz-produto-imagem">
                     <img
-                        src="img/thumbs/${produto.imagem}"
-                        alt="${produto.nome} — ${categoria}"
+                        src="img/thumbs/${this.nomeArquivoSeguro(produto.imagem)}"
+                        alt="${this.escaparHTML(produto.nome)} — ${this.escaparHTML(categoria)}"
                         loading="lazy"
                         decoding="async"
                         width="464"
@@ -620,9 +635,9 @@ class QuizInterativo {
                 </div>
 
                 <div class="quiz-produto-conteudo">
-                    <span class="quiz-produto-categoria">${categoria}</span>
-                    <h4>${produto.nome}</h4>
-                    <p class="quiz-produto-descricao">${descricao}</p>
+                    <span class="quiz-produto-categoria">${this.escaparHTML(categoria)}</span>
+                    <h4>${this.escaparHTML(produto.nome)}</h4>
+                    <p class="quiz-produto-descricao">${this.escaparHTML(descricao)}</p>
 
                     <div class="quiz-produto-badges" aria-label="Características do produto">
                         ${produto.vegana ? '<span class="badge badge-vegana">Vegano</span>' : ""}
@@ -630,10 +645,10 @@ class QuizInterativo {
                     </div>
 
                     <div class="quiz-produto-acoes">
-                        <button type="button" class="botao botao-secundario quiz-produto-detalhes" data-quiz-produto-id="${produto.id}">
+                        <button type="button" class="botao botao-secundario quiz-produto-detalhes" data-quiz-produto-id="${this.escaparHTML(produto.id)}">
                             Ver detalhes
                         </button>
-                        <a href="#" class="quiz-produto-whatsapp" data-quiz-whatsapp-id="${produto.id}" target="_blank" rel="noopener noreferrer">Consultar no WhatsApp →</a>
+                        <a href="#" class="quiz-produto-whatsapp" data-quiz-whatsapp-id="${this.escaparHTML(produto.id)}" target="_blank" rel="noopener noreferrer">Consultar no WhatsApp →</a>
                     </div>
                 </div>
             </article>

@@ -5,6 +5,17 @@
     const DB_VERSION = 2;
     const fallbackKey = "qualimax-db-fallback-v2";
     let dbPromise = null;
+    const canalSync = "BroadcastChannel" in window ? new BroadcastChannel("qualimax-db-sync") : null;
+
+    const notificarSync = (tipo, detalhe = {}) => {
+        const payload = { tipo, ...detalhe, origem: "qualimax", em: Date.now() };
+        canalSync?.postMessage(payload);
+    };
+
+    canalSync?.addEventListener("message", (evento) => {
+        if (evento.data?.origem !== "qualimax") return;
+        document.dispatchEvent(new CustomEvent("qualimax:db-sync", { detail: evento.data }));
+    });
 
     const abrirDB = () => {
         if (!('indexedDB' in window)) return Promise.resolve(null);
@@ -130,15 +141,19 @@
         const atual = await get(store, produtoId);
         if (atual) {
             await remove(store, produtoId);
+            notificarSync(store, { produtoId, ativo: false });
             return false;
         }
         await put(store, { produtoId, atualizadoEm: Date.now() });
+        notificarSync(store, { produtoId, ativo: true });
         return true;
     };
 
     const addHistorico = async (produtoId) => {
         await put("historico", { produtoId, vistoEm: Date.now() });
     };
+
+    const modo = async () => (await abrirDB()) ? "IndexedDB" : "localStorage-fallback";
 
     window.QualimaxDB = {
         init: abrirDB,
@@ -152,8 +167,9 @@
         toggleFavorito: (id) => toggle("favoritos", id),
         toggleInteresse: (id) => toggle("interesse", id),
         addHistorico,
-        limparInteresse: () => clear("interesse"),
-        limparFavoritos: () => clear("favoritos"),
-        modo: () => ('indexedDB' in window ? "IndexedDB" : "localStorage-fallback")
+        limparInteresse: async () => { await clear("interesse"); notificarSync("interesse-limpo"); },
+        limparFavoritos: async () => { await clear("favoritos"); notificarSync("favoritos-limpos"); },
+        limparHistorico: async () => { await clear("historico"); notificarSync("historico-limpo"); },
+        modo
     };
 })();

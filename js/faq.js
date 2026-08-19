@@ -24,7 +24,7 @@
             }));
         } catch (erro) {
             console.error(erro);
-            lista.innerHTML = "<p role=\"alert\">Não foi possível carregar as perguntas frequentes agora.</p>";
+            const aviso=document.createElement("p"); aviso.setAttribute("role","alert"); aviso.textContent="Não foi possível carregar as perguntas frequentes agora."; lista.replaceChildren(aviso);
         }
     });
 })();

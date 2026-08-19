@@ -7,6 +7,10 @@
     let ultimoFoco = null;
 
     const porId = (id) => produtos.find(p => Number(p.id) === Number(id));
+    const nomeArquivoSeguro = (valor) => {
+        const nome = String(valor || "").trim();
+        return /^[A-Za-z0-9._-]+$/.test(nome) ? nome : "";
+    };
     const numeroWhatsApp = () => String(window.QualimaxConfig?.contato?.whatsapp || "").replace(/\D/g, "");
 
     const carregarEstado = async () => {
@@ -66,7 +70,9 @@
         const article = document.createElement("article");
         article.className = "escolha-item";
         const img = document.createElement("img");
-        img.src = `img/thumbs/${produto.imagem}`; img.alt = ""; img.loading = "lazy"; img.width = 72; img.height = 90;
+        const arquivoImagem = nomeArquivoSeguro(produto.imagem);
+        if (arquivoImagem) img.src = `img/thumbs/${arquivoImagem}`;
+        img.alt = ""; img.loading = "lazy"; img.width = 72; img.height = 90;
         img.addEventListener("error", () => img.remove());
         const box = document.createElement("div");
         const strong = document.createElement("strong"); strong.textContent = produto.nome;
@@ -76,7 +82,10 @@
         abrir.addEventListener("click", () => { fecharDialogo(); window.QualimaxProdutos?.abrirModal?.(produto); });
         const remover = document.createElement("button"); remover.type = "button"; remover.textContent = "Remover";
         remover.addEventListener("click", () => tipo === "favorito" ? toggleFavorito(produto.id) : toggleInteresse(produto.id));
-        acoes.append(abrir, remover); box.append(strong, p, acoes); article.append(img, box); return article;
+        acoes.append(abrir, remover); box.append(strong, p, acoes);
+        if (arquivoImagem) article.append(img);
+        article.append(box);
+        return article;
     };
 
     const renderizarDialogo = async () => {
@@ -103,11 +112,18 @@
         secao.hidden = !itens.length;
         grade.replaceChildren(...itens.map(produto => {
             const article = document.createElement("article"); article.className = "recente-card";
-            const img = document.createElement("img"); img.src = `img/thumbs/${produto.imagem}`; img.alt = ""; img.loading = "lazy"; img.width=116; img.height=144;
+            const img = document.createElement("img");
+            const arquivoImagem = nomeArquivoSeguro(produto.imagem);
+            if (arquivoImagem) img.src = `img/thumbs/${arquivoImagem}`;
+            img.alt = ""; img.loading = "lazy"; img.width=116; img.height=144;
+            img.addEventListener("error", () => img.remove());
             const box = document.createElement("div");
             const strong = document.createElement("strong"); strong.textContent = produto.nome;
             const btn = document.createElement("button"); btn.type="button"; btn.textContent="Ver novamente"; btn.addEventListener("click", () => window.QualimaxProdutos?.abrirModal?.(produto));
-            box.append(strong, btn); article.append(img, box); return article;
+            box.append(strong, btn);
+            if (arquivoImagem) article.append(img);
+            article.append(box);
+            return article;
         }));
     };
 

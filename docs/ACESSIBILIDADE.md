@@ -1,35 +1,78 @@
-# Acessibilidade — Saúde Qualimax v1.1
+# Acessibilidade
 
-A arquitetura considera navegação por teclado, foco visível, semântica HTML, nomes acessíveis, estados ARIA quando necessários, redução de movimento e componentes dinâmicos com gerenciamento de foco.
+A acessibilidade é requisito estrutural da Saúde Qualimax, não um complemento visual.
 
-## Áreas críticas
+## Fundamentos
+
+A plataforma deve preservar:
+
+- HTML semântico;
+- landmarks;
+- hierarquia consistente de headings;
+- navegação completa por teclado;
+- foco visível;
+- nomes acessíveis;
+- labels associados a campos;
+- estado de controles dinâmicos;
+- gerenciamento de foco em diálogos;
+- mensagens de status quando necessário;
+- suporte a `prefers-reduced-motion`;
+- contraste adequado.
+
+## Componentes críticos
+
+Testar sempre:
 
 - menu responsivo;
-- catálogo e filtros;
+- busca e filtros;
+- cards e CTAs;
 - modal de produto;
+- favoritos;
+- lista de interesse;
+- vistos recentemente;
+- jornada local;
 - quiz;
+- Max;
 - FAQ;
-- assistente;
-- links de WhatsApp;
-- controles de acessibilidade.
+- ações PWA;
+- página offline;
+- páginas individuais;
+- compartilhamento.
 
-## NVDA
+## Roteiro com teclado
 
-A validação manual deve conferir, no mínimo:
+Validar pelo menos:
+
+1. `Tab` percorre controles em ordem lógica;
+2. `Shift+Tab` retorna corretamente;
+3. `Enter`/`Espaço` ativam botões e links;
+4. `Escape` fecha diálogos;
+5. o foco retorna ao elemento que abriu o diálogo;
+6. não existe armadilha de teclado;
+7. o menu móvel pode ser aberto e fechado sem mouse.
+
+## Roteiro com NVDA
+
+Verificar:
 
 1. título da página;
 2. landmarks;
-3. headings;
-4. links e botões;
-5. imagens e textos alternativos;
-6. formulários;
-7. progresso e resultado do quiz;
-8. abertura, leitura, fechamento e retorno de foco dos modais;
-9. abertura, leitura, fechamento e retorno de foco do assistente;
-10. acesso aos canais de contato.
+3. lista de headings;
+4. links;
+5. botões e estados;
+6. imagens e textos alternativos;
+7. labels e instruções dos formulários;
+8. progresso e resultados do quiz;
+9. anúncio de mudanças relevantes;
+10. abertura/fechamento de modal e Max;
+11. `aria-pressed` de favoritos/lista;
+12. `aria-current="page"` na navegação;
+13. avisos de conexão e atualização da PWA.
 
-Os controles adicionais de acessibilidade são complementares à acessibilidade estrutural e não substituem HTML semântico, teclado ou contraste adequado.
+## Controles adicionais
 
-## Novos componentes da v2.0
+Alto contraste, tamanho de texto, redução de movimento e leitura fácil são complementares. Eles não substituem semântica, contraste base, teclado ou compatibilidade com leitores de tela.
 
-Validar com teclado e NVDA: botões Favoritar e Adicionar à lista com `aria-pressed`, diálogo Minhas escolhas, retorno de foco, fechamento por Escape, navegação dos produtos relacionados, seção Vistos recentemente e compartilhamento nas páginas individuais. Favoritos e lista não dependem exclusivamente de cor ou ícone para indicar estado.
+## Antes de publicar
+
+Não considerar a acessibilidade concluída apenas com validação automática. Fazer teste manual em navegador real e, sempre que possível, com NVDA.

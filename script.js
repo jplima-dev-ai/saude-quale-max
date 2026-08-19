@@ -56,6 +56,28 @@ document.addEventListener("DOMContentLoaded", () => {
         link.addEventListener("click", () => fecharMenu());
     });
 
+    const paginaAtual = document.body?.dataset.page || "";
+    const mapaPaginas = {
+        home: "index.html",
+        catalogo: "catalogo.html",
+        quiz: "quiz.html",
+        sobre: "sobre.html",
+        contato: "contato.html"
+    };
+    const hrefAtual = mapaPaginas[paginaAtual];
+    if (hrefAtual) {
+        document.querySelectorAll(".navegacao a").forEach((link) => {
+            const href = link.getAttribute("href")?.split("#")[0]?.split("?")[0];
+            if (href === hrefAtual) {
+                link.setAttribute("aria-current", "page");
+                link.classList.add("nav-atual");
+            } else {
+                link.removeAttribute("aria-current");
+                link.classList.remove("nav-atual");
+            }
+        });
+    }
+
     document.addEventListener("keydown", (evento) => {
         if (
             evento.key === "Escape" &&
@@ -499,8 +521,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-
-// v2.0 — PWA leve: registra cache do shell em navegadores compatíveis.
-if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-  window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));
-}

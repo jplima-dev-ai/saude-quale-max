@@ -1,0 +1,171 @@
+(() => {
+  "use strict";
+
+  const paginaProduto = location.pathname.includes("/produto/");
+  const raiz = paginaProduto ? "../" : "./";
+  let promptInstalacao = null;
+  let registroSW = null;
+
+  const criarStatusConexao = () => {
+    let status = document.querySelector("[data-conexao-status]");
+    if (status) return status;
+
+    status = document.createElement("div");
+    status.className = "status-conexao";
+    status.dataset.conexaoStatus = "";
+    status.setAttribute("role", "status");
+    status.setAttribute("aria-live", "polite");
+    status.setAttribute("aria-atomic", "true");
+    status.hidden = true;
+    const skip = document.querySelector(".skip-link");
+    if (skip) skip.insertAdjacentElement("afterend", status);
+    else document.body.prepend(status);
+    return status;
+  };
+
+  const atualizarConexao = () => {
+    const status = criarStatusConexao();
+    if (navigator.onLine) {
+      if (!status.hidden) {
+        status.textContent = "Conexão restabelecida.";
+        status.classList.remove("status-conexao-offline");
+        status.classList.add("status-conexao-online");
+        window.setTimeout(() => { status.hidden = true; }, 2500);
+      }
+      return;
+    }
+    status.hidden = false;
+    status.classList.remove("status-conexao-online");
+    status.classList.add("status-conexao-offline");
+    status.textContent = "Você está offline. Conteúdo já visitado pode continuar disponível.";
+  };
+
+  const criarAreaPWA = () => {
+    let area = document.querySelector("[data-pwa-acoes]");
+    if (area) return area;
+
+    const rodapeFinal = document.querySelector(".rodape-final");
+
+    area = document.createElement("div");
+    area.className = rodapeFinal ? "pwa-acoes" : "pwa-acoes pwa-acoes-flutuante";
+    area.dataset.pwaAcoes = "";
+
+    if (rodapeFinal) {
+      rodapeFinal.append(area);
+    } else {
+      area.setAttribute("role", "region");
+      area.setAttribute("aria-label", "Ações da aplicação");
+      document.body.append(area);
+    }
+    return area;
+  };
+
+  const criarBotaoInstalar = () => {
+    if (!promptInstalacao || window.matchMedia("(display-mode: standalone)").matches) return;
+    const area = criarAreaPWA();
+    if (!area || area.querySelector("[data-instalar-app]")) return;
+
+    const botao = document.createElement("button");
+    botao.type = "button";
+    botao.className = "pwa-botao";
+    botao.dataset.instalarApp = "";
+    botao.textContent = "Instalar Saúde Qualimax";
+    botao.addEventListener("click", async () => {
+      if (!promptInstalacao) return;
+      botao.disabled = true;
+      try {
+        await promptInstalacao.prompt();
+        await promptInstalacao.userChoice;
+      } finally {
+        promptInstalacao = null;
+        botao.remove();
+      }
+    });
+    area.append(botao);
+  };
+
+  const mostrarAtualizacao = (worker) => {
+    const area = criarAreaPWA();
+    if (!area || area.querySelector("[data-atualizar-app]")) return;
+
+    const bloco = document.createElement("div");
+    bloco.className = "pwa-atualizacao";
+    bloco.setAttribute("role", "status");
+
+    const texto = document.createElement("span");
+    texto.textContent = "Uma nova versão da Saúde Qualimax está disponível.";
+
+    const botao = document.createElement("button");
+    botao.type = "button";
+    botao.className = "pwa-botao";
+    botao.dataset.atualizarApp = "";
+    botao.textContent = "Atualizar agora";
+    botao.addEventListener("click", () => {
+      botao.disabled = true;
+      worker.postMessage({ tipo: "SKIP_WAITING" });
+    });
+
+    bloco.append(texto, botao);
+    area.append(bloco);
+  };
+
+  const observarRegistro = (registro) => {
+    if (!registro) return;
+    if (registro.waiting && navigator.serviceWorker.controller) {
+      mostrarAtualizacao(registro.waiting);
+    }
+
+    registro.addEventListener("updatefound", () => {
+      const instalando = registro.installing;
+      if (!instalando) return;
+      instalando.addEventListener("statechange", () => {
+        if (instalando.state === "installed" && navigator.serviceWorker.controller) {
+          mostrarAtualizacao(instalando);
+        }
+      });
+    });
+  };
+
+  window.addEventListener("online", atualizarConexao);
+  window.addEventListener("offline", atualizarConexao);
+  document.addEventListener("DOMContentLoaded", atualizarConexao);
+
+  window.addEventListener("beforeinstallprompt", (evento) => {
+    evento.preventDefault();
+    promptInstalacao = evento;
+    criarBotaoInstalar();
+  });
+
+  window.addEventListener("appinstalled", () => {
+    promptInstalacao = null;
+    document.querySelector("[data-instalar-app]")?.remove();
+  });
+
+  if ("serviceWorker" in navigator && /^https?:$/.test(location.protocol)) {
+    const haviaControladorAoCarregar = Boolean(navigator.serviceWorker.controller);
+    let atualizacaoSolicitada = false;
+
+    window.addEventListener("load", async () => {
+      try {
+        registroSW = await navigator.serviceWorker.register(`${raiz}sw.js`, { scope: raiz });
+        observarRegistro(registroSW);
+      } catch (erro) {
+        console.warn("PWA: não foi possível registrar o Service Worker.", erro);
+      }
+    });
+
+    document.addEventListener("click", (evento) => {
+      if (evento.target.closest?.("[data-atualizar-app]")) {
+        atualizacaoSolicitada = true;
+      }
+    });
+
+    let recarregando = false;
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (recarregando) return;
+      if (!haviaControladorAoCarregar && !atualizacaoSolicitada) return;
+      recarregando = true;
+      location.reload();
+    });
+  }
+})();

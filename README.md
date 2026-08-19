@@ -1,22 +1,78 @@
-# Saúde Qualimax — Plataforma Web v2.0.2
+# Saúde Qualimax — Plataforma Web
 
-Versão: 2.0.1
+**Versão atual: 2.8**
 
-Plataforma multipágina de produtos naturais com foco em acessibilidade, descoberta de produtos e atendimento via WhatsApp.
+Plataforma web multipágina para descoberta e atendimento de produtos naturais, construída com foco em acessibilidade, navegação orientada a dados e conversão via WhatsApp.
 
-## Páginas
-- `index.html` — apresentação e proposta de valor
-- `catalogo.html` — catálogo, busca, filtros, favoritos, lista e histórico
-- `quiz.html` — descoberta guiada
-- `sobre.html` — posicionamento e proposta
-- `contato.html` — canais, endereço e FAQ
-- `produto/` — páginas individuais dos 32 produtos
+## Principais recursos
 
-## Configuração do cliente
-Dados comerciais ficam centralizados em `data/config.json`. Conteúdo institucional reutilizável está em `data/conteudo.json`. Produtos, categorias, quiz e FAQ permanecem separados em arquivos JSON.
+- catálogo com busca e filtros;
+- 32 páginas individuais de produto;
+- favoritos e lista de interesse;
+- histórico e retomada da jornada local;
+- quiz de descoberta;
+- Max, assistente local contextual;
+- produtos relacionados;
+- trilhas editoriais;
+- IndexedDB com fallback local;
+- PWA e modo offline;
+- compartilhamento;
+- SEO multipágina e dados estruturados;
+- acessibilidade para teclado e leitores de tela.
 
-## Marca atual
-Saúde Qualimax — Serra/ES. Assistente digital: Max.
+## Stack
 
-## Recursos
-HTML semântico, CSS responsivo, JavaScript modular, IndexedDB, PWA, catálogo orientado a dados, favoritos, lista de interesse, histórico, quiz, Max, WhatsApp, SEO e acessibilidade orientada a teclado/NVDA.
+HTML, CSS, JavaScript modular, JSON, IndexedDB, Service Worker e Web App Manifest.
+
+O projeto não depende de framework frontend nem backend próprio na arquitetura atual.
+
+## Estrutura principal
+
+```text
+/
+├── index.html
+├── catalogo.html
+├── quiz.html
+├── sobre.html
+├── contato.html
+├── offline.html
+├── produto/
+├── data/
+├── js/
+├── img/
+├── docs/
+├── manifest.webmanifest
+├── sw.js
+├── sitemap.xml
+├── robots.txt
+└── SECURITY.md
+```
+
+## Configuração
+
+Dados de marca, contato, redes e SEO ficam em `data/config.json`.
+
+Produtos e categorias ficam em:
+
+- `data/produtos.json`
+- `data/categorias.json`
+
+A copy editorial da interface ainda não está totalmente centralizada em um único arquivo de dados; partes da Home permanecem no HTML e outras nos JSONs de produto/categoria.
+
+## Documentação
+
+Comece por [`docs/README.md`](docs/README.md).
+
+Os documentos principais cobrem arquitetura, configuração, catálogo, Max, banco local, acessibilidade, privacidade, PWA, SEO, QA e publicação.
+
+## Segurança
+
+Consulte [`SECURITY.md`](SECURITY.md) para relato responsável de vulnerabilidades.
+
+## Limites da versão atual
+
+Não há autenticação, checkout, pagamento, estoque central ou backend remoto. Preço e disponibilidade são confirmados pelo atendimento.
+
+## Publicação
+
+A implantação atual é compatível com GitHub Pages. Antes de publicar uma nova versão, execute o checklist em [`docs/TESTES-E-QUALIDADE.md`](docs/TESTES-E-QUALIDADE.md).

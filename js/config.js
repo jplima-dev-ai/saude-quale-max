@@ -19,19 +19,51 @@
     const valueToString = (valor) => String(valor);
 
     const redesDisponiveis = [
-        { chave: "instagram", nome: "Instagram", sigla: "IG", base: "https://www.instagram.com/", prefixo: "" },
-        { chave: "facebook", nome: "Facebook", sigla: "FB", base: "https://www.facebook.com/", prefixo: "" },
-        { chave: "tiktok", nome: "TikTok", sigla: "TT", base: "https://www.tiktok.com/@", prefixo: "@" },
-        { chave: "youtube", nome: "YouTube", sigla: "YT", base: "https://www.youtube.com/@", prefixo: "@" },
-        { chave: "pinterest", nome: "Pinterest", sigla: "PT", base: "https://www.pinterest.com/", prefixo: "" }
+        { chave: "instagram", nome: "Instagram", sigla: "IG", base: "https://www.instagram.com/", dominio: "instagram.com" },
+        { chave: "facebook", nome: "Facebook", sigla: "FB", base: "https://www.facebook.com/", dominio: "facebook.com" },
+        { chave: "tiktok", nome: "TikTok", sigla: "TT", base: "https://www.tiktok.com/@", dominio: "tiktok.com" },
+        { chave: "youtube", nome: "YouTube", sigla: "YT", base: "https://www.youtube.com/@", dominio: "youtube.com" },
+        { chave: "pinterest", nome: "Pinterest", sigla: "PT", base: "https://www.pinterest.com/", dominio: "pinterest.com" }
     ];
+
+    const hostPermitido = (hostname, dominio) => hostname === dominio || hostname.endsWith(`.${dominio}`);
 
     const resolverUrlRede = (rede, valor) => {
         const bruto = String(valor || "").trim();
         if (!bruto) return "";
-        if (/^https?:\/\//i.test(bruto)) return bruto;
+
+        if (/^https?:\/\//i.test(bruto)) {
+            try {
+                const url = new URL(bruto);
+                if (url.protocol !== "https:" || !hostPermitido(url.hostname.toLowerCase(), rede.dominio)) return "";
+                url.username = "";
+                url.password = "";
+                return url.href;
+            } catch {
+                return "";
+            }
+        }
+
         const usuario = bruto.replace(/^@/, "").replace(/^\/+|\/+$/g, "");
-        return usuario ? `${rede.base}${usuario}/` : "";
+        if (!/^[A-Za-z0-9._-]{1,100}$/.test(usuario)) return "";
+        return `${rede.base}${encodeURIComponent(usuario)}/`;
+    };
+
+    const caminhoImagemSeguro = (valor) => {
+        const caminho = String(valor || "").trim();
+        if (!caminho || caminho.includes("..") || caminho.startsWith("/") || /^(?:[a-z]+:|\/\/)/i.test(caminho)) return "";
+        return /^img\/[A-Za-z0-9._/-]+$/.test(caminho) ? caminho : "";
+    };
+
+    const emailSeguro = (valor) => {
+        const email = String(valor || "").trim();
+        if (email.length > 254 || /[\r\n]/.test(email)) return "";
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? email : "";
+    };
+
+    const corSegura = (valor) => {
+        const cor = String(valor || "").trim();
+        return /^#[0-9A-Fa-f]{6}$/.test(cor) ? cor : "";
     };
 
     const obterRedesAtivas = (redes = {}) => redesDisponiveis
@@ -96,22 +128,76 @@
         const redes = config.redes || {};
         const seo = config.seo || {};
         const nome = empresa.nome || "Saúde Qualimax";
-        const dados = {
-            "@context": "https://schema.org",
-            "@type": "Organization",
+        const site = String(empresa.site || seo.canonical || "").replace(/\/?$/, "/");
+        const pagina = document.body?.dataset.page || "home";
+        const paginaSEO = seo.paginas?.[pagina] || {};
+        const paginaUrl = paginaSEO.canonical || site || location.href;
+
+        const loja = {
+            "@type": "Store",
+            "@id": site ? `${site}#loja` : undefined,
             "name": nome,
             "description": empresa.descricao || undefined,
-            "url": empresa.site || seo.canonical || undefined,
+            "url": site || undefined,
             "telephone": contato.telefone || undefined,
             "email": contato.email || undefined,
-            "address": contato.endereco ? { "@type": "PostalAddress", "streetAddress": contato.endereco, "addressLocality": empresa.cidade || undefined, "addressRegion": empresa.estado || undefined, "postalCode": empresa.cep || undefined, "addressCountry": "BR" } : undefined
+            "address": contato.endereco ? {
+                "@type": "PostalAddress",
+                "streetAddress": contato.endereco,
+                "addressLocality": empresa.cidade || undefined,
+                "addressRegion": empresa.estado || undefined,
+                "postalCode": empresa.cep || undefined,
+                "addressCountry": "BR"
+            } : undefined
         };
+
         const sameAs = obterRedesAtivas(redes).map((rede) => rede.url);
-        if (sameAs.length) dados.sameAs = sameAs;
-        Object.keys(dados).forEach((key) => {
-            if (dados[key] === undefined || dados[key] === "") delete dados[key];
-        });
-        if (dados.address) Object.keys(dados.address).forEach((key) => { if (dados.address[key] === undefined || dados.address[key] === "") delete dados.address[key]; });
+        if (sameAs.length) loja.sameAs = sameAs;
+
+        const website = site ? {
+            "@type": "WebSite",
+            "@id": `${site}#website`,
+            "url": site,
+            "name": nome,
+            "publisher": { "@id": `${site}#loja` },
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": `${site}catalogo.html?busca={search_term_string}`
+                },
+                "query-input": "required name=search_term_string"
+            }
+        } : null;
+
+        const nomesPaginas = {
+            home: "Início",
+            catalogo: "Catálogo",
+            quiz: "Quiz",
+            sobre: "Sobre",
+            contato: "Contato"
+        };
+
+        const breadcrumb = pagina !== "home" && site ? {
+            "@type": "BreadcrumbList",
+            "@id": `${paginaUrl}#breadcrumb`,
+            "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": "Início", "item": site },
+                { "@type": "ListItem", "position": 2, "name": nomesPaginas[pagina] || "Página", "item": paginaUrl }
+            ]
+        } : null;
+
+        const limpar = (objeto) => {
+            if (!objeto || typeof objeto !== "object") return objeto;
+            Object.keys(objeto).forEach((key) => {
+                if (objeto[key] === undefined || objeto[key] === "") delete objeto[key];
+                else if (objeto[key] && typeof objeto[key] === "object" && !Array.isArray(objeto[key])) limpar(objeto[key]);
+            });
+            return objeto;
+        };
+
+        const grafo = [limpar(loja), website && limpar(website), breadcrumb && limpar(breadcrumb)].filter(Boolean);
+        const dados = { "@context": "https://schema.org", "@graph": grafo };
         const script = document.querySelector("#dados-estruturados");
         if (script) script.textContent = JSON.stringify(dados);
     };
@@ -161,13 +247,13 @@
             "--cor-acento": marca.corAcento,
             "--cor-fundo": marca.corFundo
         }).forEach(([propriedade, valor]) => {
-            if (valor) root.style.setProperty(propriedade, valor);
+            const segura = corSegura(valor); if (segura) root.style.setProperty(propriedade, segura);
         });
 
         document.querySelectorAll(".logo-texto, [data-config-nome]").forEach((el) => { el.textContent = nome; });
         document.querySelectorAll("[data-config-logo]").forEach((el) => { el.textContent = marca.logo || "🌿"; });
         document.querySelectorAll("[data-config-logo-img]").forEach((img) => {
-            if (marca.logoImagem) { img.src = marca.logoImagem; img.alt = nome; img.hidden = false; }
+            const logoSeguro = caminhoImagemSeguro(marca.logoImagem); if (logoSeguro) { img.src = logoSeguro; img.alt = nome; img.hidden = false; }
             else { img.hidden = true; }
         });
         document.querySelectorAll("[data-config-logo-label]").forEach((el) => { el.setAttribute("aria-label", `${nome} - voltar ao início`); });
@@ -184,7 +270,7 @@
         document.querySelectorAll("[data-configurable-whatsapp]").forEach((link) => aplicarLinkWhatsApp(link, numero, nome));
 
         document.querySelectorAll("[data-config-email-link]").forEach((link) => {
-            if (contato.email) link.href = `mailto:${contato.email}`;
+            const email = emailSeguro(contato.email); if (email) link.href = `mailto:${email}`;
             else link.removeAttribute("href");
         });
 

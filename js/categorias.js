@@ -19,6 +19,6 @@
                 });
                 div.append(h,p,a); article.append(img,div); return article;
             }));
-        } catch(e){ console.error(e); grid.innerHTML='<p role="alert">Não foi possível carregar as categorias agora.</p>'; }
+        } catch(e){ console.error(e); const aviso=document.createElement("p"); aviso.setAttribute("role","alert"); aviso.textContent="Não foi possível carregar as categorias agora."; grid.replaceChildren(aviso); }
     });
 })();

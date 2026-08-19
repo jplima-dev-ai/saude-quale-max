@@ -7,7 +7,8 @@
         filtroCategoria: "",
         filtroTipo: "",
         filtroCaracteristica: "",
-        busca: ""
+        busca: "",
+        ordenacao: "relevancia"
     };
 
     const normalizar = (valor) => String(valor ?? "")
@@ -20,6 +21,16 @@
         return categoria?.nome || id || "Sem categoria";
     };
 
+    const nomeArquivoSeguro = (valor) => {
+        const nome = String(valor || "").trim();
+        return /^[A-Za-z0-9._-]+$/.test(nome) ? nome : "";
+    };
+
+    const slugSeguro = (valor) => {
+        const slug = String(valor || "").trim();
+        return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) ? slug : "";
+    };
+
     const construirMensagem = (produto) => {
         const nomeLoja = window.QualimaxConfig?.empresa?.nome || "a loja";
         return encodeURIComponent(
@@ -29,7 +40,7 @@
 
     const numeroWhatsApp = () => String(window.QualimaxConfig?.contato?.whatsapp || "").replace(/\D/g, "");
     const linkWhatsApp = (produto) => `https://wa.me/${numeroWhatsApp()}?text=${construirMensagem(produto)}`;
-    const imagemMiniatura = (produto) => `img/thumbs/${produto.imagem}`;
+    const imagemMiniatura = (produto) => `img/thumbs/${nomeArquivoSeguro(produto.imagem)}`;
 
     const criarBotaoFavorito = (produto) => {
         const botao = document.createElement("button");
@@ -146,6 +157,57 @@
         grade.replaceChildren(...destaques.map(criarCard));
     };
 
+    const ordenarProdutos = (produtos) => {
+        const lista = [...produtos];
+        if (estado.ordenacao === "az") {
+            return lista.sort((a,b) => String(a.nome).localeCompare(String(b.nome), "pt-BR"));
+        }
+        if (estado.ordenacao === "za") {
+            return lista.sort((a,b) => String(b.nome).localeCompare(String(a.nome), "pt-BR"));
+        }
+        if (estado.ordenacao === "categoria") {
+            return lista.sort((a,b) => {
+                const cat = categoriaNome(a.categoria).localeCompare(categoriaNome(b.categoria), "pt-BR");
+                return cat || String(a.nome).localeCompare(String(b.nome), "pt-BR");
+            });
+        }
+        return lista.sort((a,b) => Number(b.destaque) - Number(a.destaque));
+    };
+
+    const nomeFiltroCaracteristica = (valor) => {
+        if (["vegano","vegana"].includes(valor)) return "Vegano";
+        if (["sem_gluten","sem-gluten"].includes(valor)) return "Sem glúten";
+        return valor;
+    };
+
+    const renderizarFiltrosAtivos = () => {
+        const area = document.querySelector("[data-filtros-ativos]");
+        if (!area) return;
+
+        const filtros = [];
+        if (estado.busca.trim()) filtros.push({ tipo: "busca", rotulo: `Busca: ${estado.busca.trim()}` });
+        if (estado.filtroCategoria) filtros.push({ tipo: "categoria", rotulo: `Categoria: ${categoriaNome(estado.filtroCategoria)}` });
+        if (estado.filtroTipo) filtros.push({ tipo: "tipo", rotulo: `Formato: ${estado.filtroTipo}` });
+        if (estado.filtroCaracteristica) filtros.push({ tipo: "caracteristica", rotulo: `Característica: ${nomeFiltroCaracteristica(estado.filtroCaracteristica)}` });
+
+        area.hidden = filtros.length === 0;
+        area.replaceChildren(...filtros.map(({ tipo, rotulo }) => {
+            const botao = document.createElement("button");
+            botao.type = "button";
+            botao.className = "filtro-ativo-chip";
+            botao.dataset.removerFiltro = tipo;
+            botao.textContent = `${rotulo} ×`;
+            botao.setAttribute("aria-label", `Remover filtro ${rotulo}`);
+            return botao;
+        }));
+    };
+
+    const salvarEstadoCatalogo = () => {
+        try {
+            sessionStorage.setItem("qualimax-catalogo-url", `${location.pathname}${location.search}#produtos`);
+        } catch {}
+    };
+
     const renderizar = () => {
         const grade = document.querySelector("[data-produtos-grid]");
         const contador = document.querySelector("[data-produtos-contador]");
@@ -154,7 +216,7 @@
 
         const termo = normalizar(estado.busca).trim();
         const termosBusca = termo.split(/\s+/).filter(Boolean);
-        const filtrados = estado.produtos.filter((produto) => {
+        let filtrados = estado.produtos.filter((produto) => {
             const texto = normalizar([
                 produto.nome,
                 produto.categoria,
@@ -176,6 +238,8 @@
             return correspondeBusca && correspondeCategoria && correspondeTipo && correspondeCaracteristica;
         });
 
+        filtrados = ordenarProdutos(filtrados);
+        renderizarFiltrosAtivos();
         grade.replaceChildren(...filtrados.map(criarCard));
         if (contador) {
             const termoInformado = estado.busca.trim();
@@ -235,7 +299,7 @@
         const imagemWrap = document.createElement("div");
         imagemWrap.className = "produto-modal-imagem";
         const imagem = document.createElement("img");
-        imagem.src = `img/${produto.imagem}`;
+        imagem.src = `img/${nomeArquivoSeguro(produto.imagem)}`;
         imagem.alt = `${produto.nome} — ${categoriaNome(produto.categoria)}.`;
         imagem.decoding = "async";
         imagem.width = 928;
@@ -292,19 +356,20 @@
             informacoes.append(link);
         }
 
-        if (produto.slug) {
+        const slugValido = slugSeguro(produto.slug);
+        if (slugValido) {
             const paginaAcoes = document.createElement("div");
             paginaAcoes.className = "produto-pagina-acoes-inline";
             const pagina = document.createElement("a");
             pagina.className = "link-destaque";
-            pagina.href = `produto/${produto.slug}.html`;
+            pagina.href = `produto/${slugValido}.html`;
             pagina.textContent = "Abrir página do produto →";
             const compartilhar = document.createElement("button");
             compartilhar.type = "button";
             compartilhar.className = "produto-compartilhar";
             compartilhar.textContent = "Compartilhar";
             compartilhar.addEventListener("click", async () => {
-                const url = new URL(`produto/${produto.slug}.html`, window.location.href).href;
+                const url = new URL(`produto/${slugValido}.html`, window.location.href).href;
                 try {
                     if (navigator.share) await navigator.share({ title: produto.nome, text: produto.copy || produto.descricao || "", url });
                     else { await navigator.clipboard.writeText(url); compartilhar.textContent = "Link copiado"; window.setTimeout(() => compartilhar.textContent = "Compartilhar", 1800); }
@@ -361,24 +426,28 @@
 
     const aplicarParametrosURL = () => {
         const params = new URLSearchParams(window.location.search);
-        const busca = params.get("busca") || "";
-        const categoria = params.get("categoria") || "";
-        const tipo = params.get("tipo") || "";
-        const caracteristica = params.get("caracteristica") || "";
+        const busca = (params.get("busca") || "").slice(0, 120);
+        const categoria = (params.get("categoria") || "").slice(0, 80);
+        const tipo = (params.get("tipo") || "").slice(0, 80);
+        const caracteristica = (params.get("caracteristica") || "").slice(0, 80);
+        const ordenar = (params.get("ordenar") || "").slice(0, 24);
 
         if (busca) estado.busca = busca;
         if (categoria && estado.categorias.some((item) => item.id === categoria)) estado.filtroCategoria = categoria;
         if (tipo) estado.filtroTipo = tipo;
         if (caracteristica) estado.filtroCaracteristica = caracteristica;
+        if (["relevancia","az","za","categoria"].includes(ordenar)) estado.ordenacao = ordenar;
 
         const campoBusca = document.querySelector("[data-busca-produtos]");
         const campoCategoria = document.querySelector("[data-filtro-categoria]");
         const campoTipo = document.querySelector("[data-filtro-tipo]");
         const campoCaracteristica = document.querySelector("[data-filtro-caracteristica]");
+        const campoOrdenacao = document.querySelector("[data-ordenar-produtos]");
         if (campoBusca) campoBusca.value = estado.busca;
         if (campoCategoria) campoCategoria.value = estado.filtroCategoria;
         if (campoTipo && [...campoTipo.options].some((o) => o.value === estado.filtroTipo)) campoTipo.value = estado.filtroTipo;
         if (campoCaracteristica && [...campoCaracteristica.options].some((o) => o.value === estado.filtroCaracteristica)) campoCaracteristica.value = estado.filtroCaracteristica;
+        if (campoOrdenacao) campoOrdenacao.value = estado.ordenacao;
     };
 
     const sincronizarURL = () => {
@@ -387,8 +456,19 @@
         if (estado.filtroCategoria) params.set("categoria", estado.filtroCategoria);
         if (estado.filtroTipo) params.set("tipo", estado.filtroTipo);
         if (estado.filtroCaracteristica) params.set("caracteristica", estado.filtroCaracteristica);
+        if (estado.ordenacao !== "relevancia") params.set("ordenar", estado.ordenacao);
         const novaURL = `${window.location.pathname}${params.size ? `?${params}` : ""}${window.location.hash || ""}`;
         history.replaceState(null, "", novaURL);
+        salvarEstadoCatalogo();
+        document.dispatchEvent(new CustomEvent("qualimax:catalogo-contexto", {
+            detail: {
+                busca: estado.busca.trim(),
+                categoria: estado.filtroCategoria,
+                tipo: estado.filtroTipo,
+                caracteristica: estado.filtroCaracteristica,
+                ordenacao: estado.ordenacao
+            }
+        }));
     };
 
     document.addEventListener("DOMContentLoaded", async () => {
@@ -425,6 +505,7 @@
                 delete document.documentElement.dataset.categoriaPendente;
             }
             renderizar();
+            sincronizarURL();
             renderizarDestaques();
             document.dispatchEvent(new CustomEvent("qualimax:catalog-ready", { detail: { produtos: estado.produtos, categorias: estado.categorias } }));
             window.setTimeout(() => document.dispatchEvent(new CustomEvent("qualimax:colecoes-refresh")), 0);
@@ -457,19 +538,75 @@
             renderizar();
             sincronizarURL();
         });
+        document.querySelector("[data-ordenar-produtos]")?.addEventListener("change", (evento) => {
+            estado.ordenacao = evento.target.value;
+            renderizar();
+            sincronizarURL();
+        });
+
+        document.querySelector("[data-filtros-ativos]")?.addEventListener("click", (evento) => {
+            const botao = evento.target.closest?.("[data-remover-filtro]");
+            if (!botao) return;
+            const tipo = botao.dataset.removerFiltro;
+            if (tipo === "busca") {
+                estado.busca = "";
+                const campo = document.querySelector("[data-busca-produtos]");
+                if (campo) campo.value = "";
+            } else if (tipo === "categoria") {
+                estado.filtroCategoria = "";
+                const campo = document.querySelector("[data-filtro-categoria]");
+                if (campo) campo.value = "";
+            } else if (tipo === "tipo") {
+                estado.filtroTipo = "";
+                const campo = document.querySelector("[data-filtro-tipo]");
+                if (campo) campo.value = "";
+            } else if (tipo === "caracteristica") {
+                estado.filtroCaracteristica = "";
+                const campo = document.querySelector("[data-filtro-caracteristica]");
+                if (campo) campo.value = "";
+            }
+            renderizar();
+            sincronizarURL();
+        });
+
+        document.querySelector("[data-compartilhar-catalogo]")?.addEventListener("click", async () => {
+            const botao = document.querySelector("[data-compartilhar-catalogo]");
+            const url = location.href;
+            try {
+                if (navigator.share) {
+                    await navigator.share({ title: document.title, text: "Confira esta seleção no catálogo da Saúde Qualimax.", url });
+                    return;
+                }
+                if (!navigator.clipboard || !window.isSecureContext) throw new Error("clipboard-indisponivel");
+                await navigator.clipboard.writeText(url);
+                if (botao) {
+                    const antigo = botao.textContent;
+                    botao.textContent = "Link copiado";
+                    window.setTimeout(() => { botao.textContent = antigo; }, 1800);
+                }
+            } catch (erro) {
+                if (erro?.name === "AbortError") return;
+                const contador = document.querySelector("[data-produtos-contador]");
+                if (contador) contador.textContent = "Não foi possível compartilhar esta busca neste navegador.";
+            }
+        });
+
         const limparFiltros = () => {
             estado.busca = "";
             estado.filtroCategoria = "";
             estado.filtroTipo = "";
             estado.filtroCaracteristica = "";
+            estado.ordenacao = "relevancia";
             const busca = document.querySelector("[data-busca-produtos]");
             const categoria = document.querySelector("[data-filtro-categoria]");
             const tipo = document.querySelector("[data-filtro-tipo]");
             const caracteristica = document.querySelector("[data-filtro-caracteristica]");
+            const ordenacao = document.querySelector("[data-ordenar-produtos]");
             if (busca) busca.value = "";
             if (categoria) categoria.value = "";
             if (tipo) tipo.value = "";
             if (caracteristica) caracteristica.value = "";
+            if (ordenacao) ordenacao.value = "relevancia";
             renderizar();
             sincronizarURL();
             busca?.focus();

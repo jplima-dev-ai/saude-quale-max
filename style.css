@@ -2916,3 +2916,1445 @@ html.reduzir-movimento .rede-link:hover { transform: none; }
 @media(max-width:1000px){.categorias-populares-grid{grid-template-columns:repeat(2,1fr)}.catalogo-filtros{grid-template-columns:1fr 1fr}.plataforma-recursos{grid-template-columns:1fr}.plataforma-atalhos{justify-content:flex-start}}
 @media(max-width:760px){.beneficios-premium-grid,.categorias-populares-grid,.contato-grid{grid-template-columns:1fr}.catalogo-filtros{grid-template-columns:1fr}.logo-imagem{width:155px}.botao-header{display:none}.plataforma-atalhos .botao{width:100%}.contato-card-largo{grid-column:auto}}
 @media(prefers-reduced-motion:reduce){.categorias-populares-grid a{transition:none}.categorias-populares-grid a:hover,.categorias-populares-grid a:focus-visible{transform:none}}
+
+
+/* v2.0.4 — PWA, conectividade e orientação */
+.navegacao a[aria-current="page"],
+.navegacao .nav-atual {
+    font-weight: 800;
+    text-decoration: underline;
+    text-underline-offset: 0.35em;
+    text-decoration-thickness: 0.13em;
+}
+
+.status-conexao {
+    position: sticky;
+    top: 0;
+    z-index: 12000;
+    width: 100%;
+    padding: 0.65rem 1rem;
+    text-align: center;
+    font-weight: 700;
+    box-shadow: 0 4px 16px rgba(0,0,0,.12);
+}
+.status-conexao-offline {
+    background: #5b3212;
+    color: #fff;
+}
+.status-conexao-online {
+    background: var(--cor-principal, #176b4d);
+    color: #fff;
+}
+.pwa-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+    align-items: center;
+    justify-content: flex-end;
+}
+.pwa-botao {
+    appearance: none;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    padding: .65rem 1rem;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+.pwa-botao:hover,
+.pwa-botao:focus-visible {
+    background: rgba(255,255,255,.1);
+}
+.pwa-botao:disabled {
+    opacity: .6;
+    cursor: progress;
+}
+.pwa-atualizacao {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .65rem;
+    align-items: center;
+}
+.pagina-offline {
+    min-height: 100vh;
+    background: var(--cor-fundo, #fbfaf6);
+}
+.offline-main {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 2rem 1rem;
+}
+.offline-card {
+    width: min(700px, 100%);
+    background: #fff;
+    border: 1px solid rgba(23,107,77,.18);
+    border-radius: 24px;
+    padding: clamp(1.5rem, 5vw, 3rem);
+    box-shadow: 0 18px 60px rgba(13,69,50,.12);
+}
+.offline-logo {
+    display: block;
+    width: min(280px, 70%);
+    height: auto;
+    margin-bottom: 1.5rem;
+}
+.offline-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+    margin-top: 1.5rem;
+}
+@media (max-width: 640px) {
+    .pwa-acoes,
+    .pwa-atualizacao,
+    .offline-acoes {
+        align-items: stretch;
+        flex-direction: column;
+    }
+}
+
+
+/* v2.0.5 — Breadcrumbs, Max contextual e páginas de produto */
+.breadcrumb {
+    padding-top: 1rem;
+    padding-bottom: .25rem;
+}
+.breadcrumb ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .45rem;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: .92rem;
+    color: var(--texto-suave, #5f665f);
+}
+.breadcrumb li + li::before {
+    content: "/";
+    margin-right: .45rem;
+    color: var(--cor-acento, #c99a45);
+}
+.breadcrumb a {
+    color: var(--cor-principal, #176b4d);
+    text-underline-offset: .2em;
+}
+.breadcrumb [aria-current="page"] {
+    font-weight: 700;
+}
+
+.chat-refinamentos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    margin-top: .65rem;
+}
+.chat-refinamento,
+.chat-limpar,
+.chat-categoria-cta {
+    border: 1px solid rgba(23, 107, 77, .25);
+    background: #fff;
+    color: var(--cor-principal, #176b4d);
+    border-radius: 999px;
+    padding: .55rem .8rem;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+.chat-refinamento:hover,
+.chat-refinamento:focus-visible,
+.chat-limpar:hover,
+.chat-limpar:focus-visible,
+.chat-categoria-cta:hover,
+.chat-categoria-cta:focus-visible {
+    background: var(--verde-suave, #eef7f2);
+    border-color: var(--cor-principal, #176b4d);
+}
+.chat-limpar {
+    margin-left: auto;
+    font-size: .82rem;
+}
+.chat-produto-conteudo {
+    min-width: 0;
+    display: grid;
+    gap: .35rem;
+}
+.chat-produto-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+    margin-top: .35rem;
+}
+.chat-produto-acoes button {
+    min-height: 40px;
+}
+
+.produto-categoria-link {
+    color: var(--cor-principal, #176b4d);
+    font-weight: 800;
+    text-underline-offset: .2em;
+}
+.produto-pos-conteudo {
+    padding-bottom: clamp(2.5rem, 6vw, 5rem);
+}
+.produto-relacionados-pagina {
+    margin-top: clamp(2.5rem, 6vw, 5rem);
+    padding-top: clamp(1.5rem, 4vw, 2.5rem);
+    border-top: 1px solid var(--borda, #ddd);
+}
+.produto-relacionados-grid-pagina {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1.25rem;
+}
+.produto-relacionado-pagina-card {
+    min-width: 0;
+}
+.produto-relacionado-pagina-link {
+    display: grid;
+    height: 100%;
+    overflow: hidden;
+    border: 1px solid rgba(23,107,77,.14);
+    border-radius: 18px;
+    background: #fff;
+    color: inherit;
+    text-decoration: none;
+    box-shadow: 0 10px 28px rgba(13,69,50,.08);
+}
+.produto-relacionado-pagina-link:hover,
+.produto-relacionado-pagina-link:focus-visible {
+    transform: translateY(-2px);
+    border-color: rgba(23,107,77,.35);
+}
+.produto-relacionado-pagina-link img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: contain;
+    background: #fbfaf6;
+}
+.produto-relacionado-pagina-link > div {
+    display: grid;
+    gap: .4rem;
+    padding: .9rem;
+}
+.produto-relacionado-pagina-link strong {
+    color: var(--verde-profundo, #123);
+}
+.produto-relacionado-pagina-link span {
+    font-size: .9rem;
+    color: var(--texto-suave, #555);
+    line-height: 1.5;
+}
+.produto-navegacao {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: 1rem;
+    align-items: stretch;
+    margin-top: 2rem;
+}
+.produto-nav-link,
+.produto-nav-catalogo {
+    display: flex;
+    gap: .75rem;
+    align-items: center;
+    min-height: 72px;
+    padding: .9rem 1rem;
+    border: 1px solid rgba(23,107,77,.16);
+    border-radius: 16px;
+    background: #fff;
+    color: var(--cor-principal, #176b4d);
+    text-decoration: none;
+}
+.produto-nav-proximo {
+    justify-content: flex-end;
+    text-align: right;
+}
+.produto-nav-link small {
+    display: block;
+    color: var(--texto-suave, #666);
+    font-weight: 500;
+}
+.produto-nav-link strong {
+    display: block;
+}
+.produto-nav-catalogo {
+    justify-content: center;
+    font-weight: 800;
+}
+@media (max-width: 900px) {
+    .produto-relacionados-grid-pagina {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+@media (max-width: 640px) {
+    .produto-relacionados-grid-pagina {
+        grid-template-columns: 1fr;
+    }
+    .produto-navegacao {
+        grid-template-columns: 1fr;
+    }
+    .produto-nav-proximo {
+        justify-content: space-between;
+        text-align: left;
+    }
+    .produto-nav-catalogo {
+        order: 3;
+    }
+    .chat-limpar {
+        margin-left: 0;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .produto-relacionado-pagina-link {
+        transition: none !important;
+    }
+}
+
+
+/* v2.0.7 — descoberta editorial e navegação por contexto */
+.descoberta-editorial,
+.descoberta-contextual {
+    position: relative;
+    overflow: hidden;
+}
+.editorial-trilhas {
+    display: grid;
+    grid-template-columns: repeat(4,minmax(0,1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+.descoberta-contextual .editorial-trilhas {
+    grid-template-columns: repeat(3,minmax(0,1fr));
+}
+.editorial-trilha {
+    display: grid;
+    align-content: start;
+    gap: .65rem;
+    min-height: 210px;
+    padding: 1.25rem;
+    border: 1px solid rgba(23,107,77,.16);
+    border-radius: 20px;
+    background: #fff;
+    color: inherit;
+    text-decoration: none;
+    box-shadow: 0 12px 32px rgba(13,69,50,.07);
+}
+.editorial-trilha:hover,
+.editorial-trilha:focus-visible {
+    border-color: rgba(23,107,77,.42);
+    transform: translateY(-3px);
+    box-shadow: 0 16px 36px rgba(13,69,50,.11);
+}
+.editorial-trilha strong {
+    font-size: 1.08rem;
+    line-height: 1.3;
+    color: var(--verde-profundo,#123d2e);
+}
+.editorial-trilha span {
+    line-height: 1.6;
+    color: var(--texto-suave,#555);
+}
+.editorial-trilha small {
+    margin-top: auto;
+    color: var(--cor-principal,#176b4d);
+    font-weight: 800;
+}
+.achados-dia {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(23,107,77,.14);
+}
+.achados-dia h3 {
+    margin-bottom: 1rem;
+}
+.achados-dia ul {
+    display: grid;
+    grid-template-columns: repeat(3,minmax(0,1fr));
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.achados-dia a {
+    display: grid;
+    gap: .45rem;
+    height: 100%;
+    padding: 1rem;
+    border-radius: 16px;
+    background: rgba(255,255,255,.72);
+    color: inherit;
+    text-decoration: none;
+}
+.achados-dia strong { color: var(--cor-principal,#176b4d); }
+.achados-dia span { line-height: 1.5; font-size: .92rem; }
+@media (max-width:900px){
+    .editorial-trilhas,
+    .descoberta-contextual .editorial-trilhas { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .achados-dia ul { grid-template-columns:1fr; }
+}
+@media (max-width:600px){
+    .editorial-trilhas,
+    .descoberta-contextual .editorial-trilhas { grid-template-columns:1fr; }
+    .editorial-trilha { min-height:0; }
+}
+@media (prefers-reduced-motion:reduce){
+    .editorial-trilha { transition:none!important; }
+    .editorial-trilha:hover,
+    .editorial-trilha:focus-visible { transform:none; }
+}
+
+/* v2.7.1 — jornada local e continuidade de navegação */
+.jornada-local-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;margin-top:1.5rem}.jornada-card{display:flex;gap:.9rem;min-width:0;padding:1rem;border:1px solid rgba(23,107,77,.16);border-radius:18px;background:#fff;color:inherit;text-decoration:none;box-shadow:0 10px 28px rgba(13,69,50,.07)}.jornada-card:hover,.jornada-card:focus-visible{border-color:rgba(23,107,77,.42);transform:translateY(-2px)}.jornada-card img{width:82px;height:102px;object-fit:contain;flex:0 0 auto;border-radius:10px;background:#fbfaf6}.jornada-card>div{display:grid;align-content:start;gap:.35rem;min-width:0}.jornada-card small{color:var(--cor-principal,#176b4d);font-weight:800}.jornada-card strong{line-height:1.3}.jornada-card span{font-size:.9rem;line-height:1.5;color:var(--texto-suave,#555)}.jornada-card-trilha{align-items:center}.jornada-local-rodape{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-top:1.25rem}.jornada-local-rodape p{margin:0;font-size:.88rem;color:var(--texto-suave,#555)}@media(max-width:1000px){.jornada-local-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:620px){.jornada-local-grid{grid-template-columns:1fr}.jornada-local-rodape{align-items:stretch}.jornada-local-rodape .botao{width:100%}}@media(prefers-reduced-motion:reduce){.jornada-card{transition:none!important}.jornada-card:hover,.jornada-card:focus-visible{transform:none}}
+
+
+/* v2.7.2 — fallback acessível para ações PWA em páginas sem rodapé */
+.pwa-acoes-flutuante {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 11000;
+    max-width: min(420px, calc(100vw - 2rem));
+    padding: .8rem;
+    border: 1px solid rgba(23,107,77,.2);
+    border-radius: 16px;
+    background: #fff;
+    color: var(--texto, #222);
+    box-shadow: 0 14px 38px rgba(0,0,0,.14);
+}
+@media (max-width:640px) {
+    .pwa-acoes-flutuante {
+        left: 1rem;
+        right: 1rem;
+        bottom: 1rem;
+    }
+}
+
+
+/* ==========================================================
+   SAÚDE QUALIMAX v2.7.4 — camada responsiva consolidada
+   Mantida no fim do arquivo para normalizar breakpoints
+   históricos sem alterar a identidade visual existente.
+   ========================================================== */
+
+/* Proteções gerais contra overflow */
+html { overflow-x: clip; }
+body { min-width: 0; }
+img, video, svg { max-width: 100%; }
+main, section, article, aside, nav, header, footer, .container,
+.hero-grid > *, .plataforma-recursos > *, .contato-grid > *,
+.produtos-grid > *, .destaques-grid > *, .jornada-local-grid > *,
+.editorial-trilhas > * { min-width: 0; }
+h1, h2, h3, h4, p, a, button, label, li, strong, span {
+    overflow-wrap: anywhere;
+}
+.container {
+    width: min(calc(100% - clamp(28px, 5vw, 56px)), var(--largura-container));
+}
+
+/* Página individual: estilos antes duplicados em 32 arquivos */
+.produto-pagina { min-height: 100vh; background: var(--fundo, #fbfaf6); }
+.produto-pagina-topo {
+    padding: 18px 0;
+    border-bottom: 1px solid var(--borda, #ddd);
+    background: #fff;
+}
+.produto-pagina-main { padding: clamp(32px, 6vw, 72px) 0; }
+.produto-pagina-grid {
+    display: grid;
+    grid-template-columns: minmax(260px, .85fr) minmax(0, 1.15fr);
+    gap: clamp(28px, 5vw, 64px);
+    align-items: start;
+}
+.produto-pagina-img {
+    display: block;
+    width: 100%;
+    max-height: min(680px, 72vh);
+    object-fit: contain;
+    border-radius: 24px;
+    background: #fff;
+    box-shadow: var(--sombra-suave);
+}
+.produto-pagina-info h1 {
+    margin: .35rem 0 1rem;
+    color: var(--verde-profundo, #123);
+    font-size: clamp(2rem, 4.2vw, 3.6rem);
+    line-height: 1.08;
+}
+.produto-pagina-copy {
+    font-size: clamp(1rem, 1.5vw, 1.08rem);
+    line-height: 1.8;
+    color: var(--texto-suave, #555);
+}
+.produto-pagina-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+}
+.produto-pagina-aviso {
+    margin-top: 22px;
+    padding: 16px;
+    border-radius: 14px;
+    background: var(--verde-suave, #eef7f2);
+}
+
+/* Desktop intermediário / notebooks menores */
+@media (max-width: 1180px) {
+    .produtos-grid,
+    .destaques-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    .hero-grid {
+        gap: clamp(32px, 5vw, 48px);
+    }
+
+    .rodape-grid {
+        gap: 28px;
+    }
+}
+
+/* Tablet paisagem e telas intermediárias */
+@media (max-width: 980px) {
+    .hero {
+        padding-block: clamp(56px, 8vw, 78px);
+    }
+
+    .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .hero-conteudo {
+        max-width: 760px;
+    }
+
+    .hero-visual {
+        min-height: 0;
+        width: min(100%, 760px);
+        margin-inline: auto;
+    }
+
+    .hero-imagem {
+        height: clamp(320px, 56vw, 520px);
+    }
+
+    .hero-visual::after {
+        right: -10px;
+        bottom: -10px;
+    }
+
+    .beneficios-premium-grid,
+    .categorias-populares-grid,
+    .editorial-trilhas,
+    .descoberta-contextual .editorial-trilhas,
+    .jornada-local-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .produtos-grid,
+    .destaques-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .contato-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .plataforma-recursos {
+        grid-template-columns: 1fr;
+    }
+
+    .plataforma-atalhos {
+        justify-content: flex-start;
+    }
+
+    .catalogo-filtros {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .catalogo-filtros > * {
+        min-width: 0;
+    }
+
+    .produto-pagina-grid {
+        grid-template-columns: minmax(230px, .75fr) minmax(0, 1.25fr);
+        gap: 32px;
+    }
+
+    .produto-relacionados-grid-pagina {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Navegação mobile/tablet */
+@media (max-width: 850px) {
+    .cabecalho {
+        position: relative;
+    }
+
+    .cabecalho-conteudo {
+        min-height: 68px;
+        gap: 12px;
+    }
+
+    .logo-imagem-link {
+        min-width: 0;
+        max-width: calc(100% - 64px);
+    }
+
+    .logo-imagem {
+        width: clamp(138px, 28vw, 175px);
+        max-height: 56px;
+    }
+
+    .botao-header {
+        display: none;
+    }
+
+    .botao-menu {
+        display: inline-flex;
+        flex: 0 0 46px;
+        width: 46px;
+        height: 46px;
+    }
+
+    .navegacao {
+        left: max(14px, env(safe-area-inset-left));
+        right: max(14px, env(safe-area-inset-right));
+        max-height: min(70vh, 520px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        z-index: 1200;
+    }
+
+    .navegacao a {
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+    }
+
+    .acessibilidade-conteudo {
+        align-items: stretch;
+        flex-direction: column;
+        gap: .55rem;
+        padding-block: .65rem;
+    }
+
+    .botao-acessibilidade {
+        width: 100%;
+        text-align: left;
+    }
+
+    .acessibilidade-painel {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        width: 100%;
+    }
+
+    .acessibilidade-painel button {
+        width: 100%;
+    }
+
+    .produto-pagina-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+
+    .produto-pagina-grid > div:first-child {
+        width: min(100%, 560px);
+        margin-inline: auto;
+    }
+
+    .produto-pagina-img {
+        max-height: min(560px, 65vh);
+    }
+
+    .produto-breadcrumb ol {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scrollbar-width: thin;
+        padding-bottom: .35rem;
+    }
+
+    .produto-breadcrumb li {
+        flex: 0 0 auto;
+    }
+}
+
+/* Mobile */
+@media (max-width: 720px) {
+    .container {
+        width: min(calc(100% - 28px), var(--largura-container));
+    }
+
+    .pagina-hero,
+    .secao-plataforma {
+        padding-block: clamp(44px, 11vw, 64px);
+    }
+
+    .pagina-hero h1,
+    .hero h1 {
+        font-size: clamp(2.05rem, 10vw, 3.25rem);
+        line-height: 1.05;
+    }
+
+    .hero-texto,
+    .pagina-hero p {
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    .hero-botoes,
+    .plataforma-atalhos,
+    .produto-pagina-acoes,
+    .produto-pagina-acoes-inline,
+    .offline-acoes {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .hero-botoes .botao,
+    .plataforma-atalhos .botao,
+    .produto-pagina-acoes .botao,
+    .produto-pagina-acoes-inline .botao,
+    .offline-acoes .botao {
+        width: 100%;
+    }
+
+    .hero-informacoes {
+        gap: 10px 14px;
+    }
+
+    .hero-imagem {
+        height: clamp(280px, 82vw, 430px);
+        border-radius: 22px;
+    }
+
+    .hero-assistente {
+        grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .botao-assistente-hero {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+
+    .beneficios-premium-grid,
+    .categorias-populares-grid,
+    .contato-grid,
+    .editorial-trilhas,
+    .descoberta-contextual .editorial-trilhas,
+    .jornada-local-grid,
+    .produtos-grid,
+    .destaques-grid,
+    .produto-relacionados-grid-pagina {
+        grid-template-columns: 1fr;
+    }
+
+    .beneficios-premium-grid article,
+    .categorias-populares-grid a,
+    .contato-card,
+    .editorial-trilha {
+        padding: 20px;
+    }
+
+    .catalogo-filtros,
+    .filtros-produtos {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .catalogo-controles {
+        padding: 18px 14px;
+        border-radius: 16px;
+    }
+
+    .catalogo-filtros .botao,
+    .filtros-produtos .botao {
+        width: 100%;
+    }
+
+    .produto-card,
+    .produto-card-dinamico {
+        border-radius: 16px;
+    }
+
+    .produto-conteudo,
+    .produto-card-dinamico .produto-conteudo {
+        padding: 18px;
+    }
+
+    .produto-imagem,
+    .produto-card-dinamico .produto-imagem {
+        aspect-ratio: 4 / 4.5;
+    }
+
+    .destaques-grid .produto-conteudo p,
+    .destaques-grid .produto-acoes .link-destaque {
+        display: block;
+    }
+
+    .quiz-secao {
+        padding-block: 56px;
+    }
+
+    .quiz-card,
+    .quiz-resultado {
+        padding: 22px 16px;
+        border-radius: 18px;
+    }
+
+    .quiz-opcoes,
+    .quiz-produtos-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .quiz-opcao {
+        min-height: 52px;
+    }
+
+    .breadcrumb {
+        overflow: hidden;
+    }
+
+    .breadcrumb ol {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scrollbar-width: thin;
+        padding-bottom: .4rem;
+    }
+
+    .breadcrumb li {
+        flex: 0 0 auto;
+    }
+
+    .produto-modal {
+        padding: 0;
+        place-items: end stretch;
+    }
+
+    .produto-modal-dialog {
+        width: 100%;
+        max-width: none;
+        max-height: 92vh;
+        max-height: 92dvh;
+        padding: 20px 16px max(22px, env(safe-area-inset-bottom));
+        border-radius: 22px 22px 0 0;
+        scrollbar-gutter: auto;
+    }
+
+    .produto-modal-layout {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .produto-modal-imagem {
+        width: min(100%, 340px);
+        margin-inline: auto;
+    }
+
+    .chatbot {
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        padding-inline: max(0px, env(safe-area-inset-left)) max(0px, env(safe-area-inset-right));
+    }
+
+    .chatbot-dialog {
+        width: 100%;
+        max-height: 92vh;
+        max-height: 92dvh;
+        border-radius: 22px 22px 0 0;
+        border-bottom: 0;
+    }
+
+    .chatbot-header {
+        gap: .6rem;
+        padding: .85rem;
+    }
+
+    .chatbot-header > div {
+        min-width: 0;
+    }
+
+    .chatbot-header h2 {
+        font-size: 1.05rem;
+    }
+
+    .chat-limpar {
+        white-space: normal;
+        min-height: 40px;
+    }
+
+    .chat-mensagens {
+        height: clamp(220px, 40dvh, 380px);
+    }
+
+    .chat-acoes {
+        grid-template-columns: 1fr;
+    }
+
+    .chat-input > div {
+        align-items: stretch;
+    }
+
+    .chat-input button {
+        min-width: 52px;
+    }
+
+    .chatbot-abrir {
+        right: 14px;
+        bottom: calc(5rem + env(safe-area-inset-bottom));
+        max-width: calc(100vw - 28px);
+    }
+
+    .whatsapp-flutuante {
+        left: 14px;
+        right: 14px;
+        bottom: max(.75rem, env(safe-area-inset-bottom));
+        width: auto;
+        justify-content: center;
+    }
+
+    .jornada-card {
+        align-items: flex-start;
+    }
+
+    .jornada-local-rodape {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .jornada-local-rodape .botao {
+        width: 100%;
+    }
+
+    .produto-navegacao {
+        grid-template-columns: 1fr;
+    }
+
+    .produto-nav-proximo {
+        justify-content: space-between;
+        text-align: left;
+    }
+
+    .produto-nav-catalogo {
+        order: 3;
+    }
+
+    .rodape-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+
+    .rodape-final {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .pwa-acoes,
+    .pwa-atualizacao {
+        align-items: stretch;
+        flex-direction: column;
+    }
+}
+
+/* Telefones estreitos */
+@media (max-width: 480px) {
+    .container {
+        width: min(calc(100% - 22px), var(--largura-container));
+    }
+
+    .logo-imagem {
+        width: clamp(126px, 38vw, 150px);
+    }
+
+    .acessibilidade-painel {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-selo {
+        width: fit-content;
+        max-width: 100%;
+        white-space: normal;
+    }
+
+    .hero-assistente {
+        grid-template-columns: 1fr;
+        text-align: left;
+    }
+
+    .hero-assistente-icone {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    .botao {
+        min-height: 50px;
+        padding-inline: 18px;
+    }
+
+    .produto-pagina-info h1 {
+        font-size: clamp(1.9rem, 10vw, 2.7rem);
+    }
+
+    .produto-pagina-img {
+        border-radius: 18px;
+    }
+
+    .chat-produto-card {
+        grid-template-columns: 56px minmax(0, 1fr);
+        padding: .75rem;
+    }
+
+    .chat-produto-card img {
+        width: 56px;
+        height: 70px;
+    }
+
+    .chat-produto-acoes {
+        grid-column: 1 / -1;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .chat-produto-acoes button {
+        width: 100%;
+    }
+
+    .pwa-acoes-flutuante {
+        left: 10px;
+        right: 10px;
+        bottom: max(10px, env(safe-area-inset-bottom));
+        max-width: none;
+    }
+}
+
+/* Evita transformar hover em movimento em dispositivos puramente touch */
+@media (hover: none) {
+    .produto-card:hover,
+    .categoria-card:hover,
+    .contato-card:hover,
+    .editorial-trilha:hover,
+    .jornada-card:hover,
+    .produto-relacionado-pagina-link:hover,
+    .rede-link:hover {
+        transform: none;
+    }
+}
+
+
+/* ==========================================================
+   SAÚDE QUALIMAX v2.7.5 — microinterações e efeitos
+   ========================================================== */
+
+:root {
+    --efeito-rapido: 160ms;
+    --efeito-medio: 280ms;
+    --efeito-lento: 520ms;
+    --efeito-curva: cubic-bezier(.2,.75,.25,1);
+}
+
+/* Progresso discreto de leitura */
+.progresso-pagina {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 15000;
+    height: 3px;
+    pointer-events: none;
+}
+.progresso-pagina-interno {
+    width: 100%;
+    height: 100%;
+    transform: scaleX(0);
+    transform-origin: left center;
+    background: linear-gradient(90deg, var(--verde-principal), var(--dourado));
+    will-change: transform;
+}
+
+/* Revelação progressiva; sem JS, nada fica escondido */
+.interacoes-ativas .interacao-revelar {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+        opacity var(--efeito-lento) var(--efeito-curva) var(--delay-reveal, 0ms),
+        transform var(--efeito-lento) var(--efeito-curva) var(--delay-reveal, 0ms);
+}
+.interacoes-ativas .interacao-revelar.interacao-visivel {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Feedback de toque/click */
+.botao,
+button,
+.editorial-trilha,
+.jornada-card {
+    position: relative;
+    isolation: isolate;
+}
+.interacao-toque::after {
+    content: "";
+    position: absolute;
+    left: var(--toque-x, 50%);
+    top: var(--toque-y, 50%);
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: currentColor;
+    opacity: .16;
+    pointer-events: none;
+    z-index: -1;
+    animation: qualimax-ripple 430ms ease-out forwards;
+}
+@keyframes qualimax-ripple {
+    0% { transform: translate(-50%, -50%) scale(0); opacity: .2; }
+    100% { transform: translate(-50%, -50%) scale(16); opacity: 0; }
+}
+
+/* Botões: resposta mais tátil sem exagero */
+.botao:active,
+button:active {
+    transform: translateY(0) scale(.985);
+}
+.botao:focus-visible,
+button:focus-visible,
+.editorial-trilha:focus-visible,
+.jornada-card:focus-visible {
+    outline: 3px solid var(--dourado, #c99a45);
+    outline: 3px solid color-mix(in srgb, var(--dourado, #c99a45) 80%, white);
+    outline-offset: 3px;
+}
+
+/* Cards com iluminação sutil */
+.produto-card,
+.categoria-card,
+.contato-card,
+.editorial-trilha,
+.jornada-card,
+.produto-relacionado-pagina-link {
+    transition:
+        transform var(--efeito-medio) var(--efeito-curva),
+        box-shadow var(--efeito-medio) var(--efeito-curva),
+        border-color var(--efeito-medio) var(--efeito-curva);
+}
+.produto-card::after,
+.categoria-card::after,
+.contato-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(140deg, rgba(255,255,255,.36), transparent 38%, rgba(201,154,69,.06));
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--efeito-medio) ease;
+}
+.produto-card:hover::after,
+.produto-card:focus-within::after,
+.categoria-card:hover::after,
+.categoria-card:focus-within::after,
+.contato-card:hover::after,
+.contato-card:focus-within::after {
+    opacity: 1;
+}
+
+.produto-card:focus-within,
+.categoria-card:focus-within,
+.contato-card:focus-within,
+.editorial-trilha:focus-visible,
+.jornada-card:focus-visible {
+    transform: translateY(-4px);
+    box-shadow: var(--sombra-media);
+}
+
+/* Imagens respondem suavemente à exploração */
+.produto-card .produto-imagem img,
+.categoria-card img,
+.produto-relacionado-pagina-link img {
+    transition:
+        transform var(--efeito-lento) var(--efeito-curva),
+        filter var(--efeito-medio) ease;
+}
+.produto-card:hover .produto-imagem img,
+.produto-card:focus-within .produto-imagem img,
+.categoria-card:hover img,
+.categoria-card:focus-within img,
+.produto-relacionado-pagina-link:hover img,
+.produto-relacionado-pagina-link:focus-visible img {
+    transform: scale(1.035);
+    filter: saturate(1.04) contrast(1.02);
+}
+
+/* Estado confirmado para favoritos/lista */
+.estado-confirmado {
+    animation: qualimax-confirmacao 420ms var(--efeito-curva);
+}
+@keyframes qualimax-confirmacao {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}
+[aria-pressed="true"].produto-acao-secundaria,
+[aria-pressed="true"][data-produto-pagina-favorito],
+[aria-pressed="true"][data-produto-pagina-interesse] {
+    border-color: rgba(23,107,77,.42);
+    background: var(--verde-suave, #eef7f2);
+    box-shadow: 0 8px 20px rgba(13,69,50,.09);
+}
+
+/* Toast visual; anúncios acessíveis continuam nos status existentes */
+.micro-toast {
+    position: fixed;
+    left: 50%;
+    bottom: max(88px, calc(1rem + env(safe-area-inset-bottom)));
+    z-index: 14000;
+    max-width: min(90vw, 420px);
+    padding: .72rem 1rem;
+    border-radius: 999px;
+    background: var(--verde-profundo, #0d4532);
+    color: #fff;
+    box-shadow: 0 14px 36px rgba(0,0,0,.22);
+    font-weight: 750;
+    text-align: center;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, 10px) scale(.98);
+    transition:
+        opacity var(--efeito-rapido) ease,
+        transform var(--efeito-medio) var(--efeito-curva);
+}
+.micro-toast-visivel {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+}
+
+/* Modal e Max entram com movimento curto e claro */
+.produto-modal.interacao-abrindo .produto-modal-dialog {
+    animation: qualimax-modal-in 300ms var(--efeito-curva);
+}
+.chatbot.interacao-abrindo .chatbot-dialog {
+    animation: qualimax-chat-in 300ms var(--efeito-curva);
+}
+@keyframes qualimax-modal-in {
+    from { opacity: .6; transform: translateY(18px) scale(.985); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes qualimax-chat-in {
+    from { opacity: .65; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Max: mensagens novas ganham leitura visual mais clara */
+.chat-mensagem,
+.chat-produto-card,
+.chat-refinamentos,
+.chat-whatsapp-cta {
+    animation: qualimax-mensagem-in 230ms var(--efeito-curva);
+}
+@keyframes qualimax-mensagem-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.chat-refinamento,
+.chat-produto-acoes button,
+.chat-whatsapp-cta {
+    transition:
+        transform var(--efeito-rapido) ease,
+        background var(--efeito-rapido) ease,
+        border-color var(--efeito-rapido) ease,
+        box-shadow var(--efeito-rapido) ease;
+}
+.chat-refinamento:hover,
+.chat-refinamento:focus-visible,
+.chat-produto-acoes button:hover,
+.chat-produto-acoes button:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 16px rgba(13,69,50,.08);
+}
+
+/* Hero com profundidade apenas em mouse/trackpad */
+@media (hover: hover) and (pointer: fine) {
+    .hero-visual .hero-imagem {
+        transform: translate(var(--hero-x, 0px), var(--hero-y, 0px));
+        transition: transform 160ms ease-out;
+        will-change: transform;
+    }
+
+    .botao-principal:hover {
+        box-shadow: 0 14px 32px rgba(23,107,77,.28);
+    }
+
+    .whatsapp-flutuante:hover,
+    .chatbot-abrir:hover {
+        transform: translateY(-3px) scale(1.015);
+    }
+}
+
+/* Pequeno pulso visual no CTA flutuante, sem repetição infinita */
+.chatbot-abrir {
+    transition:
+        transform var(--efeito-medio) var(--efeito-curva),
+        box-shadow var(--efeito-medio) var(--efeito-curva);
+}
+.chatbot-abrir:focus-visible,
+.whatsapp-flutuante:focus-visible {
+    box-shadow: 0 0 0 4px rgba(201,154,69,.28), var(--sombra-media);
+}
+
+/* Menu mobile ganha entrada curta */
+@media (max-width: 850px) {
+    .navegacao.menu-aberto {
+        animation: qualimax-menu-in 220ms var(--efeito-curva);
+        transform-origin: top right;
+    }
+    @keyframes qualimax-menu-in {
+        from { opacity: 0; transform: translateY(-8px) scale(.985); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+}
+
+/* Desliga toda a camada de movimento quando solicitado */
+@media (prefers-reduced-motion: reduce) {
+    .interacoes-ativas .interacao-revelar,
+    .interacoes-ativas .interacao-revelar.interacao-visivel,
+    .produto-modal.interacao-abrindo .produto-modal-dialog,
+    .chatbot.interacao-abrindo .chatbot-dialog,
+    .chat-mensagem,
+    .chat-produto-card,
+    .chat-refinamentos,
+    .chat-whatsapp-cta,
+    .estado-confirmado,
+    .navegacao.menu-aberto {
+        animation: none !important;
+        transition: none !important;
+        transform: none !important;
+        opacity: 1 !important;
+    }
+
+    .progresso-pagina-interno {
+        transition: none !important;
+    }
+
+    .hero-visual .hero-imagem,
+    .produto-card .produto-imagem img,
+    .categoria-card img,
+    .produto-relacionado-pagina-link img {
+        transition: none !important;
+        transform: none !important;
+    }
+
+    .interacao-toque::after {
+        display: none !important;
+    }
+}
+
+html.movimento-reduzido .interacao-revelar,
+html.movimento-reduzido .interacao-revelar.interacao-visivel,
+html.movimento-reduzido .chat-mensagem,
+html.movimento-reduzido .chat-produto-card,
+html.movimento-reduzido .chat-refinamentos,
+html.movimento-reduzido .chat-whatsapp-cta {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+}
+
+html.movimento-reduzido .hero-visual .hero-imagem,
+html.movimento-reduzido .produto-card .produto-imagem img,
+html.movimento-reduzido .categoria-card img,
+html.movimento-reduzido .produto-relacionado-pagina-link img,
+html.movimento-reduzido .produto-modal-dialog,
+html.movimento-reduzido .chatbot-dialog,
+html.movimento-reduzido .estado-confirmado {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+}
+html.movimento-reduzido .interacao-toque::after {
+    display: none !important;
+}
+
+/* suporte ao brilho contido dos cards */
+.contato-card {
+    position: relative;
+    overflow: hidden;
+}
+
+
+/* ==========================================================
+   SAÚDE QUALIMAX v2.8 — integração de recursos existentes
+   ========================================================== */
+
+.catalogo-filtros-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+    align-items: end;
+}
+.catalogo-filtros-acoes .botao {
+    flex: 1 1 180px;
+}
+
+.filtros-ativos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .55rem;
+    margin: 1rem 0 .6rem;
+}
+.filtro-ativo-chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 38px;
+    padding: .45rem .75rem;
+    border: 1px solid rgba(23,107,77,.24);
+    border-radius: 999px;
+    background: var(--verde-suave,#eef7f2);
+    color: var(--verde-profundo,#0d4532);
+    font: inherit;
+    font-size: .9rem;
+    font-weight: 750;
+    cursor: pointer;
+}
+.filtro-ativo-chip:hover,
+.filtro-ativo-chip:focus-visible {
+    border-color: var(--verde-principal,#176b4d);
+    box-shadow: 0 6px 16px rgba(13,69,50,.08);
+}
+
+@media (max-width: 980px) {
+    .catalogo-filtros-acoes {
+        grid-column: 1 / -1;
+    }
+}
+@media (max-width: 720px) {
+    .catalogo-filtros-acoes {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .catalogo-filtros-acoes .botao {
+        width: 100%;
+        flex-basis: auto;
+    }
+    .filtros-ativos {
+        align-items: stretch;
+        flex-direction: column;
+    }
+    .filtro-ativo-chip {
+        justify-content: space-between;
+        width: 100%;
+        text-align: left;
+    }
+}

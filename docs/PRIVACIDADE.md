@@ -1,11 +1,53 @@
-# Privacidade — Saúde Qualimax v1.1
+# Privacidade
 
-A versão estática do template não deve armazenar conversas do assistente, credenciais, tokens ou chaves secretas no navegador.
+## Estado atual
 
-Qualquer coleta de dados, analytics, formulário ou integração externa deve ser adicionada de forma explícita, configurável e compatível com a legislação aplicável.
+A Saúde Qualimax é uma aplicação frontend estática e não possui autenticação, formulário de cadastro, checkout ou banco remoto próprio.
 
-O arquivo `data/config.json` mantém `analytics.enabled` como controle de configuração. A implementação atual não ativa rastreamento oculto.
+## Dados locais
 
-## Dados locais da v2.0
+A aplicação pode armazenar no navegador:
 
-A v2.0 pode armazenar localmente no navegador favoritos, lista de interesse e histórico de produtos visualizados. Esses registros utilizam IndexedDB (ou fallback local quando necessário) e permanecem no dispositivo do visitante. Eles não são transmitidos automaticamente para a loja. Quando o visitante decide enviar sua lista pelo WhatsApp, somente os nomes dos produtos selecionados são incluídos na mensagem preparada para o atendimento.
+- favoritos;
+- lista de interesse;
+- histórico de produtos visualizados;
+- preferências técnicas necessárias à experiência.
+
+A persistência usa IndexedDB, com fallback local quando necessário.
+
+## Transmissão para a loja
+
+Os dados locais não são enviados automaticamente.
+
+Uma informação é transmitida ao atendimento quando o visitante inicia uma ação externa, como consultar sua lista pelo WhatsApp.
+
+## Max
+
+A implementação atual não envia a conversa do Max para uma API externa de IA.
+
+## Analytics
+
+`data/config.json` possui a configuração `analytics.enabled`, atualmente desativada. Não implementar rastreamento oculto.
+
+Se analytics for adicionado futuramente, revisar:
+
+- finalidade;
+- base legal aplicável;
+- política de privacidade;
+- consentimento quando necessário;
+- retenção;
+- terceiros envolvidos.
+
+## Segredos e credenciais
+
+Nunca armazenar no frontend:
+
+- senhas;
+- tokens privados;
+- chaves de API secretas;
+- credenciais de serviços;
+- dados sensíveis de clientes.
+
+## Evolução futura
+
+A introdução de login, backend, pedidos, pagamentos, formulários ou analytics altera significativamente o escopo de privacidade e exige nova revisão técnica e jurídica.
