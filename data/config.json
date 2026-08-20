@@ -30,7 +30,10 @@
   },
   "chatbot": {
     "ativo": true,
-    "nome": "Max"
+    "nome": "Max",
+    "avatar": "img/max-avatar.webp",
+    "subtitulo": "Seu parceiro de descobertas naturais",
+    "saudacao": "Fala aí! Eu sou o Max. Me conta o que você procura e eu te ajudo a garimpar o catálogo sem complicação."
   },
   "analytics": {
     "enabled": false

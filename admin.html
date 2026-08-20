@@ -146,7 +146,7 @@
             <section class="admin-upload">
               <div>
                 <h3>Imagem local</h3>
-                <p>Envie uma imagem para pré-visualização e exportação. Ela não é publicada automaticamente.</p>
+                <p>Envie uma imagem para pré-visualização. O Admin prepara também uma miniatura para o catálogo; nada é publicado automaticamente.</p>
                 <input type="file" accept="image/png,image/jpeg,image/webp" data-admin-upload-imagem>
               </div>
               <div class="admin-preview-imagem" data-admin-preview-imagem></div>
@@ -184,6 +184,10 @@
         <div><label for="loja-site">Site</label><input id="loja-site" name="empresa.site" type="url"></div>
         <div><label for="loja-cor-principal">Cor principal</label><input id="loja-cor-principal" name="marca.corPrincipal" type="color"></div>
         <div><label for="loja-cor-acento">Cor de destaque</label><input id="loja-cor-acento" name="marca.corAcento" type="color"></div>
+        <div class="admin-campo-largo"><h3>Personalidade do Max</h3><p>Personalize como o assistente se apresenta aos clientes.</p></div>
+        <div><label for="max-nome">Nome do assistente</label><input id="max-nome" name="chatbot.nome" maxlength="40"></div>
+        <div><label for="max-subtitulo">Frase abaixo do nome</label><input id="max-subtitulo" name="chatbot.subtitulo" maxlength="100"></div>
+        <div class="admin-campo-largo"><label for="max-saudacao">Mensagem de boas-vindas</label><textarea id="max-saudacao" name="chatbot.saudacao" rows="3" maxlength="320"></textarea></div>
         <div class="admin-campo-largo admin-editor-acoes"><button class="botao botao-principal" type="submit">Salvar dados da loja</button></div>
         <p class="admin-status admin-campo-largo" data-admin-loja-status role="status" aria-live="polite"></p>
       </form>
@@ -216,7 +220,7 @@
         </section>
         <section class="admin-card">
           <h3>Backup completo do Admin Studio</h3>
-          <p>Guarde catálogo, configuração e referências de imagens locais em um único arquivo de backup.</p>
+          <p>Guarde catálogo, configuração e as imagens locais em um único arquivo de backup.</p>
           <div class="admin-export-acoes">
             <button class="botao botao-secundario" type="button" data-admin-exportar-backup>Exportar backup</button>
             <label class="botao botao-secundario admin-import-label">Importar backup<input type="file" accept="application/json" data-admin-importar-backup hidden></label>
@@ -225,7 +229,7 @@
       </div>
       <section class="admin-card">
         <h3>Imagens locais</h3>
-        <p>Imagens enviadas no Admin Studio precisam ser adicionadas à pasta <code>img/</code> do projeto antes da publicação.</p>
+        <p>Baixe a imagem principal para <code>img/</code> e a miniatura para <code>img/thumbs/</code> antes da publicação.</p>
         <div data-admin-imagens-exportar class="admin-imagens-exportar"></div>
       </section>
       <p class="admin-status" data-admin-export-status role="status" aria-live="polite"></p>

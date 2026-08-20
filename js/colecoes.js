@@ -145,11 +145,8 @@
     };
 
     const enviarLista = () => {
-        const numero = numeroWhatsApp(); if (!numero || !interesse.size) return;
-        const nomes = [...interesse].map(porId).filter(Boolean).map(p => p.nome);
-        const nomeLoja = window.QualimaxConfig?.empresa?.nome || "a loja";
-        const texto = `Olá! Montei uma lista de interesse no site da ${nomeLoja}: ${nomes.join(", ")}. Gostaria de consultar disponibilidade, valores e detalhes.`;
-        window.open(`https://wa.me/${numero}?text=${encodeURIComponent(texto)}`, "_blank", "noopener,noreferrer");
+        if (!interesse.size) return;
+        location.href = "atendimento.html?origem=conta&assunto=Fazer%20um%20pedido";
     };
 
     document.addEventListener("qualimax:catalog-ready", async (e) => { produtos = e.detail?.produtos || []; await carregarEstado(); });

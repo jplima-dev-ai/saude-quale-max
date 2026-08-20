@@ -116,12 +116,17 @@
             link.classList.add("link-indisponivel");
             return;
         }
-        const modelo = link.dataset.whatsappMensagem || "Olá! Vim pelo site da {empresa}.";
-        const texto = modelo
-            .replaceAll("{empresa}", nome)
-            .replaceAll("{cidade}", empresa.cidade || "")
-            .replaceAll("{estado}", empresa.estado || "");
-        link.href = `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`;
+
+        const pagina = document.body?.dataset.page || "site";
+        const origem = /^[a-z0-9-]{1,30}$/.test(pagina) ? pagina : "site";
+        const modelo = String(link.dataset.whatsappMensagem || "").toLowerCase();
+        const assunto = link.dataset.atendimentoAssunto ||
+            (modelo.includes("pedido") ? "Fazer um pedido" : "Tirar dúvida sobre produtos");
+
+        const params = new URLSearchParams({ origem, assunto });
+        link.href = `atendimento.html?${params.toString()}`;
+        link.removeAttribute("target");
+        link.removeAttribute("rel");
         link.setAttribute("aria-disabled", "false");
         link.classList.remove("link-indisponivel");
     };
@@ -266,7 +271,7 @@
             else { img.hidden = true; }
         });
         document.querySelectorAll("[data-config-logo-label]").forEach((el) => { el.setAttribute("aria-label", `${nome} - voltar ao início`); });
-        document.querySelectorAll("[data-config-whatsapp-label]").forEach((el) => { el.setAttribute("aria-label", `Falar com ${nome} pelo WhatsApp - abre em nova aba`); });
+        document.querySelectorAll("[data-config-whatsapp-label]").forEach((el) => { el.setAttribute("aria-label", `Preparar atendimento com ${nome} pelo WhatsApp`); });
         document.querySelectorAll("[data-config-telefone]").forEach((el) => { el.textContent = contato.telefone || ""; });
         document.querySelectorAll("[data-config-email]").forEach((el) => { el.textContent = contato.email || ""; });
         document.querySelectorAll("[data-config-endereco]").forEach((el) => { el.textContent = contato.endereco || ""; });
@@ -334,10 +339,17 @@
         });
 
         const nomeChatbot = config.chatbot?.nome || "Assistente";
+        const subtituloChatbot = String(config.chatbot?.subtitulo || "Seu parceiro de descobertas").slice(0, 100);
+        const saudacaoChatbot = String(config.chatbot?.saudacao || `Oi! Eu sou ${nomeChatbot}. Me conta o que você procura e eu te ajudo a explorar o catálogo.`).slice(0, 320);
+        const avatarChatbot = caminhoImagemSeguro(config.chatbot?.avatar || "");
         document.querySelectorAll("[data-chatbot-nome]").forEach((el) => { el.textContent = nomeChatbot; });
+        document.querySelectorAll("[data-chatbot-subtitulo]").forEach((el) => { el.textContent = subtituloChatbot; });
         document.querySelectorAll("[data-chatbot-label]").forEach((el) => { el.setAttribute("aria-label", `Abrir ${nomeChatbot}`); });
         document.querySelectorAll("[data-chatbot-region]").forEach((el) => { el.setAttribute("aria-label", nomeChatbot); });
-        document.querySelectorAll("[data-chat-saudacao]").forEach((el) => { el.textContent = `Olá! Eu sou ${nomeChatbot}. Posso encontrar produtos, explorar categorias, abrir o quiz ou encaminhar você para a equipe.`; });
+        document.querySelectorAll("[data-chat-saudacao]").forEach((el) => { el.textContent = saudacaoChatbot; });
+        if (avatarChatbot) {
+            document.querySelectorAll("[data-chatbot-avatar]").forEach((el) => { el.src = avatarChatbot; });
+        }
         aplicarSEO(config);
         aplicarDadosEstruturados(config);
 

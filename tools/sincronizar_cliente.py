@@ -396,8 +396,8 @@ def gerar_pagina_produto(config: dict, produto: dict, categoria_nome: str) -> st
 <h1>{html.escape(nome)}</h1>
 <p class="produto-pagina-copy">{html.escape(descricao)}</p>
 <ul class="produto-modal-lista">{lista_html}</ul>
-<p class="produto-pagina-aviso">Disponibilidade, valor atual e condições comerciais devem ser confirmados diretamente com a equipe.</p>
-<div class="produto-pagina-acoes"><a class="botao botao-principal" href="#" data-produto-whatsapp>Consultar pelo WhatsApp</a><button class="botao botao-secundario" type="button" data-compartilhar>Compartilhar produto</button><a class="botao botao-secundario" href="../catalogo.html#produtos" data-retomar-catalogo>Voltar ao catálogo</a></div>
+<p class="produto-pagina-aviso">Gostou deste produto? Prepare sua consulta para a equipe confirmar disponibilidade e valor, ou venha conhecer a loja de perto.</p>
+<div class="produto-pagina-acoes"><a class="botao botao-principal" href="#" data-produto-whatsapp>Preparar consulta deste produto</a><button class="botao botao-secundario" type="button" data-compartilhar>Compartilhar produto</button><a class="botao botao-secundario" href="../catalogo.html#produtos" data-retomar-catalogo>Voltar ao catálogo</a></div>
 <p class="sr-only" role="status" aria-live="polite" data-share-status></p>
 </article></div>
 <div class="container produto-pos-conteudo">

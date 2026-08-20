@@ -51,6 +51,14 @@ const storeAll=async(store)=>{
         q.onsuccess=()=>resolve(q.result||[]); q.onerror=()=>resolve([]);
     });
 };
+const storeClear=async(store)=>{
+    const db=await abrirDB(); if(!db) return;
+    return new Promise(resolve=>{
+        const tx=db.transaction(store,"readwrite");
+        tx.objectStore(store).clear();
+        tx.oncomplete=resolve; tx.onerror=resolve;
+    });
+};
 const limparStores=async()=>{
     const db=await abrirDB(); if(!db) return;
     return new Promise(resolve=>{
@@ -68,6 +76,59 @@ const baixar=(nome,blobOrText,tipo="application/json")=>{
     const url=URL.createObjectURL(blob); const a=document.createElement("a");
     a.href=url;a.download=nome;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500);
 };
+const blobParaDataURL=(blob)=>new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=()=>resolve(String(reader.result||""));
+    reader.onerror=()=>reject(reader.error||new Error("Falha ao ler imagem."));
+    reader.readAsDataURL(blob);
+});
+const dataURLParaBlob=(valor)=>{
+    const m=/^data:([a-z0-9.+-]+\/[a-z0-9.+-]+);base64,([A-Za-z0-9+/=]+)$/i.exec(String(valor||""));
+    if(!m) return null;
+    const bytes=atob(m[2]);
+    const arr=new Uint8Array(bytes.length);
+    for(let i=0;i<bytes.length;i++) arr[i]=bytes.charCodeAt(i);
+    return new Blob([arr],{type:m[1]});
+};
+const carregarImagemBitmap=async(file)=>{
+    if("createImageBitmap" in window) return createImageBitmap(file);
+    return new Promise((resolve,reject)=>{
+        const url=URL.createObjectURL(file);
+        const img=new Image();
+        img.onload=()=>{
+            URL.revokeObjectURL(url);
+            resolve({
+                width:img.naturalWidth,
+                height:img.naturalHeight,
+                draw:(ctx,w,h)=>ctx.drawImage(img,0,0,w,h),
+                close:()=>{}
+            });
+        };
+        img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error("Falha ao abrir imagem."));};
+        img.src=url;
+    });
+};
+const gerarMiniatura=async(file)=>{
+    const bitmap=await carregarImagemBitmap(file);
+    const maxW=480,maxH=600;
+    const escala=Math.min(1,maxW/bitmap.width,maxH/bitmap.height);
+    const w=Math.max(1,Math.round(bitmap.width*escala));
+    const h=Math.max(1,Math.round(bitmap.height*escala));
+    const canvas=document.createElement("canvas");
+    canvas.width=w;canvas.height=h;
+    const ctx=canvas.getContext("2d",{alpha:file.type==="image/png"});
+    if(!ctx) throw new Error("Canvas indisponível.");
+    if(bitmap.draw) bitmap.draw(ctx,w,h); else ctx.drawImage(bitmap,0,0,w,h);
+    bitmap.close?.();
+    const tipo=["image/png","image/jpeg","image/webp"].includes(file.type)?file.type:"image/webp";
+    return new Promise((resolve,reject)=>{
+        canvas.toBlob(
+            blob=>blob?resolve(blob):reject(new Error("Falha ao gerar miniatura.")),
+            tipo,
+            (tipo==="image/jpeg"||tipo==="image/webp") ? .86 : undefined
+        );
+    });
+};
 const getPath=(obj,path)=>path.split(".").reduce((a,k)=>a?.[k],obj);
 const setPath=(obj,path,value)=>{
     const parts=path.split("."); let cur=obj;
@@ -81,7 +142,7 @@ const esperarFetch=async(url)=>{
 
 const state={
     produtos:[], categorias:[], config:{}, baseProdutos:[], baseConfig:{},
-    selecionado:null, dirty:false
+    selecionado:null, dirty:false, editorDirty:false, pendingImage:null
 };
 
 const persistir=async()=>{
@@ -90,6 +151,16 @@ const persistir=async()=>{
     state.dirty=false; atualizarMetricas();
 };
 const marcarDirty=()=>{state.dirty=true; atualizarMetricas();};
+const marcarEditorDirty=()=>{
+    state.editorDirty=true;
+    const status=document.querySelector("[data-admin-produto-status]");
+    if(status) status.textContent="Alterações ainda não salvas no rascunho.";
+};
+const limparEditorDirty=()=>{ state.editorDirty=false; };
+const confirmarDescarteEditor=()=>{
+    if(!state.editorDirty) return true;
+    return confirm("Existem alterações neste produto que ainda não foram salvas. Descartar essas alterações?");
+};
 
 const atualizarMetricas=async()=>{
     const p=document.querySelector("[data-admin-metrica-produtos]"); if(p)p.textContent=state.produtos.length;
@@ -124,8 +195,11 @@ const renderLista=()=>{
 };
 
 const imagemLocal=async(produto)=>{
+    if(state.pendingImage && String(state.pendingImage.id)===String(produto.id)) return state.pendingImage;
     const rec=await storeGet("images",String(produto.id)); return rec||null;
 };
+
+const descartarImagemPendente=()=>{ state.pendingImage=null; };
 
 const preencherForm=async(produto)=>{
     const form=document.querySelector("[data-admin-produto-form]");
@@ -142,6 +216,7 @@ const preencherForm=async(produto)=>{
     form.elements.destaque.checked=!!produto.destaque;
     atualizarContadorCopy();
     await renderPreview(produto);
+    limparEditorDirty();
 };
 
 const formParaProduto=()=>{
@@ -206,6 +281,9 @@ const atualizarContadorCopy=()=>{
 };
 
 const selecionar=async id=>{
+    if(Number(id)===Number(state.selecionado) && !state.editorDirty) return;
+    if(!confirmarDescarteEditor()) return;
+    descartarImagemPendente();
     state.selecionado=Number(id);renderLista();
     const p=produtoPorId(id); if(p) await preencherForm(p);
 };
@@ -262,9 +340,16 @@ const exportarImagemLista=async()=>{
     box.replaceChildren(...imgs.map(rec=>{
         const row=document.createElement("div");row.className="admin-imagem-export-item";
         const span=document.createElement("span");span.textContent=rec.filename||`produto-${rec.id}`;
-        const b=document.createElement("button");b.type="button";b.className="botao botao-secundario";b.textContent="Baixar imagem";
+        const acoes=document.createElement("div");acoes.className="admin-export-acoes";
+        const b=document.createElement("button");b.type="button";b.className="botao botao-secundario";b.textContent="Baixar principal";
         b.addEventListener("click",()=>baixar(rec.filename||`produto-${rec.id}.webp`,rec.blob,rec.blob.type));
-        row.append(span,b);return row;
+        acoes.append(b);
+        if(rec.thumbBlob){
+            const thumb=document.createElement("button");thumb.type="button";thumb.className="botao botao-secundario";thumb.textContent="Baixar miniatura";
+            thumb.addEventListener("click",()=>baixar(rec.filename||`produto-${rec.id}.webp`,rec.thumbBlob,rec.thumbBlob.type));
+            acoes.append(thumb);
+        }
+        row.append(span,acoes);return row;
     }));
     if(!imgs.length){const p=document.createElement("p");p.textContent="Nenhuma imagem local enviada.";box.append(p);}
 };
@@ -278,6 +363,12 @@ const mudarTab=tab=>{
     if(tab==="exportar")exportarImagemLista();
 };
 
+window.addEventListener("beforeunload",e=>{
+    if(!state.editorDirty)return;
+    e.preventDefault();
+    e.returnValue="";
+});
+
 document.addEventListener("DOMContentLoaded",async()=>{
     try{
         const [prod,cats,cfg]=await Promise.all([
@@ -287,26 +378,44 @@ document.addEventListener("DOMContentLoaded",async()=>{
         const savedP=await storeGet("state","catalogo"), savedC=await storeGet("state","config");
         state.produtos=clone(savedP?.value||state.baseProdutos);
         state.config=clone(savedC?.value||state.baseConfig);
+        document.title=`Admin Studio | ${state.config.empresa?.nome||"Loja"}`;
         preencherCategorias();renderLista();preencherLoja();preencherRecursos();await atualizarMetricas();await auditar();
     }catch(e){
         const box=document.querySelector("[data-admin-auditoria]");if(box)box.textContent="Não foi possível carregar os dados publicados.";
         console.error(e);
     }
 
-    document.querySelectorAll("[data-admin-tab]").forEach(b=>b.addEventListener("click",()=>mudarTab(b.dataset.adminTab)));
+    document.querySelectorAll("[data-admin-tab]").forEach(b=>b.addEventListener("click",()=>{
+        const atual=document.querySelector("[data-admin-tab].ativo")?.dataset.adminTab;
+        if(atual==="produtos" && b.dataset.adminTab!=="produtos" && !confirmarDescarteEditor()) return;
+        if(atual==="produtos" && b.dataset.adminTab!=="produtos"){
+            limparEditorDirty();
+            descartarImagemPendente();
+        }
+        mudarTab(b.dataset.adminTab);
+    }));
     document.querySelector("[data-admin-busca-produto]")?.addEventListener("input",renderLista);
     document.querySelector("[data-admin-lista-produtos]")?.addEventListener("click",e=>{
         const b=e.target.closest("[data-produto-id]");if(b)selecionar(b.dataset.produtoId);
     });
 
     document.querySelector("[data-admin-novo-produto]")?.addEventListener("click",async()=>{
+        if(!confirmarDescarteEditor()) return;
+        descartarImagemPendente();
         const id=Math.max(0,...state.produtos.map(x=>Number(x.id)||0))+1;
-        const novo={id,nome:"Novo produto",slug:`novo-produto-${id}`,categoria:state.categorias[0]?.id||"",imagem:"",descricao:"",beneficios:[],tipo:"",vegana:false,sem_gluten:false,experiencia_minima:"iniciante",tags:[],disponibilidade:"consultar",destaque:false,copy:"",cta:"Conhecer produto"};
-        state.produtos.push(novo);marcarDirty();renderLista();await selecionar(id);
+        const novo={id,nome:"",slug:"",categoria:state.categorias[0]?.id||"",imagem:"",descricao:"",beneficios:[],tipo:"",vegana:false,sem_gluten:false,experiencia_minima:"iniciante",tags:[],disponibilidade:"consultar",destaque:false,copy:"",cta:"Conhecer produto"};
+        state.selecionado=id;
+        renderLista();
+        await preencherForm(novo);
+        const nome=document.querySelector("#adm-nome");
+        nome?.focus();
+        const status=document.querySelector("[data-admin-produto-status]");
+        if(status) status.textContent="Novo produto. Preencha os campos e salve para adicioná-lo ao rascunho.";
     });
 
     const form=document.querySelector("[data-admin-produto-form]");
     form?.addEventListener("input",async()=>{
+        marcarEditorDirty();
         if(form.elements.nome===document.activeElement && (!form.elements.slug.value||form.elements.slug.dataset.auto==="true")){
             form.elements.slug.value=slugify(form.elements.nome.value);form.elements.slug.dataset.auto="true";
         }
@@ -322,21 +431,35 @@ document.addEventListener("DOMContentLoaded",async()=>{
         if(erros.length){if(status)status.textContent=erros.join(". ");return;}
         const idx=state.produtos.findIndex(x=>Number(x.id)===Number(p.id));
         if(idx>=0)state.produtos[idx]=p;else state.produtos.push(p);
-        state.selecionado=p.id;marcarDirty();await persistir();renderLista();await preencherForm(p);
+        if(state.pendingImage && String(state.pendingImage.id)===String(p.id)){
+            await storePut("images",state.pendingImage);
+            descartarImagemPendente();
+        }
+        state.selecionado=p.id;marcarDirty();await persistir();renderLista();await preencherForm(p);limparEditorDirty();
         if(status)status.textContent="Produto salvo no rascunho local.";
     });
 
     document.querySelector("[data-admin-duplicar]")?.addEventListener("click",async()=>{
+        const status=document.querySelector("[data-admin-produto-status]");
+        if(state.editorDirty){if(status)status.textContent="Salve as alterações do produto antes de duplicar.";return;}
         const atual=formParaProduto();
+        const erros=validarProduto(atual);
+        if(erros.length){if(status)status.textContent=`Corrija o produto antes de duplicar: ${erros.join(". ")}`;return;}
         const id=Math.max(0,...state.produtos.map(x=>Number(x.id)||0))+1;
         const novo={...clone(atual),id,nome:`${atual.nome} — cópia`,slug:`${slugify(atual.slug||atual.nome)}-${id}`};
         state.produtos.push(novo);marcarDirty();await persistir();renderLista();await selecionar(id);
     });
 
     document.querySelector("[data-admin-excluir]")?.addEventListener("click",async()=>{
-        const id=Number(form?.elements.id.value);const p=produtoPorId(id);if(!p)return;
+        const id=Number(form?.elements.id.value);const p=produtoPorId(id);
+        if(!p){
+            state.selecionado=null;limparEditorDirty();descartarImagemPendente();
+            form.hidden=true;document.querySelector("[data-admin-editor-placeholder]").hidden=false;
+            renderLista();
+            return;
+        }
         if(!confirm(`Excluir "${p.nome}" do rascunho local?`))return;
-        state.produtos=state.produtos.filter(x=>Number(x.id)!==id);await storeDelete("images",String(id));
+        state.produtos=state.produtos.filter(x=>Number(x.id)!==id);descartarImagemPendente();await storeDelete("images",String(id));
         state.selecionado=null;marcarDirty();await persistir();renderLista();
         form.hidden=true;document.querySelector("[data-admin-editor-placeholder]").hidden=false;
     });
@@ -349,9 +472,14 @@ document.addEventListener("DOMContentLoaded",async()=>{
         const id=String(form.elements.id.value);
         const ext=file.type==="image/png"?".png":file.type==="image/webp"?".webp":".jpg";
         const nome=`${slugify(form.elements.slug.value||form.elements.nome.value)||`produto-${id}`}${ext}`;
-        await storePut("images",{id,filename:nome,blob:file,updatedAt:Date.now()});
-        form.elements.imagem.value=nome;marcarDirty();await renderPreview(formParaProduto());await atualizarMetricas();
-        if(status)status.textContent="Imagem guardada localmente. Exporte-a antes de publicar.";
+        try{
+            const thumbBlob=await gerarMiniatura(file);
+            state.pendingImage={id,filename:nome,blob:file,thumbBlob,updatedAt:Date.now()};
+            form.elements.imagem.value=nome;marcarEditorDirty();await renderPreview(formParaProduto());await atualizarMetricas();
+            if(status)status.textContent="Imagem e miniatura prontas. Elas só serão guardadas no rascunho quando você clicar em Salvar.";
+        }catch{
+            if(status)status.textContent="Não foi possível preparar a miniatura desta imagem.";
+        }
     });
 
     document.querySelector("[data-admin-loja-form]")?.addEventListener("submit",async e=>{
@@ -372,7 +500,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
 
     document.querySelector("[data-admin-restaurar-base]")?.addEventListener("click",async()=>{
         if(!confirm("Descartar todos os rascunhos locais do Admin Studio e voltar aos dados publicados?"))return;
-        await limparStores();state.produtos=clone(state.baseProdutos);state.config=clone(state.baseConfig);state.selecionado=null;state.dirty=false;
+        await limparStores();state.produtos=clone(state.baseProdutos);state.config=clone(state.baseConfig);state.selecionado=null;state.dirty=false;state.editorDirty=false;state.pendingImage=null;
         renderLista();preencherLoja();preencherRecursos();await atualizarMetricas();await auditar();
         if(form){form.hidden=true;document.querySelector("[data-admin-editor-placeholder]").hidden=false;}
     });
@@ -386,22 +514,49 @@ document.addEventListener("DOMContentLoaded",async()=>{
         document.querySelector("[data-admin-export-status]").textContent="config.json exportado.";
     });
     document.querySelector("[data-admin-exportar-backup]")?.addEventListener("click",async()=>{
-        const imgs=await storeAll("images");
-        const metaImgs=imgs.map(x=>({id:x.id,filename:x.filename,type:x.blob?.type,size:x.blob?.size,updatedAt:x.updatedAt}));
-        const backup={versao:"3.0",exportadoEm:new Date().toISOString(),produtos:state.produtos,config:state.config,imagens:metaImgs};
-        baixar("qualimax-admin-backup-v3.json",JSON.stringify(backup,null,2));
-        document.querySelector("[data-admin-export-status]").textContent="Backup exportado. As imagens devem ser baixadas separadamente.";
+        const status=document.querySelector("[data-admin-export-status]");
+        try{
+            const imgs=await storeAll("images");
+            const imagens=[];
+            for(const x of imgs){
+                imagens.push({
+                    id:x.id,filename:x.filename,type:x.blob?.type||"",updatedAt:x.updatedAt,
+                    dataUrl:x.blob?await blobParaDataURL(x.blob):"",
+                    thumbDataUrl:x.thumbBlob?await blobParaDataURL(x.thumbBlob):""
+                });
+            }
+            const backup={versao:"3.0.1",exportadoEm:new Date().toISOString(),produtos:state.produtos,config:state.config,imagens};
+            baixar("qualimax-admin-backup-v3.0.1.json",JSON.stringify(backup,null,2));
+            if(status)status.textContent=`Backup completo exportado com ${imagens.length} imagem(ns) local(is).`;
+        }catch{
+            if(status)status.textContent="Não foi possível criar o backup completo.";
+        }
     });
     document.querySelector("[data-admin-importar-backup]")?.addEventListener("change",async e=>{
         const file=e.target.files?.[0];if(!file)return;
+        const status=document.querySelector("[data-admin-export-status]");
         try{
+            if(file.size>80*1024*1024) throw new Error("Backup muito grande");
             const b=JSON.parse(await file.text());
-            if(!Array.isArray(b.produtos)||!b.config)throw new Error();
-            state.produtos=clone(b.produtos);state.config=clone(b.config);state.selecionado=null;marcarDirty();await persistir();
-            renderLista();preencherLoja();preencherRecursos();await atualizarMetricas();await auditar();
-            document.querySelector("[data-admin-export-status]").textContent="Backup importado. Imagens locais não fazem parte do JSON.";
+            if(!Array.isArray(b.produtos)||!b.config||typeof b.config!=="object")throw new Error("Formato inválido");
+            state.produtos=clone(b.produtos);state.config=clone(b.config);state.selecionado=null;state.editorDirty=false;state.pendingImage=null;
+            await storeClear("images");
+            for(const img of Array.isArray(b.imagens)?b.imagens:[]){
+                if(!img?.id||!nomeArquivoSeguro(img.filename)||!img.dataUrl) continue;
+                const blob=dataURLParaBlob(img.dataUrl);
+                const thumbBlob=dataURLParaBlob(img.thumbDataUrl);
+                if(!blob||blob.size>5*1024*1024||!["image/png","image/jpeg","image/webp"].includes(blob.type)) continue;
+                await storePut("images",{
+                    id:String(img.id),filename:img.filename,blob,
+                    thumbBlob:thumbBlob&&["image/png","image/jpeg","image/webp"].includes(thumbBlob.type)?thumbBlob:null,
+                    updatedAt:Number(img.updatedAt)||Date.now()
+                });
+            }
+            marcarDirty();await persistir();
+            renderLista();preencherLoja();preencherRecursos();await atualizarMetricas();await auditar();await exportarImagemLista();
+            if(status)status.textContent="Backup importado com catálogo, configuração e imagens locais.";
         }catch{
-            document.querySelector("[data-admin-export-status]").textContent="Backup inválido.";
+            if(status)status.textContent="Backup inválido ou grande demais.";
         } finally {e.target.value="";}
     });
 });

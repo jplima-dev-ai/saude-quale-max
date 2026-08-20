@@ -174,16 +174,23 @@
         const numero = String(config.contato?.whatsapp || "").replace(/\D/g, "");
         const link = document.querySelector("[data-produto-whatsapp]");
         if (link && numero && produto) {
-            link.href = `https://wa.me/${numero}?text=${encodeURIComponent(`Olá! Vi ${produto.nome} no site da ${nomeLoja} e gostaria de consultar disponibilidade, valor e detalhes.`)}`;
-            link.target = "_blank";
-            link.rel = "noopener noreferrer";
+            const slug = slugSeguro(produto.slug);
+            const params = new URLSearchParams({
+                origem: "produto",
+                assunto: "Consultar disponibilidade"
+            });
+            if (slug) params.set("produto", slug);
+            link.href = `../atendimento.html?${params.toString()}`;
+            link.removeAttribute("target");
+            link.removeAttribute("rel");
             link.removeAttribute("aria-disabled");
+            link.textContent = "Preparar consulta deste produto";
         } else if (link) {
             link.removeAttribute("href");
             link.removeAttribute("target");
             link.setAttribute("aria-disabled", "true");
             link.classList.add("link-indisponivel");
-            link.textContent = "WhatsApp não disponível";
+            link.textContent = "Atendimento não disponível";
         }
 
         if (produto) {

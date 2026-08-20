@@ -834,6 +834,223 @@
       "copy": "O aroma delicado da lavanda transforma a atmosfera em poucos instantes. Conheça esta apresentação, confira as orientações do rótulo e descubra novas formas de apreciar a fragrância.",
       "cta": "Descobrir a lavanda",
       "slug": "oleo-essencial-de-lavanda"
+    },
+    {
+      "id": 33,
+      "nome": "Paçoca Integral de Amendoim",
+      "categoria": "alimentos",
+      "imagem": "pacoca-integral-de-amendoim.webp",
+      "descricao": "Paçoca integral de amendoim para quem procura um doce clássico em uma proposta voltada ao segmento de produtos naturais.",
+      "beneficios": [
+        "Sabor de amendoim",
+        "Praticidade",
+        "Lanche"
+      ],
+      "tipo": "doce",
+      "vegana": false,
+      "sem_gluten": false,
+      "experiencia_minima": "iniciante",
+      "tags": [
+        "pacoca",
+        "amendoim",
+        "doce",
+        "integral"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": true,
+      "copy": "O sabor brasileiro do amendoim em uma opção que combina perfeitamente com aquela pausa gostosa do dia. Conheça a paçoca integral, confira a composição disponível na loja e descubra uma nova favorita.",
+      "cta": "Quero conhecer esta paçoca",
+      "slug": "pacoca-integral-de-amendoim"
+    },
+    {
+      "id": 34,
+      "nome": "Chocolate sem Adição de Açúcares",
+      "categoria": "alimentos",
+      "imagem": "chocolate-sem-adicao-de-acucares.webp",
+      "descricao": "Chocolate sem adição de açúcares para consulta de teor de cacau, ingredientes, adoçantes e apresentações disponíveis.",
+      "beneficios": [
+        "Sabor de cacau",
+        "Sobremesa",
+        "Praticidade"
+      ],
+      "tipo": "barra",
+      "vegana": false,
+      "sem_gluten": false,
+      "experiencia_minima": "iniciante",
+      "tags": [
+        "chocolate",
+        "cacau",
+        "sem adicao de acucares",
+        "doce"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": true,
+      "copy": "Chocolate continua sendo chocolate quando o prazer está no cacau. Explore uma opção sem adição de açúcares e confira teor de cacau, ingredientes e apresentação antes de escolher a sua.",
+      "cta": "Descobrir este chocolate",
+      "slug": "chocolate-sem-adicao-de-acucares"
+    },
+    {
+      "id": 35,
+      "nome": "Biscoito Integral de Aveia",
+      "categoria": "alimentos",
+      "imagem": "biscoito-integral-de-aveia.webp",
+      "descricao": "Biscoito integral de aveia para lanches e acompanhamentos, com composição e apresentação a confirmar na loja.",
+      "beneficios": [
+        "Crocância",
+        "Praticidade",
+        "Lanche"
+      ],
+      "tipo": "biscoito",
+      "vegana": false,
+      "sem_gluten": false,
+      "experiencia_minima": "iniciante",
+      "tags": [
+        "biscoito",
+        "aveia",
+        "integral",
+        "lanche"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": true,
+      "copy": "Crocante, prático e fácil de combinar com café ou chá. O biscoito integral de aveia é aquele tipo de escolha que cabe na bolsa, na pausa da tarde e na despensa de quem gosta de ter um lanche por perto.",
+      "cta": "Conhecer este biscoito",
+      "slug": "biscoito-integral-de-aveia"
+    },
+    {
+      "id": 36,
+      "nome": "Mel",
+      "categoria": "alimentos",
+      "imagem": "mel.webp",
+      "descricao": "Mel para acompanhar bebidas, frutas, preparos culinários e outras combinações, com origem e apresentação a confirmar na loja.",
+      "beneficios": [
+        "Sabor doce",
+        "Versatilidade",
+        "Culinária"
+      ],
+      "tipo": "natural",
+      "vegana": false,
+      "sem_gluten": true,
+      "experiencia_minima": "iniciante",
+      "tags": [
+        "mel",
+        "abelhas",
+        "culinaria",
+        "adoçar"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": true,
+      "copy": "Dourado, aromático e cheio de possibilidades à mesa. Do chá ao café da manhã, o mel é daqueles ingredientes que convidam a experimentar novas combinações. Confira a origem e a apresentação disponível na loja.",
+      "cta": "Conhecer o mel",
+      "slug": "mel"
+    },
+    {
+      "id": 37,
+      "nome": "Açúcar Mascavo",
+      "categoria": "alimentos",
+      "imagem": "acucar-mascavo.webp",
+      "descricao": "Açúcar mascavo para bebidas, receitas e preparos culinários, com granulometria e apresentação a confirmar na loja.",
+      "beneficios": [
+        "Culinária",
+        "Sabor característico",
+        "Versatilidade"
+      ],
+      "tipo": "granulado",
+      "vegana": true,
+      "sem_gluten": true,
+      "experiencia_minima": "iniciante",
+      "tags": [
+        "acucar mascavo",
+        "acucar",
+        "culinaria",
+        "receitas"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": false,
+      "copy": "Cor intensa e sabor marcante para quem gosta de dar personalidade às receitas. Conheça o açúcar mascavo disponível na loja e descubra novas maneiras de levá-lo para bolos, bebidas e preparos do dia a dia.",
+      "cta": "Conhecer o açúcar mascavo",
+      "slug": "acucar-mascavo"
+    },
+    {
+      "id": 38,
+      "nome": "Sal Rosa do Himalaia",
+      "categoria": "temperos",
+      "imagem": "sal-rosa-do-himalaia.webp",
+      "descricao": "Sal rosa do Himalaia para uso culinário, disponível em diferentes granulometrias conforme o estoque da loja.",
+      "beneficios": [
+        "Tempero",
+        "Culinária",
+        "Versatilidade"
+      ],
+      "tipo": "sal",
+      "vegana": true,
+      "sem_gluten": true,
+      "experiencia_minima": "iniciante",
+      "tags": [
+        "sal rosa",
+        "himalaia",
+        "sal",
+        "tempero",
+        "culinaria"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": true,
+      "copy": "Os cristais rosados chamam atenção antes mesmo de chegar ao prato. Explore o sal rosa do Himalaia, escolha a granulometria que combina com sua cozinha e dê um toque diferente aos seus preparos.",
+      "cta": "Ver o sal rosa",
+      "slug": "sal-rosa-do-himalaia"
+    },
+    {
+      "id": 39,
+      "nome": "Xarope Natural de Ervas",
+      "categoria": "alimentos",
+      "imagem": "xarope-natural-de-ervas.webp",
+      "descricao": "Xarope natural de ervas para consulta de composição, ingredientes, finalidade declarada no rótulo e apresentação disponível.",
+      "beneficios": [
+        "Praticidade",
+        "Ingredientes de origem vegetal",
+        "Apresentação líquida"
+      ],
+      "tipo": "xarope",
+      "vegana": false,
+      "sem_gluten": false,
+      "experiencia_minima": "regular",
+      "tags": [
+        "xarope",
+        "ervas",
+        "natural",
+        "extratos"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": false,
+      "copy": "Ervas e extratos podem aparecer em combinações muito diferentes. Antes de escolher, conheça a composição deste xarope, confira o rótulo e descubra qual apresentação está disponível na loja.",
+      "cta": "Conferir composição do xarope",
+      "slug": "xarope-natural-de-ervas"
+    },
+    {
+      "id": 40,
+      "nome": "Cacau em Pó",
+      "categoria": "alimentos",
+      "imagem": "cacau-em-po.webp",
+      "descricao": "Cacau em pó para bebidas e receitas, com teor de cacau, composição e apresentação a consultar.",
+      "beneficios": [
+        "Sabor de cacau",
+        "Culinária",
+        "Bebidas"
+      ],
+      "tipo": "po",
+      "vegana": true,
+      "sem_gluten": true,
+      "experiencia_minima": "iniciante",
+      "tags": [
+        "cacau",
+        "cacau em po",
+        "chocolate",
+        "receitas"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": true,
+      "copy": "Aroma profundo, cor intensa e aquele sabor de cacau que transforma receitas simples. Explore o cacau em pó disponível e confira composição e apresentação antes de levar para a cozinha.",
+      "cta": "Descobrir o cacau em pó",
+      "slug": "cacau-em-po"
     }
   ]
 }

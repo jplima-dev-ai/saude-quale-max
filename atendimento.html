@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,follow">
+<meta name="description" content="Prepare seu atendimento e revise sua mensagem antes de abrir o WhatsApp.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self'; script-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'">
+<title>Preparar atendimento | Loja</title>
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.webmanifest">
+<script src="js/frame-guard.js" defer></script>
+<script src="js/config.js" defer></script>
+<script src="js/db.js" defer></script>
+<script src="js/atendimento.js" defer></script>
+<script src="js/acessibilidade.js" defer></script>
+<script src="js/pwa.js" defer></script>
+<script src="js/interacoes.js" defer></script>
+</head>
+<body data-page="atendimento">
+<a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+<header class="cabecalho">
+  <div class="container cabecalho-conteudo">
+    <a class="logo logo-imagem-link" href="index.html" data-config-logo-label aria-label="Loja - voltar ao início">
+      <img data-config-logo-img class="logo-imagem" src="img/logo-saude-qualimax.webp" alt="Loja">
+      <span class="logo-texto" data-config-nome>Loja</span>
+    </a>
+    <nav class="navegacao navegacao-simples" aria-label="Navegação do atendimento">
+      <a href="catalogo.html">Catálogo</a>
+      <a href="conta.html">Minha conta</a>
+    </nav>
+  </div>
+</header>
+
+<main id="conteudo">
+<section class="pagina-hero atendimento-hero">
+  <div class="container">
+    <p class="secao-subtitulo">Pré-atendimento inteligente</p>
+    <h1>Vamos deixar seu atendimento adiantado?</h1>
+    <p>Preencha só o necessário. No final, você revisa tudo e decide se quer abrir a conversa no WhatsApp.</p>
+    <div class="atendimento-privacidade" role="note">
+      <strong>Privacidade:</strong> seus dados não são enviados para a loja por esta página. A mensagem só sai quando você abrir o WhatsApp e confirmar o envio por lá.
+    </div>
+  </div>
+</section>
+
+<section class="secao-plataforma">
+<div class="container atendimento-layout">
+  <form class="atendimento-form" data-atendimento-form novalidate>
+    <section class="atendimento-etapa" aria-labelledby="at-dados-titulo">
+      <p class="atendimento-passo">1 de 4</p>
+      <h2 id="at-dados-titulo">Seus dados</h2>
+      <div class="atendimento-grid">
+        <div class="atendimento-campo-largo">
+          <label for="at-nome">Nome completo <span aria-hidden="true">*</span></label>
+          <input id="at-nome" name="nome" autocomplete="name" maxlength="120" required aria-describedby="at-nome-ajuda">
+          <small id="at-nome-ajuda">Usaremos o nome apenas para organizar a mensagem que você vai revisar.</small>
+        </div>
+        <div>
+          <label for="at-telefone">Telefone</label>
+          <input id="at-telefone" name="telefone" type="tel" autocomplete="tel" maxlength="30">
+        </div>
+        <div>
+          <label for="at-email">E-mail</label>
+          <input id="at-email" name="email" type="email" autocomplete="email" maxlength="254">
+        </div>
+      </div>
+    </section>
+
+    <section class="atendimento-etapa" aria-labelledby="at-receber-titulo">
+      <p class="atendimento-passo">2 de 4</p>
+      <h2 id="at-receber-titulo">Como você prefere receber?</h2>
+      <fieldset class="atendimento-opcoes">
+        <legend class="sr-only">Forma de recebimento</legend>
+        <label><input type="radio" name="recebimento" value="retirada"> Retirar na loja</label>
+        <label><input type="radio" name="recebimento" value="entrega"> Receber em casa</label>
+        <label><input type="radio" name="recebimento" value="confirmar" checked> Quero confirmar com a equipe</label>
+      </fieldset>
+
+      <div class="atendimento-endereco" data-atendimento-endereco hidden>
+        <h3>Endereço para entrega</h3>
+        <div class="atendimento-grid">
+          <div>
+            <label for="at-cep">CEP</label>
+            <input id="at-cep" name="cep" inputmode="numeric" autocomplete="postal-code" maxlength="10">
+          </div>
+          <div class="atendimento-campo-largo">
+            <label for="at-rua">Rua / avenida</label>
+            <input id="at-rua" name="rua" autocomplete="address-line1" maxlength="140">
+          </div>
+          <div>
+            <label for="at-numero">Número</label>
+            <input id="at-numero" name="numero" maxlength="20">
+          </div>
+          <div>
+            <label for="at-complemento">Complemento</label>
+            <input id="at-complemento" name="complemento" autocomplete="address-line2" maxlength="80">
+          </div>
+          <div>
+            <label for="at-bairro">Bairro</label>
+            <input id="at-bairro" name="bairro" maxlength="100">
+          </div>
+          <div>
+            <label for="at-cidade">Cidade</label>
+            <input id="at-cidade" name="cidade" autocomplete="address-level2" maxlength="100">
+          </div>
+          <div>
+            <label for="at-estado">Estado</label>
+            <input id="at-estado" name="estado" autocomplete="address-level1" maxlength="2">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="atendimento-etapa" aria-labelledby="at-interesse-titulo">
+      <p class="atendimento-passo">3 de 4</p>
+      <h2 id="at-interesse-titulo">O que você quer resolver?</h2>
+      <div class="atendimento-grid">
+        <div>
+          <label for="at-assunto">Assunto</label>
+          <select id="at-assunto" name="assunto">
+            <option value="Fazer um pedido">Fazer um pedido</option>
+            <option value="Consultar preço">Consultar preço</option>
+            <option value="Consultar disponibilidade">Consultar disponibilidade</option>
+            <option value="Consultar entrega">Consultar entrega</option>
+            <option value="Tirar dúvida sobre produtos">Tirar dúvida sobre produtos</option>
+            <option value="Montar minha lista">Montar minha lista</option>
+            <option value="Outro">Outro</option>
+          </select>
+        </div>
+        <div class="atendimento-campo-largo">
+          <label for="at-observacao">Quer acrescentar alguma observação?</label>
+          <textarea id="at-observacao" name="observacao" rows="4" maxlength="1000" placeholder="Ex.: gostaria de confirmar quais itens estão disponíveis hoje."></textarea>
+        </div>
+      </div>
+
+      <div class="atendimento-selecao">
+        <div class="atendimento-selecao-cabecalho">
+          <div>
+            <h3>Produtos para enviar</h3>
+            <p>Selecionamos automaticamente itens da sua lista ou do produto de onde você veio. Você decide o que entra na mensagem.</p>
+          </div>
+          <button type="button" class="botao botao-secundario" data-atendimento-limpar-produtos>Limpar seleção</button>
+        </div>
+        <div data-atendimento-produtos class="atendimento-produtos"></div>
+        <p data-atendimento-produtos-vazio class="atendimento-vazio">Nenhum produto selecionado. Você pode continuar e explicar o que procura no campo de observação.</p>
+      </div>
+
+      <label class="atendimento-lembrar">
+        <input type="checkbox" name="lembrar">
+        <span><strong>Lembrar meus dados neste dispositivo</strong><small>Nome, contato e endereço ficam somente neste navegador para facilitar o próximo atendimento.</small></span>
+      </label>
+    </section>
+
+    <section class="atendimento-etapa" aria-labelledby="at-revisao-titulo">
+      <p class="atendimento-passo">4 de 4</p>
+      <h2 id="at-revisao-titulo">Confira antes de continuar</h2>
+      <p>Esta é a mensagem que será preparada para o WhatsApp. Você pode editar o texto antes de abrir a conversa.</p>
+      <label for="at-preview">Mensagem</label>
+      <textarea id="at-preview" data-atendimento-preview rows="18" maxlength="5000"></textarea>
+      <p class="atendimento-status" data-atendimento-status role="status" aria-live="polite"></p>
+
+      <div class="atendimento-acoes">
+        <button class="botao botao-secundario" type="button" data-atendimento-copiar>Copiar mensagem</button>
+        <button class="botao botao-principal" type="submit">Continuar no WhatsApp</button>
+      </div>
+      <p class="atendimento-nota">Ao continuar, uma nova aba será aberta com a mensagem preenchida. Nada é enviado automaticamente.</p>
+    </section>
+  </form>
+
+  <aside class="atendimento-resumo" aria-labelledby="at-resumo-titulo">
+    <p class="secao-subtitulo">Seu atendimento</p>
+    <h2 id="at-resumo-titulo">Tudo organizado em um só lugar</h2>
+    <dl>
+      <div><dt>Origem</dt><dd data-atendimento-origem>Site</dd></div>
+      <div><dt>Produtos</dt><dd data-atendimento-contador>0 selecionados</dd></div>
+      <div><dt>Forma de receber</dt><dd data-atendimento-recebimento>Confirmar com a equipe</dd></div>
+    </dl>
+    <p>Se preferir atendimento presencial, você também pode visitar a <strong data-config-nome>loja</strong>.</p>
+    <p data-config-endereco></p>
+    <a class="botao botao-secundario" href="contato.html">Ver endereço e contato</a>
+  </aside>
+</div>
+</section>
+</main>
+</body>
+</html>

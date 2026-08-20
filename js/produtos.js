@@ -31,15 +31,13 @@
         return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) ? slug : "";
     };
 
-    const construirMensagem = (produto) => {
-        const nomeLoja = window.QualimaxConfig?.empresa?.nome || "a loja";
-        return encodeURIComponent(
-            `Olá! Vi o produto ${produto.nome} no site da ${nomeLoja} e gostaria de consultar disponibilidade e detalhes.`
-        );
-    };
-
     const numeroWhatsApp = () => String(window.QualimaxConfig?.contato?.whatsapp || "").replace(/\D/g, "");
-    const linkWhatsApp = (produto) => `https://wa.me/${numeroWhatsApp()}?text=${construirMensagem(produto)}`;
+    const linkAtendimento = (produto) => {
+        const slug = slugSeguro(produto?.slug);
+        const params = new URLSearchParams({ origem:"catalogo", assunto:"Consultar disponibilidade" });
+        if (slug) params.set("produto",slug);
+        return `atendimento.html?${params.toString()}`;
+    };
     const imagemMiniatura = (produto) => {
         const arquivo = nomeArquivoSeguro(produto.imagem);
         return arquivo ? `img/thumbs/${arquivo}` : "";
@@ -142,11 +140,9 @@
         if (numeroWhatsApp()) {
             const whatsapp = document.createElement("a");
             whatsapp.className = "link-destaque";
-            whatsapp.target = "_blank";
-            whatsapp.rel = "noopener noreferrer";
-            whatsapp.href = linkWhatsApp(produto);
-            whatsapp.textContent = "Consultar pelo WhatsApp →";
-            whatsapp.setAttribute("aria-label", `Consultar ${produto.nome} pelo WhatsApp, abre em nova aba`);
+            whatsapp.href = linkAtendimento(produto);
+            whatsapp.textContent = "Preparar atendimento →";
+            whatsapp.setAttribute("aria-label", `Preparar atendimento sobre ${produto.nome}`);
             acoes.append(whatsapp);
         }
         if (produto.destaque) {
@@ -359,11 +355,9 @@
         if (numeroWhatsApp()) {
             const link = document.createElement("a");
             link.className = "botao botao-principal";
-            link.target = "_blank";
-            link.rel = "noopener noreferrer";
-            link.href = linkWhatsApp(produto);
-            link.textContent = "Consultar pelo WhatsApp";
-            link.setAttribute("aria-label", `Consultar ${produto.nome} pelo WhatsApp, abre em nova aba`);
+            link.href = linkAtendimento(produto);
+            link.textContent = "Preparar atendimento";
+            link.setAttribute("aria-label", `Preparar atendimento sobre ${produto.nome}`);
             informacoes.append(link);
         }
 

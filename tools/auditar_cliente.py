@@ -108,6 +108,48 @@ def main() -> int:
                 if f"'sha256-{digest}'" not in policy:
                     erros.append(f"Hash CSP inválido em {page.relative_to(ROOT)}")
 
+
+    # Max: módulos internos obrigatórios e ordem de carregamento.
+    max_scripts = [
+        "js/max-core.js",
+        "js/max-entidades.js",
+        "js/max-recomendacao.js",
+        "js/max-intencoes.js",
+        "js/chatbot.js",
+    ]
+    paginas_max = [ROOT / x for x in ("index.html", "catalogo.html", "quiz.html", "sobre.html", "contato.html")]
+    for page in paginas_max:
+        texto = page.read_text(encoding="utf-8")
+        scripts = re.findall(r'<script\b[^>]*\bsrc=["\']([^"\']+)["\']', texto, re.I)
+        posicoes = []
+        for esperado in max_scripts:
+            candidatos = [esperado, f"./{esperado}"]
+            pos = next((scripts.index(c) for c in candidatos if c in scripts), -1)
+            posicoes.append(pos)
+        if any(pos < 0 for pos in posicoes):
+            erros.append(f"Módulo do Max ausente em {page.name}.")
+        elif posicoes != sorted(posicoes):
+            erros.append(f"Ordem de módulos do Max inválida em {page.name}.")
+
+    sw_texto = (ROOT / "sw.js").read_text(encoding="utf-8")
+    for esperado in max_scripts:
+        if f"./{esperado}" not in sw_texto:
+            erros.append(f"Service Worker não inclui {esperado} no shell.")
+
+    # Pré-atendimento estático.
+    atendimento = ROOT / "atendimento.html"
+    atendimento_js = ROOT / "js" / "atendimento.js"
+    if not atendimento.exists() or not atendimento_js.exists():
+        erros.append("Pré-atendimento v3.0.8 incompleto.")
+    else:
+        atendimento_html = atendimento.read_text(encoding="utf-8")
+        if 'content="noindex,follow"' not in atendimento_html.replace(" ", ""):
+            erros.append("atendimento.html deve permanecer noindex,follow.")
+        if "atendimento.html" in (ROOT / "sitemap.xml").read_text(encoding="utf-8"):
+            erros.append("atendimento.html não deve aparecer no sitemap.")
+        if "https://wa.me/" not in atendimento_js.read_text(encoding="utf-8"):
+            erros.append("Pré-atendimento não contém a etapa final de abertura do WhatsApp.")
+
     # SEO/site.
     sitemap = (ROOT / "sitemap.xml").read_text(encoding="utf-8")
     if site not in sitemap:
@@ -152,7 +194,7 @@ def main() -> int:
             erros.append(f"Marca do cliente ausente em {page.relative_to(ROOT)}")
 
     # Busca por resíduos explicitamente proibidos.
-    publicos = centrais + [ROOT / "conta.html", ROOT / "admin.html"] + list((ROOT / "produto").glob("*.html")) + list((ROOT / "js").glob("*.js")) + [
+    publicos = centrais + [ROOT / "conta.html", ROOT / "atendimento.html", ROOT / "admin.html"] + list((ROOT / "produto").glob("*.html")) + list((ROOT / "js").glob("*.js")) + [
         ROOT / "script.js", ROOT / "manifest.webmanifest", ROOT / "sitemap.xml", ROOT / "robots.txt"
     ]
     for termo in args.proibir:

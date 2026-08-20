@@ -1,6 +1,6 @@
 # Saúde Qualimax — Plataforma Web
 
-**Versão atual: 3.0**
+**Versão atual: 3.1**
 
 Plataforma web multipágina para descoberta e atendimento de produtos naturais, construída com foco em acessibilidade, navegação orientada a dados e conversão via WhatsApp.
 
@@ -96,7 +96,7 @@ Consulte [`docs/WHITE-LABEL-E-CLIENTES.md`](docs/WHITE-LABEL-E-CLIENTES.md).
 
 ## Conta local e Admin Studio
 
-A v3.0 adiciona duas áreas estáticas:
+A v3.1 adiciona duas áreas estáticas:
 
 - `conta.html` — perfil local, favoritos, lista e histórico;
 - `admin.html` — CMS local para editar catálogo e configuração antes da publicação.

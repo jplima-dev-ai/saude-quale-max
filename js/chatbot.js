@@ -1,38 +1,18 @@
 (() => {
     "use strict";
 
-    const normalizar = (texto) => String(texto || "")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toLowerCase()
-        .trim();
+    const MaxCore = window.QualimaxMaxCore;
+    const MaxEntidades = window.QualimaxMaxEntidades;
+    const MaxRecomendacao = window.QualimaxMaxRecomendacao;
+    const MaxIntencoes = window.QualimaxMaxIntencoes;
 
-    const nomeArquivoSeguro = (valor) => {
-        const nome = String(valor || "").trim();
-        return /^[A-Za-z0-9._-]+$/.test(nome) ? nome : "";
-    };
+    if (!MaxCore || !MaxEntidades || !MaxRecomendacao || !MaxIntencoes) {
+        console.error("Max: módulos internos não foram carregados na ordem esperada.");
+        return;
+    }
 
-    const slugSeguro = (valor) => {
-        const slug = String(valor || "").trim();
-        return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) ? slug : "";
-    };
-
-    const estado = {
-        produtos: [],
-        categorias: [],
-        ultimoFoco: null,
-        ultimoProdutoVisto: null,
-        preferencias: {
-            categoria: "",
-            tipo: "",
-            vegana: null,
-            semGluten: null,
-            termos: []
-        },
-        ultimosResultados: [],
-        offsetResultados: 0,
-        contextoResultados: ""
-    };
+    const { normalizar, nomeArquivoSeguro, slugSeguro } = MaxCore;
+    const estado = MaxCore.criarEstado();
 
     const mensagens = () => document.querySelector("[data-chat-mensagens]");
     const campoChat = () => document.querySelector("[data-chat-input]");
@@ -119,7 +99,7 @@
 
     const irQuiz = () => {
         if (!quizAtivo()) {
-            adicionarMensagem("O quiz não está disponível nesta configuração da loja.");
+            adicionarMensagem("Poxa, o quiz não está ativo por aqui. Mas relaxa: eu consigo continuar a busca com você pelo catálogo.");
             return;
         }
         location.href = paginaAtual() === "quiz.html" ? "#quiz" : "quiz.html#quiz";
@@ -127,22 +107,38 @@
 
     const numeroWhatsApp = () => String(window.QualimaxConfig?.contato?.whatsapp || "").replace(/\D/g, "");
 
-    const adicionarWhatsAppNoChat = (textoBotao = "Falar com a equipe no WhatsApp", contexto = "") => {
+    const adicionarWhatsAppNoChat = (textoBotao = "Preparar atendimento", contexto = "") => {
         const area = mensagens();
         const numero = numeroWhatsApp();
         if (!area || !numero) {
-            adicionarMensagem("O WhatsApp não está disponível neste momento. Consulte a página de contato.");
+            adicionarMensagem("Opa, o WhatsApp não está disponível por aqui agora. Dá uma olhada na página de contato que eu te mostro o caminho.");
             return;
         }
-        const nome = window.QualimaxConfig?.empresa?.nome || "a loja";
+
+        try {
+            const produto = produtoContextual();
+            sessionStorage.setItem("qualimax-atendimento-max-v1", JSON.stringify({
+                produtoId: produto?.id || null,
+                preferencias: {
+                    categoria: estado.preferencias.categoria || "",
+                    tipo: estado.preferencias.tipo || "",
+                    vegana: estado.preferencias.vegana,
+                    semGluten: estado.preferencias.semGluten,
+                    termos: [...(estado.preferencias.termos || [])].slice(0,6)
+                },
+                contexto: String(contexto || "").slice(0,300),
+                em: Date.now()
+            }));
+        } catch {}
+
         const link = document.createElement("a");
         link.className = "chat-whatsapp-cta";
-        const complemento = contexto ? ` ${contexto}` : "";
-        link.href = `https://wa.me/${numero}?text=${encodeURIComponent(`Olá! Vim pelo site da ${nome}.${complemento} Gostaria de falar com a equipe.`)}`;
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
+        const produto = produtoContextual();
+        const params = new URLSearchParams({ origem:"max", assunto:"Tirar dúvida sobre produtos" });
+        if (produto?.slug && slugSeguro(produto.slug)) params.set("produto",produto.slug);
+        link.href = `atendimento.html?${params.toString()}`;
         link.textContent = textoBotao;
-        link.setAttribute("aria-label", `${textoBotao}, abre em nova aba`);
+        link.setAttribute("aria-label", `${textoBotao}. Você revisa os dados antes de abrir o WhatsApp.`);
         area.append(link);
         rolarFim();
     };
@@ -152,10 +148,10 @@
         const redes = Array.isArray(window.QualimaxRedesAtivas) ? window.QualimaxRedesAtivas : [];
         if (!area) return;
         if (!redes.length) {
-            adicionarMensagem("Os perfis oficiais da loja ainda não estão disponíveis neste site.");
+            adicionarMensagem("Ainda não tenho redes sociais disponíveis por aqui.");
             return;
         }
-        adicionarMensagem("Estes são os canais oficiais disponíveis:");
+        adicionarMensagem("Achei! Estes são os canais oficiais da loja:");
         const grupo = document.createElement("div");
         grupo.className = "chat-redes";
         redes.forEach((rede) => {
@@ -198,7 +194,7 @@
 
         const abrir = document.createElement("button");
         abrir.type = "button";
-        abrir.textContent = "Abrir detalhes";
+        abrir.textContent = "Quero ver este";
         abrir.addEventListener("click", () => {
             fecharChat();
             if (window.QualimaxProdutos?.abrirModal) {
@@ -213,10 +209,10 @@
         if (colecoesAtivas() && window.QualimaxColecoes?.toggleInteresse) {
             const lista = document.createElement("button");
             lista.type = "button";
-            lista.textContent = "Adicionar à minha lista";
+            lista.textContent = "Guardar na minha lista";
             lista.addEventListener("click", async () => {
                 const ativo = await window.QualimaxColecoes.toggleInteresse(produto.id);
-                lista.textContent = ativo ? "✓ Na minha lista" : "Adicionar à minha lista";
+                lista.textContent = ativo ? "✓ Guardado na lista" : "Guardar na minha lista";
                 lista.setAttribute("aria-pressed", String(Boolean(ativo)));
             });
             acoes.append(lista);
@@ -236,12 +232,12 @@
         const inicio = estado.offsetResultados;
         const pagina = estado.ultimosResultados.slice(inicio, inicio + 3);
         if (!pagina.length) {
-            adicionarMensagem("Não há mais opções nessa busca.");
+            adicionarMensagem("Chegamos ao fim dessa seleção. Quer tentar outro caminho?");
             return;
         }
 
         if (inicio === 0) adicionarMensagem(`${estado.contextoResultados}:`);
-        else adicionarMensagem("Aqui vão mais opções:");
+        else adicionarMensagem("Bora ver mais algumas:");
 
         const grupo = document.createElement("div");
         grupo.className = "chat-produtos";
@@ -274,7 +270,7 @@
         estado.offsetResultados = 0;
         estado.contextoResultados = contexto;
         if (!itens.length) {
-            adicionarMensagem("Não encontrei produtos que combinem com todos esses critérios no catálogo atual.");
+            adicionarMensagem("Hmm, apertei bastante os filtros e não achei uma combinação certinha. Posso abrir um pouco a busca com você.");
             const acoes = [
                 { texto: "Limpar preferências", valor: "limpar preferencias" }
             ];
@@ -371,6 +367,7 @@
         estado.ultimosResultados = [];
         estado.offsetResultados = 0;
         estado.contextoResultados = "";
+        MaxCore.limparMemoriaConversa(estado);
     };
 
     const aplicarContextoCatalogo = (contexto = {}) => {
@@ -402,7 +399,7 @@
     };
 
     const responderAjudaEscolha = () => {
-        adicionarMensagem("Posso refinar com você. Vamos descobrir juntos. Qual desses caminhos desperta mais a sua curiosidade agora?");
+        adicionarMensagem("Bora descobrir juntos. Qual desses caminhos combina mais com o que você quer agora?");
         const acoes = [
             { texto: "Alimentos e lanches", valor: "alimentos" },
             { texto: "Chás", valor: "chás" },
@@ -413,15 +410,311 @@
         adicionarAcoes(acoes);
     };
 
-    const ehPerguntaMedica = (termo) =>
-        /curar|cura|tratar|tratamento|doenca|doença|diabetes|pressao alta|pressão alta|colesterol|ansiedade|depressao|depressão|remedio|remédio|medicamento|emagrecer|emagrecimento/.test(termo);
+    const registrarConsulta = (original, intencao = "busca") =>
+        MaxCore.registrarConsulta(estado, original, intencao);
+
+    const produtoPorNome = (termo) =>
+        MaxEntidades.produtoPorNome(estado.produtos, termo);
+
+    const produtoContextual = () => estado.produtoEmContexto || estado.ultimoProdutoVisto || estado.ultimosResultados[0] || null;
+
+    const definirProdutoContexto = (produto) => {
+        if (produto) estado.produtoEmContexto = produto;
+        return produto;
+    };
+
+    const produtosMencionados = (termo) =>
+        MaxEntidades.produtosMencionados(estado.produtos, termo);
+
+
+    const explicarProduto = (produto) => {
+        if (!produto) return;
+        definirProdutoContexto(produto);
+        estado.ultimaIntencao = "produto";
+        registrarResultados([produto], `Olha o que achei sobre ${produto.nome}`);
+        const beneficios = Array.isArray(produto.beneficios) ? produto.beneficios.filter(Boolean).slice(0, 3) : [];
+        if (beneficios.length) {
+            adicionarMensagem(`No catálogo ele aparece ligado a: ${beneficios.join(", ")}. Se quiser, eu também comparo com outra opção da loja.`);
+        }
+        adicionarAcoes([
+            { texto: "Comparar com outro", valor: `comparar ${produto.nome} com ` },
+            { texto: "Ver semelhantes", acao: () => {
+                const similares = similaresAoProduto(produto, 6);
+                registrarResultados(similares, `Separei alternativas parecidas com ${produto.nome}`);
+            }}
+        ]);
+    };
+
+    const compararProdutos = (itens) => {
+        if (!Array.isArray(itens) || itens.length < 2) return false;
+        const [a,b] = itens;
+        definirProdutoContexto(b);
+        estado.ultimaIntencao = "comparar";
+        const catA = estado.categorias.find(c => c.id === a.categoria)?.nome || a.categoria || "categoria não informada";
+        const catB = estado.categorias.find(c => c.id === b.categoria)?.nome || b.categoria || "categoria não informada";
+        const benA = (a.beneficios || []).slice(0,3).join(", ") || "consulte os detalhes";
+        const benB = (b.beneficios || []).slice(0,3).join(", ") || "consulte os detalhes";
+        adicionarMensagem(`Boa comparação. ${a.nome} é ${catA} e no catálogo destaca ${benA}. Já ${b.nome} é ${catB} e destaca ${benB}.`);
+        adicionarMensagem("Não vou escolher por você no chute. Posso abrir os dois para você comparar composição, formato e proposta com calma.");
+        const area = mensagens();
+        if (area) {
+            const grupo=document.createElement("div");
+            grupo.className="chat-produtos";
+            grupo.append(criarCardProduto(a), criarCardProduto(b));
+            area.append(grupo);
+            rolarFim();
+        }
+        return true;
+    };
+
+    const responderSobreLoja = (termo) => {
+        const cfg = window.QualimaxConfig || {};
+        const empresa = cfg.empresa || {};
+        const contato = cfg.contato || {};
+        if (/endereco|endereço|onde fica|localizacao|localização|como chegar/.test(termo)) {
+            adicionarMensagem(contato.endereco ? `Claro! A loja fica em ${contato.endereco}.` : "O endereço ainda não está disponível por aqui.");
+            adicionarAcoes([{ texto: "Abrir contato", acao: () => { fecharChat(); location.href="contato.html"; } }]);
+            return true;
+        }
+        if (/telefone|email|e-mail|contato/.test(termo)) {
+            const partes=[];
+            if (contato.telefone) partes.push(`telefone ${contato.telefone}`);
+            if (contato.email) partes.push(`e-mail ${contato.email}`);
+            adicionarMensagem(partes.length ? `Você consegue falar com a ${empresa.nome || "loja"} por ${partes.join(" ou ")}.` : "Os contatos não estão disponíveis por aqui agora.");
+            adicionarAcoes([{ texto:"Ver página de contato", acao:()=>{fecharChat();location.href="contato.html";} }]);
+            return true;
+        }
+        if (/horario|horário|abre|fecha|funcionamento/.test(termo)) {
+            adicionarMensagem("Eu não tenho um horário de funcionamento confirmado nos dados atuais da loja. Melhor conferir com a equipe para não te passar informação errada.");
+            adicionarWhatsAppNoChat("Confirmar horário no WhatsApp");
+            return true;
+        }
+        return false;
+    };
+
+    const responderContextoProduto = (termo) => {
+        const produto = produtoContextual();
+        if (!produto) return false;
+        if (/^(ele|ela|esse|essa|este|esta|isso)\b|esse produto|essa opcao|essa opção/.test(termo)) {
+            if (/detalhe|explica|fala|serve|beneficio|benefício|sobre/.test(termo)) {
+                explicarProduto(produto);
+                return true;
+            }
+            if (/parecido|semelhante|alternativa|outro|outra/.test(termo)) {
+                const similares=similaresAoProduto(produto,8);
+                registrarResultados(similares, `Separei alternativas parecidas com ${produto.nome}`);
+                return true;
+            }
+        }
+        return false;
+    };
+
+    const similaresAoProduto = (produto, limite = 8) =>
+        MaxRecomendacao.similaresAoProduto(estado.produtos, produto, limite);
+
+    const resolverReferenciaContextual = (termo) =>
+        MaxEntidades.resolverReferenciaProduto(termo, produtoContextual());
+
+    const iniciarDescobertaGuiada = () => {
+        estado.etapaDescoberta = "objetivo";
+        adicionarMensagem("Fechado. Vamos por partes e sem complicar: o que você quer explorar agora?");
+        adicionarAcoes([
+            { texto:"Algo para comer", valor:"alimentos" },
+            { texto:"Um chá", valor:"chás" },
+            { texto:"Vitaminas", valor:"vitaminas" },
+            { texto:"Suplementos", valor:"suplementos" }
+        ]);
+    };
+
+    const executarIntencao = (termo) => {
+        const intencao = MaxIntencoes.detectar(termo);
+
+        if (intencao === "medica") {
+            adicionarMensagem("Posso te ajudar a encontrar e comparar o que existe no catálogo. Só não vou inventar diagnóstico nem dizer que um produto trata uma condição de saúde. Para uso, composição e contraindicações, vale conferir o rótulo e conversar com um profissional habilitado.");
+            adicionarAcoes([
+                { texto: "Explorar catálogo", acao: () => { fecharChat(); irCatalogo(); } },
+                { texto: "Falar com a equipe", acao: () => adicionarWhatsAppNoChat() }
+            ]);
+            estado.ultimaIntencao = "medica";
+            return true;
+        }
+
+        if (intencao === "loja") {
+            const tratada = responderSobreLoja(termo);
+            if (tratada) estado.ultimaIntencao = "loja";
+            return tratada;
+        }
+
+        if (intencao === "categorias") {
+            adicionarMensagem("Claro. Escolhe uma categoria e eu continuo a busca com você:");
+            adicionarAcoes(estado.categorias.slice(0,8).map(c => ({ texto:c.nome, valor:c.nome })));
+            estado.ultimaIntencao = "categorias";
+            return true;
+        }
+
+        if (intencao === "comparar") {
+            const resolvido = resolverReferenciaContextual(termo);
+            const citados = produtosMencionados(resolvido);
+            const contexto = produtoContextual();
+            if (citados.length === 1 && contexto && citados[0].id !== contexto.id) citados.unshift(contexto);
+            if (compararProdutos(citados)) {
+                estado.ultimaIntencao = "comparar";
+                return true;
+            }
+            adicionarMensagem(contexto
+                ? `Já estou com ${contexto.nome} em mente. Me diga o nome do outro produto que você quer colocar lado a lado.`
+                : "Bora comparar. Me diga o nome de dois produtos do catálogo.");
+            estado.ultimaIntencao = "comparar";
+            return true;
+        }
+
+        if (intencao === "contexto-produto") {
+            const tratada = responderContextoProduto(termo);
+            if (tratada) estado.ultimaIntencao = "contexto-produto";
+            return tratada;
+        }
+
+        if (intencao === "produto") {
+            const resolvido = resolverReferenciaContextual(termo);
+            const produto = produtoPorNome(resolvido) || produtosMencionados(resolvido)[0] || produtoContextual();
+            if (!produto) return false;
+            explicarProduto(produto);
+            estado.ultimaIntencao = "produto";
+            return true;
+        }
+
+        if (intencao === "descoberta") {
+            iniciarDescobertaGuiada();
+            estado.ultimaIntencao = "descoberta";
+            return true;
+        }
+
+        if (intencao === "similares") {
+            const produto = produtoContextual() || produtoPorNome(termo) || produtosMencionados(termo)[0];
+            if (!produto) return false;
+            registrarResultados(similaresAoProduto(produto, 8), `Separei alternativas parecidas com ${produto.nome}`);
+            estado.ultimaIntencao = "similares";
+            return true;
+        }
+
+        if (intencao === "anterior") {
+            if (estado.historicoConsultas.length <= 1) {
+                adicionarMensagem("Ainda não tenho uma busca anterior para retomar.");
+                estado.ultimaIntencao = "anterior";
+                return true;
+            }
+            const anterior = estado.historicoConsultas.at(-2)?.texto;
+            adicionarMensagem(`A busca anterior foi “${anterior}”. Quer que eu retome esse caminho?`);
+            adicionarAcoes([{ texto: "Retomar busca", valor: anterior }]);
+            estado.ultimaIntencao = "anterior";
+            return true;
+        }
+
+        if (intencao === "redes") {
+            mostrarRedesNoChat();
+            estado.ultimaIntencao = "redes";
+            return true;
+        }
+
+        if (intencao === "humano") {
+            adicionarMensagem("Claro! Se quiser falar com uma pessoa da equipe, eu já deixo o caminho pronto.");
+            adicionarWhatsAppNoChat();
+            estado.ultimaIntencao = "humano";
+            return true;
+        }
+
+        if (intencao === "entrega") {
+            adicionarMensagem("Entrega varia conforme região e momento. A equipe confirma área atendida, prazo e condições certinhas pra você.");
+            adicionarWhatsAppNoChat("Consultar entrega pelo WhatsApp");
+            estado.ultimaIntencao = "entrega";
+            return true;
+        }
+
+        if (intencao === "preco") {
+            adicionarMensagem("Preço e estoque mudam, então eu não chuto esses dados. A equipe confirma os valores e a disponibilidade atual pra você.");
+            adicionarWhatsAppNoChat("Consultar valor e disponibilidade");
+            estado.ultimaIntencao = "preco";
+            return true;
+        }
+
+        if (intencao === "quiz") {
+            if (!quizAtivo()) {
+                adicionarMensagem("Poxa, o quiz não está ativo por aqui. Mas relaxa: eu consigo continuar a busca com você pelo catálogo.");
+                adicionarAcoes([{ texto: "Explorar catálogo", acao: () => { fecharChat(); irCatalogo(); } }]);
+            } else {
+                adicionarMensagem("Boa escolha! Vou abrir o quiz pra você.");
+                fecharChat();
+                irQuiz();
+            }
+            estado.ultimaIntencao = "quiz";
+            return true;
+        }
+
+        if (intencao === "cafe-manha" || intencao === "lanche") {
+            const cafe = intencao === "cafe-manha";
+            estado.preferencias.termos = cafe
+                ? ["granola", "aveia", "chia", "linhaca", "pasta", "amendoim"]
+                : ["lanche", "castanha", "granola", "amendoim", "mix"];
+            const encontrados = estado.produtos.filter(p => {
+                const textoProduto = normalizar([p.nome, ...(p.tags || [])].join(" "));
+                return estado.preferencias.termos.some(item => textoProduto.includes(item));
+            });
+            registrarResultados(
+                encontrados,
+                cafe
+                    ? "Separei opções do catálogo que combinam com o café da manhã"
+                    : "Separei opções práticas do catálogo para explorar como lanche"
+            );
+            estado.ultimaIntencao = intencao;
+            return true;
+        }
+
+        return false;
+    };
 
     const processarEntrada = (texto, mostrarUsuario = true) => {
         const original = String(texto || "").trim().slice(0, 300);
         const termo = normalizar(original);
         if (!termo) return;
 
+        if (/^(oi|ola|olá|opa|e ai|e aí|bom dia|boa tarde|boa noite)[!. ]*$/.test(termo)) {
+            if (mostrarUsuario) adicionarMensagem(original, "usuario");
+            adicionarMensagem("Fala! Que bom te ver por aqui. Me conta o que você quer encontrar e eu te ajudo a encurtar o caminho.");
+            adicionarAcoes([
+                { texto: "Quero encontrar um produto", acao: responderAjudaEscolha },
+                { texto: "Ver categorias", acao: () => {
+                    adicionarMensagem("Fechado. Escolhe uma categoria e a gente começa por ela:");
+                    adicionarAcoes(estado.categorias.slice(0, 6).map(c => ({ texto: c.nome, valor: c.nome })));
+                }}
+            ]);
+            return;
+        }
+
+        if (/^(obrigado|obrigada|valeu|vlw|brigado|brigada|show|perfeito)[!. ]*$/.test(termo)) {
+            if (mostrarUsuario) adicionarMensagem(original, "usuario");
+            adicionarMensagem("Tamo junto! Se pintar outra dúvida ou bater curiosidade por algum produto, é só mandar.");
+            return;
+        }
+
+        if (/^(ajuda|me ajuda|o que voce faz|o que você faz|como funciona)[?!. ]*$/.test(termo)) {
+            if (mostrarUsuario) adicionarMensagem(original, "usuario");
+            adicionarMensagem("Eu te ajudo a garimpar o catálogo: procuro produtos, filtro categorias e preferências, abro o quiz, mostro suas escolhas e te encaminho pra equipe quando precisar.");
+            adicionarAcoes([
+                { texto: "Encontrar produto", acao: responderAjudaEscolha },
+                { texto: "Ver categorias", valor: "categorias" },
+                { texto: "Minha conta", acao: () => { fecharChat(); location.href = "conta.html"; } }
+            ]);
+            return;
+        }
+
+        if (/^\/(?:ajuda|help|comandos)$/.test(termo.trim())) {
+            if (mostrarUsuario) adicionarMensagem(original, "usuario");
+            adicionarMensagem("Atalhos rápidos: /conta abre sua área, /adm abre o Admin Studio e /ajuda mostra esta lista. Fora isso, pode conversar comigo normalmente.");
+            return;
+        }
+
         if (/^\/(?:adm|admin)$/.test(termo.trim())) {
+            if (mostrarUsuario) adicionarMensagem(original, "usuario");
             adicionarMensagem("Abrindo o Admin Studio local. As alterações feitas lá ficam neste navegador até serem exportadas e publicadas.");
             fecharChat();
             window.setTimeout(() => { location.href = "admin.html"; }, 120);
@@ -429,16 +722,20 @@
         }
 
         if (/^\/(?:conta|minha-conta)$/.test(termo.trim())) {
-            adicionarMensagem("Abrindo sua área local.");
+            if (mostrarUsuario) adicionarMensagem(original, "usuario");
+            adicionarMensagem("Beleza! Vou abrir sua área local.");
             fecharChat();
             window.setTimeout(() => { location.href = "conta.html"; }, 120);
             return;
         }
 
         if (mostrarUsuario) adicionarMensagem(original, "usuario");
+        registrarConsulta(original);
+
+        if (executarIntencao(termo)) return;
 
         if (/^(oi|ola|olá|bom dia|boa tarde|boa noite|hey)\b/.test(termo)) {
-            adicionarMensagem("Olá! Posso transformar o que você procura em caminhos pelo catálogo. Diga um produto, uma categoria, um formato ou uma preferência — e vamos descobrir o que aparece.");
+            adicionarMensagem("Oi! Manda do seu jeito: pode falar um produto, uma categoria ou até algo tipo “quero um chá”. Eu organizo a busca pra você.");
             adicionarAcoes([
                 { texto: "Encontrar um produto", valor: "quero encontrar um produto" },
                 { texto: "Não sei o que escolher", valor: "não sei o que escolher" },
@@ -449,7 +746,7 @@
 
         if (/limpar preferencias|limpar preferências|recomecar|recomeçar|nova busca/.test(termo)) {
             limparPreferencias();
-            adicionarMensagem("Preferências desta conversa limpas. Podemos começar uma nova busca.");
+            adicionarMensagem("Prontinho, zerei a busca. Bora começar de novo?");
             responderAjudaEscolha();
             return;
         }
@@ -461,13 +758,13 @@
 
         if (/meus favoritos|favoritos|minha lista|minhas escolhas|lista de interesse/.test(termo)) {
             if (window.QualimaxConfig?.recursos?.colecoes === false) {
-                adicionarMensagem("Favoritos e lista de interesse não estão ativos nesta configuração da loja.");
+                adicionarMensagem("Favoritos e lista não estão ligados nesta loja no momento.");
             } else if (colecoesAtivas() && window.QualimaxColecoes?.abrirDialogo) {
-                adicionarMensagem("Vou abrir suas escolhas salvas neste navegador.");
+                adicionarMensagem("Boa! Vou abrir o que você salvou por aqui.");
                 fecharChat();
                 window.setTimeout(() => window.QualimaxColecoes.abrirDialogo(), 0);
             } else {
-                adicionarMensagem("Suas escolhas ficam disponíveis na página do catálogo.");
+                adicionarMensagem("Suas escolhas ficam no catálogo. Vou te levar pra lá.");
                 adicionarAcoes([{ texto: "Abrir catálogo", acao: () => { fecharChat(); irCatalogo(); } }]);
             }
             return;
@@ -478,72 +775,9 @@
             return;
         }
 
-        if (ehPerguntaMedica(termo)) {
-            adicionarMensagem("Posso ajudar a localizar produtos e características do catálogo, mas não faço diagnóstico nem indico produto para tratar condições de saúde. Para composição, contraindicações e uso, confirme o rótulo e converse com um profissional habilitado.");
-            adicionarAcoes([
-                { texto: "Explorar catálogo", acao: () => { fecharChat(); irCatalogo(); } },
-                { texto: "Falar com a equipe", acao: () => adicionarWhatsAppNoChat() }
-            ]);
-            return;
-        }
-
-        if (/instagram|facebook|tiktok|tik tok|youtube|pinterest|rede social|redes sociais/.test(termo)) {
-            mostrarRedesNoChat();
-            return;
-        }
-
-        if (/whatsapp|pessoa|humano|atendimento|especialista/.test(termo)) {
-            adicionarMensagem("Claro. Você pode continuar diretamente com a equipe.");
-            adicionarWhatsAppNoChat();
-            return;
-        }
-
-        if (/entrega|entregam|entregar|frete/.test(termo)) {
-            adicionarMensagem("Área atendida, prazo e condições de entrega precisam ser confirmados com a equipe.");
-            adicionarWhatsAppNoChat("Consultar entrega pelo WhatsApp");
-            return;
-        }
-
-        if (/preco|preço|valor|custa|custo/.test(termo)) {
-            adicionarMensagem("Preço e disponibilidade não são inventados pelo Max. A equipe confirma os dados comerciais atuais.");
-            adicionarWhatsAppNoChat("Consultar valor e disponibilidade");
-            return;
-        }
-
-        if (/quiz/.test(termo)) {
-            if (!quizAtivo()) {
-                adicionarMensagem("O quiz não está disponível nesta configuração da loja. Posso continuar a descoberta por aqui ou abrir o catálogo.");
-                adicionarAcoes([{ texto: "Explorar catálogo", acao: () => { fecharChat(); irCatalogo(); } }]);
-                return;
-            }
-            adicionarMensagem("Vou abrir o quiz de descoberta.");
-            fecharChat();
-            irQuiz();
-            return;
-        }
-
-        if (/nao sei|não sei|me ajuda a escolher|ajuda escolher|indicação|indicacao/.test(termo)) {
-            responderAjudaEscolha();
-            return;
-        }
-
-        if (/cafe da manha|café da manhã/.test(termo)) {
-            estado.preferencias.termos = ["granola", "aveia", "chia", "linhaca", "pasta", "amendoim"];
-            const encontrados = estado.produtos.filter(p => {
-                const textoProduto = normalizar([p.nome, ...(p.tags || [])].join(" "));
-                return estado.preferencias.termos.some(t => textoProduto.includes(t));
-            });
-            registrarResultados(encontrados, "Separei opções do catálogo que combinam com o café da manhã");
-            return;
-        }
-
-        if (/lanche/.test(termo)) {
-            estado.preferencias.termos = ["lanche", "castanha", "granola", "amendoim", "mix"];
-            const encontrados = estado.produtos.filter(p => {
-                const textoProduto = normalizar([p.nome, ...(p.tags || [])].join(" "));
-                return estado.preferencias.termos.some(t => textoProduto.includes(t));
-            });
-            registrarResultados(encontrados, "Separei opções práticas do catálogo para explorar como lanche");
+        const produtoDireto = produtoPorNome(termo);
+        if (produtoDireto) {
+            explicarProduto(produtoDireto);
             return;
         }
 
@@ -554,8 +788,8 @@
         if (resultados.length) {
             registrarResultados(
                 resultados,
-                resumo ? `Encontrei ${resultados.length} opções para ${resumo}` :
-                    `Encontrei ${resultados.length} opções relacionadas à sua busca`
+                resumo ? `Achei ${resultados.length} opções que combinam com ${resumo}` :
+                    `Achei ${resultados.length} opções relacionadas ao que você pediu`
             );
 
             if (!estado.preferencias.tipo && resultados.length > 4) {
@@ -569,7 +803,7 @@
             return;
         }
 
-        adicionarMensagem("Não encontrei uma correspondência segura no catálogo com esses critérios.");
+        adicionarMensagem("Não achei uma opção que bata bem com tudo isso. Quer que eu alivie algum filtro?");
         const acoes = [
             { texto: "Limpar preferências", valor: "limpar preferencias" }
         ];
@@ -580,6 +814,7 @@
 
     document.addEventListener("qualimax:produto-visto", (evento) => {
         estado.ultimoProdutoVisto = evento.detail?.produto || estado.ultimoProdutoVisto;
+        definirProdutoContexto(estado.ultimoProdutoVisto);
     });
 
     document.addEventListener("qualimax:catalogo-contexto", (evento) => {
@@ -622,7 +857,7 @@
             }
         } catch (erro) {
             console.error(erro);
-            adicionarMensagem("No momento não consegui carregar o catálogo. O atendimento pelo WhatsApp continua disponível.");
+            adicionarMensagem("Opa, o catálogo não carregou pra mim agora. Ainda dá pra seguir pelo WhatsApp com a equipe.");
         }
 
         const abrir = () => {
@@ -667,7 +902,7 @@
             const acao = botao.dataset.chatAcao;
             if (acao === "produto") { responderAjudaEscolha(); return; }
             if (acao === "categorias") {
-                adicionarMensagem("Escolha uma dessas portas de entrada — depois eu ajudo a refinar:");
+                adicionarMensagem("Escolhe um caminho pra começar e eu vou refinando com você:");
                 adicionarAcoes(estado.categorias.slice(0, 6).map(c => ({ texto: c.nome, valor: c.nome })));
                 return;
             }
@@ -684,7 +919,7 @@
             limparPreferencias();
             const area = mensagens();
             area?.querySelectorAll(":scope > :not([data-chat-saudacao])").forEach(el => el.remove());
-            adicionarMensagem("Pronto, página em branco. O que você está com vontade de descobrir agora?");
+            adicionarMensagem("Pronto, conversa zerada. Me conta: o que você tá procurando agora?");
             campoChat()?.focus();
         });
         document.querySelector(".chatbot-header")?.append(limpar);

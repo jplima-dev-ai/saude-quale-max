@@ -610,20 +610,30 @@ class QuizInterativo {
             const id = Number(link.dataset.quizWhatsappId);
             const produto = this.produtosData.produtos.find((item) => Number(item.id) === id);
             if (!produto || !numeroWhatsAppProduto) { link.hidden = true; return; }
-            const nomeLojaProduto = this.config?.empresa?.nome || "a loja";
-            const mensagemProduto = `Olá! Fiz o quiz da ${nomeLojaProduto} e uma das opções foi ${produto.nome}. Gostaria de consultar disponibilidade e detalhes.`;
-            link.href = `https://wa.me/${numeroWhatsAppProduto}?text=${encodeURIComponent(mensagemProduto)}`;
-            link.setAttribute("aria-label", `Consultar ${produto.nome} pelo WhatsApp, abre em nova aba`);
+            const params = new URLSearchParams({
+                origem: "quiz",
+                produto: produto.slug,
+                assunto: "Consultar disponibilidade"
+            });
+            link.href = `atendimento.html?${params.toString()}`;
+            link.removeAttribute("target");
+            link.removeAttribute("rel");
+            link.setAttribute("aria-label", `Preparar atendimento sobre ${produto.nome}`);
         });
 
         const whatsapp = this.container.querySelector(".quiz-whatsapp");
         const numero = String(this.config?.contato?.whatsapp || "").replace(/\D/g, "");
-        const nomeLoja = this.config?.empresa?.nome || "a loja";
         if (whatsapp && numero) {
-            const nomesProdutos = produtos.map((produto) => produto.nome).join(", ");
-            const contextoProdutos = nomesProdutos ? ` As opções que apareceram para mim foram: ${nomesProdutos}.` : "";
-            const mensagem = `Olá! Fiz o quiz de produtos da ${nomeLoja}.${contextoProdutos} Gostaria de confirmar disponibilidade e receber orientação da equipe.`;
-            whatsapp.href = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
+            try {
+                sessionStorage.setItem("qualimax-atendimento-quiz-v1", JSON.stringify({
+                    produtoIds: produtos.map(p => Number(p.id)).filter(Number.isFinite).slice(0,8),
+                    em: Date.now()
+                }));
+            } catch {}
+            whatsapp.href = "atendimento.html?origem=quiz&assunto=Tirar%20d%C3%BAvida%20sobre%20produtos";
+            whatsapp.removeAttribute("target");
+            whatsapp.removeAttribute("rel");
+            whatsapp.textContent = "Preparar atendimento com meus resultados";
         } else if (whatsapp) {
             whatsapp.hidden = true;
         }

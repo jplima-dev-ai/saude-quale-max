@@ -6,14 +6,25 @@ const getPerfil = () => {
     try { return JSON.parse(localStorage.getItem(PERFIL_KEY) || "{}"); }
     catch { return {}; }
 };
-const setPerfil = (perfil) => localStorage.setItem(PERFIL_KEY, JSON.stringify(perfil));
+const setPerfil = (perfil) => {
+    try {
+        localStorage.setItem(PERFIL_KEY, JSON.stringify(perfil));
+        return true;
+    } catch {
+        return false;
+    }
+};
+const removerPerfil = () => {
+    try { localStorage.removeItem(PERFIL_KEY); return true; }
+    catch { return false; }
+};
 const baixar = (nome, conteudo, tipo="application/json") => {
     const blob = new Blob([conteudo], { type: tipo });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url; a.download = nome;
     document.body.append(a); a.click(); a.remove();
-    URL.revokeObjectURL(url);
+    window.setTimeout(()=>URL.revokeObjectURL(url),500);
 };
 const arquivoSeguro = v => /^[A-Za-z0-9._-]+$/.test(String(v||"")) ? String(v) : "";
 
@@ -56,17 +67,19 @@ document.addEventListener("DOMContentLoaded", async () => {
                 telefone:String(form.telefone.value||"").trim().slice(0,30),
                 atualizadoEm:Date.now()
             };
-            setPerfil(novo);
+            const salvo=setPerfil(novo);
             const s=document.querySelector("[data-conta-status]");
-            if(s) s.textContent="Dados salvos neste navegador.";
+            if(s) s.textContent=salvo
+                ? "Dados salvos neste navegador."
+                : "O navegador bloqueou o armazenamento local. Seus dados não foram salvos.";
         });
     }
 
     document.querySelector("[data-conta-limpar-perfil]")?.addEventListener("click",()=>{
-        localStorage.removeItem(PERFIL_KEY);
-        if(form) form.reset();
+        const removido=removerPerfil();
+        if(form && removido) form.reset();
         const s=document.querySelector("[data-conta-status]");
-        if(s) s.textContent="Perfil local removido.";
+        if(s) s.textContent=removido ? "Perfil local removido." : "Não foi possível remover o perfil local.";
     });
 
     let produtos=[];
@@ -76,6 +89,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     } catch {}
 
     const map=new Map(produtos.map(p=>[Number(p.id),p]));
+    const config=await esperarConfig();
+    const colecoesAtivas=config.recursos?.colecoes!==false;
+
+    document.querySelectorAll("[data-conta-colecoes]").forEach(el=>{el.hidden=!colecoesAtivas;});
+    if(!colecoesAtivas){
+        document.querySelectorAll('.conta-menu a[href="#favoritos"], .conta-menu a[href="#lista"]').forEach(el=>{el.hidden=true;});
+    }
+
     if(window.QualimaxDB){
         await window.QualimaxDB.init?.();
         const [favs,lista,hist]=await Promise.all([
@@ -88,28 +109,29 @@ document.addEventListener("DOMContentLoaded", async () => {
             const box=document.querySelector(sel);
             const vazio=document.querySelector(vazioSel);
             const contador=document.querySelector(contadorSel);
-            const prods=itens.map(x=>map.get(Number(x.produtoId))).filter(Boolean);
-            if(box) box.replaceChildren(...prods.map((p,i)=>criarCard(p,rotuloFn(itens[i]))));
-            if(vazio) vazio.hidden=prods.length>0;
-            if(contador) contador.textContent=String(prods.length);
-            return prods;
+            const pares=itens.map(item=>({item,produto:map.get(Number(item.produtoId))})).filter(x=>x.produto);
+            if(box) box.replaceChildren(...pares.map(({produto,item})=>criarCard(produto,rotuloFn(item))));
+            if(vazio) vazio.hidden=pares.length>0;
+            if(contador) contador.textContent=String(pares.length);
+            return pares.map(x=>x.produto);
         };
 
-        const favProds=render(favs.sort((a,b)=>(b.atualizadoEm||0)-(a.atualizadoEm||0)),
-            "[data-conta-favoritos]","[data-conta-favoritos-vazio]","[data-conta-favoritos-contador]");
-        const listaProds=render(lista.sort((a,b)=>(b.atualizadoEm||0)-(a.atualizadoEm||0)),
-            "[data-conta-lista]","[data-conta-lista-vazio]","[data-conta-lista-contador]");
+        const favProds=colecoesAtivas ? render(favs.sort((a,b)=>(b.atualizadoEm||0)-(a.atualizadoEm||0)),
+            "[data-conta-favoritos]","[data-conta-favoritos-vazio]","[data-conta-favoritos-contador]") : [];
+        const listaProds=colecoesAtivas ? render(lista.sort((a,b)=>(b.atualizadoEm||0)-(a.atualizadoEm||0)),
+            "[data-conta-lista]","[data-conta-lista-vazio]","[data-conta-lista-contador]") : [];
         render(hist.sort((a,b)=>(b.vistoEm||0)-(a.vistoEm||0)).slice(0,8),
             "[data-conta-recentes]","[data-conta-recentes-vazio]",null,()=> "Visto recentemente");
 
-        const config=await esperarConfig();
         const numero=String(config.contato?.whatsapp||"").replace(/\D/g,"");
         const wa=document.querySelector("[data-conta-whatsapp]");
         if(wa && numero && listaProds.length){
             const nome=getPerfil().nome?.trim();
             const linhas=listaProds.map(p=>`• ${p.nome}`).join("\n");
             const msg=`Olá!${nome?` Sou ${nome}.`:""} Gostaria de consultar estes produtos da minha lista:\n\n${linhas}\n\nPode confirmar disponibilidade e valores?`;
-            wa.href=`https://wa.me/${numero}?text=${encodeURIComponent(msg)}`;
+            wa.href="atendimento.html?origem=conta&assunto=Fazer%20um%20pedido";
+            wa.removeAttribute("target");
+            wa.removeAttribute("rel");
             wa.hidden=false;
         }
 
@@ -128,14 +150,24 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         document.querySelector("[data-conta-apagar-tudo]")?.addEventListener("click",async()=>{
             if(!confirm("Apagar perfil, favoritos, lista e histórico deste navegador?")) return;
-            localStorage.removeItem(PERFIL_KEY);
+            removerPerfil();
             await Promise.all([
                 window.QualimaxDB.limparFavoritos(),
                 window.QualimaxDB.limparInteresse(),
                 window.QualimaxDB.limparHistorico()
             ]);
+            if(form) form.reset();
+            for(const sel of ["[data-conta-favoritos]","[data-conta-lista]","[data-conta-recentes]"]){
+                document.querySelector(sel)?.replaceChildren();
+            }
+            document.querySelector("[data-conta-favoritos-vazio]")?.removeAttribute("hidden");
+            document.querySelector("[data-conta-lista-vazio]")?.removeAttribute("hidden");
+            document.querySelector("[data-conta-recentes-vazio]")?.removeAttribute("hidden");
+            const favCount=document.querySelector("[data-conta-favoritos-contador]");if(favCount)favCount.textContent="0";
+            const listCount=document.querySelector("[data-conta-lista-contador]");if(listCount)listCount.textContent="0";
+            const wa=document.querySelector("[data-conta-whatsapp]");if(wa)wa.hidden=true;
             const s=document.querySelector("[data-conta-privacidade-status]");
-            if(s) s.textContent="Dados locais apagados. Recarregue a página para atualizar os painéis.";
+            if(s) s.textContent="Dados locais apagados deste navegador.";
         });
     }
 });

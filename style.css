@@ -4745,3 +4745,420 @@ html.movimento-reduzido .interacao-toque::after {
 @media (max-width:600px){
     .navegacao-simples a:not([aria-current="page"]) { display:none; }
 }
+
+
+/* ==========================================================
+   SAÚDE QUALIMAX v3.0.2 — identidade e experiência do Max
+   ========================================================== */
+
+.chatbot-abrir {
+    min-width: 132px;
+    min-height: 64px;
+    padding: .45rem .8rem .45rem .45rem;
+    gap: .65rem;
+    border: 1px solid rgba(23,107,77,.16);
+    border-radius: 999px;
+    background: rgba(255,255,255,.97);
+    box-shadow: 0 14px 36px rgba(13,69,50,.18);
+    color: var(--verde-profundo);
+}
+.chatbot-abrir:hover,
+.chatbot-abrir:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 40px rgba(13,69,50,.24);
+}
+.chatbot-abrir-avatar {
+    flex: 0 0 auto;
+    width: 52px;
+    height: 52px;
+    object-fit: cover;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 3px 12px rgba(13,69,50,.14);
+}
+.chatbot-abrir-texto {
+    display: grid;
+    gap: .05rem;
+    text-align: left;
+    line-height: 1.15;
+}
+.chatbot-abrir-texto strong {
+    font-size: 1rem;
+    color: var(--verde-profundo);
+}
+.chatbot-abrir-texto small {
+    color: var(--texto-suave);
+    font-size: .73rem;
+    font-weight: 700;
+}
+
+.chatbot-header {
+    gap: .75rem;
+    padding-block: .9rem;
+}
+.chatbot-identidade {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    gap: .75rem;
+}
+.chatbot-avatar {
+    flex: 0 0 auto;
+    width: 62px;
+    height: 62px;
+    object-fit: cover;
+    border: 2px solid rgba(255,255,255,.9);
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 5px 16px rgba(13,69,50,.14);
+}
+.chatbot-identidade > div {
+    min-width: 0;
+}
+.chatbot-identidade h2 {
+    margin: .05rem 0;
+}
+.chatbot-status {
+    display: flex;
+    align-items: center;
+    gap: .35rem;
+    margin: 0;
+    color: #26794f;
+    font-size: .72rem;
+    font-weight: 800;
+}
+.chatbot-status span {
+    width: .55rem;
+    height: .55rem;
+    border-radius: 50%;
+    background: #39a86b;
+    box-shadow: 0 0 0 3px rgba(57,168,107,.13);
+}
+.chatbot-subtitulo {
+    max-width: 230px;
+    margin: 0;
+    overflow: hidden;
+    color: var(--texto-suave);
+    font-size: .72rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.chat-mensagem-bot {
+    border-radius: 6px 18px 18px 18px;
+    background: linear-gradient(145deg,#eef8f1,#f8fcf9);
+}
+.chat-mensagem-usuario {
+    border-radius: 18px 6px 18px 18px;
+}
+.chat-input-dica {
+    margin: .5rem 0 0;
+    color: var(--texto-suave);
+    font-size: .74rem;
+    line-height: 1.4;
+}
+.chat-produto-card {
+    border-color: rgba(23,107,77,.13);
+}
+.chat-produto-card:hover {
+    border-color: rgba(23,107,77,.32);
+}
+@media (max-width: 520px) {
+    .chatbot-abrir {
+        min-width: 60px;
+        width: 60px;
+        height: 60px;
+        padding: 4px;
+    }
+    .chatbot-abrir-avatar {
+        width: 50px;
+        height: 50px;
+    }
+    .chatbot-abrir-texto {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
+    .chatbot-avatar {
+        width: 54px;
+        height: 54px;
+    }
+    .chatbot-subtitulo {
+        max-width: 170px;
+    }
+}
+
+
+/* ==========================================================
+   SAÚDE QUALIMAX v3.0.8 — Pré-atendimento inteligente
+   ========================================================== */
+
+.atendimento-hero {
+    background: linear-gradient(180deg, var(--verde-suave), var(--branco));
+}
+.atendimento-privacidade {
+    max-width: 820px;
+    margin-top: 1.25rem;
+    padding: 1rem 1.1rem;
+    border: 1px solid rgba(23,107,77,.18);
+    border-radius: 16px;
+    background: rgba(255,255,255,.82);
+    color: var(--texto);
+}
+.atendimento-layout {
+    display: grid;
+    grid-template-columns: minmax(0,1fr) 310px;
+    gap: 1.5rem;
+    align-items: start;
+}
+.atendimento-form {
+    display: grid;
+    gap: 1rem;
+}
+.atendimento-etapa,
+.atendimento-resumo {
+    padding: clamp(1.15rem,2.8vw,2rem);
+    border: 1px solid var(--borda);
+    border-radius: 22px;
+    background: var(--branco);
+    box-shadow: var(--sombra-suave);
+}
+.atendimento-passo {
+    display: inline-block;
+    margin: 0 0 .35rem;
+    padding: .3rem .6rem;
+    border-radius: 999px;
+    background: var(--verde-suave);
+    color: var(--verde-principal);
+    font-size: .76rem;
+    font-weight: 900;
+}
+.atendimento-grid {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 1rem;
+}
+.atendimento-campo-largo {
+    grid-column: 1/-1;
+}
+.atendimento-form label {
+    display: block;
+    margin-bottom: .35rem;
+    color: var(--texto);
+    font-weight: 800;
+}
+.atendimento-form input,
+.atendimento-form select,
+.atendimento-form textarea {
+    width: 100%;
+    min-height: 48px;
+    padding: .75rem .85rem;
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    background: #fff;
+    color: var(--texto);
+}
+.atendimento-form textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+.atendimento-form small {
+    display: block;
+    margin-top: .3rem;
+    color: var(--texto-suave);
+    font-weight: 500;
+    line-height: 1.45;
+}
+.atendimento-opcoes {
+    display: grid;
+    gap: .65rem;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+.atendimento-opcoes label {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    min-height: 52px;
+    margin: 0;
+    padding: .75rem .9rem;
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    background: #fbfdfb;
+    cursor: pointer;
+}
+.atendimento-opcoes input {
+    width: 21px;
+    min-height: auto;
+    height: 21px;
+    flex: 0 0 auto;
+}
+.atendimento-endereco {
+    margin-top: 1rem;
+    padding: 1rem;
+    border: 1px dashed #b8c9bf;
+    border-radius: 16px;
+    background: #fbfdfb;
+}
+.atendimento-endereco[hidden] {
+    display: none;
+}
+.atendimento-selecao {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--borda);
+}
+.atendimento-selecao-cabecalho {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: flex-start;
+}
+.atendimento-produtos {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: .65rem;
+    margin-top: 1rem;
+}
+.atendimento-produto-item {
+    display: flex !important;
+    gap: .7rem;
+    align-items: flex-start;
+    margin: 0 !important;
+    padding: .8rem;
+    border: 1px solid var(--borda);
+    border-radius: 14px;
+    background: #fff;
+    cursor: pointer;
+}
+.atendimento-produto-item:has(input:checked) {
+    border-color: rgba(23,107,77,.42);
+    background: var(--verde-suave);
+}
+.atendimento-produto-item input {
+    width: 21px;
+    min-height: auto;
+    height: 21px;
+    flex: 0 0 auto;
+    margin-top: .1rem;
+}
+.atendimento-produto-item span {
+    display: grid;
+    gap: .15rem;
+}
+.atendimento-produto-item strong {
+    color: var(--verde-profundo);
+}
+.atendimento-produto-item small {
+    margin: 0;
+}
+.atendimento-vazio[hidden] {
+    display: none;
+}
+.atendimento-lembrar {
+    display: flex !important;
+    gap: .75rem;
+    align-items: flex-start;
+    margin: 1.1rem 0 0 !important;
+    padding: .9rem;
+    border: 1px solid var(--borda);
+    border-radius: 14px;
+    background: #f8faf8;
+}
+.atendimento-lembrar input {
+    width: 21px;
+    min-height: auto;
+    height: 21px;
+    flex: 0 0 auto;
+}
+.atendimento-lembrar span {
+    display: grid;
+    gap: .15rem;
+}
+.atendimento-lembrar small {
+    margin: 0;
+}
+.atendimento-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+    margin-top: 1rem;
+}
+.atendimento-status {
+    min-height: 1.5em;
+    margin: .55rem 0 0;
+    font-weight: 800;
+}
+.atendimento-nota {
+    margin-top: .75rem;
+    color: var(--texto-suave);
+    font-size: .86rem;
+}
+.atendimento-resumo {
+    position: sticky;
+    top: 105px;
+}
+.atendimento-resumo dl {
+    display: grid;
+    gap: .65rem;
+    margin: 1rem 0 1.25rem;
+}
+.atendimento-resumo dl div {
+    padding: .7rem 0;
+    border-bottom: 1px solid var(--borda);
+}
+.atendimento-resumo dt {
+    color: var(--texto-suave);
+    font-size: .78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+}
+.atendimento-resumo dd {
+    margin: .2rem 0 0;
+    color: var(--verde-profundo);
+    font-weight: 800;
+}
+
+@media (max-width: 900px) {
+    .atendimento-layout { grid-template-columns: 1fr; }
+    .atendimento-resumo { position: static; }
+}
+@media (max-width: 650px) {
+    .atendimento-grid,
+    .atendimento-produtos { grid-template-columns: 1fr; }
+    .atendimento-campo-largo { grid-column: auto; }
+    .atendimento-selecao-cabecalho,
+    .atendimento-acoes { flex-direction: column; align-items: stretch; }
+    .atendimento-acoes .botao,
+    .atendimento-selecao-cabecalho .botao { width: 100%; }
+}
+
+
+.cta-atendimento {
+    padding: clamp(1.4rem,4vw,2.6rem);
+    border: 1px solid rgba(23,107,77,.14);
+    border-radius: 24px;
+    background: linear-gradient(145deg,#f4faf6,#fffaf0);
+    box-shadow: var(--sombra-suave);
+}
+.cta-atendimento h2 {
+    max-width: 780px;
+}
+.cta-atendimento p:not(.secao-subtitulo) {
+    max-width: 820px;
+    color: var(--texto-suave);
+}
+.cta-atendimento-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+    margin-top: 1.1rem;
+}
+@media (max-width:600px){
+    .cta-atendimento-acoes { flex-direction: column; }
+    .cta-atendimento-acoes .botao { width:100%; }
+}

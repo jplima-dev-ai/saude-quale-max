@@ -61,3 +61,18 @@ Ao alterar a taxonomia ou campos de produto, revisar:
 - stop words e busca textual;
 - caminhos de navegação;
 - guardrails médicos e comerciais.
+
+
+## Arquitetura modular
+
+Desde a v3.0.6, o Max é dividido em responsabilidades independentes:
+
+- `max-core.js`: normalização, estado e memória curta;
+- `max-entidades.js`: reconhecimento de produtos e referências contextuais;
+- `max-intencoes.js`: classificação de intenção e prioridade dos guardrails;
+- `max-recomendacao.js`: ranking de produtos semelhantes;
+- `chatbot.js`: interface, navegação e execução das ações.
+
+A ordem de carregamento é obrigatória e validada por `tools/auditar_cliente.py`.
+
+Perguntas que contêm contexto médico são classificadas antes de pedidos genéricos de detalhes de produto. Isso evita que uma frase como “para que serve X para ansiedade?” seja tratada primeiro como simples explicação comercial.
