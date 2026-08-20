@@ -151,8 +151,34 @@ def main() -> int:
 
     # Admin Studio: backup deve acompanhar a release atual.
     admin_js = (ROOT / "js" / "admin.js").read_text(encoding="utf-8")
-    if 'ADMIN_BACKUP_VERSION="3.1.6"' not in admin_js:
+    if 'ADMIN_BACKUP_VERSION="3.2"' not in admin_js:
         erros.append("Admin Studio está exportando backup com versão obsoleta.")
+
+    # Segurança de jornada e deploy.
+    atendimento_html = (ROOT / "atendimento.html").read_text(encoding="utf-8")
+    atendimento_js = (ROOT / "js" / "atendimento.js").read_text(encoding="utf-8")
+    if re.search(r"<button\\b[^>]*\\btype=[\"']submit[\"']", atendimento_html, re.I):
+        erros.append("Pré-atendimento não pode usar submit nativo.")
+    if 'data-atendimento-enviar' not in atendimento_html or 'form.addEventListener("submit",e=>e.preventDefault())' not in atendimento_js:
+        erros.append("Proteção contra submissão nativa do pré-atendimento está incompleta.")
+
+    produto_page_js = (ROOT / "js" / "produto-page.js").read_text(encoding="utf-8")
+    if r'^catalogo\.html(?:\?[^#]*)?#produtos$' not in produto_page_js or r'^\/?.*catalogo\.html' in produto_page_js:
+        erros.append("Validação da URL de retorno do catálogo é permissiva.")
+
+    headers_path = ROOT / "_headers"
+    if not headers_path.exists():
+        erros.append("Arquivo _headers ausente para deploy Netlify.")
+    else:
+        headers_text = headers_path.read_text(encoding="utf-8")
+        for esperado in ("frame-ancestors 'none'", "X-Frame-Options: DENY", "X-Content-Type-Options: nosniff"):
+            if esperado not in headers_text:
+                erros.append(f"Header de segurança ausente: {esperado}")
+
+    for util in ("admin.html","atendimento.html","conta.html"):
+        txt = (ROOT / util).read_text(encoding="utf-8")
+        if re.search(r'<script src="js/frame-guard\\.js"\\s+defer', txt):
+            erros.append(f"frame-guard deve carregar sem defer em {util}.")
 
     # Pré-atendimento estático.
     atendimento = ROOT / "atendimento.html"

@@ -1,5 +1,7 @@
 (() => {
     "use strict";
+    const moeda = valor => Number(valor||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+    const rotuloPreco = p => p?.preco ? `${moeda(p.preco)}${p.venda_tipo==="peso" ? " / "+(p.apresentacao||"100 g") : ""}` : "Preço sob consulta";
 
     const estado = {
         produtos: [],
@@ -118,6 +120,13 @@
         const titulo = document.createElement("h3");
         titulo.textContent = produto.nome;
 
+        const preco = document.createElement("p");
+        preco.className = "produto-preco";
+        preco.textContent = rotuloPreco(produto);
+        const apresentacao = document.createElement("small");
+        apresentacao.className = "produto-apresentacao";
+        apresentacao.textContent = produto.venda_tipo==="peso" ? "Preço aproximado por 100 g" : `Apresentação: ${produto.apresentacao||"unidade"}`;
+
         const descricao = document.createElement("p");
         descricao.textContent = produto.copy || produto.descricao || "Consulte a equipe para conhecer os detalhes deste produto.";
 
@@ -151,7 +160,7 @@
             selo.textContent = "Destaque da loja";
             imagemWrap.append(selo);
         }
-        conteudo.append(categoria, titulo, descricao, acoes);
+        conteudo.append(categoria, titulo, preco, apresentacao, descricao, acoes);
         artigo.append(imagemWrap, conteudo);
         return artigo;
     };
@@ -171,6 +180,8 @@
         if (estado.ordenacao === "za") {
             return lista.sort((a,b) => String(b.nome).localeCompare(String(a.nome), "pt-BR"));
         }
+        if (estado.ordenacao === "preco-menor") return lista.sort((a,b)=>Number(a.preco||Infinity)-Number(b.preco||Infinity));
+        if (estado.ordenacao === "preco-maior") return lista.sort((a,b)=>Number(b.preco||0)-Number(a.preco||0));
         if (estado.ordenacao === "categoria") {
             return lista.sort((a,b) => {
                 const cat = categoriaNome(a.categoria).localeCompare(categoriaNome(b.categoria), "pt-BR");
@@ -210,7 +221,9 @@
 
     const salvarEstadoCatalogo = () => {
         try {
-            sessionStorage.setItem("qualimax-catalogo-url", `${location.pathname}${location.search}#produtos`);
+            const params = new URLSearchParams(location.search);
+            const query = params.toString();
+            sessionStorage.setItem("qualimax-catalogo-url", `catalogo.html${query ? `?${query}` : ""}#produtos`);
         } catch {}
     };
 
@@ -323,6 +336,10 @@
         categoria.className = "produto-modal-categoria";
         categoria.textContent = categoriaNome(produto.categoria);
 
+        const preco = document.createElement("p");
+        preco.className = "produto-modal-preco";
+        preco.textContent = `${rotuloPreco(produto)}${produto.venda_tipo==="peso" ? " • preço aproximado por 100 g" : ` • ${produto.apresentacao||""}`}`;
+
         const descricao = document.createElement("p");
         descricao.textContent = produto.copy || produto.descricao || "Descrição não cadastrada.";
 
@@ -341,9 +358,9 @@
         });
         const observacao = document.createElement("p");
         observacao.className = "produto-modal-aviso";
-        observacao.textContent = "Disponibilidade, valor atual e informações comerciais devem ser confirmados com a equipe.";
+        observacao.textContent = "Preço aproximado de referência. Disponibilidade e total final são confirmados pela equipe.";
 
-        informacoes.append(categoria, descricao);
+        informacoes.append(categoria, preco, descricao);
         if (caracteristicas.length) informacoes.append(lista);
         informacoes.append(observacao);
 

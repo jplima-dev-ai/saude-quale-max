@@ -80,6 +80,12 @@
     "horario": "",
     "entrega": "",
     "retirada": "",
-    "observacoes": ""
+    "observacoes": "",
+    "formasPagamento": [
+      "Pix",
+      "Dinheiro em espécie"
+    ],
+    "precosAproximados": true,
+    "precosAtualizadosEm": "2026-08-20"
   }
 }

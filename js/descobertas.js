@@ -2,14 +2,14 @@
 "use strict";
 
 const trilhas = [
-  { id:"pausa", titulo:"Para uma pausa tranquila", texto:"Chás aromáticos e escolhas que combinam com alguns minutos sem pressa.", href:"catalogo.html?categoria=chas#produtos", termos:["camomila","erva-cidreira","lavanda","chá"] },
-  { id:"crocancia", titulo:"Para quem ama crocância", texto:"Castanhas, sementes e granola para explorar texturas que deixam o lanche mais interessante.", href:"catalogo.html?busca=castanha#produtos", termos:["castanha","granola","sementes","mix"] },
-  { id:"cozinha", titulo:"Para experimentar na cozinha", texto:"Temperos e ingredientes que podem mudar cor, aroma, textura e personalidade das receitas.", href:"catalogo.html?categoria=temperos#produtos", termos:["cúrcuma","gengibre","canela","óleo","vinagre"] },
-  { id:"manha", titulo:"Para reinventar a manhã", texto:"Aveia, granola, sementes e pastas para criar combinações diferentes logo no começo do dia.", href:"catalogo.html?busca=granola#produtos", termos:["aveia","granola","chia","linhaça","pasta"] },
-  { id:"praticidade", titulo:"Para uma rotina mais prática", texto:"Opções para quem gosta de comparar formatos e deixar as escolhas do dia a dia mais organizadas.", href:"catalogo.html?categoria=vitaminas#produtos", termos:["vitamina","multivitamínico","complexo","magnésio"] },
-  { id:"treino", titulo:"Para explorar o universo esportivo", texto:"Proteína, creatina e outras opções para conhecer composições e apresentações com calma.", href:"catalogo.html?categoria=suplementos#produtos", termos:["whey","creatina","colágeno"] },
-  { id:"aromas", titulo:"Quando o aroma faz parte da experiência", texto:"Chás, especiarias e lavanda para quem escolhe também pelo perfume e pela sensação do momento.", href:"catalogo.html?busca=aroma#produtos", termos:["chá","canela","lavanda","gengibre"] },
-  { id:"novidade", titulo:"Que tal sair do automático?", texto:"Uma seleção para quem quer abrir o catálogo sem procurar sempre as mesmas coisas.", href:"catalogo.html#produtos", termos:[] }
+  { id:"pausa", titulo:"Para desacelerar um pouquinho", texto:"Chás e aromas para aqueles minutos em que tudo o que você quer é uma pausa gostosa.", href:"catalogo.html?categoria=chas#produtos", termos:["camomila","erva-cidreira","lavanda","chá"] },
+  { id:"crocancia", titulo:"Para quem não resiste a uma boa crocância", texto:"Castanhas, sementes e granolas para deixar o lanche mais gostoso e descobrir novas combinações.", href:"catalogo.html?busca=castanha#produtos", termos:["castanha","granola","sementes","mix"] },
+  { id:"cozinha", titulo:"Para dar uma cara nova às suas receitas", texto:"Temperos e ingredientes que trazem novos aromas, texturas e sabores para a cozinha do dia a dia.", href:"catalogo.html?categoria=temperos#produtos", termos:["cúrcuma","gengibre","canela","óleo","vinagre"] },
+  { id:"manha", titulo:"Para começar o dia de um jeito diferente", texto:"Aveia, granola, sementes e outras opções para montar um café da manhã com mais variedade e do seu jeito.", href:"catalogo.html?busca=granola#produtos", termos:["aveia","granola","chia","linhaça","pasta"] },
+  { id:"praticidade", titulo:"Para deixar a rotina mais simples", texto:"Conheça diferentes formatos e encontre opções que se encaixem com mais naturalidade no seu dia.", href:"catalogo.html?categoria=vitaminas#produtos", termos:["vitamina","multivitamínico","complexo","magnésio"] },
+  { id:"treino", titulo:"Para quem quer conhecer melhor a suplementação esportiva", texto:"Creatina, proteínas e outras opções para você conhecer, comparar e tirar suas dúvidas antes de escolher.", href:"catalogo.html?categoria=suplementos#produtos", termos:["whey","creatina","colágeno"] },
+  { id:"aromas", titulo:"Quando o aroma também faz parte da escolha", texto:"Chás, especiarias e lavanda para quem gosta de descobrir produtos também pelo aroma e pela experiência.", href:"catalogo.html?busca=aroma#produtos", termos:["chá","canela","lavanda","gengibre"] },
+  { id:"novidade", titulo:"Que tal descobrir algo que você ainda não conhece?", texto:"Um convite para passear pelo catálogo sem compromisso e deixar alguma novidade chamar sua atenção.", href:"catalogo.html#produtos", termos:[] }
 ];
 
 const seguroHref = (href) => /^(?:catalogo\.html)(?:[?#].*)?$/.test(href) ? href : "catalogo.html";
@@ -20,7 +20,7 @@ const criarTrilha = (item) => {
   a.href=seguroHref(item.href);
   const strong=document.createElement("strong"); strong.textContent=item.titulo;
   const span=document.createElement("span"); span.textContent=item.texto;
-  const small=document.createElement("small"); small.textContent="Explorar esta ideia →";
+  const small=document.createElement("small"); small.textContent="Quero ver essas opções →";
   a.append(strong,span,small);
   return a;
 };
@@ -42,9 +42,9 @@ const renderHome = () => {
   const ordem=rotacionar(trilhas,hashDoDia()).slice(0,4);
   grid.replaceChildren(...ordem.map(criarTrilha));
   const destaques=[
-    ["Descubra por um novo ângulo","Hoje, deixe a curiosidade escolher o caminho.","Nem toda descoberta começa pelo nome de um produto. Às vezes começa por uma textura, um aroma, uma pausa ou uma nova ideia para a cozinha."],
-    ["Uma visita, vários caminhos","O que combina com o seu momento agora?","Explore o catálogo por sensações e situações do cotidiano. Amanhã, outra trilha pode chamar mais a sua atenção."],
-    ["Além da lista de produtos","Transforme o catálogo em uma coleção de ideias.","Comece por algo familiar, siga por uma categoria diferente e salve o que despertar vontade de conhecer melhor."]
+    ["Talvez você encontre algo que nem estava procurando","Hoje, que tal deixar a curiosidade guiar um pouquinho?","Você não precisa saber exatamente o que procura. Às vezes uma boa descoberta começa por um sabor, um aroma ou uma ideia simples para o seu dia."],
+    ["Tem dias em que a gente só quer descobrir algo novo","O que parece combinar com o seu momento hoje?","Passeie pelas sugestões sem pressa. Hoje uma ideia pode chamar sua atenção; amanhã, talvez seja outra."],
+    ["Mais do que uma lista de produtos","Faça do catálogo um lugar para descobrir possibilidades.","Comece pelo que você já gosta, conheça algo diferente e salve aquilo que der vontade de ver de novo."]
   ];
   const d=destaques[hashDoDia()%destaques.length];
   const k=document.querySelector("[data-editorial-kicker]");

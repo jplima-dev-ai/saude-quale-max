@@ -14,6 +14,16 @@
     const { normalizar, nomeArquivoSeguro, slugSeguro } = MaxCore;
     const estado = MaxCore.criarEstado();
 
+
+
+    const moeda = valor => Number(valor||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+    const precoTexto = produto => produto?.preco
+        ? `${moeda(produto.preco)}${produto.venda_tipo==="peso" ? ` por ${produto.apresentacao||"100 g"}` : ` (${produto.apresentacao||"unidade"})`}`
+        : "preço sob consulta";
+    const extrairOrcamento = texto => {
+        const n=normalizar(texto).match(/(?:ate|tenho|orcamento|gastar|por)\s*(?:r\$\s*)?(\d+(?:[.,]\d{1,2})?)/);
+        return n ? Number(n[1].replace(",",".")) : null;
+    };
     const mensagens = () => document.querySelector("[data-chat-mensagens]");
     const campoChat = () => document.querySelector("[data-chat-input]");
 
@@ -676,8 +686,25 @@
         }
 
         if (intencao === "preco") {
-            adicionarMensagem("Preço e estoque mudam, então eu não chuto esses dados. A equipe confirma os valores e a disponibilidade atual pra você.");
-            adicionarWhatsAppNoChat("Consultar valor e disponibilidade");
+            const mencionados=produtosMencionados(termo);
+            const produto=mencionados[0]||produtoContextual();
+            const orcamento=extrairOrcamento(termo);
+            if(orcamento!==null){
+                const opcoes=estado.produtos.filter(p=>Number(p.preco)>0 && Number(p.preco)<=orcamento)
+                    .sort((a,b)=>Number(b.preco)-Number(a.preco)).slice(0,8);
+                if(opcoes.length){
+                    adicionarMensagem(`Com até ${moeda(orcamento)}, encontrei ${opcoes.length} opções para você explorar. Os valores são aproximados e a equipe confirma o total final.`);
+                    registrarResultados(opcoes,`Opções até ${moeda(orcamento)}`);
+                }else adicionarMensagem(`Não encontrei no catálogo uma opção com preço aproximado de até ${moeda(orcamento)}. Posso tentar outra faixa.`);
+            }else if(produto){
+                definirProdutoContexto(produto);
+                adicionarMensagem(`${produto.nome} está com preço aproximado de ${precoTexto(produto)}. A equipe confirma disponibilidade e valor final antes do pedido.`);
+                adicionarAcoes([{texto:"Preparar pedido",acao:()=>adicionarWhatsAppNoChat("Preparar pedido",produto.nome)}]);
+            }else{
+                const baratos=[...estado.produtos].filter(p=>Number(p.preco)>0).sort((a,b)=>Number(a.preco)-Number(b.preco)).slice(0,6);
+                adicionarMensagem("Agora eu também conheço os preços aproximados do catálogo. Posso mostrar opções por orçamento ou informar o valor de um produto.");
+                registrarResultados(baratos,"Algumas opções com preços mais acessíveis");
+            }
             estado.ultimaIntencao = "preco";
             return true;
         }

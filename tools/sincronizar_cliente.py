@@ -316,6 +316,11 @@ def gerar_pagina_produto(config: dict, produto: dict, categoria_nome: str) -> st
     logo = str(marca.get("logoImagem") or "img/logo-saude-qualimax.webp")
     logo_rel = "../" + logo
     categoria = str(produto.get("categoria") or "")
+    preco = float(produto.get("preco") or 0)
+    apresentacao = str(produto.get("apresentacao") or "")
+    venda_tipo = str(produto.get("venda_tipo") or "unidade")
+    preco_br = f"R$ {preco:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+    preco_rotulo = f"{preco_br} / {apresentacao}" if venda_tipo == "peso" else preco_br
 
     itens = []
     if produto.get("tipo"):
@@ -338,6 +343,13 @@ def gerar_pagina_produto(config: dict, produto: dict, categoria_nome: str) -> st
                 "category": categoria_nome,
                 "url": url,
                 "brand": {"@type": "Brand", "name": nome_loja},
+                "offers": {
+                    "@type": "Offer",
+                    "priceCurrency": "BRL",
+                    "price": f"{preco:.2f}",
+                    "availability": "https://schema.org/InStock",
+                    "url": url
+                } if preco else None,
             },
             {
                 "@type": "BreadcrumbList",
@@ -395,8 +407,9 @@ def gerar_pagina_produto(config: dict, produto: dict, categoria_nome: str) -> st
 <p class="secao-subtitulo"><a class="produto-categoria-link" href="../catalogo.html?categoria={html.escape(categoria, quote=True)}#produtos">{html.escape(categoria_nome)}</a></p>
 <h1>{html.escape(nome)}</h1>
 <p class="produto-pagina-copy">{html.escape(descricao)}</p>
+<div class="produto-pagina-preco"><strong>{html.escape(preco_rotulo)}</strong><span>Preço aproximado • referência atualizada em 20/08/2026</span></div>
 <ul class="produto-modal-lista">{lista_html}</ul>
-<p class="produto-pagina-aviso">Gostou deste produto? Prepare sua consulta para a equipe confirmar disponibilidade e valor, ou venha conhecer a loja de perto.</p>
+<p class="produto-pagina-aviso">Gostou deste produto? Adicione ao atendimento para enviar item, quantidade e valor estimado à equipe. A disponibilidade e o total final são confirmados pela loja.</p>
 <div class="produto-pagina-acoes"><a class="botao botao-principal" href="#" data-produto-whatsapp>Preparar consulta deste produto</a><button class="botao botao-secundario" type="button" data-compartilhar>Compartilhar produto</button><a class="botao botao-secundario" href="../catalogo.html#produtos" data-retomar-catalogo>Voltar ao catálogo</a></div>
 <p class="sr-only" role="status" aria-live="polite" data-share-status></p>
 </article></div>
@@ -472,6 +485,9 @@ def atualizar_produtos(config: dict, produtos: list[dict], categorias: list[dict
                     item["image"] = imagem
                     item["url"] = url
                     item["brand"] = {"@type": "Brand", "name": nome_loja}
+                    preco = float(produto.get("preco") or 0)
+                    if preco:
+                        item["offers"] = {"@type":"Offer","priceCurrency":"BRL","price":f"{preco:.2f}","url":url}
                 elif tipo == "BreadcrumbList":
                     elementos = item.get("itemListElement", [])
                     if elementos:

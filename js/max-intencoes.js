@@ -26,7 +26,7 @@
         ["redes", /\b(?:instagram|facebook|tiktok|tik tok|youtube|pinterest|rede social|redes sociais)\b/],
         ["humano", /\b(?:whatsapp|pessoa|humano|atendimento|especialista)\b/],
         ["entrega", /\b(?:entrega|entregam|entregar|frete)\b/],
-        ["preco", /\b(?:preco|valor|custa|custo)\b/],
+        ["preco", /\b(?:preco|valor|custa|custo|barato|baratos|barata|baratas|orcamento|tenho r\$|ate r\$|ate \d+)\b/],
         ["quiz", /\bquiz\b/],
         ["cafe-manha", /\bcafe da manha\b/],
         ["lanche", /\blanche\b/]

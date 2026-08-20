@@ -9,7 +9,7 @@
 <title>Preparar atendimento | Loja</title>
 <link rel="stylesheet" href="style.css">
 <link rel="manifest" href="manifest.webmanifest">
-<script src="js/frame-guard.js" defer></script>
+<script src="js/frame-guard.js"></script>
 <script src="js/config.js" defer></script>
 <script src="js/db.js" defer></script>
 <script src="js/atendimento.js" defer></script>
@@ -141,6 +141,25 @@
         <p data-atendimento-produtos-vazio class="atendimento-vazio">Nenhum produto selecionado. Você pode continuar e explicar o que procura no campo de observação.</p>
       </div>
 
+
+
+      <fieldset class="atendimento-pagamento">
+        <legend>Como pretende pagar?</legend>
+        <p>O pagamento é combinado com a equipe. A plataforma não recebe pagamentos.</p>
+        <div class="pagamento-opcoes">
+          <label><input type="radio" name="pagamento" value="Pix" checked> Pix</label>
+          <label><input type="radio" name="pagamento" value="Dinheiro em espécie"> Dinheiro em espécie</label>
+        </div>
+        <div data-atendimento-troco hidden>
+          <label for="at-troco">Precisa de troco para quanto? <span class="sr-only">(opcional)</span></label>
+          <input id="at-troco" name="troco" inputmode="decimal" maxlength="20" placeholder="Ex.: R$ 100,00">
+        </div>
+      </fieldset>
+      <div class="atendimento-total" data-atendimento-total aria-live="polite">
+        <span>Total estimado dos produtos</span>
+        <strong>R$ 0,00</strong>
+        <small>Preço aproximado. A equipe confirma disponibilidade e valor final.</small>
+      </div>
       <label class="atendimento-lembrar">
         <input type="checkbox" name="lembrar">
         <span><strong>Lembrar meus dados neste dispositivo</strong><small>Nome, contato e endereço ficam somente neste navegador para facilitar o próximo atendimento.</small></span>
@@ -157,7 +176,7 @@
 
       <div class="atendimento-acoes">
         <button class="botao botao-secundario" type="button" data-atendimento-copiar>Copiar mensagem</button>
-        <button class="botao botao-principal" type="submit">Continuar no WhatsApp</button>
+        <button class="botao botao-principal" type="button" data-atendimento-enviar>Continuar no WhatsApp</button>
       </div>
       <p class="atendimento-nota">Ao continuar, uma nova aba será aberta com a mensagem preenchida. Nada é enviado automaticamente.</p>
     </section>
@@ -170,6 +189,8 @@
       <div><dt>Origem</dt><dd data-atendimento-origem>Site</dd></div>
       <div><dt>Produtos</dt><dd data-atendimento-contador>0 selecionados</dd></div>
       <div><dt>Forma de receber</dt><dd data-atendimento-recebimento>Confirmar com a equipe</dd></div>
+      <div><dt>Pagamento</dt><dd data-atendimento-pagamento>Pix</dd></div>
+      <div><dt>Total estimado</dt><dd data-atendimento-total-resumo>R$ 0,00</dd></div>
     </dl>
     <p>Se preferir atendimento presencial, você também pode visitar a <strong data-config-nome>loja</strong>.</p>
     <p data-config-endereco></p>

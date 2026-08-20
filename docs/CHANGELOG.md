@@ -2,6 +2,41 @@
 
 Histórico consolidado das principais evoluções da Saúde Qualimax. Relatórios antigos de rodada foram removidos da pasta `docs/` para evitar duplicação.
 
+### 3.2 — preços, pedido estimado e pagamento
+
+- 47 produtos passam a exibir preços aproximados de portfólio e apresentação comercial;
+- itens a granel usam preço de referência por 100 g;
+- catálogo ganha ordenação por menor e maior preço;
+- páginas individuais exibem preço e data de referência;
+- pré-atendimento recebe quantidade por item, subtotal e total estimado;
+- mensagem do WhatsApp leva produtos, quantidades, preços, subtotais e total estimado;
+- formas de pagamento disponíveis: Pix e dinheiro em espécie, com campo opcional de troco;
+- nenhum pagamento é processado pela plataforma;
+- Admin Studio passa a editar preço, apresentação e forma de venda;
+- Max passa a responder preços aproximados e buscas por orçamento;
+- preços marcados como aproximados e atualizados em 20/08/2026.
+
+## v3.1.7 — hardening de segurança
+
+- pré-atendimento deixa de usar submit nativo, evitando PII em query string se JavaScript falhar;
+- URL de retorno do catálogo passa a ser estritamente relativa;
+- adicionado `_headers` para proteção HTTP no Netlify contra clickjacking e MIME sniffing;
+- frame guard das páginas utilitárias passa a carregar sem `defer`;
+- importação de backup do Admin Studio ganha limites contra arquivos maliciosos e consumo excessivo de memória;
+- adicionado `tools/testar_seguranca.py` para regressão de segurança.
+
+## 3.1.7 — home mais humana e acolhedora
+
+- reescrita completa das copys da página inicial;
+- hero passa a priorizar acolhimento, simplicidade e presença humana;
+- benefícios deixam o tom institucional e adotam linguagem mais próxima;
+- categorias recebem textos mais cotidianos e sensoriais;
+- jornada local ganha mensagens de retorno mais naturais;
+- descoberta editorial recebe trilhas com linguagem mais calorosa;
+- CTAs passam a convidar em vez de pressionar;
+- convite para visita à loja e atendimento pelo WhatsApp fica mais pessoal;
+- linguagem revisada sem acrescentar alegações clínicas ou promessas de resultado.
+
 ## 3.1.6 — revisão geral e correções de jornada
 
 - contexto temporário do Max passa a ser aplicado somente quando o pré-atendimento é aberto pelo próprio Max;

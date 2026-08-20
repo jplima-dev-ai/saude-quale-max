@@ -8,7 +8,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self'; script-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'">
 <title>Admin Studio | Loja</title>
 <link rel="stylesheet" href="style.css">
-<script src="js/frame-guard.js" defer></script>
+<script src="js/frame-guard.js"></script>
 <script src="js/admin.js" defer></script>
 <script src="js/acessibilidade.js" defer></script>
 <script src="js/interacoes.js" defer></script>
@@ -108,6 +108,21 @@
               <div>
                 <label for="adm-tipo">Formato</label>
                 <input id="adm-tipo" name="tipo" maxlength="50" placeholder="pó, cápsula, chá...">
+              </div>
+              <div>
+                <label for="adm-preco">Preço aproximado (R$)</label>
+                <input id="adm-preco" name="preco" type="number" min="0" step="0.01" inputmode="decimal">
+              </div>
+              <div>
+                <label for="adm-apresentacao">Apresentação</label>
+                <input id="adm-apresentacao" name="apresentacao" maxlength="60" placeholder="Ex.: 300 g, 60 cápsulas">
+              </div>
+              <div>
+                <label for="adm-venda-tipo">Forma de venda</label>
+                <select id="adm-venda-tipo" name="venda_tipo">
+                  <option value="unidade">Por unidade/embalagem</option>
+                  <option value="peso">A granel / por peso</option>
+                </select>
               </div>
               <div>
                 <label for="adm-imagem">Nome da imagem</label>

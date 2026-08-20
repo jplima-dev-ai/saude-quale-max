@@ -68,7 +68,7 @@ const trilhaCategoria = (categoria, nome, origem) => {
     const strong = document.createElement("strong");
     strong.textContent = `Continue explorando ${nome}`;
     const span = document.createElement("span");
-    span.textContent = "Veja outras opções da categoria e encontre algo que ainda não passou pelo seu radar.";
+    span.textContent = "Se quiser, veja outras opções dessa categoria e continue descobrindo no seu ritmo.";
     box.append(small,strong,span);
     a.append(box);
     return a;
@@ -76,20 +76,20 @@ const trilhaCategoria = (categoria, nome, origem) => {
 
 const atualizarTexto = ({ titulo, texto, favIds, listaIds, histIds, categoriaNome }) => {
     if (favIds.length) {
-        if (titulo) titulo.textContent = "Você já encontrou coisas interessantes. Que tal continuar?";
+        if (titulo) titulo.textContent = "Você já separou algumas coisas que gostou. Quer dar mais uma olhada?";
     } else if (listaIds.length) {
-        if (titulo) titulo.textContent = "Sua lista já aponta alguns caminhos para continuar.";
+        if (titulo) titulo.textContent = "Sua lista está guardadinha por aqui. Quer continuar?";
     } else if (histIds.length >= 2) {
-        if (titulo) titulo.textContent = "Sua exploração já deixou algumas pistas.";
+        if (titulo) titulo.textContent = "Você já passeou um pouco por aqui. Que tal retomar?";
     }
 
     if (!texto) return;
     if (categoriaNome && histIds.length) {
-        texto.textContent = `Suas visitas recentes mostram interesse em ${categoriaNome}. Reunimos atalhos para você retomar sem começar do zero.`;
+        texto.textContent = `Você andou olhando ${categoriaNome}. Deixamos alguns atalhos para você continuar sem precisar começar de novo.`;
     } else if (categoriaNome && (favIds.length || listaIds.length)) {
-        texto.textContent = `Suas escolhas salvas apontam para ${categoriaNome}. Reunimos atalhos para continuar explorando essa direção.`;
+        texto.textContent = `Você salvou algumas opções de ${categoriaNome}. Elas continuam aqui para quando quiser retomar.`;
     } else {
-        texto.textContent = "Com base apenas no que ficou salvo neste navegador, reunimos atalhos para você retomar sua exploração.";
+        texto.textContent = "Deixamos aqui alguns atalhos salvos neste dispositivo para você continuar de onde parou.";
     }
 };
 

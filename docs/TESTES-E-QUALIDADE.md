@@ -7,6 +7,7 @@ python tools/sincronizar_cliente.py --check
 python tools/sincronizar_cliente.py
 python tools/auditar_cliente.py
 node tools/testar_max.cjs
+python tools/testar_seguranca.py
 ```
 
 ## Integridade

@@ -137,11 +137,13 @@
 
         try {
             const salvo = sessionStorage.getItem("qualimax-catalogo-url") || "";
-            if (salvo && /^\/?.*catalogo\.html(?:\?[^#]*)?#produtos$/.test(salvo)) {
-                const destino = salvo.startsWith("/") ? salvo : `../${salvo.replace(/^\.\//, "")}`;
+            if (/^catalogo\.html(?:\?[^#]*)?#produtos$/.test(salvo)) {
+                const destino = `../${salvo}`;
                 document.querySelector("[data-retomar-catalogo]")?.setAttribute("href", destino);
                 const link = document.querySelector("[data-retomar-catalogo]");
                 if (link) link.textContent = "Voltar aos meus resultados";
+            } else if (salvo) {
+                sessionStorage.removeItem("qualimax-catalogo-url");
             }
         } catch {}
 

@@ -2,7 +2,7 @@
 "use strict";
 
 const DB_NAME="qualimax-admin-local-v3";
-const ADMIN_BACKUP_VERSION="3.1.6";
+const ADMIN_BACKUP_VERSION="3.2";
 const DB_VERSION=1;
 let dbPromise=null;
 const abrirDB=()=>{
@@ -207,7 +207,7 @@ const preencherForm=async(produto)=>{
     const ph=document.querySelector("[data-admin-editor-placeholder]");
     if(!form||!produto)return;
     ph.hidden=true;form.hidden=false;
-    for(const nome of ["id","nome","slug","categoria","tipo","imagem","copy","descricao","cta"]){
+    for(const nome of ["id","nome","slug","categoria","tipo","imagem","copy","descricao","cta","preco","apresentacao","venda_tipo"]){
         if(form.elements[nome]) form.elements[nome].value=produto[nome]??"";
     }
     form.elements.beneficios.value=(produto.beneficios||[]).join("\n");
@@ -233,6 +233,14 @@ const formParaProduto=()=>{
         descricao:form.elements.descricao.value.trim(),
         beneficios:form.elements.beneficios.value.split(/\n+/).map(x=>x.trim()).filter(Boolean),
         tipo:form.elements.tipo.value.trim(),
+        preco:Math.max(0,Number(form.elements.preco?.value||0)),
+        apresentacao:form.elements.apresentacao?.value.trim()||"",
+        venda_tipo:form.elements.venda_tipo?.value==="peso"?"peso":"unidade",
+        quantidade_base:form.elements.venda_tipo?.value==="peso"?100:1,
+        unidade_venda:form.elements.venda_tipo?.value==="peso"?"g":"un.",
+        incremento:form.elements.venda_tipo?.value==="peso"?100:1,
+        preco_atualizado_em:"2026-08-20",
+        preco_aproximado:true,
         vegana:form.elements.vegana.checked,
         sem_gluten:form.elements.sem_gluten.checked,
         experiencia_minima:(produtoPorId(id)||{}).experiencia_minima||"iniciante",
@@ -261,9 +269,10 @@ const renderPreview=async(produto)=>{
     const body=document.createElement("div");
     const small=document.createElement("small");small.textContent=produto.categoria||"Categoria";
     const h=document.createElement("strong");h.textContent=produto.nome||"Nome do produto";
+    const price=document.createElement("strong");price.textContent=produto.preco?Number(produto.preco).toLocaleString("pt-BR",{style:"currency",currency:"BRL"})+" • "+(produto.apresentacao||""):"Preço não informado";
     const p=document.createElement("p");p.textContent=produto.copy||"A copy de destaque aparecerá aqui.";
     const cta=document.createElement("span");cta.textContent=produto.cta||"Ver produto";
-    body.append(small,h,p,cta);box.append(body);
+    body.append(small,h,price,p,cta);box.append(body);
 
     const prev=document.querySelector("[data-admin-preview-imagem]"); if(prev){
         prev.replaceChildren();
@@ -295,6 +304,8 @@ const validarProduto=p=>{
     if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(p.slug))erros.push("Endereço da página inválido");
     if(state.produtos.some(x=>x.id!==p.id&&x.slug===p.slug))erros.push("Já existe outro produto com este endereço");
     if(p.imagem&&!nomeArquivoSeguro(p.imagem))erros.push("Nome da imagem inválido");
+    if(!Number.isFinite(Number(p.preco))||Number(p.preco)<0)erros.push("Preço inválido");
+    if(!p.apresentacao)erros.push("Apresentação obrigatória");
     return erros;
 };
 
@@ -537,13 +548,17 @@ document.addEventListener("DOMContentLoaded",async()=>{
         const file=e.target.files?.[0];if(!file)return;
         const status=document.querySelector("[data-admin-export-status]");
         try{
-            if(file.size>80*1024*1024) throw new Error("Backup muito grande");
+            if(file.size>64*1024*1024) throw new Error("Backup muito grande");
             const b=JSON.parse(await file.text());
-            if(!Array.isArray(b.produtos)||!b.config||typeof b.config!=="object")throw new Error("Formato inválido");
+            if(!Array.isArray(b.produtos)||b.produtos.length>500||!b.config||typeof b.config!=="object"||Array.isArray(b.config))throw new Error("Formato inválido");
+            if(!b.produtos.every(p=>p&&typeof p==="object"&&!Array.isArray(p)&&Number.isFinite(Number(p.id))&&String(p.nome||"").length<=120&&/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(String(p.slug||""))))throw new Error("Catálogo inválido");
+            const imagensBackup=Array.isArray(b.imagens)?b.imagens:[];
+            if(imagensBackup.length>500)throw new Error("Imagens demais no backup");
             state.produtos=clone(b.produtos);state.config=clone(b.config);state.selecionado=null;state.editorDirty=false;state.pendingImage=null;
             await storeClear("images");
-            for(const img of Array.isArray(b.imagens)?b.imagens:[]){
+            for(const img of imagensBackup){
                 if(!img?.id||!nomeArquivoSeguro(img.filename)||!img.dataUrl) continue;
+                if(String(img.dataUrl).length>7*1024*1024||String(img.thumbDataUrl||"").length>2*1024*1024) continue;
                 const blob=dataURLParaBlob(img.dataUrl);
                 const thumbBlob=dataURLParaBlob(img.thumbDataUrl);
                 if(!blob||blob.size>5*1024*1024||!["image/png","image/jpeg","image/webp"].includes(blob.type)) continue;
@@ -557,7 +572,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
             renderLista();preencherLoja();preencherRecursos();await atualizarMetricas();await auditar();await exportarImagemLista();
             if(status)status.textContent="Backup importado com catálogo, configuração e imagens locais.";
         }catch{
-            if(status)status.textContent="Backup inválido ou grande demais.";
+            if(status)status.textContent="Backup inválido, incompatível ou grande demais.";
         } finally {e.target.value="";}
     });
 });

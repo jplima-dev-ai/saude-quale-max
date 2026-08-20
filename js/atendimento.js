@@ -187,6 +187,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }catch{}
 
     const porId=new Map(produtos.map(p=>[Number(p.id),p]));
+    const moeda=v=>Number(v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
     const selecionados=new Set();
     const sugeridos=new Set();
 
@@ -238,8 +239,21 @@ document.addEventListener("DOMContentLoaded", async () => {
         check.dataset.atendimentoProduto=String(produto.id);
         const box=document.createElement("span");
         const strong=document.createElement("strong");strong.textContent=produto.nome;
+        const preco=document.createElement("small");
+        preco.textContent=produto.preco ? `${moeda(produto.preco)}${produto.venda_tipo==="peso" ? ` / ${produto.apresentacao||"100 g"}` : ` • ${produto.apresentacao||"unidade"}`}` : "Preço sob consulta";
         const small=document.createElement("small");small.textContent=fonte;
-        box.append(strong,small);label.append(check,box);
+        const controles=document.createElement("span");controles.className="produto-pedido-controles";
+        const qLabel=document.createElement("span");
+        qLabel.textContent=produto.venda_tipo==="peso" ? "Quantidade (g)" : "Quantidade";
+        const q=document.createElement("input");
+        q.type="number";q.dataset.atendimentoQuantidade=String(produto.id);
+        q.min=produto.venda_tipo==="peso"?"100":"1";
+        q.max=produto.venda_tipo==="peso"?"5000":"20";
+        q.step=String(produto.incremento||1);
+        q.value=String(produto.quantidade_base||1);
+        q.setAttribute("aria-label",`${qLabel.textContent} de ${produto.nome}`);
+        controles.append(qLabel,q);
+        box.append(strong,preco,small,controles);label.append(check,box);
         return label;
     };
 
@@ -255,7 +269,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     };
 
     const produtosMarcados=()=>[...document.querySelectorAll("[data-atendimento-produto]:checked")]
-        .map(el=>porId.get(Number(el.value))).filter(Boolean);
+        .map(el=>{
+            const produto=porId.get(Number(el.value));
+            if(!produto)return null;
+            const input=document.querySelector(`[data-atendimento-quantidade="${produto.id}"]`);
+            const base=Number(produto.quantidade_base||1);
+            let quantidade=Math.max(base,Number(input?.value||base));
+            if(produto.venda_tipo==="peso") quantidade=Math.round(quantidade/100)*100;
+            else quantidade=Math.round(quantidade);
+            const subtotal=Number(produto.preco||0)*(quantidade/base);
+            return {...produto,quantidade,subtotal};
+        }).filter(Boolean);
+
+    const totalEstimado=()=>produtosMarcados().reduce((s,p)=>s+Number(p.subtotal||0),0);
 
     const recebimentoTexto=()=>({
         retirada:"Retirar na loja",
@@ -288,6 +314,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         const assunto=limparTexto(form.elements.assunto.value,80);
         const observacao=limparTexto(form.elements.observacao.value,1000);
         const recebimento=form.elements.recebimento.value;
+        const pagamento=limparTexto(form.elements.pagamento?.value||"Pix",40);
+        const troco=limparTexto(form.elements.troco?.value||"",20);
         const itens=produtosMarcados();
 
         linhas.push(`Olá! Vim pelo site da ${empresa.nome||"loja"}.`,"");
@@ -317,9 +345,18 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         if(itens.length){
-            linhas.push("","PRODUTOS / INTERESSES");
-            itens.forEach(p=>linhas.push(`• ${p.nome}`));
+            linhas.push("","MEU PEDIDO");
+            itens.forEach(p=>{
+                const qtd=p.venda_tipo==="peso" ? `${p.quantidade} g` : `${p.quantidade} ×`;
+                const unit=p.venda_tipo==="peso" ? `${moeda(p.preco)} / ${p.apresentacao||"100 g"}` : `${moeda(p.preco)} cada`;
+                linhas.push(`• ${p.nome} — ${qtd} — ${unit} — subtotal ${moeda(p.subtotal)}`);
+            });
+            linhas.push(`TOTAL ESTIMADO: ${moeda(totalEstimado())}`);
+            linhas.push("Valores aproximados; a loja confirma disponibilidade e total final.");
         }
+
+        linhas.push("","FORMA DE PAGAMENTO",pagamento);
+        if(pagamento==="Dinheiro em espécie" && troco) linhas.push(`Troco para: ${troco}`);
 
         linhas.push("","ASSUNTO",assunto||"Atendimento pelo site");
 
@@ -332,7 +369,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         linhas.push("","ORIGEM DO ATENDIMENTO",origemAmigavel(origem));
-        linhas.push("","Pode confirmar disponibilidade, valores e as condições aplicáveis?");
+        linhas.push("","Pode confirmar disponibilidade, total final e as condições aplicáveis?");
 
         return linhas.join("\n").replace(/\n{3,}/g,"\n\n").trim();
     };
@@ -341,6 +378,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         const qtd=produtosMarcados().length;
         if(contador) contador.textContent=`${qtd} ${qtd===1?"selecionado":"selecionados"}`;
         if(recebimentoEl) recebimentoEl.textContent=recebimentoTexto();
+        const pagamento=form.elements.pagamento?.value||"Pix";
+        const pagEl=document.querySelector("[data-atendimento-pagamento]");
+        if(pagEl) pagEl.textContent=pagamento;
+        const total=moeda(totalEstimado());
+        const totalBox=document.querySelector("[data-atendimento-total] strong");
+        const totalResumo=document.querySelector("[data-atendimento-total-resumo]");
+        if(totalBox) totalBox.textContent=total;
+        if(totalResumo) totalResumo.textContent=total;
+        const trocoBox=document.querySelector("[data-atendimento-troco]");
+        if(trocoBox) trocoBox.hidden=pagamento!=="Dinheiro em espécie";
         if(preview && document.activeElement!==preview) preview.value=montarMensagem();
     }
 
@@ -391,8 +438,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 
-    form.addEventListener("submit",e=>{
-        e.preventDefault();
+    // Não usamos submit nativo: se o JavaScript falhar/desativar,
+    // dados pessoais nunca são serializados para a URL pelo navegador.
+    form.addEventListener("submit",e=>e.preventDefault());
+    document.querySelector("[data-atendimento-enviar]")?.addEventListener("click",()=>{
         if(!form.reportValidity()){
             status.textContent="Confira os campos obrigatórios antes de continuar.";
             return;

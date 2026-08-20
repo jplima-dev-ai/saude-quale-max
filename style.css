@@ -5222,3 +5222,18 @@ html.movimento-reduzido .interacao-toque::after {
 @media (prefers-reduced-motion: reduce) {
     .chatbot-status span { animation: none; }
 }
+
+/* v3.2 — preços e pedido assistido */
+.produto-preco,.produto-modal-preco,.produto-pagina-preco strong{font-weight:800;font-size:1.12rem;letter-spacing:-.01em}
+.produto-preco{margin:.35rem 0 .1rem}
+.produto-apresentacao{display:block;opacity:.78;margin-bottom:.55rem}
+.produto-modal-preco{font-size:1.25rem;margin:.25rem 0 .7rem}
+.produto-pagina-preco{display:flex;flex-direction:column;gap:.2rem;margin:1rem 0;padding:.9rem 1rem;border:1px solid rgba(0,0,0,.12);border-radius:14px}
+.produto-pagina-preco span{font-size:.9rem;opacity:.76}
+.atendimento-produto-item .produto-pedido-controles{display:flex;gap:.55rem;align-items:center;flex-wrap:wrap;margin-top:.5rem}
+.produto-pedido-controles label{font-size:.86rem;font-weight:700}
+.produto-pedido-controles input{width:6.5rem}
+.atendimento-total{margin-top:1rem;padding:1rem;border-radius:14px;background:rgba(0,0,0,.045)}
+.atendimento-total strong{font-size:1.18rem}
+.pagamento-opcoes{display:flex;gap:1rem;flex-wrap:wrap;margin-top:.5rem}
+.pagamento-opcoes label{display:flex;gap:.45rem;align-items:center}

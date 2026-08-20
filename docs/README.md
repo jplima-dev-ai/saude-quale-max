@@ -1,4 +1,4 @@
-# Documentação — Saúde Qualimax v3.1.6
+# Documentação — Saúde Qualimax v3.2
 
 Esta pasta contém documentação viva: arquivos que descrevem como a plataforma funciona agora e como mantê-la. O histórico das releases está consolidado em `CHANGELOG.md`.
 
@@ -18,6 +18,7 @@ Esta pasta contém documentação viva: arquivos que descrevem como a plataforma
 | [TESTES-E-QUALIDADE.md](TESTES-E-QUALIDADE.md) | QA, regressão do Max e checklist pré-deploy |
 | [PUBLICACAO.md](PUBLICACAO.md) | Git, GitHub Pages, Netlify e pós-deploy |
 | [WHITE-LABEL-E-CLIENTES.md](WHITE-LABEL-E-CLIENTES.md) | Processo para adaptar a outro cliente |
+| [PRECOS-E-PEDIDOS.md](PRECOS-E-PEDIDOS.md) | Preços aproximados, quantidades, total e formas de pagamento |
 | [OPERACAO-LOCAL.md](OPERACAO-LOCAL.md) | Minha Conta, Admin Studio e pré-atendimento |
 | [CHANGELOG.md](CHANGELOG.md) | Histórico consolidado das versões |
 
