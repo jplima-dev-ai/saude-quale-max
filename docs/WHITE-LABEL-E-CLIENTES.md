@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-A Saúde Qualimax também funciona como base comercial reutilizável para outras casas de produtos naturais. A versão 2.8.1 reduz dados hardcoded e cria um fluxo de sincronização a partir de `data/config.json`.
+A Saúde Qualimax também funciona como base comercial reutilizável para outras casas de produtos naturais. A arquitetura atual reduz dados hardcoded e usa `data/config.json` como base da sincronização white-label.
 
 ## Fluxo recomendado para um novo cliente
 
@@ -25,7 +25,7 @@ python tools/sincronizar_cliente.py
 A ferramenta usa apenas a biblioteca padrão do Python e atualiza:
 
 - metadados das páginas principais;
-- title/description/canonical das 32 páginas de produto;
+- title/description/canonical das páginas de produto existentes;
 - Open Graph e Twitter Cards dos produtos;
 - marca nos dados estruturados;
 - URLs dos breadcrumbs estruturados;
@@ -60,17 +60,7 @@ Os textos de SEO de cada página continuam em `data/config.json`. O sincronizado
 
 ## Teste white-label
 
-A release 2.8.1 foi testada com uma configuração fictícia chamada “Casa Verde Natural”.
-
-Após a sincronização, a varredura das páginas públicas confirmou:
-
-- ocorrências da marca Qualimax: 0;
-- e-mail anterior: 0;
-- telefone anterior: 0;
-- URL anterior: 0;
-- 32/32 páginas individuais com a nova marca.
-
-Esse teste é automatizável e deve ser repetido quando a arquitetura de configuração mudar.
+Antes de cada entrega, adapte uma cópia de teste e use `--proibir` para confirmar que nome, e-mail, telefone e URL da marca anterior não permaneceram nos arquivos públicos. A auditoria também deve confirmar que todas as páginas individuais correspondem ao catálogo atual.
 
 ## Limite importante
 
@@ -79,7 +69,7 @@ O sincronizador prepara a camada estática do projeto. Ele não transforma autom
 
 ## Pacotes diferentes por cliente
 
-Na v2.9, o mesmo código-base pode ser entregue com módulos diferentes usando `recursos` em `data/config.json`.
+O mesmo código-base pode ser entregue com módulos diferentes usando `recursos` em `data/config.json`.
 
 Exemplo de uma loja que não deseja quiz nem favoritos:
 
@@ -113,7 +103,7 @@ python tools/auditar_cliente.py   --proibir "Saúde Qualimax"   --proibir "conta
 ```
 
 
-## Admin Studio v3.0
+## Admin Studio
 
 O Admin Studio oferece uma camada visual para preparar `produtos.json` e `config.json`.
 

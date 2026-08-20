@@ -1,103 +1,48 @@
 # Testes e qualidade
 
-Este checklist deve ser executado antes de uma nova publicação relevante.
-
-## Integridade
-
-- JavaScript sem erro de sintaxe;
-- JSON e manifest válidos;
-- nenhuma referência local quebrada;
-- nenhum ID duplicado;
-- um único H1 por página;
-- páginas individuais correspondem ao catálogo;
-- sitemap coerente com as páginas existentes.
-
-## Acessibilidade
-
-- imagens possuem `alt`;
-- inputs possuem nome acessível;
-- botões possuem comportamento previsível;
-- diálogos gerenciam foco;
-- navegação funciona apenas com teclado;
-- `target="_blank"` não remove contexto sem aviso acessível;
-- teste manual com NVDA.
-
-## Catálogo
-
-- busca;
-- filtro por categoria;
-- filtro por formato;
-- filtro por característica;
-- parâmetros de URL;
-- estado sem resultados;
-- modal;
-- produtos relacionados;
-- páginas individuais.
-
-## Estado local
-
-- favoritar/desfavoritar;
-- adicionar/remover da lista;
-- limpar favoritos;
-- limpar lista;
-- histórico;
-- limpar somente histórico;
-- jornada local;
-- fallback quando IndexedDB falha.
-
-## Max
-
-Testar:
-
-- nome de produto;
-- categoria;
-- vegano;
-- sem glúten;
-- formatos;
-- “mostrar mais”;
-- “nova conversa”;
-- pergunta de preço;
-- entrega;
-- pergunta médica;
-- WhatsApp;
-- quiz;
-- redes sociais.
-
-## PWA
-
-- primeira instalação;
-- atualização a partir de cache anterior;
-- botão “Atualizar agora”;
-- modo offline;
-- URL com query string offline;
-- entrada direta por página de produto;
-- retorno da conexão.
-
-## Segurança
-
-- CSP presente;
-- hashes de scripts inline válidos;
-- nenhum `eval`;
-- nenhum `new Function`;
-- nenhum `document.write`;
-- nenhum `javascript:`;
-- links externos com `noopener noreferrer`;
-- nenhuma credencial versionada;
-- caminhos derivados de dados passam por validação adequada.
-
-## Publicação
-
-Depois do deploy, repetir um smoke test diretamente na URL pública.
-
-
-## Auditoria white-label
-
-Antes de entregar uma cópia para outro cliente:
+## Automação mínima
 
 ```bash
 python tools/sincronizar_cliente.py --check
 python tools/sincronizar_cliente.py
 python tools/auditar_cliente.py
+node tools/testar_max.cjs
 ```
 
-Quando estiver partindo do template Qualimax, também procure resíduos da marca anterior com `--proibir`.
+## Integridade
+
+- JavaScript, JSON e manifest válidos;
+- referências locais sem quebra;
+- IDs únicos e um H1 por página;
+- 40 produtos correspondendo às páginas, imagens e miniaturas;
+- sitemap, robots, canonicals e documentação coerentes.
+
+## Acessibilidade
+
+- imagens com `alt`;
+- inputs com nome acessível;
+- foco previsível em diálogos;
+- navegação completa por teclado;
+- mensagens dinâmicas anunciadas quando necessário;
+- teste manual com NVDA;
+- movimento reduzido respeitado.
+
+## Catálogo e jornada
+
+Testar busca, filtros, ordenação, parâmetros de URL, estado sem resultados, modal, páginas individuais, relacionados, favoritos, lista, recentes e retomada.
+
+## Max
+
+Validar “não sei o que escolher”, sugestões vagas, produto, categoria, formato, vegano, sem glúten, comparação, similares, mostrar mais, nova busca, preço, entrega, pergunta médica, redes e pré-atendimento.
+
+## Conta, Admin e atendimento
+
+Testar perfil local, exportação/exclusão de dados, edição e exportação no Admin, imagens/miniaturas, origem e produtos no pré-atendimento, revisão da mensagem e `wa.me` somente no passo final.
+
+## PWA e segurança
+
+Testar instalação, atualização, offline e retorno da conexão. Confirmar CSP, ausência de `eval`, `new Function`, `document.write`, `javascript:` e segredos versionados.
+
+## White-label e pós-deploy
+
+Use `--proibir` para procurar resíduos da marca anterior. Depois do deploy, faça smoke test em janela anônima e confirme a versão do Service Worker.

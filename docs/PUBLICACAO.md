@@ -1,4 +1,4 @@
-# Publicação no GitHub Pages
+# Publicação — GitHub Pages e Netlify
 
 ## Ambiente atual
 
@@ -24,7 +24,7 @@ Exemplo:
 ```bash
 git add --renormalize .
 git add .
-git commit -m "release: Saúde Qualimax v3.1"
+git commit -m "release: Saúde Qualimax v3.1.2"
 git push
 ```
 
@@ -49,3 +49,7 @@ Renomear o repositório altera a URL do GitHub Pages. Nesse caso, pesquise e atu
 ## HTTPS
 
 Mantenha HTTPS obrigatório habilitado no GitHub Pages.
+
+## Netlify
+
+A plataforma também pode ser publicada como site estático no Netlify. Preserve os caminhos relativos, use HTTPS e repita o mesmo smoke test pós-deploy. Se configurar cabeçalhos HTTP adicionais, valide CSP e políticas de segurança antes de publicar.

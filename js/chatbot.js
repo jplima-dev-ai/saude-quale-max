@@ -318,7 +318,10 @@
             "quero","tem","voces","vocês","algum","alguma","coisa","produto","produtos","para","com","uma","uns","umas",
             "de","do","da","dos","das","e","o","a","me","mostra","mostrar","procuro","preciso","ver","opcao","opção","opcoes",
             "opções","vegano","vegana","veganos","veganas","sem","gluten","glúten","capsula","cápsula","capsulas","cápsulas",
-            "po","pó","liquido","líquido","em"
+            "po","pó","liquido","líquido","em",
+            "nao","não","sei","que","qual","quais","escolher","escolho","escolha","encontrar","ache","achar",
+            "ajuda","ajudar","pode","poderia","favor","por","onde","comeco","começo","começar","comecar",
+            "gostaria","queria","quer","quero","saber","indica","indicar","sugere","sugerir"
         ]);
         const tokens = termo.split(/\s+/)
             .map((x) => x.replace(/[^a-z0-9-]/g, ""))
@@ -399,13 +402,16 @@
     };
 
     const responderAjudaEscolha = () => {
-        adicionarMensagem("Bora descobrir juntos. Qual desses caminhos combina mais com o que você quer agora?");
-        const acoes = [
-            { texto: "Alimentos e lanches", valor: "alimentos" },
-            { texto: "Chás", valor: "chás" },
-            { texto: "Vitaminas", valor: "vitaminas" },
-            { texto: "Suplementos", valor: "suplementos" }
-        ];
+        adicionarMensagem("Bora descobrir juntos. Escolha uma categoria ou, se preferir, faça o quiz.");
+        const contagem = new Map(
+            estado.categorias.map(c => [c.id, estado.produtos.filter(p => p.categoria === c.id).length])
+        );
+        const acoes = estado.categorias
+            .filter(c => (contagem.get(c.id) || 0) > 0)
+            .sort((a,b) => (contagem.get(b.id)||0) - (contagem.get(a.id)||0) || a.nome.localeCompare(b.nome,"pt-BR"))
+            .slice(0, 8)
+            .map(c => ({ texto: `${c.nome} (${contagem.get(c.id)})`, valor: c.nome }));
+        acoes.push({ texto:"Ver catálogo completo", acao:()=>{ fecharChat(); irCatalogo(); } });
         if (quizAtivo()) acoes.push({ texto: "Prefiro fazer o quiz", acao: () => { fecharChat(); irQuiz(); } });
         adicionarAcoes(acoes);
     };
@@ -517,13 +523,26 @@
 
     const iniciarDescobertaGuiada = () => {
         estado.etapaDescoberta = "objetivo";
-        adicionarMensagem("Fechado. Vamos por partes e sem complicar: o que você quer explorar agora?");
-        adicionarAcoes([
-            { texto:"Algo para comer", valor:"alimentos" },
-            { texto:"Um chá", valor:"chás" },
-            { texto:"Vitaminas", valor:"vitaminas" },
-            { texto:"Suplementos", valor:"suplementos" }
-        ]);
+        estado.preferencias = { categoria:"", tipo:"", vegana:null, semGluten:null, termos:[] };
+        estado.ultimosResultados = [];
+        estado.offsetResultados = 0;
+        estado.contextoResultados = "";
+        estado.etapaDescoberta = "objetivo";
+        adicionarMensagem("Fechado. Vamos por partes e sem complicar: qual tipo de produto chama mais sua atenção agora?");
+        const contagem = new Map(
+            estado.categorias.map(c => [c.id, estado.produtos.filter(p => p.categoria === c.id).length])
+        );
+        const categoriasDisponiveis = estado.categorias
+            .filter(c => (contagem.get(c.id) || 0) > 0)
+            .sort((a,b) => (contagem.get(b.id)||0) - (contagem.get(a.id)||0) || a.nome.localeCompare(b.nome,"pt-BR"))
+            .slice(0, 8)
+            .map(c => ({ texto: `${c.nome} (${contagem.get(c.id)})`, valor: c.nome }));
+        if (categoriasDisponiveis.length) {
+            categoriasDisponiveis.push({ texto:"Ver catálogo completo", acao:()=>{ fecharChat(); irCatalogo(); } });
+            adicionarAcoes(categoriasDisponiveis);
+        } else {
+            adicionarAcoes([{ texto:"Abrir catálogo", acao:()=>{ fecharChat(); irCatalogo(); } }]);
+        }
     };
 
     const executarIntencao = (termo) => {

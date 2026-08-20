@@ -1,78 +1,39 @@
-# Max — assistente de descoberta
+# Max — assistente local de descoberta
 
 ## Papel
 
-Max é um assistente local baseado nos dados do catálogo. Ele não depende de uma API externa de IA e não deve receber credenciais ou chaves secretas no frontend.
+Max é um assistente determinístico baseado no catálogo e na configuração da loja. Não usa API externa de IA e não precisa de chave secreta.
+
+## Arquitetura
+
+- `max-core.js` — normalização, estado e memória curta;
+- `max-entidades.js` — produtos citados e referências contextuais;
+- `max-intencoes.js` — classificação da mensagem;
+- `max-recomendacao.js` — similaridade e ranking;
+- `chatbot.js` — interface, filtros e ações.
 
 ## Capacidades atuais
 
-Max pode:
+Max localiza e explica produtos cadastrados, reconhece categorias e preferências, combina critérios sucessivos, compara produtos, mostra similares, retoma contexto curto e encaminha para catálogo, quiz, coleções, redes e pré-atendimento.
 
-- localizar produtos;
-- reconhecer categorias;
-- combinar preferências durante a conversa;
-- refinar por formato;
-- identificar atributos cadastrados como vegano e sem glúten;
-- apresentar até alguns resultados por vez;
-- continuar com “Mostrar mais”;
-- lembrar o último produto aberto durante a sessão;
-- encaminhar para catálogo, quiz, redes sociais e WhatsApp;
-- abrir as escolhas salvas quando o recurso estiver disponível.
+A descoberta guiada usa as categorias reais de `categorias.json`, conta produtos e prioriza categorias com itens. Frases como “não sei o que escolher”, “me recomenda algo” e “quero uma sugestão” entram na descoberta guiada em vez de virarem termos de busca.
 
-## Contexto de curto prazo
+## Prioridade das intenções
 
-Durante a conversa, Max pode combinar critérios sucessivos.
-
-Exemplo:
-
-```text
-"quero algo vegano"
-"em pó"
-"sem glúten"
-```
-
-O resultado é filtrado pelo cruzamento dos critérios que realmente existem no catálogo.
+Guardrails médicos e intenções específicas precedem regras genéricas de produto e busca. Isso evita falsos positivos como interpretar “o que escolher” como “o que é”.
 
 ## Limites
 
-Max não deve:
+Max não inventa preço, estoque, disponibilidade, prazo, contraindicação ou resultado clínico. Não diagnostica nem recomenda produto para tratar doença. Dados variáveis são encaminhados para confirmação humana.
 
-- inventar preço;
-- inventar estoque;
-- afirmar disponibilidade;
-- diagnosticar;
-- recomendar produto para tratar doença;
-- afirmar contraindicação sem fonte do produto;
-- prometer resultado clínico.
+## Privacidade
 
-Perguntas médicas são direcionadas para leitura do rótulo e orientação profissional adequada.
+A conversa não é enviada a servidor de IA. O contexto é local e de curta duração. Ao pedir atendimento humano, somente o contexto preparado segue para a etapa local de revisão.
 
-## Dados e privacidade
+## Regressão
 
-As mensagens do Max não são armazenadas em banco remoto pela implementação atual. A memória contextual existe apenas durante a sessão da página.
+Ao alterar produtos, categorias, tipos ou regras de intenção, execute:
 
-## Manutenção
-
-Ao alterar a taxonomia ou campos de produto, revisar:
-
-- reconhecimento de categorias;
-- mapeamento de formatos;
-- regras de atributos;
-- stop words e busca textual;
-- caminhos de navegação;
-- guardrails médicos e comerciais.
-
-
-## Arquitetura modular
-
-Desde a v3.0.6, o Max é dividido em responsabilidades independentes:
-
-- `max-core.js`: normalização, estado e memória curta;
-- `max-entidades.js`: reconhecimento de produtos e referências contextuais;
-- `max-intencoes.js`: classificação de intenção e prioridade dos guardrails;
-- `max-recomendacao.js`: ranking de produtos semelhantes;
-- `chatbot.js`: interface, navegação e execução das ações.
-
-A ordem de carregamento é obrigatória e validada por `tools/auditar_cliente.py`.
-
-Perguntas que contêm contexto médico são classificadas antes de pedidos genéricos de detalhes de produto. Isso evita que uma frase como “para que serve X para ansiedade?” seja tratada primeiro como simples explicação comercial.
+```bash
+node tools/testar_max.cjs
+```

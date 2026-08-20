@@ -2,6 +2,29 @@
 
 Histórico consolidado das principais evoluções da Saúde Qualimax. Relatórios antigos de rodada foram removidos da pasta `docs/` para evitar duplicação.
 
+## 3.1.2 — consolidação da documentação
+
+- documentação revisada para refletir 40 produtos e a arquitetura atual;
+- relatórios de releases antigas removidos após consolidação no changelog;
+- documentos de prompts de imagens removidos após integração das imagens definitivas;
+- documentação duplicada de segurança consolidada em `SECURITY.md`;
+- Conta, Admin Studio e pré-atendimento consolidados em `OPERACAO-LOCAL.md`;
+- guias de arquitetura, Max, testes, publicação, white-label e ferramentas atualizados;
+- política adotada: manter documentação temática viva e usar o changelog para histórico de releases.
+
+## 3.1.1 — QA, correção do Max e descoberta dinâmica
+
+- corrigido bug em “não sei o que escolher” que gerava dezenas de resultados por palavras irrelevantes;
+- regra de detalhes de produto passa a usar limites de palavra;
+- intenção de descoberta recebe prioridade explícita;
+- detector de intenções normaliza acentos, pontuação e caixa;
+- stopwords de busca livre foram reforçadas;
+- “me recomenda algo”, “me sugere alguma coisa” e equivalentes entram na descoberta guiada;
+- categorias da descoberta passam a vir de `categorias.json`;
+- categorias são ordenadas pela quantidade real de produtos;
+- incluído `tools/testar_max.cjs` para regressão automatizada do agente;
+- revisão estrutural completa da plataforma com 40 produtos.
+
 ## 3.1 — expansão do catálogo
 
 - catálogo ampliado de 32 para 35 produtos;

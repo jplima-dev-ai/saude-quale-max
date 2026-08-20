@@ -2,79 +2,49 @@
 
 ## Visão geral
 
-A Saúde Qualimax é uma aplicação web multipágina, estática e orientada a dados. O projeto foi desenhado para funcionar em GitHub Pages sem backend próprio.
+Saúde Qualimax é uma aplicação web multipágina, estática, orientada a dados e preparada para white-label. Funciona sem backend próprio em GitHub Pages e Netlify.
 
-Tecnologias principais:
+Tecnologias principais: HTML semântico, CSS responsivo, JavaScript modular, JSON, IndexedDB com fallback local, Service Worker e Web App Manifest.
 
-- HTML semântico;
-- CSS responsivo;
-- JavaScript modular sem framework obrigatório;
-- arquivos JSON como fonte editável do catálogo;
-- IndexedDB com fallback local para estado do visitante;
-- Service Worker e Web App Manifest para recursos de PWA.
+## Páginas
 
-## Páginas públicas
-
-- `index.html` — Home, descoberta editorial e retomada da jornada local;
-- `catalogo.html` — busca, filtros, destaques, favoritos, lista e histórico;
+- `index.html` — Home e descoberta editorial;
+- `catalogo.html` — busca, filtros, ordenação e coleções;
 - `quiz.html` — descoberta guiada;
-- `sobre.html` — posicionamento institucional;
-- `contato.html` — canais de atendimento e FAQ;
-- `produto/*.html` — 32 páginas individuais de produto;
-- `offline.html` — fallback para navegação sem conexão.
+- `sobre.html` — institucional;
+- `contato.html` — contato e FAQ;
+- `conta.html` — perfil, favoritos, lista e histórico locais;
+- `admin.html` — editor local para preparar dados antes da publicação;
+- `atendimento.html` — preparação e revisão da mensagem para WhatsApp;
+- `produto/*.html` — 40 páginas individuais sincronizadas a partir do catálogo;
+- `offline.html` — fallback sem conexão.
 
-## Organização do código
+## Dados
 
-### Dados
-
-`data/` concentra os arquivos editáveis:
-
-- `config.json` — empresa, marca, contato, redes, chatbot e SEO;
-- `produtos.json` — catálogo;
-- `categorias.json` — taxonomia do catálogo;
+- `config.json` — empresa, marca, contato, redes, comercial, recursos, chatbot e SEO;
+- `produtos.json` — catálogo de 40 produtos;
+- `categorias.json` — taxonomia;
 - `quiz.json` — perguntas e regras do quiz;
-- `faq.json` — perguntas frequentes;
+- `faq.json` — FAQ.
 
-### JavaScript
+## Max
 
-- `config.js` — aplica configuração e metadados;
-- `produtos.js` — catálogo, filtros e modal;
-- `categorias.js` — categorias;
-- `quiz.js` — fluxo do quiz;
-- `chatbot.js` — Max;
-- `db.js` — persistência local;
-- `colecoes.js` — favoritos, lista e recentes;
-- `jornada.js` — retomada da navegação local;
-- `descobertas.js` — trilhas editoriais;
-- `produto-page.js` — páginas individuais;
-- `pwa.js` — instalação, atualização e conectividade;
-- `offline.js` — ação da página offline;
-- `acessibilidade.js` — preferências complementares;
-- `faq.js` — FAQ;
-- `frame-guard.js` — defesa complementar contra incorporação em frames.
+- `max-core.js` — normalização, estado e memória curta;
+- `max-entidades.js` — reconhecimento de produtos e referências;
+- `max-intencoes.js` — classificação e prioridade das intenções;
+- `max-recomendacao.js` — ranking de similares;
+- `chatbot.js` — interface e execução das ações.
 
-`script.js` concentra comportamentos globais de interface e navegação.
+## Fluxos principais
 
-## Fluxo de dados
+**Catálogo:** `produtos.json` → catálogo → filtros/ordenação → produto → favoritos/lista/atendimento.
 
-1. o catálogo é carregado de `data/produtos.json`;
-2. os produtos são sincronizados para IndexedDB;
-3. a interface renderiza cards, busca, filtros e detalhes;
-4. favoritos, lista e histórico são gravados localmente;
-5. a Home pode usar esses sinais para oferecer retomada da jornada;
-6. o Max consulta somente os dados reais do catálogo e da configuração;
-7. preço, estoque e condições comerciais permanecem sob confirmação humana.
+**Max:** mensagem → normalização → intenção → entidades/contexto → catálogo real → resposta/ação.
 
-## Limites atuais
+**Atendimento:** origem → dados locais opcionais → produtos/interesses → revisão → abertura explícita do WhatsApp.
 
-A aplicação não possui:
+**Admin Studio:** dados atuais → edição local → rascunho → exportação → substituição dos arquivos → sincronização → auditoria → publicação.
 
-- autenticação;
-- backend próprio;
-- banco de dados remoto;
-- checkout;
-- pagamento;
-- estoque central;
-- sincronização entre dispositivos.
+## Limites arquiteturais
 
-Esses recursos exigiriam uma arquitetura servidor/API e uma nova revisão de segurança.
+A versão atual não possui autenticação real, banco remoto, checkout, pagamento, estoque central ou sincronização entre dispositivos. Esses recursos exigem backend/API e nova revisão de segurança e privacidade.

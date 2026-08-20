@@ -1,36 +1,34 @@
 # Ferramentas de manutenção
 
-## sincronizar_cliente.py
-
-Sincroniza a camada estática da plataforma com `data/config.json`.
-
-### Validar configuração
+## `sincronizar_cliente.py`
 
 ```bash
 python tools/sincronizar_cliente.py --check
-```
-
-### Aplicar configuração
-
-```bash
 python tools/sincronizar_cliente.py
 ```
 
-A ferramenta não instala dependências e não acessa a internet.
+Valida e sincroniza a camada estática com `data/config.json` e o catálogo. Revise o diff do Git após a execução.
 
-Sempre revise o diff do Git depois de sincronizar um novo cliente.
-
-
-## auditar_cliente.py
-
-Valida catálogo, páginas, CSP, referências locais, sitemap, manifest e sincronização da marca.
+## `auditar_cliente.py`
 
 ```bash
 python tools/auditar_cliente.py
 ```
 
-Também aceita termos proibidos para detectar resíduos de um template anterior:
+Verifica catálogo, páginas, imagens, CSP, referências, sitemap, manifest e configuração. Para detectar resíduos de marca:
 
 ```bash
 python tools/auditar_cliente.py --proibir "Marca Antiga"
 ```
+
+## `testar_max.cjs`
+
+```bash
+node tools/testar_max.cjs
+```
+
+Executa regressão de intenções, entidades e similares do Max, incluindo “não sei o que escolher”. Requer Node.js.
+
+## Ordem recomendada
+
+Sincronizar com `--check` → sincronizar → auditar → testar Max → revisar `git diff` → publicar → smoke test.

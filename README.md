@@ -1,106 +1,65 @@
 # Saúde Qualimax — Plataforma Web
 
-**Versão atual: 3.1**
+**Versão atual: 3.1.2**
 
-Plataforma web multipágina para descoberta e atendimento de produtos naturais, construída com foco em acessibilidade, navegação orientada a dados e conversão via WhatsApp.
+Plataforma web multipágina e white-label para casas de produtos naturais, construída com HTML, CSS e JavaScript sem framework obrigatório. O projeto prioriza catálogo orientado a dados, acessibilidade, descoberta assistida e preparação do atendimento via WhatsApp, mantendo compatibilidade com GitHub Pages e Netlify.
 
-## Principais recursos
+## Estado atual
 
-- catálogo com busca e filtros;
-- 32 páginas individuais de produto;
-- favoritos e lista de interesse;
-- histórico e retomada da jornada local;
+- 40 produtos e 40 páginas individuais;
+- catálogo com busca, filtros, ordenação e compartilhamento;
+- favoritos, lista de interesse, recentes e retomada da jornada local;
 - quiz de descoberta;
-- Max, assistente local contextual;
-- produtos relacionados;
-- trilhas editoriais;
+- Max, assistente local contextual e modular;
+- pré-atendimento com revisão antes de abrir o WhatsApp;
+- Minha Conta local e Admin Studio local;
 - IndexedDB com fallback local;
-- PWA e modo offline;
-- compartilhamento;
-- SEO multipágina e dados estruturados;
+- PWA, modo offline e atualização de cache;
+- SEO multipágina, sitemap e dados estruturados;
+- recursos white-label e auditoria por cliente;
 - acessibilidade para teclado e leitores de tela.
 
-## Stack
+## Arquitetura
 
-HTML, CSS, JavaScript modular, JSON, IndexedDB, Service Worker e Web App Manifest.
+A aplicação não possui backend próprio, autenticação remota, checkout, pagamento ou estoque central. Preço, disponibilidade, entrega e demais condições comerciais são confirmados pela equipe da loja.
 
-O projeto não depende de framework frontend nem backend próprio na arquitetura atual.
+Dados principais:
 
-## Estrutura principal
+- `data/config.json` — marca, contato, redes, SEO, Max e módulos;
+- `data/produtos.json` — catálogo;
+- `data/categorias.json` — taxonomia;
+- `data/quiz.json` — descoberta guiada;
+- `data/faq.json` — perguntas frequentes.
 
-```text
-/
-├── index.html
-├── catalogo.html
-├── quiz.html
-├── sobre.html
-├── contato.html
-├── offline.html
-├── produto/
-├── data/
-├── js/
-├── img/
-├── docs/
-├── manifest.webmanifest
-├── sw.js
-├── sitemap.xml
-├── robots.txt
-└── SECURITY.md
-```
+Páginas utilitárias importantes:
 
-## Configuração
+- `conta.html` — perfil e dados locais do visitante;
+- `admin.html` — editor local; não é uma área autenticada;
+- `atendimento.html` — prepara a mensagem e só abre o WhatsApp após ação explícita.
 
-Dados de marca, contato, redes e SEO ficam em `data/config.json`.
-
-Produtos e categorias ficam em:
-
-- `data/produtos.json`
-- `data/categorias.json`
-
-A copy editorial da interface ainda não está totalmente centralizada em um único arquivo de dados; partes da Home permanecem no HTML e outras nos JSONs de produto/categoria.
-
-## Documentação
-
-Comece por [`docs/README.md`](docs/README.md).
-
-Os documentos principais cobrem arquitetura, configuração, catálogo, Max, banco local, acessibilidade, privacidade, PWA, SEO, QA e publicação.
-
-## Segurança
-
-Consulte [`SECURITY.md`](SECURITY.md) para relato responsável de vulnerabilidades.
-
-## Limites da versão atual
-
-Não há autenticação, checkout, pagamento, estoque central ou backend remoto. Preço e disponibilidade são confirmados pelo atendimento.
-
-## Publicação
-
-A implantação atual é compatível com GitHub Pages. Antes de publicar uma nova versão, execute o checklist em [`docs/TESTES-E-QUALIDADE.md`](docs/TESTES-E-QUALIDADE.md).
-
-
-## Adaptação para clientes
-
-A plataforma possui fluxo white-label para reutilização comercial.
-
-Edite `data/config.json` e execute:
+## Manutenção
 
 ```bash
 python tools/sincronizar_cliente.py --check
 python tools/sincronizar_cliente.py
+python tools/auditar_cliente.py
+node tools/testar_max.cjs
 ```
 
-A ferramenta sincroniza metadados, páginas individuais, manifest, sitemap e arquivos estáticos derivados.
+O teste em Node é recomendado quando Node.js estiver disponível.
 
-Consulte [`docs/WHITE-LABEL-E-CLIENTES.md`](docs/WHITE-LABEL-E-CLIENTES.md).
+## White-label
 
+Para adaptar a plataforma a outra loja, altere `data/config.json`, revise catálogo, categorias, imagens, FAQ e quiz, execute a sincronização e depois a auditoria. Veja [`docs/WHITE-LABEL-E-CLIENTES.md`](docs/WHITE-LABEL-E-CLIENTES.md).
 
-## Conta local e Admin Studio
+## Documentação
 
-A v3.1 adiciona duas áreas estáticas:
+A documentação viva fica em [`docs/README.md`](docs/README.md). O histórico de versões está consolidado em [`docs/CHANGELOG.md`](docs/CHANGELOG.md), evitando dezenas de relatórios antigos concorrendo com a documentação atual.
 
-- `conta.html` — perfil local, favoritos, lista e histórico;
-- `admin.html` — CMS local para editar catálogo e configuração antes da publicação.
+## Segurança e privacidade
 
-O Admin Studio não altera o site publicado diretamente. Ele exporta os dados para o fluxo normal de publicação.
+Consulte [`SECURITY.md`](SECURITY.md) e [`docs/PRIVACIDADE.md`](docs/PRIVACIDADE.md). Nunca coloque senhas, tokens, chaves privadas ou credenciais de publicação no frontend.
 
-Veja [`docs/V3.0-CONTA-LOCAL-E-ADMIN-STUDIO.md`](docs/V3.0-CONTA-LOCAL-E-ADMIN-STUDIO.md).
+## Publicação
+
+Consulte [`docs/PUBLICACAO.md`](docs/PUBLICACAO.md) e execute [`docs/TESTES-E-QUALIDADE.md`](docs/TESTES-E-QUALIDADE.md) antes de cada deploy.
