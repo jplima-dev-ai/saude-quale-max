@@ -80,3 +80,9 @@ catalogo.html?categoria=chas#produtos
 ## Inclusão de novos produtos
 
 A arquitetura atual possui páginas HTML individuais pré-geradas. Adicionar um item ao JSON não cria automaticamente a nova página de produto. É necessário gerar/adicionar a página correspondente e revisar sitemap e SEO.
+
+## Expansão atual do catálogo
+
+A v3.1.5 possui 47 produtos. Os itens mais recentes incluem Protetor Solar Mineral, Maca Peruana em Pó, Sabonete Artesanal Vegetal, Óleo de Rosa Mosqueta Puro, Argila Verde Facial, Desodorante Natural em Cristal e Xampu Sólido Natural.
+
+As páginas em `produto/` são derivadas de `data/produtos.json`; não faça alterações manuais nelas que precisem sobreviver à próxima sincronização.

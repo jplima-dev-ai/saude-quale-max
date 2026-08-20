@@ -5162,3 +5162,63 @@ html.movimento-reduzido .interacao-toque::after {
     .cta-atendimento-acoes { flex-direction: column; }
     .cta-atendimento-acoes .botao { width:100%; }
 }
+
+
+/* ==========================================================
+   v3.1.4 — Max renovado e consulta automática de CEP
+   ========================================================== */
+.chatbot-avatar,
+.chatbot-abrir-avatar {
+    object-position: 50% 46%;
+    border-color: rgba(230,184,64,.95);
+    box-shadow: 0 0 0 3px rgba(255,255,255,.96), 0 0 0 5px rgba(42,126,81,.18), 0 8px 22px rgba(41,73,52,.2);
+}
+.chatbot-header {
+    background: linear-gradient(135deg, rgba(244,250,246,.98), rgba(255,249,229,.96));
+    border-bottom: 1px solid rgba(23,107,77,.12);
+}
+.chatbot-identidade h2 {
+    letter-spacing: -.02em;
+}
+.chatbot-status span {
+    animation: max-status-pulse 2.4s ease-in-out infinite;
+}
+.chatbot-abrir {
+    overflow: visible;
+    border-color: rgba(212,166,43,.42);
+    background: linear-gradient(135deg, rgba(255,255,255,.98), rgba(250,247,229,.98));
+}
+.chatbot-abrir::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border: 1px solid rgba(212,166,43,.22);
+    border-radius: inherit;
+    pointer-events: none;
+}
+.atendimento-cep-status {
+    min-height: 1.35em;
+    margin: .4rem 0 0;
+    color: var(--verde-profundo);
+    font-size: .85rem;
+    font-weight: 750;
+}
+.atendimento-area-entrega {
+    margin: .15rem 0 0;
+    padding: .8rem .9rem;
+    border-radius: 12px;
+    background: var(--verde-suave);
+    color: var(--texto-suave);
+}
+.atendimento-form input[readonly] {
+    background: #f5f8f6;
+    color: var(--texto);
+    cursor: default;
+}
+@keyframes max-status-pulse {
+    0%,100% { box-shadow: 0 0 0 3px rgba(57,168,107,.13); }
+    50% { box-shadow: 0 0 0 6px rgba(57,168,107,.06); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .chatbot-status span { animation: none; }
+}

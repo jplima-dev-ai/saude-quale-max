@@ -15,6 +15,7 @@
     const REGRAS = Object.freeze([
         ["medica", /\b(?:curar|cura|tratar|tratamento|doenca|diabetes|pressao alta|colesterol|ansiedade|depressao|remedio|medicamento|emagrecer|emagrecimento)\b/],
         ["descoberta", /\b(?:nao sei(?: o)? que escolher|me ajuda a escolher|ajuda(?:r)? a escolher|o que escolher|por onde comeco|quero encontrar um produto|quero escolher|me ajuda a encontrar|me recomenda(?: algo)?|me sugere(?: algo| alguma coisa)?|quero uma sugestao|alguma sugestao|o que voce recomenda)\b/],
+        ["preferencias", /\b(?:o que voce entendeu|minhas preferencias|o que eu pedi|como esta minha busca|resuma minha busca)\b/],
         ["loja", /\b(?:endereco|onde fica|localizacao|como chegar|telefone|email|e-mail|contato|horario|abre|fecha|funcionamento)\b/],
         ["categorias", /^(?:categorias|ver categorias|mostrar categorias|quais categorias)$/],
         ["comparar", /\b(?:comparar|comparacao|versus|vs|qual a diferenca)\b/],

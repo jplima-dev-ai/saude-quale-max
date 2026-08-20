@@ -51,3 +51,7 @@ Nunca armazenar no frontend:
 ## Evolução futura
 
 A introdução de login, backend, pedidos, pagamentos, formulários ou analytics altera significativamente o escopo de privacidade e exige nova revisão técnica e jurídica.
+
+## Consulta de CEP
+
+Quando o cliente escolhe entrega e informa um CEP, a plataforma consulta serviços públicos de CEP para preencher logradouro e bairro. A consulta envia apenas o CEP informado, não nome, telefone, e-mail, número da residência, complemento ou lista de produtos. BrasilAPI é o provedor principal e ViaCEP é usado como fallback. O endereço retornado é aceito somente quando a cidade/UF correspondem à área de entrega configurada da loja.

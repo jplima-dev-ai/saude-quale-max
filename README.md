@@ -1,12 +1,12 @@
 # Saúde Qualimax — Plataforma Web
 
-**Versão atual: 3.1.3**
+**Versão atual: 3.1.5**
 
 Plataforma web multipágina e white-label para casas de produtos naturais, construída com HTML, CSS e JavaScript sem framework obrigatório. O projeto prioriza catálogo orientado a dados, acessibilidade, descoberta assistida e preparação do atendimento via WhatsApp, mantendo compatibilidade com GitHub Pages e Netlify.
 
 ## Estado atual
 
-- 40 produtos e 40 páginas individuais;
+- 47 produtos e 47 páginas individuais;
 - catálogo com busca, filtros, ordenação e compartilhamento;
 - favoritos, lista de interesse, recentes e retomada da jornada local;
 - quiz de descoberta;

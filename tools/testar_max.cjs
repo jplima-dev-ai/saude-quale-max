@@ -27,7 +27,8 @@ const intents=[
  ["qual o preço","preco"],
  ["tem entrega","entrega"],
  ["instagram","redes"],
- ["quero falar com uma pessoa","humano"]
+ ["quero falar com uma pessoa","humano"],
+ ["o que você entendeu","preferencias"]
 ];
 
 for(const [entrada,esperada] of intents){

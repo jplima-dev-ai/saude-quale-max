@@ -32,8 +32,8 @@
     "ativo": true,
     "nome": "Max",
     "avatar": "img/max-avatar.webp",
-    "subtitulo": "Seu parceiro de descobertas naturais",
-    "saudacao": "Fala aí! Eu sou o Max. Me conta o que você procura e eu te ajudo a garimpar o catálogo sem complicação."
+    "subtitulo": "Seu guia para explorar a loja",
+    "saudacao": "Oi! Eu sou o Max. Pode falar do seu jeito: eu entendo produtos, categorias e preferências e vou refinando a busca com você."
   },
   "analytics": {
     "enabled": false

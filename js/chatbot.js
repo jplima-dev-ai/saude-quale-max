@@ -124,7 +124,9 @@
                     tipo: estado.preferencias.tipo || "",
                     vegana: estado.preferencias.vegana,
                     semGluten: estado.preferencias.semGluten,
-                    termos: [...(estado.preferencias.termos || [])].slice(0,6)
+                    termos: [...(estado.preferencias.termos || [])].slice(0,6),
+                    excluirTipos: [...(estado.preferencias.excluirTipos || [])].slice(0,4),
+                    excluirCategorias: [...(estado.preferencias.excluirCategorias || [])].slice(0,4)
                 },
                 contexto: String(contexto || "").slice(0,300),
                 em: Date.now()
@@ -292,6 +294,8 @@
         if (estado.preferencias.vegana === true) partes.push("vegano");
         if (estado.preferencias.semGluten === true) partes.push("sem glúten");
         if (estado.preferencias.termos.length) partes.push(estado.preferencias.termos.join(", "));
+        if (estado.preferencias.excluirTipos?.length) partes.push(`sem ${estado.preferencias.excluirTipos.join("/")}`);
+        if (estado.preferencias.excluirCategorias?.length) partes.push(`fora de ${estado.preferencias.excluirCategorias.map(id=>estado.categorias.find(c=>c.id===id)?.nome||id).join("/")}`);
         return partes.join(" + ");
     };
 
@@ -309,10 +313,22 @@
         if (/vegano|vegana|veganos|veganas/.test(termo)) estado.preferencias.vegana = true;
         if (/sem gluten|sem glúten/.test(termo)) estado.preferencias.semGluten = true;
 
-        if (/capsula|cápsula|capsulas|cápsulas/.test(termo)) estado.preferencias.tipo = "capsula";
-        else if (/(^|\s)po($|\s)|(^|\s)pó($|\s)|em po|em pó/.test(termo)) estado.preferencias.tipo = "po";
-        else if (/liquido|líquido/.test(termo)) estado.preferencias.tipo = "liquido";
-        else if (/(^|\s)cha($|\s)|(^|\s)chá($|\s)/.test(termo)) estado.preferencias.tipo = "cha";
+        estado.preferencias.excluirTipos ||= [];
+        estado.preferencias.excluirCategorias ||= [];
+        const negarCapsula=/(?:nao quero|não quero|menos|sem)\s+(?:em\s+)?capsulas?|capsulas?\s+nao/.test(termo);
+        const negarPo=/(?:nao quero|não quero|menos|sem)\s+(?:em\s+)?po\b/.test(termo);
+        const negarLiquido=/(?:nao quero|não quero|menos|sem)\s+liquidos?/.test(termo);
+        const negarCha=/(?:nao quero|não quero|menos)\s+(?:um\s+)?cha\b/.test(termo);
+        if(negarCapsula && !estado.preferencias.excluirTipos.includes("capsula")) estado.preferencias.excluirTipos.push("capsula");
+        if(negarPo && !estado.preferencias.excluirTipos.includes("po")) estado.preferencias.excluirTipos.push("po");
+        if(negarLiquido && !estado.preferencias.excluirTipos.includes("liquido")) estado.preferencias.excluirTipos.push("liquido");
+        if(negarCha && !estado.preferencias.excluirTipos.includes("cha")) estado.preferencias.excluirTipos.push("cha");
+        if(/qualquer formato|tanto faz o formato|sem preferencia de formato|sem preferência de formato/.test(termo)) estado.preferencias.tipo="";
+
+        if (!negarCapsula && /capsula|cápsula|capsulas|cápsulas/.test(termo)) estado.preferencias.tipo = "capsula";
+        else if (!negarPo && /(^|\s)po($|\s)|(^|\s)pó($|\s)|em po|em pó/.test(termo)) estado.preferencias.tipo = "po";
+        else if (!negarLiquido && /liquido|líquido/.test(termo)) estado.preferencias.tipo = "liquido";
+        else if (!negarCha && /(^|\s)cha($|\s)|(^|\s)chá($|\s)/.test(termo)) estado.preferencias.tipo = "cha";
 
         const stop = new Set([
             "quero","tem","voces","vocês","algum","alguma","coisa","produto","produtos","para","com","uma","uns","umas",
@@ -343,6 +359,8 @@
                 if (estado.preferencias.tipo && normalizar(produto.tipo) !== normalizar(estado.preferencias.tipo)) return null;
                 if (estado.preferencias.vegana === true && produto.vegana !== true) return null;
                 if (estado.preferencias.semGluten === true && produto.sem_gluten !== true) return null;
+                if (estado.preferencias.excluirTipos?.includes(normalizar(produto.tipo))) return null;
+                if (estado.preferencias.excluirCategorias?.includes(produto.categoria)) return null;
 
                 const texto = normalizar([
                     produto.nome, produto.copy, produto.descricao, produto.categoria, produto.tipo,
@@ -366,7 +384,7 @@
     };
 
     const limparPreferencias = () => {
-        estado.preferencias = { categoria: "", tipo: "", vegana: null, semGluten: null, termos: [] };
+        estado.preferencias = { categoria: "", tipo: "", vegana: null, semGluten: null, termos: [], excluirTipos: [], excluirCategorias: [] };
         estado.ultimosResultados = [];
         estado.offsetResultados = 0;
         estado.contextoResultados = "";
@@ -523,7 +541,7 @@
 
     const iniciarDescobertaGuiada = () => {
         estado.etapaDescoberta = "objetivo";
-        estado.preferencias = { categoria:"", tipo:"", vegana:null, semGluten:null, termos:[] };
+        estado.preferencias = { categoria:"", tipo:"", vegana:null, semGluten:null, termos:[], excluirTipos:[], excluirCategorias:[] };
         estado.ultimosResultados = [];
         estado.offsetResultados = 0;
         estado.contextoResultados = "";
@@ -555,6 +573,14 @@
                 { texto: "Falar com a equipe", acao: () => adicionarWhatsAppNoChat() }
             ]);
             estado.ultimaIntencao = "medica";
+            return true;
+        }
+
+        if (intencao === "preferencias") {
+            const resumo=resumoPreferencias();
+            adicionarMensagem(resumo ? `Até aqui eu entendi: ${resumo}. Você pode acrescentar ou remover critérios na próxima mensagem.` : "Ainda não tenho preferências suficientes desta busca. Me diga uma categoria, formato ou característica e eu organizo pra você.");
+            adicionarAcoes([{texto:"Nova busca",valor:"nova busca"},{texto:"Ver categorias",valor:"categorias"}]);
+            estado.ultimaIntencao="preferencias";
             return true;
         }
 

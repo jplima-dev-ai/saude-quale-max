@@ -2,6 +2,27 @@
 
 Histórico consolidado das principais evoluções da Saúde Qualimax. Relatórios antigos de rodada foram removidos da pasta `docs/` para evitar duplicação.
 
+## 3.1.5 — expansão para 47 produtos
+
+- catálogo ampliado de 40 para 47 produtos a partir das novas imagens fornecidas;
+- adicionados Protetor Solar Mineral, Maca Peruana em Pó, Sabonete Artesanal Vegetal, Óleo de Rosa Mosqueta Puro, Argila Verde Facial, Desodorante Natural em Cristal e Xampu Sólido Natural;
+- geradas miniaturas WebP otimizadas para os sete novos produtos;
+- criadas páginas individuais e integração automática com catálogo, busca, filtros, favoritos, lista, Max e pré-atendimento;
+- copies e descrições mantêm linguagem comercial sem inventar preço, estoque ou alegações clínicas;
+- versão de backup do Admin Studio e cache PWA atualizados para 3.1.5;
+- revisão completa de integridade, documentação, assets e regressão do Max.
+
+## 3.1.4 — CEP automático, Max renovado e inteligência contextual
+
+- removidos os campos de cidade e estado do endereço de entrega;
+- integração de CEP com ViaCEP e fallback BrasilAPI;
+- rua e bairro passam a ser preenchidos automaticamente;
+- CEP fora da cidade/UF configuradas para entrega é bloqueado antes do WhatsApp;
+- novo avatar e refinamento visual do Max;
+- Max passa a compreender exclusões simples de formato, como “não quero cápsulas”;
+- comando conversacional para resumir as preferências entendidas;
+- filtros e contexto continuam locais e sem API externa de IA.
+
 ## 3.1.3 — estabilidade, contexto e manutenção
 
 - corrigida a versão interna dos backups do Admin Studio, que ainda exportavam como v3.0.1;

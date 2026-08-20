@@ -1051,6 +1051,195 @@
       "copy": "Aroma profundo, cor intensa e aquele sabor de cacau que transforma receitas simples. Explore o cacau em pó disponível e confira composição e apresentação antes de levar para a cozinha.",
       "cta": "Descobrir o cacau em pó",
       "slug": "cacau-em-po"
+    },
+    {
+      "id": 41,
+      "nome": "Protetor Solar Mineral",
+      "categoria": "cuidados-pessoais",
+      "imagem": "protetor-solar-mineral.webp",
+      "descricao": "Protetor solar mineral para consulta de FPS, composição, textura, modo de uso e apresentação disponíveis na loja.",
+      "beneficios": [
+        "Proteção solar",
+        "Autocuidado",
+        "Uso diário"
+      ],
+      "tipo": "creme",
+      "vegana": false,
+      "sem_gluten": false,
+      "experiencia_minima": "regular",
+      "tags": [
+        "protetor solar",
+        "mineral",
+        "fps",
+        "cuidados pessoais"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": true,
+      "copy": "Proteção também faz parte do cuidado cotidiano. Conheça esta opção mineral, confira o FPS, a textura e as orientações do rótulo antes de escolher a que combina com sua rotina.",
+      "cta": "Conhecer o protetor mineral",
+      "slug": "protetor-solar-mineral"
+    },
+    {
+      "id": 42,
+      "nome": "Maca Peruana em Pó",
+      "categoria": "suplementos",
+      "imagem": "maca-peruana-em-po.webp",
+      "descricao": "Maca peruana em pó para consulta de origem, composição, quantidade e orientações de consumo presentes no rótulo.",
+      "beneficios": [
+        "Praticidade",
+        "Versatilidade",
+        "Suplementação"
+      ],
+      "tipo": "po",
+      "vegana": true,
+      "sem_gluten": false,
+      "experiencia_minima": "regular",
+      "tags": [
+        "maca peruana",
+        "maca em po",
+        "suplemento",
+        "po"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": true,
+      "copy": "Um ingrediente tradicional que ganhou espaço nas prateleiras de produtos naturais. Explore a maca peruana em pó, confira procedência, composição e sugestões de uso do fabricante antes de levar.",
+      "cta": "Descobrir a maca peruana",
+      "slug": "maca-peruana-em-po"
+    },
+    {
+      "id": 43,
+      "nome": "Sabonete Artesanal Vegetal",
+      "categoria": "cuidados-pessoais",
+      "imagem": "sabonete-artesanal-vegetal.webp",
+      "descricao": "Sabonete artesanal de base vegetal para higiene e autocuidado, com aroma, ingredientes e apresentação a consultar.",
+      "beneficios": [
+        "Higiene",
+        "Autocuidado",
+        "Experiência artesanal"
+      ],
+      "tipo": "solido",
+      "vegana": false,
+      "sem_gluten": false,
+      "experiencia_minima": "iniciante",
+      "tags": [
+        "sabonete artesanal",
+        "sabonete vegetal",
+        "higiene",
+        "autocuidado"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": false,
+      "copy": "Textura, aroma e aparência artesanal transformam um item do dia a dia em uma experiência mais especial. Veja as versões disponíveis e confira os ingredientes antes de escolher.",
+      "cta": "Conhecer os sabonetes",
+      "slug": "sabonete-artesanal-vegetal"
+    },
+    {
+      "id": 44,
+      "nome": "Óleo de Rosa Mosqueta Puro",
+      "categoria": "cuidados-pessoais",
+      "imagem": "oleo-rosa-mosqueta-puro.webp",
+      "descricao": "Óleo de rosa mosqueta puro para autocuidado, com origem, composição, modo de uso e orientações do fabricante a consultar.",
+      "beneficios": [
+        "Autocuidado",
+        "Textura em óleo",
+        "Rotina de cuidados"
+      ],
+      "tipo": "oleo",
+      "vegana": true,
+      "sem_gluten": false,
+      "experiencia_minima": "regular",
+      "tags": [
+        "rosa mosqueta",
+        "oleo vegetal",
+        "oleo de rosa mosqueta",
+        "autocuidado"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": true,
+      "copy": "Poucas gotas e uma rotina inteira de possibilidades. Conheça o óleo de rosa mosqueta disponível, confira pureza, origem e as orientações do rótulo para usar com mais segurança.",
+      "cta": "Conhecer o óleo de rosa mosqueta",
+      "slug": "oleo-de-rosa-mosqueta-puro"
+    },
+    {
+      "id": 45,
+      "nome": "Argila Verde Facial",
+      "categoria": "cuidados-pessoais",
+      "imagem": "argila-verde-facial.webp",
+      "descricao": "Argila verde para cuidados faciais e cosméticos, com composição, preparo e orientações de uso a consultar no rótulo.",
+      "beneficios": [
+        "Autocuidado",
+        "Máscara facial",
+        "Ritual de beleza"
+      ],
+      "tipo": "po",
+      "vegana": true,
+      "sem_gluten": false,
+      "experiencia_minima": "regular",
+      "tags": [
+        "argila verde",
+        "argila facial",
+        "mascara facial",
+        "autocuidado"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": false,
+      "copy": "Do pó ao ritual: a argila verde convida a desacelerar e reservar alguns minutos para o autocuidado. Confira composição, preparo e orientações antes de aplicar.",
+      "cta": "Descobrir a argila verde",
+      "slug": "argila-verde-facial"
+    },
+    {
+      "id": 46,
+      "nome": "Desodorante Natural em Cristal",
+      "categoria": "cuidados-pessoais",
+      "imagem": "desodorante-natural-cristal.webp",
+      "descricao": "Desodorante natural em cristal para uso pessoal, com composição, modo de aplicação e conservação a consultar.",
+      "beneficios": [
+        "Higiene",
+        "Praticidade",
+        "Formato em cristal"
+      ],
+      "tipo": "cristal",
+      "vegana": false,
+      "sem_gluten": false,
+      "experiencia_minima": "iniciante",
+      "tags": [
+        "desodorante natural",
+        "desodorante cristal",
+        "higiene",
+        "cristal"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": true,
+      "copy": "Um formato diferente para uma rotina bastante conhecida. Veja como funciona o desodorante em cristal, confira composição e modo de aplicação e descubra se essa proposta combina com você.",
+      "cta": "Conhecer o desodorante em cristal",
+      "slug": "desodorante-natural-em-cristal"
+    },
+    {
+      "id": 47,
+      "nome": "Xampu Sólido Natural",
+      "categoria": "cuidados-pessoais",
+      "imagem": "xampu-solido-natural.webp",
+      "descricao": "Xampu sólido de perfil natural para higiene capilar, com composição, fragrância, tipo de cabelo e modo de uso a consultar.",
+      "beneficios": [
+        "Higiene capilar",
+        "Formato sólido",
+        "Praticidade"
+      ],
+      "tipo": "solido",
+      "vegana": false,
+      "sem_gluten": false,
+      "experiencia_minima": "iniciante",
+      "tags": [
+        "xampu solido",
+        "shampoo solido",
+        "cabelo",
+        "cuidados pessoais"
+      ],
+      "disponibilidade": "consultar",
+      "destaque": true,
+      "copy": "Compacto, prático e diferente do frasco tradicional. Conheça o xampu sólido, confira para quais cabelos a fórmula é indicada e veja como incluir esse formato no seu banho.",
+      "cta": "Conhecer o xampu sólido",
+      "slug": "xampu-solido-natural"
     }
   ]
 }

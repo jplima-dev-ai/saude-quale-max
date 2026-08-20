@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,follow">
 <meta name="description" content="Prepare seu atendimento e revise sua mensagem antes de abrir o WhatsApp.">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self'; script-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self'; script-src 'self'; connect-src 'self' https://viacep.com.br https://brasilapi.com.br; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'">
 <title>Preparar atendimento | Loja</title>
 <link rel="stylesheet" href="style.css">
 <link rel="manifest" href="manifest.webmanifest">
@@ -80,13 +80,15 @@
       <div class="atendimento-endereco" data-atendimento-endereco hidden>
         <h3>Endereço para entrega</h3>
         <div class="atendimento-grid">
-          <div>
+          <div class="atendimento-campo-largo">
             <label for="at-cep">CEP</label>
-            <input id="at-cep" name="cep" inputmode="numeric" autocomplete="postal-code" maxlength="10">
+            <input id="at-cep" name="cep" inputmode="numeric" autocomplete="postal-code" maxlength="9" aria-describedby="at-cep-ajuda at-cep-status">
+            <small id="at-cep-ajuda">Digite os 8 números do CEP. Rua e bairro serão preenchidos automaticamente.</small>
+            <p id="at-cep-status" class="atendimento-cep-status" data-atendimento-cep-status role="status" aria-live="polite"></p>
           </div>
           <div class="atendimento-campo-largo">
             <label for="at-rua">Rua / avenida</label>
-            <input id="at-rua" name="rua" autocomplete="address-line1" maxlength="140">
+            <input id="at-rua" name="rua" autocomplete="address-line1" maxlength="140" readonly aria-readonly="true">
           </div>
           <div>
             <label for="at-numero">Número</label>
@@ -96,18 +98,11 @@
             <label for="at-complemento">Complemento</label>
             <input id="at-complemento" name="complemento" autocomplete="address-line2" maxlength="80">
           </div>
-          <div>
+          <div class="atendimento-campo-largo">
             <label for="at-bairro">Bairro</label>
-            <input id="at-bairro" name="bairro" maxlength="100">
+            <input id="at-bairro" name="bairro" maxlength="100" readonly aria-readonly="true">
           </div>
-          <div>
-            <label for="at-cidade">Cidade</label>
-            <input id="at-cidade" name="cidade" autocomplete="address-level2" maxlength="100">
-          </div>
-          <div>
-            <label for="at-estado">Estado</label>
-            <input id="at-estado" name="estado" autocomplete="address-level1" maxlength="2">
-          </div>
+          <p class="atendimento-campo-largo atendimento-area-entrega">A entrega desta loja é atendida em <strong data-config-cidade>cidade da loja</strong>. Você não precisa selecionar cidade ou estado.</p>
         </div>
       </div>
     </section>

@@ -82,6 +82,102 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.title=`Preparar atendimento | ${empresa.nome||"Loja"}`;
     if(origemEl) origemEl.textContent=origemAmigavel(origem);
 
+    const cepStatus=document.querySelector("[data-atendimento-cep-status]");
+    const normalizarLocalidade=valor=>String(valor||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim();
+    const enderecoResolvido={cep:"",rua:"",bairro:"",cidade:"",estado:"",valido:false};
+    let cepTimer=null;
+    let cepController=null;
+
+    const formatarCep=valor=>{
+        const numeros=String(valor||"").replace(/\D/g,"").slice(0,8);
+        return numeros.length>5?`${numeros.slice(0,5)}-${numeros.slice(5)}`:numeros;
+    };
+
+    const limparEnderecoCep=(mensagem="")=>{
+        enderecoResolvido.cep="";enderecoResolvido.rua="";enderecoResolvido.bairro="";enderecoResolvido.cidade="";enderecoResolvido.estado="";enderecoResolvido.valido=false;
+        form.elements.rua.value="";form.elements.bairro.value="";
+        form.elements.rua.readOnly=true;form.elements.bairro.readOnly=true;
+        form.elements.rua.setAttribute("aria-readonly","true");form.elements.bairro.setAttribute("aria-readonly","true");
+        if(cepStatus) cepStatus.textContent=mensagem;
+    };
+
+    const consultarCep=async cep=>{
+        const numeros=String(cep||"").replace(/\D/g,"");
+        if(numeros.length!==8){limparEnderecoCep("");return false;}
+        cepController?.abort();
+        cepController=new AbortController();
+        const signal=cepController.signal;
+        if(cepStatus) cepStatus.textContent="Consultando CEP…";
+        form.elements.cep.setAttribute("aria-busy","true");
+        try{
+            let dados=null;
+            try{
+                const r=await fetch(`https://brasilapi.com.br/api/cep/v1/${numeros}`,{signal,headers:{Accept:"application/json"}});
+                if(r.ok){
+                    const v=await r.json();
+                    dados={cep:v.cep,rua:v.street,bairro:v.neighborhood,cidade:v.city,estado:v.state};
+                }
+            }catch(e){ if(e?.name==="AbortError") throw e; }
+
+            if(!dados){
+                const r=await fetch(`https://viacep.com.br/ws/${numeros}/json/`,{signal,headers:{Accept:"application/json"}});
+                if(r.ok){
+                    const v=await r.json();
+                    if(!v.erro) dados={cep:v.cep,rua:v.logradouro,bairro:v.bairro,cidade:v.localidade,estado:v.uf};
+                }
+            }
+
+            if(!dados) throw new Error("CEP não encontrado");
+            const cidadeLoja=normalizarLocalidade(empresa.cidade);
+            const estadoLoja=normalizarLocalidade(empresa.estado);
+            if(cidadeLoja && normalizarLocalidade(dados.cidade)!==cidadeLoja || estadoLoja && normalizarLocalidade(dados.estado)!==estadoLoja){
+                limparEnderecoCep(`Este CEP fica em ${dados.cidade||"outra cidade"}/${dados.estado||""}. No momento, a entrega pelo site está configurada para ${empresa.cidade||"a cidade da loja"}/${empresa.estado||""}.`);
+                return false;
+            }
+
+            enderecoResolvido.cep=dados.cep||formatarCep(numeros);
+            enderecoResolvido.rua=limparTexto(dados.rua,140);
+            enderecoResolvido.bairro=limparTexto(dados.bairro,100);
+            enderecoResolvido.cidade=limparTexto(dados.cidade,100);
+            enderecoResolvido.estado=limparTexto(dados.estado,2).toUpperCase();
+            enderecoResolvido.valido=true;
+            form.elements.rua.value=enderecoResolvido.rua;
+            form.elements.bairro.value=enderecoResolvido.bairro;
+            form.elements.cep.value=formatarCep(numeros);
+
+            // CEPs gerais podem não trazer logradouro/bairro. Nesses casos, liberamos só os campos ausentes.
+            form.elements.rua.readOnly=Boolean(enderecoResolvido.rua);
+            form.elements.bairro.readOnly=Boolean(enderecoResolvido.bairro);
+            form.elements.rua.setAttribute("aria-readonly",String(Boolean(enderecoResolvido.rua)));
+            form.elements.bairro.setAttribute("aria-readonly",String(Boolean(enderecoResolvido.bairro)));
+            if(cepStatus) cepStatus.textContent=enderecoResolvido.rua
+                ? `Endereço encontrado: ${enderecoResolvido.rua}${enderecoResolvido.bairro?`, ${enderecoResolvido.bairro}`:""}. Agora informe número e complemento, se houver.`
+                : "CEP encontrado. Complete os campos de endereço que não vieram preenchidos.";
+            atualizarResumo();
+            if(form.elements.numero) form.elements.numero.focus();
+            return true;
+        }catch(e){
+            if(e?.name!=="AbortError") limparEnderecoCep("Não consegui consultar este CEP agora. Confira os números ou tente novamente em instantes.");
+            return false;
+        }finally{
+            form.elements.cep.removeAttribute("aria-busy");
+        }
+    };
+
+    form.elements.cep?.addEventListener("input",e=>{
+        const formatado=formatarCep(e.target.value);
+        if(e.target.value!==formatado) e.target.value=formatado;
+        clearTimeout(cepTimer);
+        limparEnderecoCep("");
+        const numeros=formatado.replace(/\D/g,"");
+        if(numeros.length===8) cepTimer=setTimeout(()=>consultarCep(numeros),350);
+        atualizarResumo();
+    });
+    form.elements.cep?.addEventListener("blur",()=>{
+        const numeros=form.elements.cep.value.replace(/\D/g,"");
+        if(numeros.length===8 && !enderecoResolvido.valido) consultarCep(numeros);
+    });
+
     let produtos=[];
     try{
         const r=await fetch("data/produtos.json",{cache:"no-store"});
@@ -122,7 +218,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     for(const nome of ["nome","telefone","email"]){
         if(form.elements[nome] && dadosIniciais[nome]) form.elements[nome].value=limparTexto(dadosIniciais[nome],nome==="nome"?120:254);
     }
-    for(const nome of ["cep","rua","numero","complemento","bairro","cidade","estado"]){
+    for(const nome of ["cep","rua","numero","complemento","bairro"]){
         if(form.elements[nome] && lembrado[nome]) form.elements[nome].value=limparTexto(lembrado[nome],140);
     }
     if(Object.keys(lembrado).length) form.elements.lembrar.checked=true;
@@ -176,6 +272,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             const termos=pref.termos.map(x=>limparTexto(x,40)).filter(Boolean).slice(0,6);
             if(termos.length) itens.push(`interesses: ${termos.join(", ")}`);
         }
+        if(Array.isArray(pref.excluirTipos) && pref.excluirTipos.length){
+            itens.push(`evitar formatos: ${pref.excluirTipos.map(x=>limparTexto(x,30)).filter(Boolean).join(", ")}`);
+        }
         return itens;
     };
 
@@ -204,8 +303,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             const numero=limparTexto(form.elements.numero.value,20);
             const complemento=limparTexto(form.elements.complemento.value,80);
             const bairro=limparTexto(form.elements.bairro.value,100);
-            const cidade=limparTexto(form.elements.cidade.value,100);
-            const estado=limparTexto(form.elements.estado.value,2).toUpperCase();
+            const cidade=limparTexto(empresa.cidade,100);
+            const estado=limparTexto(empresa.estado,2).toUpperCase();
             const cep=limparTexto(form.elements.cep.value,10);
             linhas.push("","ENDEREÇO PARA CONSULTAR ENTREGA");
             if(rua) linhas.push(`${rua}${numero?`, ${numero}`:""}`);
@@ -246,7 +345,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const alternarEndereco=()=>{
         const entrega=form.elements.recebimento.value==="entrega";
         enderecoBox.hidden=!entrega;
-        for(const nome of ["rua","numero","bairro","cidade","estado"]){
+        for(const nome of ["cep","rua","numero","bairro"]){
             form.elements[nome].required=entrega;
         }
         atualizarResumo();
@@ -286,6 +385,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             status.textContent="Confira os campos obrigatórios antes de continuar.";
             return;
         }
+        if(form.elements.recebimento.value==="entrega" && !enderecoResolvido.valido){
+            status.textContent="Consulte um CEP válido da área de entrega antes de continuar.";
+            form.elements.cep.focus();
+            return;
+        }
         const numero=normalizarNumero(contato.whatsapp);
         if(!numero){
             status.textContent="O WhatsApp da loja não está configurado.";
@@ -301,7 +405,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         if(form.elements.lembrar.checked){
             const dados={};
-            for(const campo of ["nome","telefone","email","cep","rua","numero","complemento","bairro","cidade","estado"]){
+            for(const campo of ["nome","telefone","email","cep","rua","numero","complemento","bairro"]){
                 dados[campo]=limparTexto(form.elements[campo].value,254);
             }
             if(!salvarLocal(LEMBRAR_KEY,dados)){
@@ -328,5 +432,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderProdutos();
     alternarEndereco();
     atualizarResumo();
+    if(form.elements.recebimento.value==="entrega" && form.elements.cep.value.replace(/\D/g,"").length===8){
+        consultarCep(form.elements.cep.value);
+    }
 });
 })();

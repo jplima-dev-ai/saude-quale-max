@@ -16,13 +16,13 @@ Tecnologias principais: HTML semântico, CSS responsivo, JavaScript modular, JSO
 - `conta.html` — perfil, favoritos, lista e histórico locais;
 - `admin.html` — editor local para preparar dados antes da publicação;
 - `atendimento.html` — preparação e revisão da mensagem para WhatsApp;
-- `produto/*.html` — 40 páginas individuais sincronizadas a partir do catálogo;
+- `produto/*.html` — 47 páginas individuais sincronizadas a partir do catálogo;
 - `offline.html` — fallback sem conexão.
 
 ## Dados
 
 - `config.json` — empresa, marca, contato, redes, comercial, recursos, chatbot e SEO;
-- `produtos.json` — catálogo de 40 produtos;
+- `produtos.json` — catálogo de 47 produtos;
 - `categorias.json` — taxonomia;
 - `quiz.json` — perguntas e regras do quiz;
 - `faq.json` — FAQ.

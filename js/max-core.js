@@ -27,7 +27,9 @@
             tipo: "",
             vegana: null,
             semGluten: null,
-            termos: []
+            termos: [],
+            excluirTipos: [],
+            excluirCategorias: []
         },
         ultimosResultados: [],
         offsetResultados: 0,
