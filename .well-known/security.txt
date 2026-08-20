@@ -1,4 +1,4 @@
 Contact: mailto:contato.sqm@gmail.com
 Preferred-Languages: pt-BR
 Canonical: https://jplima-dev-ai.github.io/saude-quali-max/.well-known/security.txt
-Expires: 2027-08-20T11:19:40Z
+Expires: 2027-08-20T11:46:41Z

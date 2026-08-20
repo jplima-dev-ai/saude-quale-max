@@ -1,4 +1,4 @@
-# Documentação — Saúde Qualimax v3.1.2
+# Documentação — Saúde Qualimax v3.1.3
 
 Esta pasta contém documentação viva: arquivos que descrevem como a plataforma funciona agora e como mantê-la. O histórico das releases está consolidado em `CHANGELOG.md`.
 

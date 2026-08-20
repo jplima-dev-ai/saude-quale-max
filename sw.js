@@ -1,4 +1,4 @@
-const CACHE = "qualimax-v3.1.2";
+const CACHE = "qualimax-v3.1.3";
 const SHELL = [
   "./", "./index.html", "./offline.html",
   "./catalogo.html",

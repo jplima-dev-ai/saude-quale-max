@@ -126,9 +126,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         const numero=String(config.contato?.whatsapp||"").replace(/\D/g,"");
         const wa=document.querySelector("[data-conta-whatsapp]");
         if(wa && numero && listaProds.length){
-            const nome=getPerfil().nome?.trim();
-            const linhas=listaProds.map(p=>`• ${p.nome}`).join("\n");
-            const msg=`Olá!${nome?` Sou ${nome}.`:""} Gostaria de consultar estes produtos da minha lista:\n\n${linhas}\n\nPode confirmar disponibilidade e valores?`;
             wa.href="atendimento.html?origem=conta&assunto=Fazer%20um%20pedido";
             wa.removeAttribute("target");
             wa.removeAttribute("rel");

@@ -2,6 +2,15 @@
 
 Histórico consolidado das principais evoluções da Saúde Qualimax. Relatórios antigos de rodada foram removidos da pasta `docs/` para evitar duplicação.
 
+## 3.1.3 — estabilidade, contexto e manutenção
+
+- corrigida a versão interna dos backups do Admin Studio, que ainda exportavam como v3.0.1;
+- removido código morto na passagem da Minha Conta para o pré-atendimento;
+- contextos temporários do Max e do Quiz agora expiram após 30 minutos, evitando reaproveitamento acidental de uma jornada antiga;
+- cache do Service Worker atualizado para `qualimax-v3.1.3`;
+- auditoria ampliada para detectar atributos de acessibilidade essenciais e links `_blank` sem `noopener`;
+- revisão de sintaxe, catálogo, páginas, imagens, CSP, documentação e regressão do Max.
+
 ## 3.1.2 — consolidação da documentação
 
 - documentação revisada para refletir 40 produtos e a arquitetura atual;

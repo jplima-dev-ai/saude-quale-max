@@ -2,6 +2,7 @@
 "use strict";
 
 const DB_NAME="qualimax-admin-local-v3";
+const ADMIN_BACKUP_VERSION="3.1.3";
 const DB_VERSION=1;
 let dbPromise=null;
 const abrirDB=()=>{
@@ -525,8 +526,8 @@ document.addEventListener("DOMContentLoaded",async()=>{
                     thumbDataUrl:x.thumbBlob?await blobParaDataURL(x.thumbBlob):""
                 });
             }
-            const backup={versao:"3.0.1",exportadoEm:new Date().toISOString(),produtos:state.produtos,config:state.config,imagens};
-            baixar("qualimax-admin-backup-v3.0.1.json",JSON.stringify(backup,null,2));
+            const backup={versao:ADMIN_BACKUP_VERSION,exportadoEm:new Date().toISOString(),produtos:state.produtos,config:state.config,imagens};
+            baixar(`qualimax-admin-backup-v${ADMIN_BACKUP_VERSION}.json`,JSON.stringify(backup,null,2));
             if(status)status.textContent=`Backup completo exportado com ${imagens.length} imagem(ns) local(is).`;
         }catch{
             if(status)status.textContent="Não foi possível criar o backup completo.";

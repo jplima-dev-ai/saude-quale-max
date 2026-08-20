@@ -24,9 +24,15 @@ const salvarLocal = (chave,valor) => {
 const removerLocal = chave => {
     try { localStorage.removeItem(chave); } catch {}
 };
-const lerSessao = chave => {
-    try { return JSON.parse(sessionStorage.getItem(chave) || "{}"); }
-    catch { return {}; }
+const lerSessao = (chave, validadeMs=30*60*1000) => {
+    try {
+        const valor=JSON.parse(sessionStorage.getItem(chave) || "{}");
+        if(valor?.em && Date.now()-Number(valor.em)>validadeMs){
+            sessionStorage.removeItem(chave);
+            return {};
+        }
+        return valor && typeof valor==="object" ? valor : {};
+    } catch { return {}; }
 };
 
 const esperarConfig = () => new Promise(resolve => {

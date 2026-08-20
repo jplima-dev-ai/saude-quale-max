@@ -87,6 +87,19 @@ def main() -> int:
         if len(re.findall(r'<h1\b', texto, re.I)) != 1:
             erros.append(f"{page.relative_to(ROOT)} deve ter exatamente um H1.")
 
+        for tag in re.findall(r'<img\b[^>]*>', texto, re.I):
+            if not re.search(r'\balt\s*=', tag, re.I):
+                erros.append(f"Imagem sem atributo alt em {page.relative_to(ROOT)}")
+
+        for tag in re.findall(r'<button\b[^>]*>', texto, re.I):
+            if not re.search(r'\btype\s*=', tag, re.I):
+                erros.append(f"Botão sem type em {page.relative_to(ROOT)}")
+
+        for tag in re.findall(r'<a\b[^>]*target=["\']_blank["\'][^>]*>', texto, re.I):
+            rel = re.search(r'\brel=["\']([^"\']*)["\']', tag, re.I)
+            if not rel or "noopener" not in rel.group(1).lower().split():
+                erros.append(f"Link _blank sem noopener em {page.relative_to(ROOT)}")
+
         for _, valor in re.findall(r'\b(src|href)=["\']([^"\']+)', texto, re.I):
             if not valor or valor.startswith(("http://", "https://", "#", "mailto:", "tel:", "data:")):
                 continue
