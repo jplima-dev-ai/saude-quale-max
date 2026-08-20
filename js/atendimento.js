@@ -73,8 +73,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     const origem=limparTexto(params.get("origem")||"site",30).toLowerCase();
     const produtoSlug=slugSeguro(params.get("produto"));
     const assuntoParam=limparTexto(params.get("assunto"),80);
-    const maxContexto=lerSessao(MAX_CONTEXTO_KEY);
-    const quizContexto=lerSessao("qualimax-atendimento-quiz-v1");
+    // Contextos de jornada só devem ser reaproveitados quando a origem corresponde.
+    // Isso evita que uma conversa antiga do Max contamine um atendimento iniciado pela Home, Conta ou Catálogo.
+    const maxContexto=origem==="max" ? lerSessao(MAX_CONTEXTO_KEY) : {};
+    const quizContexto=origem==="quiz" ? lerSessao("qualimax-atendimento-quiz-v1") : {};
 
     const config=await esperarConfig();
     const empresa=config.empresa||{};
@@ -348,6 +350,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         for(const nome of ["cep","rua","numero","bairro"]){
             form.elements[nome].required=entrega;
         }
+
+        if(!entrega){
+            cepController?.abort();
+            form.elements.cep.removeAttribute("aria-busy");
+        }else{
+            const numeros=form.elements.cep.value.replace(/\D/g,"");
+            if(numeros.length===8 && !enderecoResolvido.valido){
+                consultarCep(numeros);
+            }
+        }
         atualizarResumo();
     };
 
@@ -432,8 +444,5 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderProdutos();
     alternarEndereco();
     atualizarResumo();
-    if(form.elements.recebimento.value==="entrega" && form.elements.cep.value.replace(/\D/g,"").length===8){
-        consultarCep(form.elements.cep.value);
-    }
 });
 })();

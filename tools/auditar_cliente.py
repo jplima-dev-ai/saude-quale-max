@@ -149,19 +149,45 @@ def main() -> int:
         if f"./{esperado}" not in sw_texto:
             erros.append(f"Service Worker não inclui {esperado} no shell.")
 
+    # Admin Studio: backup deve acompanhar a release atual.
+    admin_js = (ROOT / "js" / "admin.js").read_text(encoding="utf-8")
+    if 'ADMIN_BACKUP_VERSION="3.1.6"' not in admin_js:
+        erros.append("Admin Studio está exportando backup com versão obsoleta.")
+
     # Pré-atendimento estático.
     atendimento = ROOT / "atendimento.html"
     atendimento_js = ROOT / "js" / "atendimento.js"
     if not atendimento.exists() or not atendimento_js.exists():
-        erros.append("Pré-atendimento v3.0.8 incompleto.")
+        erros.append("Pré-atendimento incompleto.")
     else:
         atendimento_html = atendimento.read_text(encoding="utf-8")
+        atendimento_codigo = atendimento_js.read_text(encoding="utf-8")
         if 'content="noindex,follow"' not in atendimento_html.replace(" ", ""):
             erros.append("atendimento.html deve permanecer noindex,follow.")
         if "atendimento.html" in (ROOT / "sitemap.xml").read_text(encoding="utf-8"):
             erros.append("atendimento.html não deve aparecer no sitemap.")
-        if "https://wa.me/" not in atendimento_js.read_text(encoding="utf-8"):
+        if "https://wa.me/" not in atendimento_codigo:
             erros.append("Pré-atendimento não contém a etapa final de abertura do WhatsApp.")
+        if "https://brasilapi.com.br/api/cep/v1/" not in atendimento_codigo or "https://viacep.com.br/ws/" not in atendimento_codigo:
+            erros.append("Consulta automática de CEP está incompleta.")
+        if 'name="cidade"' in atendimento_html or 'name="estado"' in atendimento_html:
+            erros.append("Cidade/estado não devem voltar como campos manuais do pré-atendimento.")
+        if 'origem==="max" ? lerSessao(MAX_CONTEXTO_KEY) : {}' not in atendimento_codigo:
+            erros.append("Contexto do Max não está isolado pela origem do atendimento.")
+
+    # wa.me deve existir apenas na etapa final do pré-atendimento.
+    arquivos_web = list(ROOT.glob("*.html")) + list((ROOT / "produto").glob("*.html")) + list((ROOT / "js").glob("*.js"))
+    wa_me = [p.relative_to(ROOT).as_posix() for p in arquivos_web if "wa.me/" in p.read_text(encoding="utf-8")]
+    if wa_me != ["js/atendimento.js"]:
+        erros.append(f"wa.me encontrado fora do fluxo final de atendimento: {wa_me}")
+
+    # O shell da PWA não pode apontar para arquivos inexistentes.
+    shell = re.search(r'const SHELL = \[(.*?)\];', sw_texto, re.S)
+    if shell:
+        for item in re.findall(r'["\'](\./[^"\']+)["\']', shell.group(1)):
+            alvo = ROOT / ("index.html" if item == "./" else item[2:])
+            if not alvo.exists():
+                erros.append(f"Service Worker referencia arquivo inexistente: {item}")
 
     # SEO/site.
     sitemap = (ROOT / "sitemap.xml").read_text(encoding="utf-8")

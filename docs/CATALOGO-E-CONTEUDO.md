@@ -83,6 +83,6 @@ A arquitetura atual possui páginas HTML individuais pré-geradas. Adicionar um 
 
 ## Expansão atual do catálogo
 
-A v3.1.5 possui 47 produtos. Os itens mais recentes incluem Protetor Solar Mineral, Maca Peruana em Pó, Sabonete Artesanal Vegetal, Óleo de Rosa Mosqueta Puro, Argila Verde Facial, Desodorante Natural em Cristal e Xampu Sólido Natural.
+A v3.1.6 possui 47 produtos. Os itens mais recentes incluem Protetor Solar Mineral, Maca Peruana em Pó, Sabonete Artesanal Vegetal, Óleo de Rosa Mosqueta Puro, Argila Verde Facial, Desodorante Natural em Cristal e Xampu Sólido Natural.
 
 As páginas em `produto/` são derivadas de `data/produtos.json`; não faça alterações manuais nelas que precisem sobreviver à próxima sincronização.

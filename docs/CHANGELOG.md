@@ -2,6 +2,17 @@
 
 Histórico consolidado das principais evoluções da Saúde Qualimax. Relatórios antigos de rodada foram removidos da pasta `docs/` para evitar duplicação.
 
+## 3.1.6 — revisão geral e correções de jornada
+
+- contexto temporário do Max passa a ser aplicado somente quando o pré-atendimento é aberto pelo próprio Max;
+- contexto do Quiz também é lido somente quando a origem é Quiz;
+- CEP lembrado no dispositivo é consultado automaticamente ao selecionar “Receber em casa”;
+- consultas de CEP em andamento são canceladas ao sair do modo de entrega;
+- versão do backup do Admin Studio atualizada para 3.1.6;
+- cache PWA atualizado para `qualimax-v3.1.6`;
+- auditoria ampliada para proteger CEP automático, isolamento de contexto, destino único de `wa.me`, acessibilidade básica e shell da PWA;
+- revisão completa do catálogo de 47 produtos, páginas, imagens, documentação, CSP e Max.
+
 ## 3.1.5 — expansão para 47 produtos
 
 - catálogo ampliado de 40 para 47 produtos a partir das novas imagens fornecidas;

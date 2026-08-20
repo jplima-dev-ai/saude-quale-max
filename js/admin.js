@@ -2,7 +2,7 @@
 "use strict";
 
 const DB_NAME="qualimax-admin-local-v3";
-const ADMIN_BACKUP_VERSION="3.1.5";
+const ADMIN_BACKUP_VERSION="3.1.6";
 const DB_VERSION=1;
 let dbPromise=null;
 const abrirDB=()=>{
