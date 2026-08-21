@@ -7,12 +7,12 @@
 <meta name="description" content="Admin Studio local da plataforma.">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self'; script-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'">
 <title>Admin Studio | Loja</title>
-<link rel="stylesheet" href="style.css">
-<script src="js/frame-guard.js"></script>
-<script src="js/admin.js" defer></script>
-<script src="js/acessibilidade.js" defer></script>
-<script src="js/interacoes.js" defer></script>
-</head>
+<link rel="stylesheet" href="assets/styles/main.css">
+<script src="assets/scripts/security.js" defer></script><script src="assets/scripts/frame-guard.js"></script>
+<script src="assets/scripts/admin.js" defer></script>
+<script src="assets/scripts/accessibility.js" defer></script>
+<script src="assets/scripts/interactions.js" defer></script>
+<link rel="stylesheet" href="assets/styles/commerce.css"><link rel="stylesheet" href="assets/styles/animations.css"></head>
 <body class="admin-body" data-page="admin">
 <a class="skip-link" href="#admin-conteudo">Ir para o conteúdo</a>
 <header class="admin-topo">
@@ -22,7 +22,7 @@
     <p>Rascunhos ficam neste navegador. Use Exportar para levar as alterações ao repositório publicado.</p>
   </div>
   <div class="admin-topo-acoes">
-    <a class="botao botao-secundario" href="conta.html">Minha conta</a>
+    <a class="botao botao-secundario" href="account.html">Minha conta</a>
     <a class="botao botao-secundario" href="index.html">Ver site</a>
   </div>
 </header>
@@ -163,7 +163,8 @@
               <div>
                 <h3>Imagem local</h3>
                 <p>Envie uma imagem para pré-visualização. O Admin prepara também uma miniatura para o catálogo; nada é publicado automaticamente.</p>
-                <input type="file" accept="image/png,image/jpeg,image/webp" data-admin-upload-imagem>
+                <label for="admin-upload-imagem">Selecionar imagem do produto</label>
+                <input id="admin-upload-imagem" type="file" accept="image/png,image/jpeg,image/webp" data-admin-upload-imagem>
               </div>
               <div class="admin-preview-imagem" data-admin-preview-imagem></div>
             </section>
@@ -268,13 +269,13 @@
       </div>
       <section class="admin-card">
         <h3>Imagens locais</h3>
-        <p>Baixe a imagem principal para <code>img/</code> e a miniatura para <code>img/thumbs/</code> antes da publicação.</p>
+        <p>Baixe a imagem principal para <code>assets/images/</code> e a miniatura para <code>assets/images/thumbs/</code> antes da publicação.</p>
         <div data-admin-imagens-exportar class="admin-imagens-exportar"></div>
       </section>
       <p class="admin-status" data-admin-export-status role="status" aria-live="polite"></p>
     </section>
   </main>
 </div>
-<script src="js/promocoes.js" defer></script>
-</body>
+<script src="assets/scripts/promotions.js" defer></script>
+<script src="assets/scripts/commerce-v332.js" defer></script><script src="assets/scripts/commerce-v333.js" defer></script><script src="assets/scripts/animations.js" defer></script></body>
 </html>

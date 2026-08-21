@@ -1,0 +1,55 @@
+{
+  "version": "3.3.6",
+  "defaultLocale": "pt-BR",
+  "routes": {
+    "about": {
+      "path": "about.html",
+      "label": "sobre"
+    },
+    "catalog": {
+      "path": "catalog.html",
+      "label": "catalogo"
+    },
+    "account": {
+      "path": "account.html",
+      "label": "conta"
+    },
+    "contact": {
+      "path": "contact.html",
+      "label": "contato"
+    },
+    "support": {
+      "path": "support.html",
+      "label": "atendimento"
+    },
+    "cart": {
+      "path": "cart.html",
+      "label": "carrinho"
+    },
+    "campaigns": {
+      "path": "campaigns.html",
+      "label": "campanhas"
+    },
+    "home": {
+      "path": "index.html",
+      "label": "inicio"
+    },
+    "admin": {
+      "path": "admin.html",
+      "label": "admin"
+    },
+    "quiz": {
+      "path": "quiz.html",
+      "label": "quiz"
+    }
+  },
+  "legacyAliases": {
+    "sobre.html": "about.html",
+    "catalogo.html": "catalog.html",
+    "conta.html": "account.html",
+    "contato.html": "contact.html",
+    "atendimento.html": "support.html",
+    "carrinho.html": "cart.html",
+    "campanhas.html": "campaigns.html"
+  }
+}

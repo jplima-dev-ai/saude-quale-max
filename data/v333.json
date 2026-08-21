@@ -1,0 +1,83 @@
+{
+  "versao": "3.3.3",
+  "estoquePadrao": 12,
+  "estoqueBaixo": 3,
+  "variantes": {
+    "whey-protein": [
+      {
+        "id": "baunilha",
+        "nome": "Baunilha",
+        "acrescimo": 0
+      },
+      {
+        "id": "chocolate",
+        "nome": "Chocolate",
+        "acrescimo": 3
+      }
+    ],
+    "hibiscus-tea": [
+      {
+        "id": "50g",
+        "nome": "50 g",
+        "acrescimo": 0
+      },
+      {
+        "id": "100g",
+        "nome": "100 g",
+        "acrescimo": 12
+      }
+    ]
+  },
+  "kits": [
+    {
+      "id": "kit-cha",
+      "nome": "Ritual dos chás",
+      "descricao": "Três sabores para uma rotina acolhedora.",
+      "slugs": [
+        "hibiscus-tea",
+        "ginger-tea",
+        "lemon-balm-tea"
+      ],
+      "desconto": 8
+    },
+    {
+      "id": "kit-energia",
+      "nome": "Rotina ativa",
+      "descricao": "Seleção prática para quem busca desempenho.",
+      "slugs": [
+        "creatine-monohydrate",
+        "whey-protein",
+        "whole-peanut-butter"
+      ],
+      "desconto": 10
+    }
+  ],
+  "campanhas": [
+    {
+      "id": "bem-estar",
+      "nome": "Semana do bem-estar",
+      "inicio": "2026-01-01",
+      "fim": "2027-12-31",
+      "descricao": "Seleções naturais para cuidar da rotina com leveza.",
+      "categoria": "chas",
+      "destaque": true
+    },
+    {
+      "id": "vida-ativa",
+      "nome": "Movimento e energia",
+      "inicio": "2026-01-01",
+      "fim": "2027-12-31",
+      "descricao": "Produtos para complementar uma rotina ativa.",
+      "categoria": "suplementos",
+      "destaque": false
+    }
+  ],
+  "notificacoes": [
+    {
+      "id": "novidades-333",
+      "titulo": "Novidades da v3.3.3",
+      "texto": "Carrinho, kits, campanhas e busca inteligente já estão disponíveis.",
+      "ativa": true
+    }
+  ]
+}

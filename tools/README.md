@@ -3,8 +3,8 @@
 ## `sincronizar_cliente.py`
 
 ```bash
-python tools/sincronizar_cliente.py --check
-python tools/sincronizar_cliente.py
+python tools/sync-client.py --check
+python tools/sync-client.py
 ```
 
 Valida e sincroniza a camada estática com `data/config.json` e o catálogo. Revise o diff do Git após a execução.
@@ -12,19 +12,19 @@ Valida e sincroniza a camada estática com `data/config.json` e o catálogo. Rev
 ## `auditar_cliente.py`
 
 ```bash
-python tools/auditar_cliente.py
+python tools/audit-client.py
 ```
 
 Verifica catálogo, páginas, imagens, CSP, referências, sitemap, manifest e configuração. Para detectar resíduos de marca:
 
 ```bash
-python tools/auditar_cliente.py --proibir "Marca Antiga"
+python tools/audit-client.py --proibir "Marca Antiga"
 ```
 
 ## `testar_max.cjs`
 
 ```bash
-node tools/testar_max.cjs
+node tools/test-max.cjs
 ```
 
 Executa regressão de intenções, entidades e similares do Max, incluindo “não sei o que escolher”. Requer Node.js.

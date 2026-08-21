@@ -1,69 +1,24 @@
-# SEO e dados estruturados
+# SEO
 
-## Páginas principais
+## Requisitos
 
-`data/config.json` contém título, descrição e canonical por página:
+- título e descrição únicos;
+- URL canônica correta;
+- um único H1;
+- hierarquia coerente;
+- links com texto significativo;
+- dados estruturados válidos.
 
-- Home;
-- Catálogo;
-- Quiz;
-- Sobre;
-- Contato.
+## Produtos
 
-Não usar o mesmo canonical para páginas diferentes.
+Páginas individuais devem refletir nome, descrição, imagem, apresentação e preço publicado. Evite alegações terapêuticas não comprovadas e duplicação.
 
-## Páginas de produto
+## Arquivos globais
 
-Cada página individual possui metadados próprios e dados estruturados de produto.
+sitemap.xml inclui páginas canônicas. robots.txt aponta para o sitemap e não bloqueia recursos necessários.
 
-A implementação trabalha com:
+## Mudança de domínio
 
-- `Product`;
-- `BreadcrumbList`;
-- Open Graph;
-- Twitter Card;
-- canonical.
+Atualize empresa.site, URLs canônicas, dados estruturados, sitemap e robots; execute o sincronizador e revise links absolutos.
 
-Como preço e estoque não são confirmados pelo frontend, não adicionar `Offer` com valores fictícios.
-
-## Site e loja
-
-As páginas principais podem descrever:
-
-- `Store`;
-- `WebSite`;
-- `SearchAction`;
-- `BreadcrumbList`.
-
-## Sitemap
-
-`sitemap.xml` deve conter somente URLs públicas e indexáveis.
-
-Ao adicionar ou remover uma página de produto:
-
-1. atualizar o sitemap;
-2. revisar canonical;
-3. revisar imagem social;
-4. validar dados estruturados;
-5. conferir links internos.
-
-`offline.html` não deve ser promovida como página indexável.
-
-## robots.txt
-
-O sitemap declarado em `robots.txt` deve apontar para a implantação pública atual.
-
-## Mudança de domínio ou repositório
-
-Revisar globalmente:
-
-- `data/config.json`;
-- canonical das páginas;
-- `sitemap.xml`;
-- `robots.txt`;
-- `/.well-known/security.txt`;
-- URLs absolutas dos dados estruturados.
-
-## Qualidade editorial
-
-SEO não deve degradar a copy da experiência. Títulos e descrições devem ser claros, específicos e coerentes com o conteúdo real.
+SEO não substitui clareza: conteúdo deve ser útil, acessível e coerente com o catálogo.\n

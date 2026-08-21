@@ -2,50 +2,25 @@
 
 ## Componentes
 
-- `manifest.webmanifest`;
-- `sw.js`;
-- `js/pwa.js`;
-- `offline.html`;
-- `js/offline.js`.
+- manifest.webmanifest: instalação.
+- service-worker.js: cache e atualização.
+- offline.html: fallback.
+- assets/scripts/pwa.js e assets/scripts/offline.js: interface.
 
-## Instalação
+## Estratégia
 
-Quando o navegador oferece `beforeinstallprompt`, a interface pode exibir a ação de instalação.
+O shell essencial é pré-armazenado. Navegações usam o conteúdo disponível e recorrem ao fallback sem rede.
 
-A ação não é simulada em navegadores que não oferecem suporte.
+## Atualização
 
-## Atualizações
+Cada versão deve renovar o identificador do cache e listar novos recursos essenciais. A v3.3.3 usa qualimax-v3.3.3.
 
-O Service Worker usa cache versionado.
+## Verificação
 
-Na implementação atual, novas versões aguardam até a ação explícita **Atualizar agora**. O frontend envia `SKIP_WAITING` somente quando o visitante solicita a atualização.
+1. Publicar em HTTPS.
+2. Abrir uma vez online.
+3. Ativar modo offline.
+4. Testar início, catálogo, carrinho e fallback.
+5. Restaurar a rede e confirmar atualização.
 
-A primeira instalação não deve provocar reload inesperado.
-
-## Estratégia de navegação
-
-Navegações usam rede primeiro. Quando a rede falha:
-
-1. tenta a página correspondente no cache;
-2. para URLs com filtros/query string, a busca pode ignorar a query ao localizar a página base;
-3. se não existir página utilizável, entrega `offline.html`.
-
-## Recursos estáticos
-
-Recursos same-origin podem ser reutilizados do cache. O Service Worker não deve interceptar recursos cross-origin desnecessariamente.
-
-## Cuidados de manutenção
-
-Ao adicionar um arquivo essencial:
-
-- decidir se ele deve entrar no shell do Service Worker;
-- incrementar a versão do cache;
-- testar primeira instalação;
-- testar atualização de uma versão anterior;
-- testar conexão offline;
-- testar URL com query string;
-- testar entrada direta por uma página de produto.
-
-## Limite de hospedagem
-
-GitHub Pages controla parte dos cabeçalhos HTTP. Proteções que dependem de headers específicos devem ser verificadas na implantação real.
+O modo offline não confirma disponibilidade, envia WhatsApp ou cria pedido real.\n

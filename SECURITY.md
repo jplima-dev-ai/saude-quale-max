@@ -34,7 +34,7 @@ Esses dados pertencem ao navegador do visitante. O usuário pode remover os dado
 
 ## Pré-atendimento e WhatsApp
 
-`atendimento.html` prepara uma mensagem localmente. Nome, endereço, produtos e observações não são enviados para a loja por esta página.
+`support.html` prepara uma mensagem localmente. Nome, endereço, produtos e observações não são enviados para a loja por esta página.
 
 Somente após revisão e ação explícita do cliente é aberto o endereço `wa.me` com o texto preenchido. O envio final continua dependendo da confirmação do usuário no WhatsApp.
 
@@ -46,11 +46,11 @@ As páginas utilizam Content Security Policy compatível com a arquitetura está
 
 Antes de cada publicação:
 
-1. execute `python tools/sincronizar_cliente.py`;
-2. execute `python tools/auditar_cliente.py`;
-3. execute `node tools/testar_max.cjs` quando Node.js estiver disponível;
+1. execute `python tools/sync-client.py`;
+2. execute `python tools/audit-client.py`;
+3. execute `node tools/test-max.cjs` quando Node.js estiver disponível;
 4. confirme que nenhum segredo foi adicionado ao repositório;
-5. revise alterações em `data/config.json`, `data/produtos.json` e arquivos de imagem.
+5. revise alterações em `data/config.json`, `data/products.json` e arquivos de imagem.
 
 ## Relato de vulnerabilidade
 
@@ -68,8 +68,13 @@ A auditoria ofensiva da v3.1.7 corrigiu quatro classes de problema:
 Execute também:
 
 ```bash
-python tools/testar_seguranca.py
+python tools/test-security.py
+python tools/test-security-v336.py
+node tools/test-security-runtime-v336.cjs
 ```
 
 Esse teste é complementar à auditoria funcional e ao teste do Max.
 
+## Hardening da v3.3.6
+
+A v3.3.6 acrescenta validação de esquema para armazenamento local, bloqueio de chaves usadas em poluição de protótipo, limites de profundidade/tamanho, normalização de valores comerciais, validação do canal entre abas e política restritiva de cache. O relatório técnico está em `docs/SECURITY-AUDIT-V336.md`.

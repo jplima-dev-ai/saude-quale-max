@@ -1,31 +1,30 @@
-# Documentação — Saúde Qualimax v3.2
+# Documentação da Saúde Qualimax
 
-Esta pasta contém documentação viva: arquivos que descrevem como a plataforma funciona agora e como mantê-la. O histórico das releases está consolidado em `CHANGELOG.md`.
+Documentação técnica e operacional da versão **3.3.4**.
 
-## Mapa da documentação
+## Mapa
 
 | Documento | Finalidade |
 |---|---|
-| [ARQUITETURA.md](ARQUITETURA.md) | Páginas, módulos, dados e limites arquiteturais |
-| [CONFIGURACAO.md](CONFIGURACAO.md) | Marca, contato, redes, SEO, módulos e Max |
-| [CATALOGO-E-CONTEUDO.md](CATALOGO-E-CONTEUDO.md) | Produtos, categorias, imagens e copy |
-| [MAX.md](MAX.md) | Arquitetura, intenções, descoberta e limites do Max |
-| [BANCO-LOCAL.md](BANCO-LOCAL.md) | IndexedDB, fallback e persistência no navegador |
-| [ACESSIBILIDADE.md](ACESSIBILIDADE.md) | Requisitos e testes com teclado e NVDA |
-| [PRIVACIDADE.md](PRIVACIDADE.md) | Dados locais, pré-atendimento e integrações |
-| [PWA-E-OFFLINE.md](PWA-E-OFFLINE.md) | Service Worker, instalação, atualização e offline |
-| [SEO.md](SEO.md) | Metadados, sitemap e dados estruturados |
-| [TESTES-E-QUALIDADE.md](TESTES-E-QUALIDADE.md) | QA, regressão do Max e checklist pré-deploy |
-| [PUBLICACAO.md](PUBLICACAO.md) | Git, GitHub Pages, Netlify e pós-deploy |
-| [WHITE-LABEL-E-CLIENTES.md](WHITE-LABEL-E-CLIENTES.md) | Processo para adaptar a outro cliente |
-| [PRECOS-E-PEDIDOS.md](PRECOS-E-PEDIDOS.md) | Preços aproximados, quantidades, total e formas de pagamento |
-| [OPERACAO-LOCAL.md](OPERACAO-LOCAL.md) | Minha Conta, Admin Studio e pré-atendimento |
-| [CHANGELOG.md](CHANGELOG.md) | Histórico consolidado das versões |
+| [Arquitetura](ARCHITECTURE.md) | Estrutura, módulos, dados e limites |
+| [Configuração](CONFIGURATION.md) | Marca, contato, recursos e operação |
+| [Catálogo](CATALOG-AND-CONTENT.md) | Produtos, preços, imagens e campanhas |
+| [MAX](MAX.md) | Capacidades e arquitetura do assistente |
+| [Operação local](LOCAL-OPERATIONS.md) | Conta, carrinho e Admin Studio |
+| [White-label](WHITE-LABEL.md) | Adaptação para outras lojas |
+| [Animações](ANIMATIONS.md) | Movimento white-label e acessível |
+| [Acessibilidade](ACCESSIBILITY.md) | Critérios para teclado e leitores de tela |
+| [Privacidade](PRIVACY.md) | Dados locais e limites |
+| [PWA](PWA-E-OFFLINE.md) | Instalação, cache e modo offline |
+| [SEO](SEO.md) | Metadados, páginas e sitemap |
+| [Testes](TESTING-AND-QUALITY.md) | Suíte e revisão manual |
+| [Publicação](DEPLOYMENT.md) | GitHub Pages e Netlify |
+| [Changelog](CHANGELOG.md) | Histórico consolidado |
 
-## Segurança
+## Regras
 
-A política principal fica em [`../SECURITY.md`](../SECURITY.md). O arquivo `/.well-known/security.txt` fornece o ponto padronizado de descoberta do canal de segurança.
-
-## Regra de manutenção
-
-Quando uma release mudar o funcionamento atual, atualize o documento temático correspondente e o `CHANGELOG.md`. Não crie um novo relatório `Vx.y.z-*.md` apenas para registrar uma release.
+1. Guias descrevem somente a versão publicada.
+2. Decisões históricas ficam no changelog.
+3. Comandos partem da raiz do projeto.
+4. Mudanças de dados, rotas, cache ou comportamento exigem atualização documental.
+5. Acessibilidade, privacidade e segurança integram o critério de conclusão.\n

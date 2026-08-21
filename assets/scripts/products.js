@@ -1,0 +1,685 @@
+(() => {
+    "use strict";
+    const moeda = valor => Number(valor||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+    const rotuloPreco = p => p?.preco ? `${moeda(p.preco)}${p.venda_tipo==="peso" ? " / "+(p.apresentacao||"100 g") : ""}` : "Preço sob consulta";
+
+    const estado = {
+        produtos: [],
+        categorias: [],
+        filtroCategoria: "",
+        filtroTipo: "",
+        filtroCaracteristica: "",
+        filtroPreco: "",
+        busca: "",
+        ordenacao: "relevancia"
+    };
+
+    const normalizar = (valor) => String(valor ?? "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
+
+    const categoriaNome = (id) => {
+        const categoria = estado.categorias.find((item) => item.id === id);
+        return categoria?.nome || id || "Sem categoria";
+    };
+
+    const nomeArquivoSeguro = (valor) => {
+        const nome = String(valor || "").trim();
+        return /^[A-Za-z0-9._-]+$/.test(nome) ? nome : "";
+    };
+
+    const slugSeguro = (valor) => {
+        const slug = String(valor || "").trim();
+        return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) ? slug : "";
+    };
+
+    const numeroWhatsApp = () => String(window.QualimaxConfig?.contato?.whatsapp || "").replace(/\D/g, "");
+    const linkAtendimento = (produto) => {
+        const slug = slugSeguro(produto?.slug);
+        const params = new URLSearchParams({ origem:"catalogo", assunto:"Consultar disponibilidade" });
+        if (slug) params.set("produto",slug);
+        return `support.html?${params.toString()}`;
+    };
+    const imagemMiniatura = (produto) => {
+        const arquivo = nomeArquivoSeguro(produto.imagem);
+        return arquivo ? `assets/images/thumbs/${arquivo}` : "";
+    };
+
+    const criarBotaoFavorito = (produto) => {
+        const botao = document.createElement("button");
+        botao.type = "button";
+        botao.className = "produto-acao-secundaria";
+        botao.dataset.favoritoId = produto.id;
+        botao.setAttribute("aria-pressed", "false");
+        botao.textContent = "☆ Favoritar";
+        return botao;
+    };
+
+    const criarBotaoInteresse = (produto) => {
+        const botao = document.createElement("button");
+        botao.type = "button";
+        botao.className = "produto-acao-secundaria";
+        botao.dataset.interesseId = produto.id;
+        botao.setAttribute("aria-pressed", "false");
+        botao.textContent = "+ Adicionar à lista";
+        return botao;
+    };
+
+    const pontuarRelacionado = (base, outro) => {
+        if (base.id === outro.id) return -1;
+        let pontos = base.categoria === outro.categoria ? 5 : 0;
+        const tags = new Set((base.tags || []).map(normalizar));
+        (outro.tags || []).forEach(tag => { if (tags.has(normalizar(tag))) pontos += 2; });
+        if (base.tipo && base.tipo === outro.tipo) pontos += 1;
+        if (base.vegana === outro.vegana) pontos += 0.5;
+        if (base.sem_gluten === outro.sem_gluten) pontos += 0.5;
+        return pontos;
+    };
+
+    const relacionados = (produto, limite = 3) => estado.produtos
+        .map(item => ({ item, pontos: pontuarRelacionado(produto, item) }))
+        .filter(x => x.pontos > 0)
+        .sort((a, b) => b.pontos - a.pontos)
+        .slice(0, limite)
+        .map(x => x.item);
+
+    const criarCard = (produto) => {
+        const artigo = document.createElement("article");
+        artigo.className = "produto-card produto-card-dinamico";
+        if (produto.destaque) artigo.classList.add("produto-card-destaque");
+
+        const imagem = document.createElement("img");
+        const srcMiniatura = imagemMiniatura(produto);
+        if (srcMiniatura) imagem.src = srcMiniatura;
+        imagem.alt = `${produto.nome} — ${categoriaNome(produto.categoria)}.`;
+        imagem.loading = "lazy";
+        imagem.decoding = "async";
+        imagem.width = 464;
+        imagem.height = 576;
+        imagem.addEventListener("error", () => {
+            imagem.hidden = true;
+            imagemWrap.classList.add("imagem-indisponivel");
+            imagemWrap.setAttribute("aria-label", `Imagem de ${produto.nome} indisponível.`);
+        });
+
+        const imagemWrap = document.createElement("div");
+        imagemWrap.className = "produto-imagem";
+        if (srcMiniatura) imagemWrap.append(imagem);
+        else {
+            imagemWrap.classList.add("imagem-indisponivel");
+            imagemWrap.setAttribute("aria-label", `Imagem de ${produto.nome} indisponível.`);
+        }
+
+        const conteudo = document.createElement("div");
+        conteudo.className = "produto-conteudo";
+
+        const categoria = document.createElement("span");
+        categoria.className = "produto-categoria";
+        categoria.textContent = categoriaNome(produto.categoria);
+
+        const titulo = document.createElement("h3");
+        titulo.textContent = produto.nome;
+
+        const preco = document.createElement("p");
+        preco.className = "produto-preco";
+        preco.textContent = rotuloPreco(produto);
+        const apresentacao = document.createElement("small");
+        apresentacao.className = "produto-apresentacao";
+        apresentacao.textContent = produto.venda_tipo==="peso" ? "Preço por 100 g" : `Apresentação: ${produto.apresentacao||"unidade"}`;
+
+        const descricao = document.createElement("p");
+        descricao.textContent = produto.copy || produto.descricao || "Consulte a equipe para conhecer os detalhes deste produto.";
+
+        const acoes = document.createElement("div");
+        acoes.className = "produto-acoes";
+
+        const detalhes = document.createElement("button");
+        detalhes.type = "button";
+        detalhes.className = "botao botao-produto botao-detalhes";
+        detalhes.textContent = produto.cta || "Quero saber mais";
+        detalhes.addEventListener("click", () => abrirModal(produto));
+
+        acoes.append(detalhes);
+        if (window.QualimaxConfig?.recursos?.colecoes !== false) {
+            const acoesSecundarias = document.createElement("div");
+            acoesSecundarias.className = "produto-acoes-secundarias";
+            acoesSecundarias.append(criarBotaoFavorito(produto), criarBotaoInteresse(produto));
+            acoes.append(acoesSecundarias);
+        }
+        if (numeroWhatsApp()) {
+            const whatsapp = document.createElement("a");
+            whatsapp.className = "link-destaque";
+            whatsapp.href = linkAtendimento(produto);
+            whatsapp.textContent = "Preparar atendimento →";
+            whatsapp.setAttribute("aria-label", `Preparar atendimento sobre ${produto.nome}`);
+            acoes.append(whatsapp);
+        }
+        if (produto.destaque) {
+            const selo = document.createElement("span");
+            selo.className = "produto-selo-destaque";
+            selo.textContent = "Destaque da loja";
+            imagemWrap.append(selo);
+        }
+        conteudo.append(categoria, titulo, preco, apresentacao, descricao, acoes);
+        artigo.append(imagemWrap, conteudo);
+        return artigo;
+    };
+
+    const renderizarDestaques = () => {
+        const grade = document.querySelector("[data-destaques-grid]");
+        if (!grade) return;
+        const destaques = estado.produtos.filter((produto) => produto.destaque).slice(0, 8);
+        grade.replaceChildren(...destaques.map(criarCard));
+    };
+
+    const ordenarProdutos = (produtos) => {
+        const lista = [...produtos];
+        if (estado.ordenacao === "az") {
+            return lista.sort((a,b) => String(a.nome).localeCompare(String(b.nome), "pt-BR"));
+        }
+        if (estado.ordenacao === "za") {
+            return lista.sort((a,b) => String(b.nome).localeCompare(String(a.nome), "pt-BR"));
+        }
+        if (estado.ordenacao === "preco-menor") return lista.sort((a,b)=>Number(a.preco||Infinity)-Number(b.preco||Infinity));
+        if (estado.ordenacao === "preco-maior") return lista.sort((a,b)=>Number(b.preco||0)-Number(a.preco||0));
+        if (estado.ordenacao === "categoria") {
+            return lista.sort((a,b) => {
+                const cat = categoriaNome(a.categoria).localeCompare(categoriaNome(b.categoria), "pt-BR");
+                return cat || String(a.nome).localeCompare(String(b.nome), "pt-BR");
+            });
+        }
+        return lista.sort((a,b) => Number(b.destaque) - Number(a.destaque));
+    };
+
+    const nomeFiltroCaracteristica = (valor) => {
+        if (["vegano","vegana"].includes(valor)) return "Vegano";
+        if (["sem_gluten","sem-gluten"].includes(valor)) return "Sem glúten";
+        return valor;
+    };
+
+    const renderizarFiltrosAtivos = () => {
+        const area = document.querySelector("[data-filtros-ativos]");
+        if (!area) return;
+
+        const filtros = [];
+        if (estado.busca.trim()) filtros.push({ tipo: "busca", rotulo: `Busca: ${estado.busca.trim()}` });
+        if (estado.filtroCategoria) filtros.push({ tipo: "categoria", rotulo: `Categoria: ${categoriaNome(estado.filtroCategoria)}` });
+        if (estado.filtroTipo) filtros.push({ tipo: "tipo", rotulo: `Formato: ${estado.filtroTipo}` });
+        if (estado.filtroCaracteristica) filtros.push({ tipo: "caracteristica", rotulo: `Característica: ${nomeFiltroCaracteristica(estado.filtroCaracteristica)}` });
+        if (estado.filtroPreco) {
+            const nomes={"ate-20":"Até R$ 20","20-50":"R$ 20 a R$ 50","50-100":"R$ 50 a R$ 100","100-mais":"Acima de R$ 100"};
+            filtros.push({tipo:"preco",rotulo:`Preço: ${nomes[estado.filtroPreco]||estado.filtroPreco}`});
+        }
+
+        area.hidden = filtros.length === 0;
+        area.replaceChildren(...filtros.map(({ tipo, rotulo }) => {
+            const botao = document.createElement("button");
+            botao.type = "button";
+            botao.className = "filtro-ativo-chip";
+            botao.dataset.removerFiltro = tipo;
+            botao.textContent = `${rotulo} ×`;
+            botao.setAttribute("aria-label", `Remover filtro ${rotulo}`);
+            return botao;
+        }));
+    };
+
+    const salvarEstadoCatalogo = () => {
+        try {
+            const params = new URLSearchParams(location.search);
+            const query = params.toString();
+            sessionStorage.setItem("qualimax-catalogo-url", `catalog.html${query ? `?${query}` : ""}#produtos`);
+        } catch {}
+    };
+
+    const renderizar = () => {
+        const grade = document.querySelector("[data-produtos-grid]");
+        const contador = document.querySelector("[data-produtos-contador]");
+        const vazio = document.querySelector("[data-produtos-vazio]");
+        if (!grade) return;
+
+        const termo = normalizar(estado.busca).trim();
+        const termosBusca = termo.split(/\s+/).filter(Boolean);
+        let filtrados = estado.produtos.filter((produto) => {
+            const texto = normalizar([
+                produto.nome,
+                produto.categoria,
+                categoriaNome(produto.categoria),
+                produto.tipo,
+                produto.copy,
+                produto.descricao,
+                ...(produto.tags || []),
+                ...(produto.beneficios || [])
+            ].join(" "));
+
+            const correspondeBusca = !termosBusca.length || termosBusca.every((item) => texto.includes(item));
+            const correspondeCategoria = !estado.filtroCategoria || produto.categoria === estado.filtroCategoria;
+            const correspondeTipo = !estado.filtroTipo || produto.tipo === estado.filtroTipo;
+            const correspondeCaracteristica = !estado.filtroCaracteristica ||
+                (["vegano", "vegana"].includes(estado.filtroCaracteristica) && produto.vegana === true) ||
+                (["sem_gluten", "sem-gluten"].includes(estado.filtroCaracteristica) && produto.sem_gluten === true);
+            const preco = Number(produto.preco || 0);
+            const correspondePreco = !estado.filtroPreco ||
+                (estado.filtroPreco === "ate-20" && preco > 0 && preco <= 20) ||
+                (estado.filtroPreco === "20-50" && preco > 20 && preco <= 50) ||
+                (estado.filtroPreco === "50-100" && preco > 50 && preco <= 100) ||
+                (estado.filtroPreco === "100-mais" && preco > 100);
+
+            return correspondeBusca && correspondeCategoria && correspondeTipo && correspondeCaracteristica && correspondePreco;
+        });
+
+        filtrados = ordenarProdutos(filtrados);
+        renderizarFiltrosAtivos();
+        grade.replaceChildren(...filtrados.map(criarCard));
+        if (contador) {
+            const termoInformado = estado.busca.trim();
+            const contexto = termoInformado ? ` para “${termoInformado}”` : "";
+            contador.textContent = `${filtrados.length} ${filtrados.length === 1 ? "produto encontrado" : "produtos encontrados"}${contexto}.`;
+        }
+        if (vazio) {
+            vazio.hidden = filtrados.length !== 0;
+            const textoVazio = vazio.querySelector("[data-produtos-vazio-texto]");
+            if (!filtrados.length && textoVazio) {
+                const filtrosAtivos = [estado.busca, estado.filtroCategoria, estado.filtroTipo, estado.filtroCaracteristica, estado.filtroPreco].some(Boolean);
+                textoVazio.textContent = filtrosAtivos
+                    ? "Nenhum produto corresponde aos critérios informados. Você pode limpar os filtros, perguntar ao assistente ou falar com a equipe."
+                    : "Nenhum produto está disponível para exibição neste momento. Fale com a equipe para receber ajuda.";
+            }
+        }
+        document.dispatchEvent(new CustomEvent("qualimax:produtos-renderizados"));
+    };
+
+    const preencherFiltros = () => {
+        const categoria = document.querySelector("[data-filtro-categoria]");
+        const tipo = document.querySelector("[data-filtro-tipo]");
+        if (categoria) {
+            estado.categorias.forEach((item) => {
+                const option = document.createElement("option");
+                option.value = item.id;
+                option.textContent = item.nome;
+                categoria.append(option);
+            });
+        }
+        if (tipo) {
+            const existentes = new Set([...tipo.options].map((option) => option.value));
+            const tipos = [...new Set(estado.produtos.map((item) => item.tipo).filter(Boolean))].sort();
+            tipos.filter((item) => !existentes.has(item)).forEach((item) => {
+                const option = document.createElement("option");
+                option.value = item;
+                option.textContent = item.charAt(0).toUpperCase() + item.slice(1);
+                tipo.append(option);
+            });
+        }
+    };
+
+    let ultimoFoco = null;
+    const abrirModal = (produto) => {
+        const modal = document.querySelector("[data-produto-modal]");
+        const titulo = document.querySelector("[data-modal-titulo]");
+        const conteudo = document.querySelector("[data-modal-conteudo]");
+        if (!modal || !titulo || !conteudo) return;
+
+        if (modal.hidden) ultimoFoco = document.activeElement;
+        titulo.textContent = produto.nome;
+        conteudo.replaceChildren();
+
+        const layout = document.createElement("div");
+        layout.className = "produto-modal-layout";
+
+        const imagemWrap = document.createElement("div");
+        imagemWrap.className = "produto-modal-imagem";
+        const imagem = document.createElement("img");
+        const arquivoImagem = nomeArquivoSeguro(produto.imagem);
+        if (arquivoImagem) imagem.src = `assets/images/${arquivoImagem}`;
+        imagem.alt = `${produto.nome} — ${categoriaNome(produto.categoria)}.`;
+        imagem.decoding = "async";
+        imagem.width = 928;
+        imagem.height = 1152;
+        imagem.addEventListener("error", () => {
+            imagemWrap.hidden = true;
+        });
+        imagemWrap.append(imagem);
+
+        const informacoes = document.createElement("div");
+        informacoes.className = "produto-modal-informacoes";
+
+        const categoria = document.createElement("p");
+        categoria.className = "produto-modal-categoria";
+        categoria.textContent = categoriaNome(produto.categoria);
+
+        const preco = document.createElement("p");
+        preco.className = "produto-modal-preco";
+        preco.textContent = `${rotuloPreco(produto)}${produto.venda_tipo==="peso" ? " • preço por 100 g" : ` • ${produto.apresentacao||""}`}`;
+
+        const descricao = document.createElement("p");
+        descricao.textContent = produto.copy || produto.descricao || "Descrição não cadastrada.";
+
+        const lista = document.createElement("ul");
+        lista.className = "produto-modal-lista";
+        const caracteristicas = [
+            produto.tipo ? `Formato: ${produto.tipo}` : "",
+            produto.vegana ? "Produto cadastrado como vegano" : "",
+            produto.sem_gluten ? "Produto cadastrado como sem glúten" : ""
+        ].filter(Boolean);
+        (produto.beneficios || []).forEach((item) => caracteristicas.push(`Característica: ${item}`));
+        caracteristicas.forEach((item) => {
+            const li = document.createElement("li");
+            li.textContent = item;
+            lista.append(li);
+        });
+        const observacao = document.createElement("p");
+        observacao.className = "produto-modal-aviso";
+        observacao.textContent = "Preço aproximado de referência. Disponibilidade e total final são confirmados pela equipe.";
+
+        informacoes.append(categoria, preco, descricao);
+        if (caracteristicas.length) informacoes.append(lista);
+        informacoes.append(observacao);
+
+        const acoesPersistentes = document.createElement("div");
+        acoesPersistentes.className = "produto-modal-acoes-secundarias";
+        acoesPersistentes.append(criarBotaoFavorito(produto), criarBotaoInteresse(produto));
+        informacoes.append(acoesPersistentes);
+
+        if (numeroWhatsApp()) {
+            const link = document.createElement("a");
+            link.className = "botao botao-principal";
+            link.href = linkAtendimento(produto);
+            link.textContent = "Preparar atendimento";
+            link.setAttribute("aria-label", `Preparar atendimento sobre ${produto.nome}`);
+            informacoes.append(link);
+        }
+
+        const slugValido = slugSeguro(produto.slug);
+        if (slugValido) {
+            const paginaAcoes = document.createElement("div");
+            paginaAcoes.className = "produto-pagina-acoes-inline";
+            const pagina = document.createElement("a");
+            pagina.className = "link-destaque";
+            pagina.href = `products/${slugValido}.html`;
+            pagina.textContent = "Abrir página do produto →";
+            const compartilhar = document.createElement("button");
+            compartilhar.type = "button";
+            compartilhar.className = "produto-compartilhar";
+            compartilhar.textContent = "Compartilhar";
+            compartilhar.addEventListener("click", async () => {
+                const url = new URL(`products/${slugValido}.html`, window.location.href).href;
+                try {
+                    if (navigator.share) await navigator.share({ title: produto.nome, text: produto.copy || produto.descricao || "", url });
+                    else { await navigator.clipboard.writeText(url); compartilhar.textContent = "Link copiado"; window.setTimeout(() => compartilhar.textContent = "Compartilhar", 1800); }
+                } catch {}
+            });
+            paginaAcoes.append(pagina, compartilhar);
+            informacoes.append(paginaAcoes);
+        }
+        layout.append(imagemWrap, informacoes);
+        conteudo.append(layout);
+
+        const itensRelacionados = relacionados(produto);
+        if (itensRelacionados.length) {
+            const secaoRelacionados = document.createElement("section");
+            secaoRelacionados.className = "produto-relacionados";
+            const h3 = document.createElement("h3");
+            h3.textContent = "Você também pode explorar";
+            const grid = document.createElement("div");
+            grid.className = "produto-relacionados-grid";
+            itensRelacionados.forEach(item => {
+                const botao = document.createElement("button");
+                botao.type = "button";
+                botao.className = "produto-relacionado";
+                const img = document.createElement("img");
+                img.src = imagemMiniatura(item); img.alt = ""; img.loading = "lazy"; img.width = 80; img.height = 100;
+                img.addEventListener("error", () => img.remove());
+                const span = document.createElement("span"); span.textContent = item.nome;
+                botao.append(img, span);
+                botao.addEventListener("click", () => abrirModal(item));
+                grid.append(botao);
+            });
+            secaoRelacionados.append(h3, grid);
+            conteudo.append(secaoRelacionados);
+        }
+
+        document.dispatchEvent(new CustomEvent("qualimax:produto-visto", { detail: { produto } }));
+        modal.hidden = false;
+        document.body.classList.add("modal-aberto");
+        modal.setAttribute("aria-hidden", "false");
+        modal.querySelector("[data-modal-fechar]")?.focus();
+    };
+
+    const fecharModal = () => {
+        const modal = document.querySelector("[data-produto-modal]");
+        if (!modal) return;
+        modal.hidden = true;
+        modal.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("modal-aberto");
+        ultimoFoco?.focus?.();
+        ultimoFoco = null;
+    };
+
+    window.QualimaxProdutos = { abrirModal, fecharModal, obterTodos: () => [...estado.produtos], relacionados };
+
+    const aplicarParametrosURL = () => {
+        const params = new URLSearchParams(window.location.search);
+        const busca = (params.get("busca") || "").slice(0, 120);
+        const categoria = (params.get("categoria") || "").slice(0, 80);
+        const tipo = (params.get("tipo") || "").slice(0, 80);
+        const caracteristica = (params.get("caracteristica") || "").slice(0, 80);
+        const preco = (params.get("preco") || "").slice(0, 20);
+        const ordenar = (params.get("ordenar") || "").slice(0, 24);
+
+        if (busca) estado.busca = busca;
+        if (categoria && estado.categorias.some((item) => item.id === categoria)) estado.filtroCategoria = categoria;
+        if (tipo) estado.filtroTipo = tipo;
+        if (caracteristica) estado.filtroCaracteristica = caracteristica;
+        if (["ate-20","20-50","50-100","100-mais"].includes(preco)) estado.filtroPreco = preco;
+        if (["relevancia","az","za","categoria","preco-menor","preco-maior"].includes(ordenar)) estado.ordenacao = ordenar;
+
+        const campoBusca = document.querySelector("[data-busca-produtos]");
+        const campoCategoria = document.querySelector("[data-filtro-categoria]");
+        const campoTipo = document.querySelector("[data-filtro-tipo]");
+        const campoCaracteristica = document.querySelector("[data-filtro-caracteristica]");
+        const campoOrdenacao = document.querySelector("[data-ordenar-produtos]");
+        const campoPreco = document.querySelector("[data-filtro-preco]");
+        if (campoBusca) campoBusca.value = estado.busca;
+        if (campoCategoria) campoCategoria.value = estado.filtroCategoria;
+        if (campoTipo && [...campoTipo.options].some((o) => o.value === estado.filtroTipo)) campoTipo.value = estado.filtroTipo;
+        if (campoCaracteristica && [...campoCaracteristica.options].some((o) => o.value === estado.filtroCaracteristica)) campoCaracteristica.value = estado.filtroCaracteristica;
+        if (campoOrdenacao) campoOrdenacao.value = estado.ordenacao;
+        if (campoPreco) campoPreco.value = estado.filtroPreco;
+    };
+
+    const sincronizarURL = () => {
+        const params = new URLSearchParams();
+        if (estado.busca.trim()) params.set("busca", estado.busca.trim());
+        if (estado.filtroCategoria) params.set("categoria", estado.filtroCategoria);
+        if (estado.filtroTipo) params.set("tipo", estado.filtroTipo);
+        if (estado.filtroCaracteristica) params.set("caracteristica", estado.filtroCaracteristica);
+        if (estado.filtroPreco) params.set("preco", estado.filtroPreco);
+        if (estado.ordenacao !== "relevancia") params.set("ordenar", estado.ordenacao);
+        const novaURL = `${window.location.pathname}${params.size ? `?${params}` : ""}${window.location.hash || ""}`;
+        history.replaceState(null, "", novaURL);
+        salvarEstadoCatalogo();
+        document.dispatchEvent(new CustomEvent("qualimax:catalogo-contexto", {
+            detail: {
+                busca: estado.busca.trim(),
+                categoria: estado.filtroCategoria,
+                tipo: estado.filtroTipo,
+                caracteristica: estado.filtroCaracteristica,
+                preco: estado.filtroPreco,
+                ordenacao: estado.ordenacao
+            }
+        }));
+    };
+
+    document.addEventListener("DOMContentLoaded", async () => {
+        if (!window.QualimaxConfig) {
+            await new Promise((resolve) => document.addEventListener("qualimax:config-ready", resolve, { once: true }));
+        }
+        try {
+            const [produtosResposta, categoriasResposta] = await Promise.all([
+                fetch("./data/products.json"),
+                fetch("./data/categories.json")
+            ]);
+            if (!produtosResposta.ok || !categoriasResposta.ok) throw new Error("Falha ao carregar catálogo.");
+            const produtosDados = await produtosResposta.json();
+            const categoriasDados = await categoriasResposta.json();
+            estado.produtos = Array.isArray(produtosDados.produtos) ? produtosDados.produtos : [];
+            estado.categorias = Array.isArray(categoriasDados.categorias) ? categoriasDados.categorias : [];
+            await window.QualimaxDB?.seedProdutos?.(estado.produtos);
+            const sugestoes = document.querySelector("[data-sugestoes-produtos]");
+            if (sugestoes) {
+                const valores = new Set();
+                estado.produtos.forEach(produto => { valores.add(produto.nome); (produto.tags || []).forEach(tag => valores.add(tag)); });
+                estado.categorias.forEach(categoria => valores.add(categoria.nome));
+                sugestoes.replaceChildren(...[...valores].sort((a,b) => String(a).localeCompare(String(b), "pt-BR")).map(valor => {
+                    const option = document.createElement("option"); option.value = valor; return option;
+                }));
+            }
+            preencherFiltros();
+            aplicarParametrosURL();
+            const categoriaPendente = document.documentElement.dataset.categoriaPendente || "";
+            if (categoriaPendente && estado.categorias.some((item) => item.id === categoriaPendente)) {
+                estado.filtroCategoria = categoriaPendente;
+                const selectCategoria = document.querySelector("[data-filtro-categoria]");
+                if (selectCategoria) selectCategoria.value = categoriaPendente;
+                delete document.documentElement.dataset.categoriaPendente;
+            }
+            renderizar();
+            sincronizarURL();
+            renderizarDestaques();
+            document.dispatchEvent(new CustomEvent("qualimax:catalog-ready", { detail: { produtos: estado.produtos, categorias: estado.categorias } }));
+            window.setTimeout(() => document.dispatchEvent(new CustomEvent("qualimax:colecoes-refresh")), 0);
+        } catch (erro) {
+            console.error(erro);
+            const vazio = document.querySelector("[data-produtos-vazio]");
+            if (vazio) {
+                vazio.hidden = false;
+                vazio.textContent = numeroWhatsApp() ? "Não foi possível carregar o catálogo agora. Fale com a equipe pelo WhatsApp para consultar os produtos." : "Não foi possível carregar o catálogo agora. Fale com a equipe pelos canais de contato disponíveis.";
+            }
+        }
+
+        document.querySelector("[data-busca-produtos]")?.addEventListener("input", (evento) => {
+            estado.busca = evento.target.value;
+            renderizar();
+            sincronizarURL();
+        });
+        document.querySelector("[data-filtro-categoria]")?.addEventListener("change", (evento) => {
+            estado.filtroCategoria = evento.target.value;
+            renderizar();
+            sincronizarURL();
+        });
+        document.querySelector("[data-filtro-tipo]")?.addEventListener("change", (evento) => {
+            estado.filtroTipo = evento.target.value;
+            renderizar();
+            sincronizarURL();
+        });
+        document.querySelector("[data-filtro-caracteristica]")?.addEventListener("change", (evento) => {
+            estado.filtroCaracteristica = evento.target.value;
+            renderizar();
+            sincronizarURL();
+        });
+        document.querySelector("[data-filtro-preco]")?.addEventListener("change", (evento) => {
+            estado.filtroPreco = evento.target.value;
+            renderizarProdutos(); sincronizarURL();
+        });
+
+        document.querySelector("[data-ordenar-produtos]")?.addEventListener("change", (evento) => {
+            estado.ordenacao = evento.target.value;
+            renderizar();
+            sincronizarURL();
+        });
+
+        document.querySelector("[data-filtros-ativos]")?.addEventListener("click", (evento) => {
+            const botao = evento.target.closest?.("[data-remover-filtro]");
+            if (!botao) return;
+            const tipo = botao.dataset.removerFiltro;
+            if (tipo === "busca") {
+                estado.busca = "";
+                const campo = document.querySelector("[data-busca-produtos]");
+                if (campo) campo.value = "";
+            } else if (tipo === "categoria") {
+                estado.filtroCategoria = "";
+                const campo = document.querySelector("[data-filtro-categoria]");
+                if (campo) campo.value = "";
+            } else if (tipo === "tipo") {
+                estado.filtroTipo = "";
+                const campo = document.querySelector("[data-filtro-tipo]");
+                if (campo) campo.value = "";
+            } else if (tipo === "caracteristica") {
+                estado.filtroCaracteristica = "";
+                const campo = document.querySelector("[data-filtro-caracteristica]");
+                if (campo) campo.value = "";
+            } else if (tipo === "preco") {
+                estado.filtroPreco = "";
+                const campo = document.querySelector("[data-filtro-preco]");
+                if (campo) campo.value = "";
+            }
+            renderizar();
+            sincronizarURL();
+        });
+
+        document.querySelector("[data-compartilhar-catalogo]")?.addEventListener("click", async () => {
+            const botao = document.querySelector("[data-compartilhar-catalogo]");
+            const url = location.href;
+            try {
+                if (navigator.share) {
+                    await navigator.share({ title: document.title, text: `Confira esta seleção no catálogo da ${window.QualimaxConfig?.empresa?.nome || "loja"}.`, url });
+                    return;
+                }
+                if (!navigator.clipboard || !window.isSecureContext) throw new Error("clipboard-indisponivel");
+                await navigator.clipboard.writeText(url);
+                if (botao) {
+                    const antigo = botao.textContent;
+                    botao.textContent = "Link copiado";
+                    window.setTimeout(() => { botao.textContent = antigo; }, 1800);
+                }
+            } catch (erro) {
+                if (erro?.name === "AbortError") return;
+                const contador = document.querySelector("[data-produtos-contador]");
+                if (contador) contador.textContent = "Não foi possível compartilhar esta busca neste navegador.";
+            }
+        });
+
+        const limparFiltros = () => {
+            estado.busca = "";
+            estado.filtroCategoria = "";
+            estado.filtroTipo = "";
+            estado.filtroCaracteristica = "";
+            estado.filtroPreco = "";
+            estado.ordenacao = "relevancia";
+            const busca = document.querySelector("[data-busca-produtos]");
+            const categoria = document.querySelector("[data-filtro-categoria]");
+            const tipo = document.querySelector("[data-filtro-tipo]");
+            const caracteristica = document.querySelector("[data-filtro-caracteristica]");
+            const ordenacao = document.querySelector("[data-ordenar-produtos]");
+            const preco = document.querySelector("[data-filtro-preco]");
+            if (busca) busca.value = "";
+            if (categoria) categoria.value = "";
+            if (tipo) tipo.value = "";
+            if (caracteristica) caracteristica.value = "";
+            if (ordenacao) ordenacao.value = "relevancia";
+            if (preco) preco.value = "";
+            renderizar();
+            sincronizarURL();
+            busca?.focus();
+        };
+        document.querySelector("[data-limpar-filtros]")?.addEventListener("click", limparFiltros);
+        document.querySelector("[data-vazio-limpar]")?.addEventListener("click", limparFiltros);
+
+        document.querySelectorAll("[data-modal-fechar]").forEach((botao) => botao.addEventListener("click", fecharModal));
+        document.querySelector("[data-produto-modal]")?.addEventListener("click", (evento) => {
+            if (evento.target === evento.currentTarget) fecharModal();
+        });
+        document.addEventListener("keydown", (evento) => {
+            const modal = document.querySelector("[data-produto-modal]");
+            if (!modal || modal.hidden) return;
+            if (evento.key === "Escape") { fecharModal(); return; }
+            if (evento.key === "Tab") {
+                const focaveis = [...modal.querySelectorAll('button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])')].filter((el) => !el.hasAttribute("disabled"));
+                if (!focaveis.length) return;
+                const primeiro = focaveis[0], ultimo = focaveis[focaveis.length - 1];
+                if (evento.shiftKey && document.activeElement === primeiro) { evento.preventDefault(); ultimo.focus(); }
+                else if (!evento.shiftKey && document.activeElement === ultimo) { evento.preventDefault(); primeiro.focus(); }
+            }
+        });
+    });
+})();

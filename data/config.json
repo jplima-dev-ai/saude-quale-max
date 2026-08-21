@@ -15,7 +15,7 @@
   },
   "marca": {
     "logo": "🌿",
-    "logoImagem": "img/logo-saude-qualimax.webp",
+    "logoImagem": "assets/images/logo-saude-qualimax.webp",
     "corPrincipal": "#176b4d",
     "corSecundaria": "#0d4532",
     "corAcento": "#c99a45",
@@ -31,7 +31,7 @@
   "chatbot": {
     "ativo": true,
     "nome": "Max",
-    "avatar": "img/max-avatar.webp",
+    "avatar": "assets/images/max-avatar-v333.svg",
     "subtitulo": "Seu guia inteligente e atencioso para conhecer a loja",
     "saudacao": "Olá! Eu sou o Max. Estou aqui para ajudar você a conhecer os produtos com calma. Pode me dizer o que procura, o que prefere evitar ou até mesmo dizer que ainda não sabe por onde começar.",
     "tom": "acolhedor, claro, respeitoso e sem gírias",
@@ -83,7 +83,7 @@
       "catalogo": {
         "title": "Catálogo de Produtos Naturais | Saúde Qualimax",
         "description": "Explore e compare produtos naturais, suplementos, vitaminas, chás, sementes, castanhas e alimentos no catálogo da Saúde Qualimax.",
-        "canonical": "https://jplima-dev-ai.github.io/saude-quali-max/catalogo.html"
+        "canonical": "https://jplima-dev-ai.github.io/saude-quali-max/catalog.html"
       },
       "quiz": {
         "title": "Quiz de Produtos | Saúde Qualimax",
@@ -93,12 +93,12 @@
       "sobre": {
         "title": "Sobre a Saúde Qualimax | Serra - ES",
         "description": "Conheça a Saúde Qualimax: curadoria de produtos naturais, experiência acessível e atendimento humano em Laranjeiras, Serra - ES.",
-        "canonical": "https://jplima-dev-ai.github.io/saude-quali-max/sobre.html"
+        "canonical": "https://jplima-dev-ai.github.io/saude-quali-max/about.html"
       },
       "contato": {
         "title": "Contato | Saúde Qualimax em Serra - ES",
         "description": "Fale com a Saúde Qualimax para consultar produtos, disponibilidade, retirada e entrega em Serra - ES.",
-        "canonical": "https://jplima-dev-ai.github.io/saude-quali-max/contato.html"
+        "canonical": "https://jplima-dev-ai.github.io/saude-quali-max/contact.html"
       }
     }
   },
@@ -109,7 +109,14 @@
     "pwa": true,
     "cupons": true,
     "pontos": true,
-    "freteGratis": true
+    "freteGratis": true,
+    "carrinho": true,
+    "variantes": true,
+    "estoque": true,
+    "campanhas": true,
+    "kits": true,
+    "comandos": true,
+    "inteligenciaComercial": true
   },
   "comercial": {
     "horario": "",
@@ -120,7 +127,7 @@
       "Pix",
       "Dinheiro em espécie"
     ],
-    "precosAproximados": true,
+    "precosAproximados": false,
     "precosAtualizadosEm": "2026-08-20"
   },
   "promocoes": {
@@ -190,5 +197,16 @@
         "descricao": "Frete grátis promocional em pedidos a partir de R$ 60."
       }
     ]
+  },
+  "versao": "3.3.6",
+  "animacoes": {
+    "ativo": true,
+    "nivel": "suave",
+    "estilo": "folhas",
+    "revelacao": true,
+    "hero": true,
+    "cards": true,
+    "conversao": true,
+    "cabecalho": true
   }
 }

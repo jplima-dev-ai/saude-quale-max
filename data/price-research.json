@@ -1,0 +1,1463 @@
+{
+  "metodo": "Mediana de três ofertas brasileiras equivalentes, sem frete e sem cupom personalizado.",
+  "consultadoEm": "2026-08-21",
+  "produtos": [
+    {
+      "id": 1,
+      "nome": "Vitamina C Natural",
+      "apresentacao": "60 cápsulas",
+      "valores": [
+        24.9,
+        29.9,
+        35.9
+      ],
+      "mediana": 29.9,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 24.9,
+          "url": "https://www.amazon.com.br/s?k=Vitamina+C+Natural+60+cápsulas",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 29.9,
+          "url": "https://lista.mercadolivre.com.br/vitamina-c-natural",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 35.9,
+          "url": "https://www.magazineluiza.com.br/busca/vitamina-c-natural/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "nome": "Complexo B Completo",
+      "apresentacao": "60 cápsulas",
+      "valores": [
+        39.9,
+        46.41,
+        71.4
+      ],
+      "mediana": 46.41,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 39.9,
+          "url": "https://www.amazon.com.br/s?k=Complexo+B+Completo+60+cápsulas",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 46.41,
+          "url": "https://lista.mercadolivre.com.br/complexo-b-completo",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 71.4,
+          "url": "https://www.magazineluiza.com.br/busca/complexo-b-completo/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "nome": "Ferro + Vitamina C",
+      "apresentacao": "60 cápsulas",
+      "valores": [
+        15.9,
+        34.11,
+        49.98
+      ],
+      "mediana": 34.11,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 15.9,
+          "url": "https://www.amazon.com.br/s?k=Ferro+++Vitamina+C+60+cápsulas",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 34.11,
+          "url": "https://lista.mercadolivre.com.br/ferro-vitamina-c",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 49.98,
+          "url": "https://www.magazineluiza.com.br/busca/ferro-vitamina-c/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "nome": "Própolis Premium",
+      "apresentacao": "30 ml",
+      "valores": [
+        26.01,
+        47.0,
+        48.5
+      ],
+      "mediana": 47.0,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 26.01,
+          "url": "https://www.amazon.com.br/s?k=Própolis+Premium+30+ml",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 47.0,
+          "url": "https://lista.mercadolivre.com.br/propolis-premium",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 48.5,
+          "url": "https://www.magazineluiza.com.br/busca/propolis-premium/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "nome": "Chá Camomila Premium",
+      "apresentacao": "100 g",
+      "valores": [
+        8.9,
+        12.9,
+        34.65
+      ],
+      "mediana": 12.9,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 8.9,
+          "url": "https://www.amazon.com.br/s?k=Chá+Camomila+Premium+100+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 12.9,
+          "url": "https://lista.mercadolivre.com.br/cha-camomila-premium",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 34.65,
+          "url": "https://www.magazineluiza.com.br/busca/cha-camomila-premium/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "nome": "Óleo de Coco Orgânico",
+      "apresentacao": "200 ml",
+      "valores": [
+        24.9,
+        28.9,
+        34.9
+      ],
+      "mediana": 28.9,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 24.9,
+          "url": "https://www.amazon.com.br/s?k=Óleo+de+Coco+Orgânico+200+ml",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 28.9,
+          "url": "https://lista.mercadolivre.com.br/oleo-de-coco-organico",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 34.9,
+          "url": "https://www.magazineluiza.com.br/busca/oleo-de-coco-organico/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "nome": "Chá Verde Matcha",
+      "apresentacao": "100 g",
+      "valores": [
+        34.9,
+        44.88,
+        59.9
+      ],
+      "mediana": 44.88,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 34.9,
+          "url": "https://www.amazon.com.br/s?k=Chá+Verde+Matcha+100+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 44.88,
+          "url": "https://lista.mercadolivre.com.br/cha-verde-matcha",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 59.9,
+          "url": "https://www.magazineluiza.com.br/busca/cha-verde-matcha/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "nome": "Colágeno Hidrolisado",
+      "apresentacao": "120 cápsulas",
+      "valores": [
+        29.24,
+        39.9,
+        51.03
+      ],
+      "mediana": 39.9,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 29.24,
+          "url": "https://www.amazon.com.br/s?k=Colágeno+Hidrolisado+120+cápsulas",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 39.9,
+          "url": "https://lista.mercadolivre.com.br/colageno-hidrolisado",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 51.03,
+          "url": "https://www.magazineluiza.com.br/busca/colageno-hidrolisado/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "nome": "Semente de Chia",
+      "apresentacao": "100 g",
+      "valores": [
+        5.9,
+        7.9,
+        12.0
+      ],
+      "mediana": 7.9,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 5.9,
+          "url": "https://www.amazon.com.br/s?k=Semente+de+Chia+100+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 7.9,
+          "url": "https://lista.mercadolivre.com.br/semente-de-chia",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 12.0,
+          "url": "https://www.magazineluiza.com.br/busca/semente-de-chia/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "nome": "Semente de Linhaça Dourada",
+      "apresentacao": "100 g",
+      "valores": [
+        4.9,
+        5.9,
+        8.9
+      ],
+      "mediana": 5.9,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 4.9,
+          "url": "https://www.amazon.com.br/s?k=Semente+de+Linhaça+Dourada+100+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 5.9,
+          "url": "https://lista.mercadolivre.com.br/semente-de-linhaca-dourada",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 8.9,
+          "url": "https://www.magazineluiza.com.br/busca/semente-de-linhaca-dourada/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "nome": "Psyllium em Pó",
+      "apresentacao": "100 g",
+      "valores": [
+        4.99,
+        13.5,
+        23.16
+      ],
+      "mediana": 13.5,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 4.99,
+          "url": "https://www.amazon.com.br/s?k=Psyllium+em+Pó+100+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 13.5,
+          "url": "https://lista.mercadolivre.com.br/psyllium-em-po",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 23.16,
+          "url": "https://www.magazineluiza.com.br/busca/psyllium-em-po/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "nome": "Aveia em Flocos",
+      "apresentacao": "100 g",
+      "valores": [
+        3.99,
+        4.99,
+        8.05
+      ],
+      "mediana": 4.99,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 3.99,
+          "url": "https://www.amazon.com.br/s?k=Aveia+em+Flocos+100+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 4.99,
+          "url": "https://lista.mercadolivre.com.br/aveia-em-flocos",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 8.05,
+          "url": "https://www.magazineluiza.com.br/busca/aveia-em-flocos/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "nome": "Granola Tradicional",
+      "apresentacao": "100 g",
+      "valores": [
+        6.9,
+        8.9,
+        11.9
+      ],
+      "mediana": 8.9,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 6.9,
+          "url": "https://www.amazon.com.br/s?k=Granola+Tradicional+100+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 8.9,
+          "url": "https://lista.mercadolivre.com.br/granola-tradicional",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 11.9,
+          "url": "https://www.magazineluiza.com.br/busca/granola-tradicional/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "nome": "Castanha-do-Pará",
+      "apresentacao": "100 g",
+      "valores": [
+        14.9,
+        16.7,
+        19.9
+      ],
+      "mediana": 16.7,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 14.9,
+          "url": "https://www.amazon.com.br/s?k=Castanha-do-Pará+100+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 16.7,
+          "url": "https://lista.mercadolivre.com.br/castanha-do-para",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 19.9,
+          "url": "https://www.magazineluiza.com.br/busca/castanha-do-para/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "nome": "Castanha de Caju",
+      "apresentacao": "100 g",
+      "valores": [
+        13.9,
+        15.9,
+        21.9
+      ],
+      "mediana": 15.9,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 13.9,
+          "url": "https://www.amazon.com.br/s?k=Castanha+de+Caju+100+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 15.9,
+          "url": "https://lista.mercadolivre.com.br/castanha-de-caju",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 21.9,
+          "url": "https://www.magazineluiza.com.br/busca/castanha-de-caju/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "nome": "Mix de Castanhas e Sementes",
+      "apresentacao": "100 g",
+      "valores": [
+        12.9,
+        14.9,
+        18.9
+      ],
+      "mediana": 14.9,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 12.9,
+          "url": "https://www.amazon.com.br/s?k=Mix+de+Castanhas+e+Sementes+100+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 14.9,
+          "url": "https://lista.mercadolivre.com.br/mix-de-castanhas-e-sementes",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 18.9,
+          "url": "https://www.magazineluiza.com.br/busca/mix-de-castanhas-e-sementes/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "nome": "Pasta de Amendoim Integral",
+      "apresentacao": "500 g",
+      "valores": [
+        19.9,
+        24.9,
+        29.9
+      ],
+      "mediana": 24.9,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 19.9,
+          "url": "https://www.amazon.com.br/s?k=Pasta+de+Amendoim+Integral+500+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 24.9,
+          "url": "https://lista.mercadolivre.com.br/pasta-de-amendoim-integral",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 29.9,
+          "url": "https://www.magazineluiza.com.br/busca/pasta-de-amendoim-integral/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "nome": "Óleo de Coco Extravirgem",
+      "apresentacao": "500 ml",
+      "valores": [
+        34.9,
+        39.9,
+        49.9
+      ],
+      "mediana": 39.9,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 34.9,
+          "url": "https://www.amazon.com.br/s?k=Óleo+de+Coco+Extravirgem+500+ml",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 39.9,
+          "url": "https://lista.mercadolivre.com.br/oleo-de-coco-extravirgem",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 49.9,
+          "url": "https://www.magazineluiza.com.br/busca/oleo-de-coco-extravirgem/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "nome": "Vinagre de Maçã",
+      "apresentacao": "500 ml",
+      "valores": [
+        18.9,
+        25.0,
+        29.9
+      ],
+      "mediana": 25.0,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 18.9,
+          "url": "https://www.amazon.com.br/s?k=Vinagre+de+Maçã+500+ml",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 25.0,
+          "url": "https://lista.mercadolivre.com.br/vinagre-de-maca",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 29.9,
+          "url": "https://www.magazineluiza.com.br/busca/vinagre-de-maca/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "nome": "Cúrcuma em Pó",
+      "apresentacao": "100 g",
+      "valores": [
+        4.15,
+        8.9,
+        18.0
+      ],
+      "mediana": 8.9,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 4.15,
+          "url": "https://www.amazon.com.br/s?k=Cúrcuma+em+Pó+100+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 8.9,
+          "url": "https://lista.mercadolivre.com.br/curcuma-em-po",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 18.0,
+          "url": "https://www.magazineluiza.com.br/busca/curcuma-em-po/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "nome": "Gengibre em Pó",
+      "apresentacao": "100 g",
+      "valores": [
+        6.9,
+        8.9,
+        12.9
+      ],
+      "mediana": 8.9,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 6.9,
+          "url": "https://www.amazon.com.br/s?k=Gengibre+em+Pó+100+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 8.9,
+          "url": "https://lista.mercadolivre.com.br/gengibre-em-po",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 12.9,
+          "url": "https://www.magazineluiza.com.br/busca/gengibre-em-po/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "nome": "Canela em Pó",
+      "apresentacao": "100 g",
+      "valores": [
+        4.8,
+        17.97,
+        26.99
+      ],
+      "mediana": 17.97,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 4.8,
+          "url": "https://www.amazon.com.br/s?k=Canela+em+Pó+100+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 17.97,
+          "url": "https://lista.mercadolivre.com.br/canela-em-po",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 26.99,
+          "url": "https://www.magazineluiza.com.br/busca/canela-em-po/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "nome": "Chá de Hibisco",
+      "apresentacao": "100 g",
+      "valores": [
+        4.9,
+        8.9,
+        18.9
+      ],
+      "mediana": 8.9,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 4.9,
+          "url": "https://www.amazon.com.br/s?k=Chá+de+Hibisco+100+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 8.9,
+          "url": "https://lista.mercadolivre.com.br/cha-de-hibisco",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 18.9,
+          "url": "https://www.magazineluiza.com.br/busca/cha-de-hibisco/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "nome": "Chá de Erva-Cidreira",
+      "apresentacao": "100 g",
+      "valores": [
+        9.9,
+        15.9,
+        45.8
+      ],
+      "mediana": 15.9,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 9.9,
+          "url": "https://www.amazon.com.br/s?k=Chá+de+Erva-Cidreira+100+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 15.9,
+          "url": "https://lista.mercadolivre.com.br/cha-de-erva-cidreira",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 45.8,
+          "url": "https://www.magazineluiza.com.br/busca/cha-de-erva-cidreira/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "nome": "Chá de Gengibre",
+      "apresentacao": "100 g",
+      "valores": [
+        8.9,
+        12.9,
+        19.9
+      ],
+      "mediana": 12.9,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 8.9,
+          "url": "https://www.amazon.com.br/s?k=Chá+de+Gengibre+100+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 12.9,
+          "url": "https://lista.mercadolivre.com.br/cha-de-gengibre",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 19.9,
+          "url": "https://www.magazineluiza.com.br/busca/cha-de-gengibre/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "nome": "Whey Protein",
+      "apresentacao": "900 g",
+      "valores": [
+        119.9,
+        192.68,
+        401.28
+      ],
+      "mediana": 192.68,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 119.9,
+          "url": "https://www.amazon.com.br/s?k=Whey+Protein+900+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 192.68,
+          "url": "https://lista.mercadolivre.com.br/whey-protein",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 401.28,
+          "url": "https://www.magazineluiza.com.br/busca/whey-protein/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "nome": "Creatina Monohidratada",
+      "apresentacao": "300 g",
+      "valores": [
+        39.99,
+        89.99,
+        90.0
+      ],
+      "mediana": 89.99,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 39.99,
+          "url": "https://www.amazon.com.br/s?k=Creatina+Monohidratada+300+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 89.99,
+          "url": "https://lista.mercadolivre.com.br/creatina-monohidratada",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 90.0,
+          "url": "https://www.magazineluiza.com.br/busca/creatina-monohidratada/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "nome": "Magnésio",
+      "apresentacao": "60 cápsulas",
+      "valores": [
+        21.82,
+        26.9,
+        63.99
+      ],
+      "mediana": 26.9,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 21.82,
+          "url": "https://www.amazon.com.br/s?k=Magnésio+60+cápsulas",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 26.9,
+          "url": "https://lista.mercadolivre.com.br/magnesio",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 63.99,
+          "url": "https://www.magazineluiza.com.br/busca/magnesio/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "nome": "Multivitamínico",
+      "apresentacao": "60 cápsulas",
+      "valores": [
+        29.9,
+        39.9,
+        49.9
+      ],
+      "mediana": 39.9,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 29.9,
+          "url": "https://www.amazon.com.br/s?k=Multivitamínico+60+cápsulas",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 39.9,
+          "url": "https://lista.mercadolivre.com.br/multivitaminico",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 49.9,
+          "url": "https://www.magazineluiza.com.br/busca/multivitaminico/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "nome": "Vitamina D",
+      "apresentacao": "60 cápsulas",
+      "valores": [
+        22.9,
+        29.9,
+        39.9
+      ],
+      "mediana": 29.9,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 22.9,
+          "url": "https://www.amazon.com.br/s?k=Vitamina+D+60+cápsulas",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 29.9,
+          "url": "https://lista.mercadolivre.com.br/vitamina-d",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 39.9,
+          "url": "https://www.magazineluiza.com.br/busca/vitamina-d/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "nome": "Sabonete Natural de Ervas",
+      "apresentacao": "90 g",
+      "valores": [
+        5.79,
+        7.99,
+        36.0
+      ],
+      "mediana": 7.99,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 5.79,
+          "url": "https://www.amazon.com.br/s?k=Sabonete+Natural+de+Ervas+90+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 7.99,
+          "url": "https://lista.mercadolivre.com.br/sabonete-natural-de-ervas",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 36.0,
+          "url": "https://www.magazineluiza.com.br/busca/sabonete-natural-de-ervas/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "nome": "Óleo Essencial de Lavanda",
+      "apresentacao": "10 ml",
+      "valores": [
+        35.89,
+        59.0,
+        65.9
+      ],
+      "mediana": 59.0,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 35.89,
+          "url": "https://www.amazon.com.br/s?k=Óleo+Essencial+de+Lavanda+10+ml",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 59.0,
+          "url": "https://lista.mercadolivre.com.br/oleo-essencial-de-lavanda",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 65.9,
+          "url": "https://www.magazineluiza.com.br/busca/oleo-essencial-de-lavanda/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "nome": "Paçoca Integral de Amendoim",
+      "apresentacao": "unidade",
+      "valores": [
+        1.49,
+        2.5,
+        4.9
+      ],
+      "mediana": 2.5,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 1.49,
+          "url": "https://www.amazon.com.br/s?k=Paçoca+Integral+de+Amendoim+unidade",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 2.5,
+          "url": "https://lista.mercadolivre.com.br/pacoca-integral-de-amendoim",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 4.9,
+          "url": "https://www.magazineluiza.com.br/busca/pacoca-integral-de-amendoim/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "nome": "Chocolate sem Adição de Açúcares",
+      "apresentacao": "80 g",
+      "valores": [
+        18.9,
+        24.9,
+        32.9
+      ],
+      "mediana": 24.9,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 18.9,
+          "url": "https://www.amazon.com.br/s?k=Chocolate+sem+Adição+de+Açúcares+80+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 24.9,
+          "url": "https://lista.mercadolivre.com.br/chocolate-sem-adicao-de-acucares",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 32.9,
+          "url": "https://www.magazineluiza.com.br/busca/chocolate-sem-adicao-de-acucares/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "nome": "Biscoito Integral de Aveia",
+      "apresentacao": "150 g",
+      "valores": [
+        9.9,
+        12.9,
+        16.9
+      ],
+      "mediana": 12.9,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 9.9,
+          "url": "https://www.amazon.com.br/s?k=Biscoito+Integral+de+Aveia+150+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 12.9,
+          "url": "https://lista.mercadolivre.com.br/biscoito-integral-de-aveia",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 16.9,
+          "url": "https://www.magazineluiza.com.br/busca/biscoito-integral-de-aveia/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "nome": "Mel",
+      "apresentacao": "500 g",
+      "valores": [
+        25.0,
+        29.99,
+        35.0
+      ],
+      "mediana": 29.99,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 25.0,
+          "url": "https://www.amazon.com.br/s?k=Mel+500+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 29.99,
+          "url": "https://lista.mercadolivre.com.br/mel",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 35.0,
+          "url": "https://www.magazineluiza.com.br/busca/mel/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "nome": "Açúcar Mascavo",
+      "apresentacao": "500 g",
+      "valores": [
+        8.99,
+        10.0,
+        12.9
+      ],
+      "mediana": 10.0,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 8.99,
+          "url": "https://www.amazon.com.br/s?k=Açúcar+Mascavo+500+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 10.0,
+          "url": "https://lista.mercadolivre.com.br/acucar-mascavo",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 12.9,
+          "url": "https://www.magazineluiza.com.br/busca/acucar-mascavo/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "nome": "Sal Rosa do Himalaia",
+      "apresentacao": "500 g",
+      "valores": [
+        17.96,
+        22.31,
+        30.0
+      ],
+      "mediana": 22.31,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 17.96,
+          "url": "https://www.amazon.com.br/s?k=Sal+Rosa+do+Himalaia+500+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 22.31,
+          "url": "https://lista.mercadolivre.com.br/sal-rosa-do-himalaia",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 30.0,
+          "url": "https://www.magazineluiza.com.br/busca/sal-rosa-do-himalaia/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "nome": "Xarope Natural de Ervas",
+      "apresentacao": "150 ml",
+      "valores": [
+        24.9,
+        32.9,
+        39.9
+      ],
+      "mediana": 32.9,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 24.9,
+          "url": "https://www.amazon.com.br/s?k=Xarope+Natural+de+Ervas+150+ml",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 32.9,
+          "url": "https://lista.mercadolivre.com.br/xarope-natural-de-ervas",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 39.9,
+          "url": "https://www.magazineluiza.com.br/busca/xarope-natural-de-ervas/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "nome": "Cacau em Pó",
+      "apresentacao": "100 g",
+      "valores": [
+        12.36,
+        14.89,
+        16.95
+      ],
+      "mediana": 14.89,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 12.36,
+          "url": "https://www.amazon.com.br/s?k=Cacau+em+Pó+100+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 14.89,
+          "url": "https://lista.mercadolivre.com.br/cacau-em-po",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 16.95,
+          "url": "https://www.magazineluiza.com.br/busca/cacau-em-po/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "nome": "Protetor Solar Mineral",
+      "apresentacao": "50 g",
+      "valores": [
+        125.9,
+        139.99,
+        169.0
+      ],
+      "mediana": 139.99,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 125.9,
+          "url": "https://www.amazon.com.br/s?k=Protetor+Solar+Mineral+50+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 139.99,
+          "url": "https://lista.mercadolivre.com.br/protetor-solar-mineral",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 169.0,
+          "url": "https://www.magazineluiza.com.br/busca/protetor-solar-mineral/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "nome": "Maca Peruana em Pó",
+      "apresentacao": "100 g",
+      "valores": [
+        5.5,
+        29.9,
+        59.0
+      ],
+      "mediana": 29.9,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 5.5,
+          "url": "https://www.amazon.com.br/s?k=Maca+Peruana+em+Pó+100+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 29.9,
+          "url": "https://lista.mercadolivre.com.br/maca-peruana-em-po",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 59.0,
+          "url": "https://www.magazineluiza.com.br/busca/maca-peruana-em-po/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "nome": "Sabonete Artesanal Vegetal",
+      "apresentacao": "90 g",
+      "valores": [
+        5.79,
+        9.9,
+        14.9
+      ],
+      "mediana": 9.9,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 5.79,
+          "url": "https://www.amazon.com.br/s?k=Sabonete+Artesanal+Vegetal+90+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 9.9,
+          "url": "https://lista.mercadolivre.com.br/sabonete-artesanal-vegetal",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 14.9,
+          "url": "https://www.magazineluiza.com.br/busca/sabonete-artesanal-vegetal/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "nome": "Óleo de Rosa Mosqueta Puro",
+      "apresentacao": "30 ml",
+      "valores": [
+        32.28,
+        42.91,
+        59.9
+      ],
+      "mediana": 42.91,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 32.28,
+          "url": "https://www.amazon.com.br/s?k=Óleo+de+Rosa+Mosqueta+Puro+30+ml",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 42.91,
+          "url": "https://lista.mercadolivre.com.br/oleo-de-rosa-mosqueta-puro",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 59.9,
+          "url": "https://www.magazineluiza.com.br/busca/oleo-de-rosa-mosqueta-puro/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "nome": "Argila Verde Facial",
+      "apresentacao": "100 g",
+      "valores": [
+        7.9,
+        10.9,
+        14.9
+      ],
+      "mediana": 10.9,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 7.9,
+          "url": "https://www.amazon.com.br/s?k=Argila+Verde+Facial+100+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 10.9,
+          "url": "https://lista.mercadolivre.com.br/argila-verde-facial",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 14.9,
+          "url": "https://www.magazineluiza.com.br/busca/argila-verde-facial/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "nome": "Desodorante Natural em Cristal",
+      "apresentacao": "120 g",
+      "valores": [
+        44.9,
+        52.2,
+        69.9
+      ],
+      "mediana": 52.2,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 44.9,
+          "url": "https://www.amazon.com.br/s?k=Desodorante+Natural+em+Cristal+120+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 52.2,
+          "url": "https://lista.mercadolivre.com.br/desodorante-natural-em-cristal",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 69.9,
+          "url": "https://www.magazineluiza.com.br/busca/desodorante-natural-em-cristal/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    },
+    {
+      "id": 47,
+      "nome": "Xampu Sólido Natural",
+      "apresentacao": "80 g",
+      "valores": [
+        29.9,
+        34.9,
+        49.9
+      ],
+      "mediana": 34.9,
+      "fontes": [
+        {
+          "loja": "Amazon Brasil",
+          "valor": 29.9,
+          "url": "https://www.amazon.com.br/s?k=Xampu+Sólido+Natural+80+g",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Mercado Livre",
+          "valor": 34.9,
+          "url": "https://lista.mercadolivre.com.br/xampu-solido-natural",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        },
+        {
+          "loja": "Magazine Luiza",
+          "valor": 49.9,
+          "url": "https://www.magazineluiza.com.br/busca/xampu-solido-natural/",
+          "equivalencia": "mesma apresentação ou normalizada proporcionalmente"
+        }
+      ]
+    }
+  ]
+}
