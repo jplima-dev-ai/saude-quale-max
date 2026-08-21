@@ -25,10 +25,20 @@ const intents=[
  ["qual a diferença entre creatina e whey","comparar"],
  ["creatina para ansiedade","medica"],
  ["qual o preço","preco"],
+ ["tenho 50 reais","preco"],
+ ["posso gastar 80","preco"],
+ ["quero gastar R$ 100","preco"],
  ["tem entrega","entrega"],
  ["instagram","redes"],
  ["quero falar com uma pessoa","humano"],
- ["o que você entendeu","preferencias"]
+ ["o que você entendeu","preferencias"],
+ ["por que essa opção","explicacao"],
+ ["por que você escolheu esse produto","explicacao"],
+ ["explique sua escolha","explicacao"],
+ ["qual foi o critério","explicacao"],
+ ["qual dos dois combina mais comigo","comparar"],
+ ["me mostra outra opção parecida","similares"],
+ ["tenho no máximo 35 reais","preco"]
 ];
 
 for(const [entrada,esperada] of intents){

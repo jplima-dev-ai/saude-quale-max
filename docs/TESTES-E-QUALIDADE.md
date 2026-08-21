@@ -7,6 +7,18 @@ python tools/sincronizar_cliente.py --check
 python tools/sincronizar_cliente.py
 python tools/auditar_cliente.py
 node tools/testar_max.cjs
+node tools/testar_max_nlu.cjs
+node tools/testar_decision_max.cjs
+python tools/testar_decision_328.py
+node tools/testar_cesta_max.cjs
+python tools/testar_afinidade_cesta.py
+python tools/testar_estado_max.py
+python tools/testar_carrinho_max.py
+python tools/testar_tom_max.py
+python tools/testar_memoria_max.py
+python tools/testar_afinidade_presente.py
+python tools/testar_horario_max.py
+node tools/testar_horario_max.cjs
 python tools/testar_seguranca.py
 ```
 
@@ -15,7 +27,7 @@ python tools/testar_seguranca.py
 - JavaScript, JSON e manifest válidos;
 - referências locais sem quebra;
 - IDs únicos e um H1 por página;
-- 40 produtos correspondendo às páginas, imagens e miniaturas;
+- 47 produtos correspondendo às páginas, imagens e miniaturas;
 - sitemap, robots, canonicals e documentação coerentes.
 
 ## Acessibilidade
@@ -47,3 +59,7 @@ Testar instalação, atualização, offline e retorno da conexão. Confirmar CSP
 ## White-label e pós-deploy
 
 Use `--proibir` para procurar resíduos da marca anterior. Depois do deploy, faça smoke test em janela anônima e confirme a versão do Service Worker.
+
+```bash
+python tools/testar_promocoes_33.py
+```

@@ -52,6 +52,7 @@
       <a href="#favoritos">Favoritos</a>
       <a href="#lista">Minha lista</a>
       <a href="#recentes">Vistos recentemente</a>
+      <a href="#beneficios">Meus benefícios</a>
       <a href="#privacidade">Privacidade e dados</a>
       <a href="#area-loja">Área da loja</a>
     </aside>
@@ -115,6 +116,20 @@
         <p class="conta-vazio" data-conta-recentes-vazio>Nenhum produto visualizado recentemente.</p>
       </section>
 
+      <section id="beneficios" class="conta-painel" aria-labelledby="beneficios-titulo">
+        <div class="conta-painel-cabecalho">
+          <div><p class="secao-subtitulo">Fidelidade demonstrativa</p><h2 id="beneficios-titulo">Meus benefícios</h2></div>
+          <span class="conta-selo">Neste navegador</span>
+        </div>
+        <div class="admin-metricas">
+          <article><strong data-conta-pontos>0</strong><span>Pontos Qualimax</span></article>
+          <article><strong data-conta-proxima>100</strong><span>próximo resgate mínimo</span></article>
+        </div>
+        <p data-conta-beneficios-status>Os pontos desta versão são uma demonstração local. Em produção, o saldo deve ser validado por uma conta autenticada e pelo histórico real de compras.</p>
+        <h3>Cupons demonstrativos disponíveis</h3>
+        <div data-conta-cupons class="conta-produtos-grid"></div>
+      </section>
+
       <section id="privacidade" class="conta-painel" aria-labelledby="privacidade-titulo">
         <p class="secao-subtitulo">Controle local</p>
         <h2 id="privacidade-titulo">Privacidade e dados</h2>
@@ -136,5 +151,6 @@
   </div>
 </section>
 </main>
+<script src="js/promocoes.js" defer></script>
 </body>
 </html>

@@ -2,6 +2,137 @@
 
 Histórico consolidado das principais evoluções da Saúde Qualimax. Relatórios antigos de rodada foram removidos da pasta `docs/` para evitar duplicação.
 
+### 3.3 — Rewards & Promotions Engine
+
+- novo motor `js/promocoes.js` para cupons, pontos, resgate e frete grátis;
+- cupons demonstrativos BEMVINDO10, QUALIMAX5, CHA15 e FRETEGRATIS;
+- frete grátis configurado por valor mínimo, inicialmente R$ 120;
+- barra de progresso textual e visual no pré-atendimento;
+- cálculo de pontos que a compra pode gerar após confirmação;
+- resgate demonstrativo de pontos com limite percentual do pedido;
+- Max passa a responder sobre cupons, melhor cupom, pontos e quanto falta para frete grátis;
+- Minha Conta ganha carteira local de benefícios e cupons disponíveis;
+- Admin Studio ganha área Promoções e Fidelidade;
+- pré-atendimento envia subtotal, descontos, pontos e condição de frete na mensagem;
+- arquitetura permanece compatível com hospedagem estática; saldos locais são explicitamente demonstrativos.
+
+## 3.2.9 — afinidades, modo presente e revisão geral
+
+- Max passa a memorizar três estados explícitos durante a sessão: “gostei”, “talvez” e “não gostei”;
+- produtos marcados como “gostei” recebem peso adicional nas sugestões seguintes;
+- produtos marcados como “não gostei” deixam de aparecer nas buscas da conversa;
+- usuário pode pedir para rever os produtos marcados como “gostei” ou “talvez”;
+- novo modo presente/cesta com orçamento aproximado;
+- Max pode perguntar o orçamento quando ele não foi informado;
+- cesta prioriza diversidade de categorias e preferências já demonstradas na conversa;
+- cliente pode pedir outra sugestão sem repetir a cesta imediatamente anterior;
+- cesta sugerida só entra no pedido após ação explícita do cliente;
+- carrinho e pré-atendimento continuam usando preços aproximados e confirmação final pela loja;
+- adicionados testes automatizados de afinidade e cesta;
+- revisão geral da plataforma executada após a implementação.
+
+## 3.2.8 — Decision Engine mais ativo e carrinho conversacional refinado
+
+- contexto do catálogo passa a incluir busca, categoria, formato, característica e faixa de preço;
+- Max consegue explicar os filtros atuais quando o cliente pergunta “o que estou vendo?”;
+- confiança da interpretação passa a ser usada de forma efetiva no fluxo de decisão;
+- ambiguidade continua sendo resolvida antes de qualquer recomendação;
+- conflitos de formato ganham ações específicas para manter o formato ou manter a exclusão;
+- buscas sem resultado passam a diagnosticar qual critério mais restringe o catálogo;
+- Max pode flexibilizar somente um critério, preservando o restante das preferências;
+- carrinho conversacional passa a aceitar troca de produto por outro;
+- carrinho permite ajustar quantidade de item já selecionado;
+- Max responde se o pedido ultrapassa um orçamento e informa a diferença;
+- removida chamada duplicada do Decision Engine no fluxo principal;
+- testes do Decision Engine e carrinho foram ampliados.
+
+## 3.2.7 — Max Decision Engine
+
+- novo módulo `max-decision.js` para confiança, ambiguidade, conflitos e contexto;
+- Max deixa de adivinhar termos ambíguos e pede confirmação quando necessário;
+- nível de confiança passa a orientar perguntas de esclarecimento;
+- contexto do catálogo e produto em foco passa a influenciar referências como “esse”;
+- carrinho conversacional local permite adicionar, remover, limpar e somar itens;
+- quantidades por unidade ou peso entram no cálculo aproximado;
+- seleção criada no Max é transferida ao pré-atendimento com quantidades;
+- conflitos de preferências são detectados antes da busca;
+- linguagem estática do widget foi alinhada ao tom maduro do Max;
+- arquitetura continua 100% estática e white-label.
+
+## 3.2.6 — revisão do Max e inteligência de horário local
+
+- Max passa a usar a hora local do dispositivo para escolher entre “Bom dia”, “Boa tarde” e “Boa noite”;
+- perguntas como “que horas são?” passam a receber o horário local do navegador;
+- manhã definida até 11:59, tarde de 12:00 a 17:59 e noite a partir de 18:00;
+- corrigido estado “Um momento…” que podia permanecer visível junto com a resposta final;
+- processamento complexo agora remove o indicador antes de renderizar a resposta;
+- adicionada recuperação amigável caso uma análise complexa lance erro;
+- removida dependência de `Array.findLastIndex`, melhorando compatibilidade com navegadores antigos;
+- corrigida memória de produtos rejeitados para funcionar também com IDs não numéricos;
+- consultas semânticas complexas passam a usar o mesmo estado de processamento do restante do Max;
+- adicionados testes automatizados dos limites de horário e das correções de regressão.
+
+## 3.2.5 — memória semântica curta e processamento elegante
+
+- Max passa a lembrar o último grupo de produtos exibido;
+- referências como “a primeira”, “a segunda” e “a terceira” passam a apontar para produtos do último lote;
+- “não gostei dessas” exclui temporariamente aquelas opções da conversa;
+- suporte a “tem outra mais barata parecida com ela?”;
+- suporte a retomar uma opção mostrada anteriormente;
+- histórico curto mantém até 12 produtos recentes, apenas na sessão atual;
+- consultas complexas podem mostrar “Um momento…”, “Só um instante…” ou “Estou organizando as opções…”;
+- o status de processamento é acessível via `role=status` e `aria-live=polite`;
+- perguntas simples continuam sem indicador de processamento;
+- adicionado teste de regressão da memória curta do Max.
+
+## 3.2.4 — compreensão contextual ampliada do Max
+
+- novo módulo `max-nlu.js` para interpretação local de linguagem natural;
+- reconhecimento conjunto de múltiplas preferências na mesma frase;
+- tratamento de negações como “não quero cápsulas”;
+- compreensão de orçamento com “no máximo” e variações;
+- correção de alguns erros comuns de digitação, como “glutem”;
+- comparação contextual com “qual dos dois?” e “qual deles?”;
+- memória da última comparação;
+- suporte a correções como “na verdade...” e “quis dizer...”;
+- busca de alternativas com linguagem mais natural;
+- ranking por orçamento corrigido para apresentar preços menores primeiro;
+- descoberta guiada agora trabalha em etapas e faz uma pergunta de refinamento após a primeira escolha;
+- novos testes automatizados de NLU e regressão conversacional.
+
+## 3.2.3 — Max mais humano e com raciocínio explicável
+
+- linguagem do Max revisada para um tom acolhedor, paciente e respeitoso;
+- removidas gírias e expressões excessivamente juvenis;
+- saudação e subtítulo do agente atualizados;
+- nova intenção para explicar por que uma opção foi destacada;
+- Max passa a justificar sugestões com critérios objetivos do catálogo;
+- comparação passa a considerar categoria, destaques, preço e preferências da conversa;
+- orçamento e prioridade por menor preço passam a integrar o estado de preferências;
+- resultados podem destacar uma primeira opção e explicar o motivo;
+- mensagens de ausência de resultado e encaminhamento ficaram mais cuidadosas;
+- adicionado teste automático de tom e raciocínio explicável.
+
+## 3.2.2 — estabilização comercial e hardening do pedido
+
+- corrigida estrutura inválida/ambígua dos controles de produto e quantidade no pré-atendimento;
+- checkbox e quantidade agora possuem labels independentes e previsíveis para teclado e leitores de tela;
+- prévia comercial passa a ser somente leitura, evitando alteração acidental de preços e subtotais;
+- a equipe continua tratando preços do frontend como estimativas e confirma o total final;
+- abertura do WhatsApp deixa de depender do valor de retorno de `window.open` com `noopener`, eliminando falso aviso de popup bloqueado;
+- Max passa a reconhecer frases naturais de orçamento como “tenho 50 reais”, “posso gastar 80” e “quero gastar 100”;
+- auditoria de segurança e regressão comercial ampliadas para cobrir as novas garantias.
+
+## 3.2.1 — refinamento comercial e consistência
+
+- corrige o contador editorial do catálogo de 32 para 47 produtos;
+- corrige persistência via URL das ordenações por menor e maior preço;
+- adiciona filtro por faixa de preço ao catálogo;
+- páginas de produto passam a mostrar preço também nos produtos relacionados;
+- Minha Conta passa a exibir preços em favoritos, lista e histórico recente;
+- novos produtos no Admin Studio recebem estrutura comercial padrão;
+- reforça testes de regressão da camada comercial.
+
 ### 3.2 — preços, pedido estimado e pagamento
 
 - 47 produtos passam a exibir preços aproximados de portfólio e apresentação comercial;

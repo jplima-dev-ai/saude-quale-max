@@ -69,9 +69,12 @@
         const box = document.createElement("div");
         const nome = document.createElement("strong");
         nome.textContent = produto.nome;
+        const preco = document.createElement("span");
+        preco.className = "produto-relacionado-preco";
+        preco.textContent = produto.preco ? `${Number(produto.preco).toLocaleString("pt-BR",{style:"currency",currency:"BRL"})}${produto.venda_tipo==="peso"?` / ${produto.apresentacao||"100 g"}`:""}` : "Preço sob consulta";
         const copy = document.createElement("span");
         copy.textContent = produto.copy || produto.descricao || "Conheça esta opção do catálogo.";
-        box.append(nome, copy);
+        box.append(nome, preco, copy);
         if (arquivoImagem) link.append(img);
         link.append(box);
         artigo.append(link);

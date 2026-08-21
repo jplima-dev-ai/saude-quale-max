@@ -127,6 +127,8 @@ def main() -> int:
         "js/max-core.js",
         "js/max-entidades.js",
         "js/max-recomendacao.js",
+        "js/max-nlu.js",
+        "js/max-decision.js",
         "js/max-intencoes.js",
         "js/chatbot.js",
     ]
@@ -151,7 +153,7 @@ def main() -> int:
 
     # Admin Studio: backup deve acompanhar a release atual.
     admin_js = (ROOT / "js" / "admin.js").read_text(encoding="utf-8")
-    if 'ADMIN_BACKUP_VERSION="3.2"' not in admin_js:
+    if 'ADMIN_BACKUP_VERSION="3.3"' not in admin_js:
         erros.append("Admin Studio está exportando backup com versão obsoleta.")
 
     # Segurança de jornada e deploy.

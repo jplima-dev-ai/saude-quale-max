@@ -1,4 +1,4 @@
-const CACHE = "qualimax-v3.2";
+const CACHE = "qualimax-v3.3";
 const SHELL = [
   "./", "./index.html", "./offline.html",
   "./catalogo.html",
@@ -10,7 +10,8 @@ const SHELL = [
   "./admin.html", "./style.css", "./script.js", "./manifest.webmanifest",
   "./data/config.json", "./data/produtos.json", "./data/categorias.json", "./data/quiz.json", "./data/faq.json",
   "./img/max-avatar.webp",
-  "./img/logo-saude-qualimax.webp", "./js/pwa.js", "./js/offline.js", "./js/frame-guard.js", "./js/config.js", "./js/db.js", "./js/colecoes.js", "./js/produtos.js", "./js/max-core.js", "./js/max-entidades.js", "./js/max-recomendacao.js", "./js/max-intencoes.js", "./js/chatbot.js",
+  "./img/logo-saude-qualimax.webp", "./js/pwa.js", "./js/offline.js", "./js/frame-guard.js", "./js/config.js", "./js/db.js", "./js/colecoes.js", "./js/produtos.js", "./js/max-core.js", "./js/max-entidades.js", "./js/max-recomendacao.js", "./js/max-nlu.js", "./js/max-decision.js", "./js/max-intencoes.js", "./js/chatbot.js",
+  "./js/promocoes.js",
   "./js/descobertas.js",
   "./js/interacoes.js",
   "./js/conta.js",

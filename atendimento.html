@@ -12,6 +12,7 @@
 <script src="js/frame-guard.js"></script>
 <script src="js/config.js" defer></script>
 <script src="js/db.js" defer></script>
+<script src="js/promocoes.js" defer></script>
 <script src="js/atendimento.js" defer></script>
 <script src="js/acessibilidade.js" defer></script>
 <script src="js/pwa.js" defer></script>
@@ -155,10 +156,35 @@
           <input id="at-troco" name="troco" inputmode="decimal" maxlength="20" placeholder="Ex.: R$ 100,00">
         </div>
       </fieldset>
+      <section class="atendimento-beneficios" aria-labelledby="at-beneficios-titulo">
+        <p class="secao-subtitulo">Benefícios do pedido</p>
+        <h3 id="at-beneficios-titulo">Cupons, pontos e frete grátis</h3>
+        <div class="atendimento-grid">
+          <div>
+            <label for="at-cupom">Cupom promocional <span class="sr-only">(opcional)</span></label>
+            <div class="beneficio-linha">
+              <input id="at-cupom" name="cupom" maxlength="30" autocomplete="off" placeholder="Ex.: BEMVINDO10">
+              <button type="button" class="botao botao-secundario" data-atendimento-aplicar-cupom>Aplicar</button>
+            </div>
+            <p data-atendimento-cupom-status class="conta-status" role="status" aria-live="polite"></p>
+          </div>
+          <div>
+            <label for="at-pontos">Usar Pontos Qualimax <span class="sr-only">(opcional)</span></label>
+            <input id="at-pontos" name="pontos" type="number" min="0" step="1" value="0">
+            <small data-atendimento-pontos-ajuda>O resgate é demonstrativo nesta versão estática.</small>
+          </div>
+        </div>
+        <div class="frete-progresso" data-frete-progresso aria-live="polite">
+          <strong data-frete-texto>Adicione produtos para acompanhar o frete grátis.</strong>
+          <progress data-frete-barra max="120" value="0">0 de 120</progress>
+        </div>
+      </section>
       <div class="atendimento-total" data-atendimento-total aria-live="polite">
         <span>Total estimado dos produtos</span>
         <strong>R$ 0,00</strong>
-        <small>Preço aproximado. A equipe confirma disponibilidade e valor final.</small>
+        <span data-atendimento-descontos></span>
+        <span data-atendimento-pontos-gerados></span>
+        <small>Preço aproximado. A equipe confirma disponibilidade, frete, benefícios e valor final.</small>
       </div>
       <label class="atendimento-lembrar">
         <input type="checkbox" name="lembrar">
@@ -169,9 +195,10 @@
     <section class="atendimento-etapa" aria-labelledby="at-revisao-titulo">
       <p class="atendimento-passo">4 de 4</p>
       <h2 id="at-revisao-titulo">Confira antes de continuar</h2>
-      <p>Esta é a mensagem que será preparada para o WhatsApp. Você pode editar o texto antes de abrir a conversa.</p>
+      <p>Esta é a mensagem que será preparada para o WhatsApp. Para alterar dados, quantidades ou observações, edite os campos acima; assim os preços e subtotais continuam consistentes.</p>
       <label for="at-preview">Mensagem</label>
-      <textarea id="at-preview" data-atendimento-preview rows="18" maxlength="5000"></textarea>
+      <textarea id="at-preview" data-atendimento-preview rows="18" maxlength="5000" readonly aria-describedby="at-preview-ajuda"></textarea>
+      <small id="at-preview-ajuda">A prévia é gerada automaticamente a partir do formulário e não é usada como fonte confiável de preço pela loja.</small>
       <p class="atendimento-status" data-atendimento-status role="status" aria-live="polite"></p>
 
       <div class="atendimento-acoes">

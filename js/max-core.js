@@ -29,7 +29,9 @@
             semGluten: null,
             termos: [],
             excluirTipos: [],
-            excluirCategorias: []
+            excluirCategorias: [],
+            orcamento: null,
+            prioridade: ""
         },
         ultimosResultados: [],
         offsetResultados: 0,
@@ -38,7 +40,19 @@
         ultimaIntencao: "",
         ultimoTermo: "",
         produtoEmContexto: null,
-        etapaDescoberta: "inicio"
+        etapaDescoberta: "inicio",
+        ultimaComparacao: [],
+        perguntaPendente: "",
+        ultimoLoteExibido: [],
+        historicoProdutosExibidos: [],
+        produtosRejeitados: [],
+        produtosGostei: [],
+        produtosTalvez: [],
+        produtosNaoGostei: [],
+        carrinho: [],
+        presente: { ativo:false, destinatario:"", orcamento:null, produtoIds:[] },
+        confiancaAtual: { valor: 0, nivel: "baixa" },
+        contextoPagina: null
     });
 
     const registrarConsulta = (estado, original, intencao = "busca") => {
@@ -57,6 +71,18 @@
         estado.ultimoTermo = "";
         estado.produtoEmContexto = null;
         estado.etapaDescoberta = "inicio";
+        estado.ultimaComparacao = [];
+        estado.perguntaPendente = "";
+        estado.ultimoLoteExibido = [];
+        estado.historicoProdutosExibidos = [];
+        estado.produtosRejeitados = [];
+        estado.produtosGostei = [];
+        estado.produtosTalvez = [];
+        estado.produtosNaoGostei = [];
+        estado.carrinho = [];
+        estado.presente = { ativo:false, destinatario:"", orcamento:null, produtoIds:[] };
+        estado.confiancaAtual = { valor: 0, nivel: "baixa" };
+        estado.contextoPagina = null;
     };
 
     window.QualimaxMaxCore = Object.freeze({

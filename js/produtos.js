@@ -9,6 +9,7 @@
         filtroCategoria: "",
         filtroTipo: "",
         filtroCaracteristica: "",
+        filtroPreco: "",
         busca: "",
         ordenacao: "relevancia"
     };
@@ -206,6 +207,10 @@
         if (estado.filtroCategoria) filtros.push({ tipo: "categoria", rotulo: `Categoria: ${categoriaNome(estado.filtroCategoria)}` });
         if (estado.filtroTipo) filtros.push({ tipo: "tipo", rotulo: `Formato: ${estado.filtroTipo}` });
         if (estado.filtroCaracteristica) filtros.push({ tipo: "caracteristica", rotulo: `Característica: ${nomeFiltroCaracteristica(estado.filtroCaracteristica)}` });
+        if (estado.filtroPreco) {
+            const nomes={"ate-20":"Até R$ 20","20-50":"R$ 20 a R$ 50","50-100":"R$ 50 a R$ 100","100-mais":"Acima de R$ 100"};
+            filtros.push({tipo:"preco",rotulo:`Preço: ${nomes[estado.filtroPreco]||estado.filtroPreco}`});
+        }
 
         area.hidden = filtros.length === 0;
         area.replaceChildren(...filtros.map(({ tipo, rotulo }) => {
@@ -253,8 +258,14 @@
             const correspondeCaracteristica = !estado.filtroCaracteristica ||
                 (["vegano", "vegana"].includes(estado.filtroCaracteristica) && produto.vegana === true) ||
                 (["sem_gluten", "sem-gluten"].includes(estado.filtroCaracteristica) && produto.sem_gluten === true);
+            const preco = Number(produto.preco || 0);
+            const correspondePreco = !estado.filtroPreco ||
+                (estado.filtroPreco === "ate-20" && preco > 0 && preco <= 20) ||
+                (estado.filtroPreco === "20-50" && preco > 20 && preco <= 50) ||
+                (estado.filtroPreco === "50-100" && preco > 50 && preco <= 100) ||
+                (estado.filtroPreco === "100-mais" && preco > 100);
 
-            return correspondeBusca && correspondeCategoria && correspondeTipo && correspondeCaracteristica;
+            return correspondeBusca && correspondeCategoria && correspondeTipo && correspondeCaracteristica && correspondePreco;
         });
 
         filtrados = ordenarProdutos(filtrados);
@@ -269,7 +280,7 @@
             vazio.hidden = filtrados.length !== 0;
             const textoVazio = vazio.querySelector("[data-produtos-vazio-texto]");
             if (!filtrados.length && textoVazio) {
-                const filtrosAtivos = [estado.busca, estado.filtroCategoria, estado.filtroTipo, estado.filtroCaracteristica].some(Boolean);
+                const filtrosAtivos = [estado.busca, estado.filtroCategoria, estado.filtroTipo, estado.filtroCaracteristica, estado.filtroPreco].some(Boolean);
                 textoVazio.textContent = filtrosAtivos
                     ? "Nenhum produto corresponde aos critérios informados. Você pode limpar os filtros, perguntar ao assistente ou falar com a equipe."
                     : "Nenhum produto está disponível para exibição neste momento. Fale com a equipe para receber ajuda.";
@@ -452,24 +463,28 @@
         const categoria = (params.get("categoria") || "").slice(0, 80);
         const tipo = (params.get("tipo") || "").slice(0, 80);
         const caracteristica = (params.get("caracteristica") || "").slice(0, 80);
+        const preco = (params.get("preco") || "").slice(0, 20);
         const ordenar = (params.get("ordenar") || "").slice(0, 24);
 
         if (busca) estado.busca = busca;
         if (categoria && estado.categorias.some((item) => item.id === categoria)) estado.filtroCategoria = categoria;
         if (tipo) estado.filtroTipo = tipo;
         if (caracteristica) estado.filtroCaracteristica = caracteristica;
-        if (["relevancia","az","za","categoria"].includes(ordenar)) estado.ordenacao = ordenar;
+        if (["ate-20","20-50","50-100","100-mais"].includes(preco)) estado.filtroPreco = preco;
+        if (["relevancia","az","za","categoria","preco-menor","preco-maior"].includes(ordenar)) estado.ordenacao = ordenar;
 
         const campoBusca = document.querySelector("[data-busca-produtos]");
         const campoCategoria = document.querySelector("[data-filtro-categoria]");
         const campoTipo = document.querySelector("[data-filtro-tipo]");
         const campoCaracteristica = document.querySelector("[data-filtro-caracteristica]");
         const campoOrdenacao = document.querySelector("[data-ordenar-produtos]");
+        const campoPreco = document.querySelector("[data-filtro-preco]");
         if (campoBusca) campoBusca.value = estado.busca;
         if (campoCategoria) campoCategoria.value = estado.filtroCategoria;
         if (campoTipo && [...campoTipo.options].some((o) => o.value === estado.filtroTipo)) campoTipo.value = estado.filtroTipo;
         if (campoCaracteristica && [...campoCaracteristica.options].some((o) => o.value === estado.filtroCaracteristica)) campoCaracteristica.value = estado.filtroCaracteristica;
         if (campoOrdenacao) campoOrdenacao.value = estado.ordenacao;
+        if (campoPreco) campoPreco.value = estado.filtroPreco;
     };
 
     const sincronizarURL = () => {
@@ -478,6 +493,7 @@
         if (estado.filtroCategoria) params.set("categoria", estado.filtroCategoria);
         if (estado.filtroTipo) params.set("tipo", estado.filtroTipo);
         if (estado.filtroCaracteristica) params.set("caracteristica", estado.filtroCaracteristica);
+        if (estado.filtroPreco) params.set("preco", estado.filtroPreco);
         if (estado.ordenacao !== "relevancia") params.set("ordenar", estado.ordenacao);
         const novaURL = `${window.location.pathname}${params.size ? `?${params}` : ""}${window.location.hash || ""}`;
         history.replaceState(null, "", novaURL);
@@ -488,6 +504,7 @@
                 categoria: estado.filtroCategoria,
                 tipo: estado.filtroTipo,
                 caracteristica: estado.filtroCaracteristica,
+                preco: estado.filtroPreco,
                 ordenacao: estado.ordenacao
             }
         }));
@@ -560,6 +577,11 @@
             renderizar();
             sincronizarURL();
         });
+        document.querySelector("[data-filtro-preco]")?.addEventListener("change", (evento) => {
+            estado.filtroPreco = evento.target.value;
+            renderizarProdutos(); sincronizarURL();
+        });
+
         document.querySelector("[data-ordenar-produtos]")?.addEventListener("change", (evento) => {
             estado.ordenacao = evento.target.value;
             renderizar();
@@ -585,6 +607,10 @@
             } else if (tipo === "caracteristica") {
                 estado.filtroCaracteristica = "";
                 const campo = document.querySelector("[data-filtro-caracteristica]");
+                if (campo) campo.value = "";
+            } else if (tipo === "preco") {
+                estado.filtroPreco = "";
+                const campo = document.querySelector("[data-filtro-preco]");
                 if (campo) campo.value = "";
             }
             renderizar();
@@ -618,17 +644,20 @@
             estado.filtroCategoria = "";
             estado.filtroTipo = "";
             estado.filtroCaracteristica = "";
+            estado.filtroPreco = "";
             estado.ordenacao = "relevancia";
             const busca = document.querySelector("[data-busca-produtos]");
             const categoria = document.querySelector("[data-filtro-categoria]");
             const tipo = document.querySelector("[data-filtro-tipo]");
             const caracteristica = document.querySelector("[data-filtro-caracteristica]");
             const ordenacao = document.querySelector("[data-ordenar-produtos]");
+            const preco = document.querySelector("[data-filtro-preco]");
             if (busca) busca.value = "";
             if (categoria) categoria.value = "";
             if (tipo) tipo.value = "";
             if (caracteristica) caracteristica.value = "";
             if (ordenacao) ordenacao.value = "relevancia";
+            if (preco) preco.value = "";
             renderizar();
             sincronizarURL();
             busca?.focus();

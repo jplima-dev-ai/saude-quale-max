@@ -190,6 +190,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     const moeda=v=>Number(v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
     const selecionados=new Set();
     const sugeridos=new Set();
+    const quantidadesMax=new Map();
+    let cupomAplicado="";
+    const PROMO=window.QualimaxPromocoes;
+    const beneficiosEl={
+        cupomStatus:document.querySelector("[data-atendimento-cupom-status]"),
+        descontos:document.querySelector("[data-atendimento-descontos]"),
+        pontosGerados:document.querySelector("[data-atendimento-pontos-gerados]"),
+        freteTexto:document.querySelector("[data-frete-texto]"),
+        freteBarra:document.querySelector("[data-frete-barra]")
+    };
 
     if(produtoSlug){
         const p=produtos.find(x=>x.slug===produtoSlug);
@@ -208,6 +218,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if(maxContexto?.produtoId && porId.has(Number(maxContexto.produtoId))){
         selecionados.add(Number(maxContexto.produtoId));
+    }
+    if(origem==="max" && Array.isArray(maxContexto?.carrinho)){
+        maxContexto.carrinho.slice(0,20).forEach(item=>{
+            const id=Number(item?.id);
+            if(!porId.has(id)) return;
+            selecionados.add(id);
+            const produto=porId.get(id);
+            const base=Number(produto.quantidade_base||1);
+            let qtd=Math.max(base,Number(item.quantidade||base));
+            qtd=produto.venda_tipo==="peso"?Math.round(qtd/100)*100:Math.round(qtd);
+            quantidadesMax.set(id,qtd);
+        });
     }
     if(origem==="quiz" && Array.isArray(quizContexto?.produtoIds)){
         quizContexto.produtoIds.forEach(id=>{
@@ -232,29 +254,46 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     const criarProduto = (produto,marcado,fonte) => {
-        const label=document.createElement("label");
-        label.className="atendimento-produto-item";
+        const item=document.createElement("div");
+        item.className="atendimento-produto-item";
+
         const check=document.createElement("input");
-        check.type="checkbox";check.value=String(produto.id);check.checked=marcado;
+        check.type="checkbox";
+        check.value=String(produto.id);
+        check.checked=marcado;
         check.dataset.atendimentoProduto=String(produto.id);
-        const box=document.createElement("span");
+        check.id=`at-produto-${produto.id}`;
+
+        const box=document.createElement("div");
+        const nomeLabel=document.createElement("label");
+        nomeLabel.htmlFor=check.id;
+        nomeLabel.className="atendimento-produto-nome";
         const strong=document.createElement("strong");strong.textContent=produto.nome;
+        nomeLabel.append(strong);
+
         const preco=document.createElement("small");
         preco.textContent=produto.preco ? `${moeda(produto.preco)}${produto.venda_tipo==="peso" ? ` / ${produto.apresentacao||"100 g"}` : ` • ${produto.apresentacao||"unidade"}`}` : "Preço sob consulta";
         const small=document.createElement("small");small.textContent=fonte;
-        const controles=document.createElement("span");controles.className="produto-pedido-controles";
-        const qLabel=document.createElement("span");
+
+        const controles=document.createElement("div");
+        controles.className="produto-pedido-controles";
+        const qId=`at-quantidade-${produto.id}`;
+        const qLabel=document.createElement("label");
+        qLabel.htmlFor=qId;
         qLabel.textContent=produto.venda_tipo==="peso" ? "Quantidade (g)" : "Quantidade";
         const q=document.createElement("input");
-        q.type="number";q.dataset.atendimentoQuantidade=String(produto.id);
+        q.id=qId;
+        q.type="number";
+        q.dataset.atendimentoQuantidade=String(produto.id);
         q.min=produto.venda_tipo==="peso"?"100":"1";
         q.max=produto.venda_tipo==="peso"?"5000":"20";
         q.step=String(produto.incremento||1);
-        q.value=String(produto.quantidade_base||1);
-        q.setAttribute("aria-label",`${qLabel.textContent} de ${produto.nome}`);
+        q.value=String(quantidadesMax.get(Number(produto.id))||produto.quantidade_base||1);
+        q.disabled=!marcado;
         controles.append(qLabel,q);
-        box.append(strong,preco,small,controles);label.append(check,box);
-        return label;
+        box.append(nomeLabel,preco,small,controles);
+        item.append(check,box);
+        return item;
     };
 
     const renderProdutos=()=>{
@@ -282,6 +321,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         }).filter(Boolean);
 
     const totalEstimado=()=>produtosMarcados().reduce((s,p)=>s+Number(p.subtotal||0),0);
+    const beneficiosEstimados=()=>{
+        const itens=produtosMarcados();
+        if(!PROMO) return {subtotal:totalEstimado(),total:totalEstimado(),descontoCupom:0,descontoPontos:0,freteGratis:false,faltaFrete:0,pontosGerados:0};
+        return PROMO.calcular(config,itens,{
+            cupom:cupomAplicado,
+            pontosUsar:Number(form.elements.pontos?.value||0)
+        });
+    };
 
     const recebimentoTexto=()=>({
         retirada:"Retirar na loja",
@@ -351,8 +398,14 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const unit=p.venda_tipo==="peso" ? `${moeda(p.preco)} / ${p.apresentacao||"100 g"}` : `${moeda(p.preco)} cada`;
                 linhas.push(`• ${p.nome} — ${qtd} — ${unit} — subtotal ${moeda(p.subtotal)}`);
             });
-            linhas.push(`TOTAL ESTIMADO: ${moeda(totalEstimado())}`);
-            linhas.push("Valores aproximados; a loja confirma disponibilidade e total final.");
+            const beneficios=beneficiosEstimados();
+            linhas.push(`SUBTOTAL ESTIMADO: ${moeda(beneficios.subtotal)}`);
+            if(beneficios.cupom?.valido) linhas.push(`Cupom ${beneficios.cupom.codigo}: -${moeda(beneficios.descontoCupom)}`);
+            if(beneficios.pontosUsados) linhas.push(`Pontos demonstrativos usados: ${beneficios.pontosUsados} (-${moeda(beneficios.descontoPontos)})`);
+            if(beneficios.freteGratis) linhas.push("Benefício de frete: FRETE GRÁTIS (sujeito à confirmação da área atendida)");
+            linhas.push(`TOTAL ESTIMADO APÓS BENEFÍCIOS: ${moeda(beneficios.total)}`);
+            linhas.push(`Esta compra pode gerar aproximadamente ${beneficios.pontosGerados} Pontos Qualimax após a confirmação.`);
+            linhas.push("Valores, disponibilidade, frete e benefícios são confirmados pela loja.");
         }
 
         linhas.push("","FORMA DE PAGAMENTO",pagamento);
@@ -381,11 +434,32 @@ document.addEventListener("DOMContentLoaded", async () => {
         const pagamento=form.elements.pagamento?.value||"Pix";
         const pagEl=document.querySelector("[data-atendimento-pagamento]");
         if(pagEl) pagEl.textContent=pagamento;
-        const total=moeda(totalEstimado());
+        const beneficios=beneficiosEstimados();
+        const total=moeda(beneficios.total);
         const totalBox=document.querySelector("[data-atendimento-total] strong");
         const totalResumo=document.querySelector("[data-atendimento-total-resumo]");
         if(totalBox) totalBox.textContent=total;
         if(totalResumo) totalResumo.textContent=total;
+        if(beneficiosEl.descontos){
+            const partes=[];
+            if(beneficios.descontoCupom) partes.push(`Cupom: -${moeda(beneficios.descontoCupom)}`);
+            if(beneficios.descontoPontos) partes.push(`Pontos: -${moeda(beneficios.descontoPontos)}`);
+            beneficiosEl.descontos.textContent=partes.join(" · ");
+        }
+        if(beneficiosEl.pontosGerados) beneficiosEl.pontosGerados.textContent=`Pode gerar aproximadamente ${beneficios.pontosGerados} pontos após confirmação da compra.`;
+        const minimo=Number(config.promocoes?.freteGratis?.valorMinimo||0);
+        if(beneficiosEl.freteBarra){
+            beneficiosEl.freteBarra.max=Math.max(1,minimo);
+            beneficiosEl.freteBarra.value=Math.min(minimo,beneficios.subtotal);
+            beneficiosEl.freteBarra.textContent=`${moeda(beneficios.subtotal)} de ${moeda(minimo)}`;
+        }
+        if(beneficiosEl.freteTexto){
+            beneficiosEl.freteTexto.textContent=beneficios.freteGratis
+                ? "Você atingiu a condição de frete grátis. A equipe confirma a área atendida."
+                : minimo>0 && beneficios.subtotal>0
+                    ? `Faltam ${moeda(beneficios.faltaFrete)} para atingir o frete grátis.`
+                    : `Frete grátis em compras a partir de ${moeda(minimo)}.`;
+        }
         const trocoBox=document.querySelector("[data-atendimento-troco]");
         if(trocoBox) trocoBox.hidden=pagamento!=="Dinheiro em espécie";
         if(preview && document.activeElement!==preview) preview.value=montarMensagem();
@@ -410,19 +484,45 @@ document.addEventListener("DOMContentLoaded", async () => {
         atualizarResumo();
     };
 
+    document.querySelector("[data-atendimento-aplicar-cupom]")?.addEventListener("click",()=>{
+        const codigo=String(form.elements.cupom?.value||"").trim();
+        if(!codigo){
+            cupomAplicado="";
+            if(beneficiosEl.cupomStatus) beneficiosEl.cupomStatus.textContent="Cupom removido.";
+            atualizarResumo();
+            return;
+        }
+        const resultado=PROMO?.avaliarCupom(config,codigo,produtosMarcados());
+        if(resultado?.valido){
+            cupomAplicado=resultado.codigo;
+            form.elements.cupom.value=resultado.codigo;
+            if(beneficiosEl.cupomStatus) beneficiosEl.cupomStatus.textContent=`Cupom ${resultado.codigo} aplicado. Economia estimada: ${moeda(resultado.desconto)}.`;
+        }else{
+            cupomAplicado="";
+            if(beneficiosEl.cupomStatus) beneficiosEl.cupomStatus.textContent=resultado?.motivo||"Não foi possível validar esse cupom.";
+        }
+        atualizarResumo();
+    });
+
     form.addEventListener("input",atualizarResumo);
     form.addEventListener("change",e=>{
         if(e.target.name==="recebimento") alternarEndereco();
         if(e.target.matches("[data-atendimento-produto]")){
             const id=Number(e.target.value);
             if(e.target.checked) selecionados.add(id); else selecionados.delete(id);
+            const quantidade=document.querySelector(`[data-atendimento-quantidade="${id}"]`);
+            if(quantidade) quantidade.disabled=!e.target.checked;
         }
         atualizarResumo();
     });
 
     document.querySelector("[data-atendimento-limpar-produtos]")?.addEventListener("click",()=>{
         selecionados.clear();
-        document.querySelectorAll("[data-atendimento-produto]").forEach(el=>{el.checked=false;});
+        document.querySelectorAll("[data-atendimento-produto]").forEach(el=>{
+            el.checked=false;
+            const quantidade=document.querySelector(`[data-atendimento-quantidade="${el.value}"]`);
+            if(quantidade) quantidade.disabled=true;
+        });
         atualizarResumo();
         status.textContent="Seleção de produtos limpa.";
     });
@@ -476,18 +576,22 @@ document.addEventListener("DOMContentLoaded", async () => {
             removerLocal(LEMBRAR_KEY);
         }
 
-        const mensagem=limparTexto(preview.value||montarMensagem(),5000);
+        const mensagem=limparTexto(montarMensagem(),5000);
+        preview.value=mensagem;
         if(!mensagem){
             status.textContent="A mensagem está vazia.";
             return;
         }
         const url=`https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
-        const nova=window.open(url,"_blank","noopener,noreferrer");
-        if(!nova){
-            status.textContent="O navegador bloqueou a nova aba. Permita pop-ups para continuar no WhatsApp.";
-            return;
-        }
-        status.textContent="WhatsApp aberto em uma nova aba. Confira a conversa e envie quando quiser.";
+        const link=document.createElement("a");
+        link.href=url;
+        link.target="_blank";
+        link.rel="noopener noreferrer";
+        link.hidden=true;
+        document.body.append(link);
+        link.click();
+        link.remove();
+        status.textContent="WhatsApp solicitado em uma nova aba. Confira a conversa e envie quando quiser.";
     });
 
     renderProdutos();

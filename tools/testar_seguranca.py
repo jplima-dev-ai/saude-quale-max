@@ -79,6 +79,18 @@ for p in list(ROOT.glob("*.html"))+list((ROOT/"js").glob("*.js"))+list((ROOT/"pr
 if wa != ["js/atendimento.js"]:
     erros.append(f"wa.me fora do ponto final esperado: {wa}")
 
+# 7. Integridade do pedido e acessibilidade dos controles comerciais.
+if 'data-atendimento-preview rows="18" maxlength="5000" readonly' not in at:
+    erros.append("Prévia comercial deve permanecer somente leitura.")
+if 'window.open(' in atjs:
+    erros.append("Atendimento voltou a depender de window.open para WhatsApp.")
+if 'link.rel="noopener noreferrer"' not in atjs:
+    erros.append("Abertura do WhatsApp sem noopener/noreferrer.")
+if 'label.className="atendimento-produto-item"' in atjs:
+    erros.append("Controle de quantidade voltou a ficar dentro do label do checkbox.")
+if 'nomeLabel.htmlFor=check.id' not in atjs or 'qLabel.htmlFor=qId' not in atjs:
+    erros.append("Labels independentes de produto/quantidade ausentes.")
+
 if erros:
     print("FALHA NA AUDITORIA DE SEGURANÇA")
     for e in erros:

@@ -33,6 +33,7 @@
     <button type="button" class="admin-nav-item" data-admin-tab="produtos">Produtos</button>
     <button type="button" class="admin-nav-item" data-admin-tab="loja">Minha loja</button>
     <button type="button" class="admin-nav-item" data-admin-tab="recursos">Recursos</button>
+    <button type="button" class="admin-nav-item" data-admin-tab="promocoes">Promoções</button>
     <button type="button" class="admin-nav-item" data-admin-tab="exportar">Exportar e backup</button>
   </nav>
 
@@ -222,6 +223,29 @@
       </form>
     </section>
 
+    <section class="admin-tab" data-admin-panel="promocoes" hidden>
+      <div class="admin-section-head"><div><p class="admin-kicker">Rewards & Promotions</p><h2>Promoções e fidelidade</h2></div></div>
+      <form data-admin-promocoes-form class="admin-card">
+        <div class="admin-form-grid">
+          <div><label for="adm-frete-minimo">Frete grátis a partir de</label><input id="adm-frete-minimo" name="freteMinimo" type="number" min="0" step="0.01"></div>
+          <div><label for="adm-pontos-resgate">Pontos mínimos para resgate</label><input id="adm-pontos-resgate" name="resgateMinimo" type="number" min="1" step="1"></div>
+          <div><label for="adm-pontos-valor">Pontos para R$ 1 de desconto</label><input id="adm-pontos-valor" name="pontosPorRealDesconto" type="number" min="1" step="1"></div>
+          <div><label for="adm-pontos-max">Máximo do pedido pago com pontos (%)</label><input id="adm-pontos-max" name="maximoPercentualPedido" type="number" min="0" max="100" step="1"></div>
+        </div>
+        <div class="admin-switch-lista">
+          <label><span><strong>Frete grátis</strong><small>Ativar benefício por valor mínimo.</small></span><input type="checkbox" name="freteAtivo"></label>
+          <label><span><strong>Pontos Qualimax</strong><small>Ativar cálculo demonstrativo de fidelidade.</small></span><input type="checkbox" name="pontosAtivo"></label>
+          <label><span><strong>Acumular cupom e pontos</strong><small>Permite os dois benefícios no mesmo pedido.</small></span><input type="checkbox" name="cupomComPontos"></label>
+        </div>
+        <h3>Cupons</h3>
+        <p>Edite os cupons no rascunho. Um código por linha no formato <code>CODIGO|percentual|10|50</code>, onde os últimos números são benefício e pedido mínimo.</p>
+        <label for="adm-cupons">Cupons configurados</label>
+        <textarea id="adm-cupons" name="cupons" rows="7" spellcheck="false"></textarea>
+        <button class="botao botao-principal" type="submit">Salvar promoções</button>
+        <p class="admin-status" data-admin-promocoes-status role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
     <section class="admin-tab" data-admin-panel="exportar" hidden>
       <div class="admin-section-head"><div><p class="admin-kicker">Publicação</p><h2>Exportar e backup</h2></div></div>
       <div class="admin-grid-2">
@@ -251,5 +275,6 @@
     </section>
   </main>
 </div>
+<script src="js/promocoes.js" defer></script>
 </body>
 </html>

@@ -45,8 +45,10 @@ const criarCard = (produto, rotulo="") => {
     const box=document.createElement("div");
     if(rotulo){ const small=document.createElement("small"); small.textContent=rotulo; box.append(small); }
     const strong=document.createElement("strong"); strong.textContent=produto.nome||"Produto";
+    const preco=document.createElement("span"); preco.className="conta-produto-preco";
+    preco.textContent=produto.preco?`${Number(produto.preco).toLocaleString("pt-BR",{style:"currency",currency:"BRL"})}${produto.venda_tipo==="peso"?` / ${produto.apresentacao||"100 g"}`:""}`:"Preço sob consulta";
     const span=document.createElement("span"); span.textContent=produto.copy||produto.descricao||"Conheça esta opção.";
-    box.append(strong,span);
+    box.append(strong,preco,span);
     if(arq) a.append(img);
     a.append(box);
     return a;
@@ -167,5 +169,25 @@ document.addEventListener("DOMContentLoaded", async () => {
             if(s) s.textContent="Dados locais apagados deste navegador.";
         });
     }
+
+    const pontosEl=document.querySelector("[data-conta-pontos]");
+    const proximaEl=document.querySelector("[data-conta-proxima]");
+    const cuponsEl=document.querySelector("[data-conta-cupons]");
+    try{
+        const cfg=window.QualimaxConfig||{};
+        const pontos=Number(localStorage.getItem("qualimax-pontos-demo-v1")||0);
+        if(pontosEl) pontosEl.textContent=String(Math.max(0,Math.floor(pontos)));
+        if(proximaEl) proximaEl.textContent=String(Number(cfg.promocoes?.pontos?.resgateMinimo||100));
+        if(cuponsEl){
+            cuponsEl.replaceChildren();
+            (cfg.promocoes?.cupons||[]).filter(c=>c.ativo!==false).forEach(c=>{
+                const card=document.createElement("article");
+                card.className="conta-produto-card";
+                const strong=document.createElement("strong"); strong.textContent=c.codigo;
+                const desc=document.createElement("span"); desc.textContent=c.descricao||"Benefício promocional.";
+                card.append(strong,desc); cuponsEl.append(card);
+            });
+        }
+    }catch{}
 });
 })();

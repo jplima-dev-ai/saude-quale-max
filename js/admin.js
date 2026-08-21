@@ -2,7 +2,7 @@
 "use strict";
 
 const DB_NAME="qualimax-admin-local-v3";
-const ADMIN_BACKUP_VERSION="3.2";
+const ADMIN_BACKUP_VERSION="3.3";
 const DB_VERSION=1;
 let dbPromise=null;
 const abrirDB=()=>{
@@ -346,6 +346,19 @@ const preencherRecursos=()=>{
     });
 };
 
+const preencherPromocoes=()=>{
+    const form=document.querySelector("[data-admin-promocoes-form]");if(!form)return;
+    const p=state.config.promocoes||{}, pontos=p.pontos||{}, frete=p.freteGratis||{}, acum=p.acumulacao||{};
+    form.elements.freteMinimo.value=Number(frete.valorMinimo||120);
+    form.elements.resgateMinimo.value=Number(pontos.resgateMinimo||100);
+    form.elements.pontosPorRealDesconto.value=Number(pontos.pontosPorRealDesconto||20);
+    form.elements.maximoPercentualPedido.value=Number(pontos.maximoPercentualPedido||30);
+    form.elements.freteAtivo.checked=frete.ativo!==false;
+    form.elements.pontosAtivo.checked=pontos.ativo!==false;
+    form.elements.cupomComPontos.checked=acum.cupomComPontos!==false;
+    form.elements.cupons.value=(p.cupons||[]).map(c=>`${c.codigo}|${c.tipo||"percentual"}|${Number(c.valor||0)}|${Number(c.pedidoMinimo||0)}`).join("\n");
+};
+
 const exportarImagemLista=async()=>{
     const box=document.querySelector("[data-admin-imagens-exportar]");if(!box)return;
     const imgs=await storeAll("images");
@@ -391,7 +404,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
         state.produtos=clone(savedP?.value||state.baseProdutos);
         state.config=clone(savedC?.value||state.baseConfig);
         document.title=`Admin Studio | ${state.config.empresa?.nome||"Loja"}`;
-        preencherCategorias();renderLista();preencherLoja();preencherRecursos();await atualizarMetricas();await auditar();
+        preencherCategorias();renderLista();preencherLoja();preencherRecursos();preencherPromocoes();await atualizarMetricas();await auditar();
     }catch(e){
         const box=document.querySelector("[data-admin-auditoria]");if(box)box.textContent="Não foi possível carregar os dados publicados.";
         console.error(e);
@@ -415,7 +428,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
         if(!confirmarDescarteEditor()) return;
         descartarImagemPendente();
         const id=Math.max(0,...state.produtos.map(x=>Number(x.id)||0))+1;
-        const novo={id,nome:"",slug:"",categoria:state.categorias[0]?.id||"",imagem:"",descricao:"",beneficios:[],tipo:"",vegana:false,sem_gluten:false,experiencia_minima:"iniciante",tags:[],disponibilidade:"consultar",destaque:false,copy:"",cta:"Conhecer produto"};
+        const novo={id,nome:"",slug:"",categoria:state.categorias[0]?.id||"",imagem:"",descricao:"",beneficios:[],tipo:"",preco:0,apresentacao:"",venda_tipo:"unidade",quantidade_base:1,unidade_venda:"un.",incremento:1,preco_aproximado:true,vegana:false,sem_gluten:false,experiencia_minima:"iniciante",tags:[],disponibilidade:"consultar",destaque:false,copy:"",cta:"Conhecer produto"};
         state.selecionado=id;
         renderLista();
         await preencherForm(novo);
@@ -506,6 +519,23 @@ document.addEventListener("DOMContentLoaded",async()=>{
         [...e.currentTarget.elements].forEach(el=>{if(el.name)state.config.recursos[el.name]=el.checked;});
         marcarDirty();await persistir();
         const s=document.querySelector("[data-admin-recursos-status]");if(s)s.textContent="Recursos salvos no rascunho.";
+    });
+
+    document.querySelector("[data-admin-promocoes-form]")?.addEventListener("submit",async e=>{
+        e.preventDefault();
+        const f=e.currentTarget, atual=state.config.promocoes||{};
+        state.config.promocoes={
+            ...atual,
+            freteGratis:{...(atual.freteGratis||{}),ativo:f.elements.freteAtivo.checked,valorMinimo:Math.max(0,Number(f.elements.freteMinimo.value||0))},
+            pontos:{...(atual.pontos||{}),ativo:f.elements.pontosAtivo.checked,resgateMinimo:Math.max(1,Number(f.elements.resgateMinimo.value||100)),pontosPorRealDesconto:Math.max(1,Number(f.elements.pontosPorRealDesconto.value||20)),maximoPercentualPedido:Math.min(100,Math.max(0,Number(f.elements.maximoPercentualPedido.value||30)))},
+            acumulacao:{...(atual.acumulacao||{}),cupomComPontos:f.elements.cupomComPontos.checked},
+            cupons:String(f.elements.cupons.value||"").split(/\n+/).map(l=>l.trim()).filter(Boolean).slice(0,50).map(l=>{
+                const [codigo,tipo,valor,minimo]=l.split("|").map(x=>x.trim());
+                return {codigo:String(codigo||"").toUpperCase().replace(/[^A-Z0-9_-]/g,"").slice(0,30),ativo:true,tipo:tipo==="fixo"?"fixo":"percentual",valor:Math.max(0,Number(valor||0)),pedidoMinimo:Math.max(0,Number(minimo||0)),categorias:[],produtos:[],freteGratis:false,descricao:"Cupom configurado no Admin Studio."};
+            }).filter(c=>c.codigo)
+        };
+        marcarDirty();await persistir();
+        const st=document.querySelector("[data-admin-promocoes-status]");if(st)st.textContent="Promoções salvas no rascunho.";
     });
 
     document.querySelector("[data-admin-auditar]")?.addEventListener("click",auditar);

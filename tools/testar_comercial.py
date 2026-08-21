@@ -15,6 +15,12 @@ for x in ['value="Pix"','value="Dinheiro em espécie"',"data-atendimento-total"]
     if x not in at: erros.append(f"Atendimento sem {x}")
 for x in ["TOTAL ESTIMADO","subtotal","data-atendimento-quantidade"]:
     if x not in atjs: erros.append(f"Cálculo/mensagem sem {x}")
+
+if 'readonly' not in at or 'data-atendimento-preview' not in at:
+    erros.append("Prévia comercial não está protegida contra edição acidental")
+for x in ['q.disabled=!marcado','quantidade.disabled=!e.target.checked']:
+    if x not in atjs: erros.append(f"Quantidade de item não acompanha seleção: {x}")
+
 maxjs=(ROOT/"js/chatbot.js").read_text(encoding="utf-8")
 if "extrairOrcamento" not in maxjs or "precoTexto" not in maxjs: erros.append("Max sem inteligência de preço")
 admin=(ROOT/"admin.html").read_text(encoding="utf-8")

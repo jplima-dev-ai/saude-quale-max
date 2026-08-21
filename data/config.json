@@ -32,8 +32,40 @@
     "ativo": true,
     "nome": "Max",
     "avatar": "img/max-avatar.webp",
-    "subtitulo": "Seu guia para explorar a loja",
-    "saudacao": "Oi! Eu sou o Max. Pode falar do seu jeito: eu entendo produtos, categorias e preferências e vou refinando a busca com você."
+    "subtitulo": "Seu guia inteligente e atencioso para conhecer a loja",
+    "saudacao": "Olá! Eu sou o Max. Estou aqui para ajudar você a conhecer os produtos com calma. Pode me dizer o que procura, o que prefere evitar ou até mesmo dizer que ainda não sabe por onde começar.",
+    "tom": "acolhedor, claro, respeitoso e sem gírias",
+    "publico": "linguagem confortável para adultos de todas as idades, inclusive pessoas com mais de 50 anos",
+    "capacidades": [
+      "entender preferências em uma mesma frase",
+      "lembrar critérios durante a conversa",
+      "comparar produtos com contexto",
+      "entender correções do cliente",
+      "explicar sugestões com critérios objetivos",
+      "considerar orçamento e prioridade de preço",
+      "entender referências como primeira, segunda e terceira opção",
+      "lembrar produtos exibidos recentemente na conversa",
+      "procurar alternativa semelhante com preço menor",
+      "respeitar produtos rejeitados durante a sessão",
+      "adaptar a saudação ao horário local do dispositivo",
+      "informar o horário local quando o cliente perguntar",
+      "detectar ambiguidades antes de recomendar",
+      "avaliar confiança da interpretação",
+      "considerar o contexto da página atual",
+      "montar uma seleção de compra dentro da conversa",
+      "calcular o total aproximado da seleção",
+      "usar filtros atuais do catálogo como contexto da conversa",
+      "diagnosticar o critério que mais restringe uma busca sem resultados",
+      "trocar e ajustar itens da seleção por linguagem natural",
+      "comparar o total da seleção com um orçamento informado",
+      "lembrar produtos marcados como gostei, talvez e não gostei durante a sessão",
+      "montar sugestões de cesta para presente dentro de um orçamento",
+      "usar preferências da conversa para priorizar itens de uma cesta",
+      "lembrar produtos marcados como gostei, talvez ou não gostei durante a conversa",
+      "usar afinidade explícita para melhorar o ranking das próximas sugestões",
+      "montar uma cesta presente dentro de um orçamento aproximado",
+      "gerar outra combinação de presente sem repetir a mesma cesta sempre que possível"
+    ]
   },
   "analytics": {
     "enabled": false
@@ -74,7 +106,10 @@
     "quiz": true,
     "jornadaLocal": true,
     "colecoes": true,
-    "pwa": true
+    "pwa": true,
+    "cupons": true,
+    "pontos": true,
+    "freteGratis": true
   },
   "comercial": {
     "horario": "",
@@ -87,5 +122,73 @@
     ],
     "precosAproximados": true,
     "precosAtualizadosEm": "2026-08-20"
+  },
+  "promocoes": {
+    "freteGratis": {
+      "ativo": true,
+      "valorMinimo": 120
+    },
+    "pontos": {
+      "ativo": true,
+      "reaisPorPonto": 1,
+      "pontosPorReal": 1,
+      "resgateMinimo": 100,
+      "pontosPorRealDesconto": 20,
+      "maximoPercentualPedido": 30
+    },
+    "acumulacao": {
+      "cupomComPontos": true,
+      "cupomComPromocao": true,
+      "doisCupons": false,
+      "pontosComFreteGratis": true
+    },
+    "cupons": [
+      {
+        "codigo": "BEMVINDO10",
+        "ativo": true,
+        "tipo": "percentual",
+        "valor": 10,
+        "pedidoMinimo": 50,
+        "categorias": [],
+        "produtos": [],
+        "freteGratis": false,
+        "descricao": "10% de desconto em pedidos a partir de R$ 50."
+      },
+      {
+        "codigo": "QUALIMAX5",
+        "ativo": true,
+        "tipo": "fixo",
+        "valor": 5,
+        "pedidoMinimo": 40,
+        "categorias": [],
+        "produtos": [],
+        "freteGratis": false,
+        "descricao": "R$ 5 de desconto em pedidos a partir de R$ 40."
+      },
+      {
+        "codigo": "CHA15",
+        "ativo": true,
+        "tipo": "percentual",
+        "valor": 15,
+        "pedidoMinimo": 30,
+        "categorias": [
+          "chas"
+        ],
+        "produtos": [],
+        "freteGratis": false,
+        "descricao": "15% de desconto nos itens da categoria de chás."
+      },
+      {
+        "codigo": "FRETEGRATIS",
+        "ativo": true,
+        "tipo": "fixo",
+        "valor": 0,
+        "pedidoMinimo": 60,
+        "categorias": [],
+        "produtos": [],
+        "freteGratis": true,
+        "descricao": "Frete grátis promocional em pedidos a partir de R$ 60."
+      }
+    ]
   }
 }
