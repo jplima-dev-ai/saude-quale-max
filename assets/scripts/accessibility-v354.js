@@ -1,0 +1,12 @@
+(()=>{"use strict";
+const q=(s,r=document)=>r.querySelector(s),qa=(s,r=document)=>[...r.querySelectorAll(s)];
+const live=document.createElement("p");live.className="a354-live";live.setAttribute("role","status");live.setAttribute("aria-live","polite");live.setAttribute("aria-atomic","true");
+const announce=text=>{live.textContent="";setTimeout(()=>live.textContent=text,30)};
+const modalSelectors=["[data-chatbot]","[data-produto-modal]",".escolhas-modal"];
+const opened=()=>modalSelectors.map(s=>q(s)).find(el=>el&&!el.hidden&&el.getAttribute("aria-hidden")!=="true");
+const syncIsolation=()=>{const modal=opened(),active=Boolean(modal);document.body.classList.toggle("a354-modal-open",active);[...document.body.children].forEach(el=>{if(el===modal||el===live||el.tagName==="SCRIPT")return;if(active){if(!el.hasAttribute("inert")){el.inert=true;el.dataset.a354Inert=""}}else if(el.hasAttribute("data-a354-inert")){el.inert=false;delete el.dataset.a354Inert}})};
+const autocomplete=()=>{const map={nome:"name",email:"email",telefone:"tel",phone:"tel",cep:"postal-code",rua:"street-address",numero:"address-line2",complemento:"address-line3",bairro:"address-level3",cidade:"address-level2",estado:"address-level1"};qa("input").forEach(el=>{const key=(el.name||el.id||"").toLowerCase();if(!el.autocomplete&&map[key])el.autocomplete=map[key]})};
+const viewport=()=>{const vv=visualViewport,height=vv?.height||innerHeight;document.documentElement.style.setProperty("--a354-viewport-height",`${Math.round(height)}px`);document.body.classList.toggle("a354-keyboard-open",Boolean(vv&&innerHeight-height>150))};
+document.addEventListener("DOMContentLoaded",()=>{document.body.append(live);autocomplete();viewport();modalSelectors.forEach(s=>{const el=q(s);if(el)new MutationObserver(syncIsolation).observe(el,{attributes:true,attributeFilter:["hidden","aria-hidden"]})});syncIsolation();qa('[role="dialog"]').forEach(el=>el.setAttribute("aria-keyshortcuts","Escape"));document.addEventListener("invalid",event=>{const el=event.target;if(!(el instanceof HTMLInputElement||el instanceof HTMLSelectElement||el instanceof HTMLTextAreaElement))return;const label=el.labels?.[0]?.textContent?.trim()||el.name||"campo";announce(`Confira o campo ${label}. ${el.validationMessage}`)},{capture:true})});
+visualViewport?.addEventListener("resize",viewport,{passive:true});addEventListener("orientationchange",()=>setTimeout(viewport,120),{passive:true});
+})();

@@ -1,6 +1,9 @@
-const CACHE = "qualimax-v3.5.0";
+const CACHE = "qualimax-v3.5.4";
 const SHELL = [
+  "./assets/styles/accessibility-v354.css", "./assets/scripts/accessibility-v354.js",
+  "./assets/styles/checkout-v353.css", "./assets/scripts/performance-v353.js", "./assets/images/icons/cart.svg",
   "./assets/styles/admin-products-v350.css", "./assets/scripts/admin-products-v350.js",
+  "./assets/styles/client-customizer-v352.css", "./assets/scripts/client-customizer-v352.js",
   "./assets/scripts/max-handoff-v346.js", 
   "./assets/scripts/max-personality-v345.js", 
   "./assets/scripts/screenreader-v344.js", 

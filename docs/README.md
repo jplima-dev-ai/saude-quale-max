@@ -1,6 +1,6 @@
 # Documentação da Saúde Qualimax
 
-Documentação técnica e operacional da versão **3.3.4**.
+Documentação técnica e operacional da versão **3.5.4**. Os guias abaixo descrevem o estado atual do produto; o histórico de versões permanece exclusivamente no changelog.
 
 ## Mapa
 
@@ -9,9 +9,11 @@ Documentação técnica e operacional da versão **3.3.4**.
 | [Arquitetura](ARCHITECTURE.md) | Estrutura, módulos, dados e limites |
 | [Configuração](CONFIGURATION.md) | Marca, contato, recursos e operação |
 | [Catálogo](CATALOG-AND-CONTENT.md) | Produtos, preços, imagens e campanhas |
+| [Admin Studio](ADMIN-PRODUCTS-V350.md) | Gestão profissional do catálogo e preços |
 | [MAX](MAX.md) | Capacidades e arquitetura do assistente |
 | [Operação local](LOCAL-OPERATIONS.md) | Conta, carrinho e Admin Studio |
 | [White-label](WHITE-LABEL.md) | Adaptação para outras lojas |
+| [White-label Studio](WHITE-LABEL-STUDIO-V352.md) | Personalização guiada e entrega ao cliente |
 | [Animações](ANIMATIONS.md) | Movimento white-label e acessível |
 | [Acessibilidade](ACCESSIBILITY.md) | Critérios para teclado e leitores de tela |
 | [Privacidade](PRIVACY.md) | Dados locais e limites |
@@ -19,6 +21,7 @@ Documentação técnica e operacional da versão **3.3.4**.
 | [SEO](SEO.md) | Metadados, páginas e sitemap |
 | [Testes](TESTING-AND-QUALITY.md) | Suíte e revisão manual |
 | [Publicação](DEPLOYMENT.md) | GitHub Pages e Netlify |
+| [Segurança atual](SECURITY-REVIEW-V351.md) | Revisão ofensiva e limites arquiteturais |
 | [Changelog](CHANGELOG.md) | Histórico consolidado |
 
 ## Regras
@@ -27,4 +30,5 @@ Documentação técnica e operacional da versão **3.3.4**.
 2. Decisões históricas ficam no changelog.
 3. Comandos partem da raiz do projeto.
 4. Mudanças de dados, rotas, cache ou comportamento exigem atualização documental.
-5. Acessibilidade, privacidade e segurança integram o critério de conclusão.\n
+5. Acessibilidade, privacidade e segurança integram o critério de conclusão.
+6. Relatórios temporários de uma versão devem ser consolidados nesses guias antes de serem removidos.

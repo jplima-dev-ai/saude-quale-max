@@ -52,7 +52,7 @@
     const caminhoImagemSeguro = (valor) => {
         const caminho = String(valor || "").trim();
         if (!caminho || caminho.includes("..") || caminho.startsWith("/") || /^(?:[a-z]+:|\/\/)/i.test(caminho)) return "";
-        return /^img\/[A-Za-z0-9._/-]+$/.test(caminho) ? caminho : "";
+        return /^(?:img|assets\/images)\/[A-Za-z0-9._/-]+$/.test(caminho) ? caminho : "";
     };
 
     const emailSeguro = (valor) => {
@@ -237,6 +237,20 @@
         if (ogUrl && dados.canonical) ogUrl.content = dados.canonical;
     };
 
+    const aplicarConteudoPersonalizado = (config) => {
+        const pagina=document.body?.dataset.page||"home";
+        const conteudo=config.conteudo?.[pagina];
+        if(!conteudo||typeof conteudo!=="object")return;
+        const main=document.querySelector("main");
+        const titulo=main?.querySelector("h1");
+        if(titulo&&conteudo.titulo)titulo.textContent=String(conteudo.titulo).slice(0,160);
+        if(titulo&&conteudo.introducao){
+            const secao=titulo.closest("section")||titulo.parentElement;
+            const paragrafo=secao?.querySelector("h1 ~ p");
+            if(paragrafo)paragrafo.textContent=String(conteudo.introducao).slice(0,500);
+        }
+    };
+
     document.addEventListener("DOMContentLoaded", async () => {
         let config = fallback;
         try {
@@ -352,6 +366,7 @@
         }
         aplicarSEO(config);
         aplicarDadosEstruturados(config);
+        aplicarConteudoPersonalizado(config);
 
         window.QualimaxConfig = config;
         document.dispatchEvent(new CustomEvent("qualimax:config-ready", { detail: config }));

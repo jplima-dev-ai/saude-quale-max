@@ -14,4 +14,4 @@ cats=json.loads((root/"data/categories.json").read_text(encoding="utf-8"))["cate
 assert {"farinhas","frutas-secas","snacks"}<={x["id"] for x in cats}
 sitemap=(root/"sitemap.xml").read_text(encoding="utf-8")
 assert "products/omega-3.html" in sitemap and "budget-planner.html" in sitemap
-print("v3.5.0 OK: 60 produtos, 13 novos e 3 categorias novas")
+print("v3.5.4 OK: 60 produtos, 13 novos e 3 categorias novas")

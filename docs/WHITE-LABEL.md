@@ -33,4 +33,4 @@ Nunca reutilize credenciais, dados pessoais, analytics ou IDs privados. Um pacot
     python tools/audit-client.py
     python tools/package-release.py
 
-Autenticação, pedidos reais, estoque central, pagamento e equipe multiusuário exigem backend.\n
+Autenticação, pedidos reais, estoque central, pagamento e equipe multiusuário exigem backend.

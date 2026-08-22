@@ -6,12 +6,12 @@ A Saúde Qualimax é uma aplicação web estática, multipágina e white-label e
 
 ## Camadas
 
-- Interface: páginas HTML, style.css e v333.css.
-- Aplicação: módulos em assets/scripts/.
-- Dados publicados: JSON em data/.
-- Persistência local: localStorage e IndexedDB.
-- Offline: service-worker.js e manifest.webmanifest.
-- Operação: scripts Python e Node em tools/.
+- Interface: páginas HTML e folhas de estilo em `assets/styles/`.
+- Aplicação: módulos em `assets/scripts/`.
+- Dados publicados: JSON em `data/`.
+- Persistência local: `localStorage`, `sessionStorage` e IndexedDB.
+- Offline: `service-worker.js` e `manifest.webmanifest`.
+- Operação: scripts Python e Node em `tools/`.
 
 ## Páginas
 
@@ -23,6 +23,13 @@ A Saúde Qualimax é uma aplicação web estática, multipágina e white-label e
 | cart.html | Quantidades, orçamento e pedido preparado |
 | campaigns.html | Campanhas, kits e combos |
 | account.html | Perfil, jornada e recompra |
+| guided-shopping.html | Compra guiada por ocasião, orçamento e preferências |
+| kit-builder.html | Montagem de kits dentro de um teto |
+| compare.html | Comparação acessível de produtos |
+| discover.html | Exploração editorial por ocasião |
+| recipes.html | Receitas relacionadas ao catálogo |
+| journey.html | Carrinho, perfil, lembretes e comparações locais |
+| budget-planner.html | Planos de compra por orçamento |
 | support.html | Revisão antes do WhatsApp |
 | admin.html | Edição e inteligência comercial local |
 
@@ -33,6 +40,8 @@ A Saúde Qualimax é uma aplicação web estática, multipágina e white-label e
 - data/categories.json: taxonomia.
 - data/v333.json: estoque, variantes, kits, campanhas e notificações.
 - data/quiz.json, data/faq.json e data/baskets.json: conteúdos auxiliares.
+- `data/v340.json`: trilhas de descoberta, receitas e padrões comerciais do Max.
+- `data/routes.json`: rotas atuais e compatibilidade com nomes anteriores.
 
 ## Persistência
 
@@ -40,4 +49,4 @@ Perfil, carrinho, pedidos preparados e eventos permanecem no dispositivo. Não h
 
 ## Limites
 
-Sem backend, não existem autenticação real, estoque central, pagamento online, pedidos transacionais ou sincronização entre dispositivos. O Admin Studio é um editor local, não uma área protegida.\n
+Sem backend, não existem autenticação real, estoque central, pagamento online, pedidos transacionais ou sincronização entre dispositivos. O Admin Studio é um editor local, não uma área protegida.

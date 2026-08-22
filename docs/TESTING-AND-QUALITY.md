@@ -14,6 +14,8 @@
     node tools/test-max-decision.cjs
     python tools/test-commerce.py
     python tools/test-promotions-v33.py
+    python tools/test-v351.py
+    node tools/test-security-v351.cjs
 
 ## Revisão manual
 
@@ -21,7 +23,8 @@
 - catálogo, variantes, estoque, carrinho e orçamento;
 - campanhas, kits, recompra, Alt+Q e notificações;
 - MAX, Admin, exportações, PWA e offline.
+- Compra Guiada, Minha Jornada, Planejador de orçamento e transferência para atendimento humano.
 
 ## Integridade
 
-Valide JSON, JavaScript, links, slugs, imagens, CSP, sitemap, cache e ZIP. Não publique erro conhecido em fluxo essencial. Avisos aceitos precisam de impacto e plano de correção.\n
+Valide JSON, JavaScript, links, slugs, imagens, CSP, sitemap, cache e ZIP. Não publique erro conhecido em fluxo essencial. Avisos aceitos precisam de impacto e plano de correção.

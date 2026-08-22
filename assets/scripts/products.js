@@ -557,10 +557,14 @@
             }
         }
 
+        let buscaTimer;
         document.querySelector("[data-busca-produtos]")?.addEventListener("input", (evento) => {
             estado.busca = evento.target.value;
-            renderizar();
-            sincronizarURL();
+            clearTimeout(buscaTimer);
+            buscaTimer = setTimeout(() => {
+                renderizar();
+                sincronizarURL();
+            }, document.documentElement.dataset.performanceMode === "lite" ? 280 : 100);
         });
         document.querySelector("[data-filtro-categoria]")?.addEventListener("change", (evento) => {
             estado.filtroCategoria = evento.target.value;

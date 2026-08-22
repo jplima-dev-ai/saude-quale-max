@@ -23,4 +23,4 @@ Cada versão deve renovar o identificador do cache e listar novos recursos essen
 4. Testar início, catálogo, carrinho e fallback.
 5. Restaurar a rede e confirmar atualização.
 
-O modo offline não confirma disponibilidade, envia WhatsApp ou cria pedido real.\n
+O modo offline não confirma disponibilidade, envia WhatsApp ou cria pedido real.

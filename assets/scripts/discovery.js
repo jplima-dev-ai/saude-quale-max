@@ -12,7 +12,7 @@ const trilhas = [
   { id:"novidade", titulo:"Que tal descobrir algo que você ainda não conhece?", texto:"Um convite para passear pelo catálogo sem compromisso e deixar alguma novidade chamar sua atenção.", href:"catalog.html#produtos", termos:[] }
 ];
 
-const seguroHref = (href) => /^(?:catalogo\.html)(?:[?#].*)?$/.test(href) ? href : "catalog.html";
+const seguroHref = (href) => /^(?:catalog\.html)(?:[?#].*)?$/.test(href) ? href : "catalog.html";
 
 const criarTrilha = (item) => {
   const a=document.createElement("a");

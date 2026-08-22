@@ -26,4 +26,4 @@ Publique a raiz sem comando de build e preserve _headers.
 
 ## Pós-deploy
 
-Teste início, catálogo, produto, carrinho, campanhas, conta, atendimento, MAX, Admin, sitemap, manifest e service worker. Confirme HTTPS e console sem erros.\n
+Teste início, catálogo, produto, carrinho, campanhas, conta, atendimento, MAX, Admin, sitemap, manifest e service worker. Confirme HTTPS e console sem erros.

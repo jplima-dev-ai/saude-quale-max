@@ -4,6 +4,8 @@
 
 Produtos ficam em data/products.json. Variantes, estoque demonstrativo, campanhas, kits e notificações ficam em data/v333.json.
 
+O catálogo atual contém 60 produtos e 60 páginas individuais, distribuídos entre alimentos, chás, sementes, farinhas funcionais, frutas secas, snacks, suplementos e cuidados pessoais.
+
 ## Produto
 
 Cada item deve possuir id, nome, slug, categoria, preço, apresentação, imagem, descrição e benefícios. IDs e slugs são únicos e estáveis.
@@ -11,6 +13,8 @@ Cada item deve possuir id, nome, slug, categoria, preço, apresentação, imagem
 ## Preços
 
 Os preços são valores fixos do catálogo. O administrador pode alterá-los e exportar o JSON atualizado. Pesquisa externa não é exibida ao visitante.
+
+Valores, disponibilidade, composição e informações de rótulo precisam ser confirmados pela loja antes da venda.
 
 ## Estoque e variantes
 
@@ -33,4 +37,5 @@ Campanhas precisam de período válido e critério de seleção. Kits devem refe
 2. Incluir imagens.
 3. Criar a página individual.
 4. Revisar categoria, sitemap e busca.
-5. Executar a suíte de testes.\n
+5. Executar a suíte de testes.
+6. Confirmar integração com Max, quiz, comparador, kits, carrinho e sitemap.

@@ -2,6 +2,71 @@
 
 O histórico segue uma adaptação de Keep a Changelog e versionamento semântico.
 
+## [3.5.4] — 2026-08-22
+
+### Acessibilidade em computador, celular e tablet
+
+- camada transversal aplicada às 79 páginas da plataforma;
+- isolamento do conteúdo atrás de diálogos para impedir fuga da navegação por leitor de tela;
+- foco reforçado e compatível com teclado, NVDA e modo de alto contraste do Windows;
+- áreas de toque com pelo menos 48 pixels em dispositivos de ponteiro impreciso;
+- adaptação específica para tablets entre 600 e 1024 pixels;
+- suporte a celular e tablet nas orientações vertical e horizontal;
+- altura dos diálogos sincronizada com o teclado virtual por `VisualViewport`;
+- ocultação temporária dos atalhos flutuantes quando o teclado virtual ocupa a tela;
+- campos de dados pessoais associados a tipos de preenchimento automático;
+- avisos de validação anunciados por região viva;
+- suporte adicional a contraste elevado, cores forçadas, redução de movimento, zoom e texto ampliado;
+- testes preventivos para impedir bloqueio de zoom e regressões da matriz multitelas.
+
+## [3.5.3] — 2026-08-22
+
+### Compra simples e desempenho móvel
+
+- ícone do carrinho substituído por SVG vetorial nítido em qualquer densidade de tela;
+- checkout reorganizado em três etapas claras: revisar, informar entrega e confirmar no WhatsApp;
+- controles grandes de quantidade, subtotais por item e confirmação antes de remover ou esvaziar;
+- transferência automática dos produtos e quantidades do carrinho para o pré-atendimento;
+- mensagens diretas sobre preço estimado, ausência de cobrança e próximo passo;
+- imagens do carrinho otimizadas, carregamento tardio e decodificação assíncrona;
+- modo leve automático para economia de dados em conexões 2G ou aparelhos com pouca memória;
+- animações e recursos decorativos suspensos no modo leve;
+- busca do catálogo temporizada para evitar travamentos durante a digitação;
+- cache offline atualizado com os recursos da versão 3.5.3.
+
+## [3.5.2] — 2026-08-22
+
+### White-label Studio para revenda
+
+- nova aba **Personalizar site** no Admin Studio;
+- fluxo guiado em sete etapas para identidade, contato, textos, SEO, Max, recursos e revisão;
+- quatro modelos visuais profissionais com cores totalmente editáveis;
+- prévia instantânea de marca, logotipo, localização, título e descrição;
+- personalização centralizada dos textos principais de Início, Catálogo, Sobre e Contato;
+- gerador de SEO para cinco páginas com URLs canônicas;
+- configuração de redes sociais, operação, formas de pagamento e atendimento;
+- ativação individual dos 14 módulos comerciais;
+- indicador de completude e checklist de entrega ao cliente;
+- importação segura e exportação de `config.json` ou ficha completa do cliente;
+- preparação e download do logotipo com caminho padronizado;
+- conteúdo personalizado aplicado pelo frontend sem alterar manualmente as páginas HTML.
+
+## [3.5.1] — 2026-08-22
+
+### Revisão integral e hardening de segurança
+
+- 79 páginas revisadas quanto a referências, títulos, CSP, IDs e links externos;
+- correção das trilhas de descoberta após a migração de rotas para inglês;
+- correção do carregamento white-label de logo e avatar em `assets/images`;
+- eliminação de injeções HTML no comparador e nas cestas configuráveis;
+- validação HTTPS das fontes externas de preços;
+- importação da jornada limitada por tamanho, extensão, esquema e valores permitidos;
+- proteção do fallback do banco local contra poluição de protótipo e stores arbitrárias;
+- política de cabeçalhos reforçada com CSP completa, HSTS, isolamento de origem e bloqueio de cache do Admin;
+- novos testes ofensivos e estruturais para impedir regressões.
+- documentação profissionalizada: nove relatórios históricos redundantes foram consolidados nos guias permanentes e removidos;
+- índice documental corrigido da versão 3.3.4 para 3.5.1 e links internos revalidados.
+
 ## [3.5.0] — 2026-08-21
 
 ### Admin Studio — central profissional de catálogo
@@ -287,4 +352,4 @@ O histórico segue uma adaptação de Keep a Changelog e versionamento semântic
 
 ## [1.0.0]
 
-- catálogo, identidade e atendimento por WhatsApp.\n
+- catálogo, identidade e atendimento por WhatsApp.

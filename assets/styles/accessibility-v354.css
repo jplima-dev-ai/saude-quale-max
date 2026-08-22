@@ -1,0 +1,60 @@
+/* Saúde Qualimax 3.5.4 — acessibilidade multitelas */
+:root{--a354-touch:48px;--a354-safe-bottom:max(1rem,env(safe-area-inset-bottom));--a354-viewport-height:100dvh}
+html{scroll-padding-top:1rem}
+:target{scroll-margin-top:1rem}
+a,button,input,select,textarea,[tabindex]:not([tabindex="-1"]){-webkit-tap-highlight-color:rgba(23,107,77,.2)}
+button,.botao,[role="button"],input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),select,textarea{min-height:var(--a354-touch)}
+input[type="checkbox"],input[type="radio"]{min-width:24px;min-height:24px}
+:focus-visible{outline:3px solid #9a6a00!important;outline-offset:3px!important}
+.a354-live{position:fixed;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.chatbot-dialog,.produto-modal-dialog,.escolhas-dialog{max-height:calc(var(--a354-viewport-height) - 2rem);overscroll-behavior:contain}
+body.a354-modal-open{overflow:hidden;touch-action:none}
+body.a354-modal-open .chatbot,body.a354-modal-open .produto-modal,body.a354-modal-open .escolhas-modal{touch-action:auto}
+
+/* Tablet: mantém densidade confortável sem comprimir controles. */
+@media(min-width:600px) and (max-width:1024px){
+  .container{width:min(calc(100% - 2.5rem),var(--largura-container,1180px))}
+  .produtos-grid,.destaques-grid,.jornada-local-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .beneficios-premium-grid,.categorias-populares-grid,.contato-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .catalogo-filtros{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .catalogo-filtros>*{min-width:0}
+  .chatbot{width:min(31rem,calc(100% - 2rem))}
+}
+
+/* Toque: área mínima de 48 por 48 CSS pixels e espaço contra acionamento acidental. */
+@media(pointer:coarse){
+  .navegacao a,.topo nav a,.rodape a,.breadcrumb a,.produto-acoes a,.produto-acoes button,.chat-acoes button{min-height:48px;display:flex;align-items:center}
+  .chat-acoes,.hero-botoes,.produto-pagina-acoes{gap:.75rem}
+  .produto-modal-fechar,[data-chat-fechar]{min-width:48px}
+}
+
+/* Celular, zoom alto e texto ampliado: uma coluna, sem cortes laterais. */
+@media(max-width:600px){
+  .acessibilidade-painel{grid-template-columns:1fr!important}
+  .acessibilidade-painel button{width:100%;text-align:left}
+  .cart-row,.checkout-layout,.produto-pagina-grid,.produto-modal-layout,.conta-layout,.admin-layout{min-width:0}
+  .chatbot{max-height:calc(var(--a354-viewport-height) - var(--a354-safe-bottom) - .5rem)}
+  .chatbot-dialog{max-height:100%}
+  .chat-mensagens{min-height:5rem}
+  .carrinho-atalho,.chatbot-abrir,.whatsapp-flutuante{max-width:calc(100vw - 1.5rem)}
+  body.a354-keyboard-open .carrinho-atalho,body.a354-keyboard-open .chatbot-abrir,body.a354-keyboard-open .whatsapp-flutuante{display:none!important}
+}
+
+@media(max-height:520px) and (orientation:landscape){
+  .chatbot{inset:.25rem .25rem .25rem auto;width:min(34rem,82vw);max-height:none}
+  .chatbot-dialog{height:calc(var(--a354-viewport-height) - .5rem);max-height:none}
+  .chatbot-header{padding-block:.45rem}.chatbot-subtitulo,.chat-input-dica{display:none}
+  .chat-acoes{display:flex;overflow-x:auto;overscroll-behavior-inline:contain;padding-bottom:.25rem}
+  .chat-acoes button{flex:0 0 auto}
+}
+
+/* Contraste forçado do Windows e preferência de contraste do sistema. */
+@media(forced-colors:active){
+  :focus-visible{outline:3px solid Highlight!important}
+  .botao,.produto-card,.cart-row,.chatbot-dialog,.produto-modal-dialog,.acessibilidade-painel{border:1px solid CanvasText}
+  .motion-decor,.hero-assistente-icone{forced-color-adjust:none}
+}
+@media(prefers-contrast:more){
+  body{color:#101713}.produto-card,.cart-row,.contato-card{border-width:2px}.texto-suave,.produto-card p{color:#263c33}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}

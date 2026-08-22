@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Carrinho de compras</title>
+  <g fill="none" stroke="#0d4532" stroke-linecap="round" stroke-linejoin="round" stroke-width="4">
+    <path d="M7 10h8l5.5 28h27l7-20H18"/>
+    <path d="M24 26h25M29 18v20M41 18v20" opacity=".42"/>
+    <path d="M21 46h29"/>
+    <circle cx="27" cy="53" r="4" fill="#d9a441" stroke="#0d4532"/>
+    <circle cx="46" cy="53" r="4" fill="#d9a441" stroke="#0d4532"/>
+  </g>
+</svg>

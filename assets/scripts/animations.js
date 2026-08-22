@@ -1,7 +1,7 @@
 (()=>{"use strict";
 const ROOT=location.pathname.includes("/products/")?"../":"./",STORE="qualimax-motion-preference";
 const defaults={ativo:true,nivel:"suave",estilo:"folhas",revelacao:true,hero:true,cards:true,conversao:true,cabecalho:true};let settings={...defaults};
-const reduced=()=>matchMedia("(prefers-reduced-motion: reduce)").matches;
+const reduced=()=>matchMedia("(prefers-reduced-motion: reduce)").matches||document.documentElement.dataset.performanceMode==="lite";
 const safe=v=>["off","suave","expressive"].includes(v)?v:"suave";
 const config=async()=>{try{const r=await fetch(ROOT+"data/config.json",{cache:"no-cache"});return r.ok?(await r.json()).animacoes||{}:{}}catch{return{}}};
 const mode=()=>{document.documentElement.dataset.motionLevel=reduced()?"off":safe(localStorage.getItem(STORE)||(!settings.ativo?"off":settings.nivel));document.documentElement.dataset.motionStyle=settings.estilo||"folhas"};

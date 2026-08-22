@@ -22,4 +22,4 @@ Desativado por padrão. Integrações futuras devem documentar finalidade, base 
 
 ## Segurança
 
-Nunca publique tokens, senhas, chaves privadas, credenciais ou dados pessoais reais. Contas e pedidos reais exigem política revisada, controle de acesso, exclusão de dados e conformidade com a LGPD.\n
+Nunca publique tokens, senhas, chaves privadas, credenciais ou dados pessoais reais. Contas e pedidos reais exigem política revisada, controle de acesso, exclusão de dados e conformidade com a LGPD.

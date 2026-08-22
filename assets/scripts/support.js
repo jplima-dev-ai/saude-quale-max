@@ -206,6 +206,19 @@ document.addEventListener("DOMContentLoaded", async () => {
         if(p) selecionados.add(Number(p.id));
     }
 
+    if(origem==="carrinho"){
+        const carrinho=window.QualimaxSecurity?.readStorage?.("qualimax-carrinho-v333",[])||[];
+        carrinho.slice(0,60).forEach(item=>{
+            const id=Number(item?.id);
+            if(!porId.has(id)) return;
+            selecionados.add(id);
+            const produto=porId.get(id);
+            const base=Number(produto.quantidade_base||1);
+            const quantidade=Math.max(base,Number(item.qtd||base));
+            quantidadesMax.set(id,produto.venda_tipo==="peso"?Math.round(quantidade/100)*100:Math.round(quantidade));
+        });
+    }
+
     if(window.QualimaxDB){
         await window.QualimaxDB.init?.();
         const [lista,favoritos]=await Promise.all([

@@ -26,4 +26,4 @@ Carrinho, variantes, estoque, campanhas, kits, comandos e inteligência comercia
     python tools/audit-client.py
     python tools/test-v333.py
 
-Revise também com teclado e NVDA.\n
+Revise também com teclado e NVDA.

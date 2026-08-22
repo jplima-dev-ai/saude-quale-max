@@ -21,4 +21,4 @@ sitemap.xml inclui páginas canônicas. robots.txt aponta para o sitemap e não 
 
 Atualize empresa.site, URLs canônicas, dados estruturados, sitemap e robots; execute o sincronizador e revise links absolutos.
 
-SEO não substitui clareza: conteúdo deve ser útil, acessível e coerente com o catálogo.\n
+SEO não substitui clareza: conteúdo deve ser útil, acessível e coerente com o catálogo.
