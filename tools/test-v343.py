@@ -13,7 +13,7 @@ css=(root/"assets/styles/responsive-v343.css").read_text(encoding="utf-8")
 for feature in ("100dvh","safe-area-inset-bottom","forced-colors","touch-action","max-height:560px"):
     assert feature in css,feature
 config=json.loads((root/"data/config.json").read_text(encoding="utf-8"))
-assert config["versao"]=="3.5.4"
+assert config["versao"]=="3.5.9"
 sw=(root/"service-worker.js").read_text(encoding="utf-8")
-assert 'qualimax-v3.5.4' in sw and 'responsive-v343.css' in sw
-print(f"v3.5.4 OK: {len(pages)} páginas responsivas integradas")
+assert 'qualimax-v3.5.9' in sw and 'responsive-v343.css' in sw
+print(f"v3.5.9 OK: {len(pages)} páginas responsivas integradas")

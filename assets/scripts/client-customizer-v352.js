@@ -1,6 +1,6 @@
 (function(){
 "use strict";
-const VERSION="3.5.4",steps=["identity","contact","content","seo","max","features","review"];
+const VERSION="3.5.9",steps=["identity","contact","content","seo","max","features","review"];
 const featureLabels={quiz:"Quiz de descoberta",jornadaLocal:"Minha Jornada",colecoes:"Favoritos e listas",pwa:"Instalação e offline",cupons:"Cupons",pontos:"Pontos de fidelidade",freteGratis:"Frete grátis",carrinho:"Carrinho",variantes:"Variantes",estoque:"Estoque demonstrativo",campanhas:"Campanhas",kits:"Kits",comandos:"Comandos rápidos",inteligenciaComercial:"Inteligência comercial"};
 let pendingLogo=null,currentStep="identity";
 const $=s=>document.querySelector(s),all=s=>[...document.querySelectorAll(s)];
@@ -10,7 +10,7 @@ const set=(obj,path,value)=>{const keys=path.split(".");let cursor=obj;keys.slic
 const clean=(value,max=500)=>String(value??"").replace(/[\u0000-\u001f\u007f]/g," ").trim().slice(0,max);
 const download=(name,body,type="application/json")=>{const url=URL.createObjectURL(new Blob([body],{type})),a=document.createElement("a");a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),700)};
 const html=`<section class="admin-tab wl352-shell" data-admin-panel="personalizar" hidden aria-labelledby="wl352-title">
-  <div class="wl352-intro"><div><p class="admin-kicker">White-label Studio 3.5.4</p><h2 id="wl352-title">Personalize uma nova loja sem editar código</h2><p>Siga as etapas, acompanhe a prévia e exporte o arquivo do cliente.</p></div><div class="wl352-score" aria-label="Progresso da personalização"><strong data-wl-score>0%</strong><span>preenchido</span></div></div>
+  <div class="wl352-intro"><div><p class="admin-kicker">White-label Studio 3.5.9</p><h2 id="wl352-title">Personalize uma nova loja sem editar código</h2><p>Siga as etapas, acompanhe a prévia e exporte o arquivo do cliente.</p></div><div class="wl352-score" aria-label="Progresso da personalização"><strong data-wl-score>0%</strong><span>preenchido</span></div></div>
   <section class="admin-card"><h3>Comece por um estilo</h3><p>O modelo ajusta as cores; todos os campos continuam editáveis.</p><div class="wl352-presets"><button type="button" data-wl-preset="natural">Natural clássico</button><button type="button" data-wl-preset="premium">Orgânico premium</button><button type="button" data-wl-preset="modern">Bem-estar moderno</button><button type="button" data-wl-preset="herbal">Herbal artesanal</button></div></section>
   <nav class="wl352-steps" aria-label="Etapas da personalização">
     <button type="button" data-wl-step-button="identity" aria-current="step">1. Identidade</button><button type="button" data-wl-step-button="contact">2. Contato</button><button type="button" data-wl-step-button="content">3. Textos</button><button type="button" data-wl-step-button="seo">4. SEO</button><button type="button" data-wl-step-button="max">5. Max</button><button type="button" data-wl-step-button="features">6. Recursos</button><button type="button" data-wl-step-button="review">7. Revisão</button>

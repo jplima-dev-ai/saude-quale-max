@@ -14,7 +14,7 @@ for token in ['"__proto__"','"prototype"','"constructor"','depth > 12','slice(0,
 admin=(root/"assets/scripts/admin.js").read_text(encoding="utf-8")
 if "12*1024*1024" not in admin or "QualimaxSecurity?.parseJSON" not in admin: errors.append("importação administrativa não endurecida")
 sw=(root/"service-worker.js").read_text(encoding="utf-8")
-for token in ['qualimax-v3.5.4','headers.has("range")','const cacheavel','semQuery && cacheavel']:
+for token in ['qualimax-v3.5.9','headers.has("range")','const cacheavel','semQuery && cacheavel']:
     if token not in sw: errors.append(f"service worker: {token}")
 headers=(root/"_headers").read_text(encoding="utf-8")
 for token in ["frame-ancestors 'none'","Cross-Origin-Opener-Policy: same-origin","Cross-Origin-Resource-Policy: same-origin"]:

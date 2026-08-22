@@ -1,4 +1,6 @@
-# Publicação
+# Publicação e entrega
+
+Procedimento de release para GitHub Pages, Netlify ou entrega white-label. Execute os comandos a partir da raiz do projeto.
 
 ## Antes do commit
 
@@ -10,10 +12,14 @@
 
 ## Git
 
-    git status
-    git diff --check
-    git add .
-    git commit -m "release: Saúde Qualimax v3.3.3"
+```bash
+git status
+git diff --check
+git add .
+git commit -m "release: Saúde Qualimax v3.5.9"
+```
+
+Revise o diff antes de adicionar arquivos. Não publique backups locais, credenciais, dados de clientes ou pacotes de outra loja.
     git push
 
 ## GitHub Pages
@@ -26,4 +32,4 @@ Publique a raiz sem comando de build e preserve _headers.
 
 ## Pós-deploy
 
-Teste início, catálogo, produto, carrinho, campanhas, conta, atendimento, MAX, Admin, sitemap, manifest e service worker. Confirme HTTPS e console sem erros.
+Teste `index.html`, `catalog.html`, uma página de `products/`, `cart.html`, `campaigns.html`, `account.html`, `support.html`, o Max, `admin.html`, `404.html`, `sitemap.xml`, `manifest.webmanifest` e `service-worker.js`. Confirme HTTPS e console sem erros.

@@ -44,6 +44,6 @@ for pattern in ["*.json","*.js","*.py","*.md"]:
         if p.name=="migrate-v353.py":continue
         try:s=p.read_text(encoding="utf-8")
         except UnicodeDecodeError:continue
-        if "3.5.2" in s:p.write_text(s.replace("3.5.2","3.5.4"),encoding="utf-8")
+        if "3.5.2" in s:p.write_text(s.replace("3.5.2","3.5.6"),encoding="utf-8")
 
-print("Migração 3.5.4 aplicada")
+print("Migração 3.5.6 aplicada")

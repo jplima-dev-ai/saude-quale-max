@@ -17,29 +17,30 @@ A Saúde Qualimax é uma aplicação web estática, multipágina e white-label e
 
 | Página | Responsabilidade |
 |---|---|
-| index.html | Entrada e descoberta |
-| catalog.html | Busca, filtros, comparação e carrinho |
-| products/ | Conteúdo individual |
-| cart.html | Quantidades, orçamento e pedido preparado |
-| campaigns.html | Campanhas, kits e combos |
-| account.html | Perfil, jornada e recompra |
-| guided-shopping.html | Compra guiada por ocasião, orçamento e preferências |
-| kit-builder.html | Montagem de kits dentro de um teto |
-| compare.html | Comparação acessível de produtos |
-| discover.html | Exploração editorial por ocasião |
-| recipes.html | Receitas relacionadas ao catálogo |
-| journey.html | Carrinho, perfil, lembretes e comparações locais |
-| budget-planner.html | Planos de compra por orçamento |
-| support.html | Revisão antes do WhatsApp |
-| admin.html | Edição e inteligência comercial local |
+| `index.html` | Entrada e descoberta |
+| `catalog.html` | Busca, filtros, comparação e carrinho |
+| `products/` | Conteúdo individual |
+| `cart.html` | Quantidades, orçamento e pedido preparado |
+| `campaigns.html` | Campanhas, kits e combos |
+| `account.html` | Perfil, jornada e recompra |
+| `guided-shopping.html` | Compra guiada por ocasião, orçamento e preferências |
+| `kit-builder.html` | Montagem de kits dentro de um teto |
+| `compare.html` | Comparação acessível de produtos |
+| `discover.html` | Exploração editorial por ocasião |
+| `recipes.html` | Receitas relacionadas ao catálogo |
+| `journey.html` | Carrinho, perfil, lembretes e comparações locais |
+| `budget-planner.html` | Planos de compra por orçamento |
+| `support.html` | Revisão antes do WhatsApp |
+| `admin.html` | Edição e inteligência comercial local |
+| `404.html` | Recuperação acessível de endereço inexistente |
 
 ## Dados
 
-- data/config.json: identidade, contato, SEO, MAX e recursos.
-- data/products.json: catálogo e preços fixos.
-- data/categories.json: taxonomia.
-- data/v333.json: estoque, variantes, kits, campanhas e notificações.
-- data/quiz.json, data/faq.json e data/baskets.json: conteúdos auxiliares.
+- `data/config.json`: identidade, contato, SEO, MAX e recursos.
+- `data/products.json`: catálogo e preços fixos.
+- `data/categories.json`: taxonomia.
+- `data/v333.json`: estoque, variantes, kits, campanhas e notificações.
+- `data/quiz.json`, `data/faq.json` e `data/baskets.json`: conteúdos auxiliares.
 - `data/v340.json`: trilhas de descoberta, receitas e padrões comerciais do Max.
 - `data/routes.json`: rotas atuais e compatibilidade com nomes anteriores.
 

@@ -1,0 +1,120 @@
+/* Saúde Qualimax 3.5.8 — estabilização responsiva e zoom extremo */
+:root {
+  --v358-viewport-height: 100dvh;
+  --v358-floating-gap: .75rem;
+}
+
+[id] { scroll-margin-block-start: clamp(5rem, 12vh, 8rem); }
+:focus-visible { scroll-margin-block: 6rem; }
+
+.responsive-table-v358 {
+  max-inline-size: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-gutter: stable;
+  -webkit-overflow-scrolling: touch;
+}
+.responsive-table-v358:focus-visible {
+  outline: 3px solid var(--cor-primaria, #176b4d);
+  outline-offset: 3px;
+}
+.responsive-table-v358[data-overflow="true"] {
+  box-shadow: inset -1rem 0 1rem -1.15rem rgb(20 65 45 / .5);
+}
+
+.produto-card-imagem,
+.produto-pagina-grid > div:first-child,
+.produto-modal-imagem {
+  contain: layout paint;
+}
+.produto-card-imagem img,
+.produto-pagina-img,
+.produto-modal-imagem img {
+  inline-size: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: contain;
+}
+
+html[data-v358-keyboard="open"] {
+  scroll-padding-bottom: 1rem;
+}
+html[data-v358-keyboard="open"] .chatbot-abrir,
+html[data-v358-keyboard="open"] .whatsapp-flutuante,
+html[data-v358-keyboard="open"] .carrinho-flutuante {
+  visibility: hidden;
+  pointer-events: none;
+}
+html[data-v358-keyboard="open"] .chatbot:not([hidden]) .chatbot-dialog {
+  block-size: var(--v358-viewport-height);
+  max-block-size: var(--v358-viewport-height);
+}
+
+.v358-overflow-contained {
+  max-inline-size: 100% !important;
+  min-inline-size: 0 !important;
+}
+
+@media (max-width: 900px) {
+  .produto-pagina-grid,
+  .produto-modal-grid,
+  .kit-builder-grid,
+  .compare-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .produto-pagina-grid > div:first-child { max-inline-size: min(100%, 34rem); margin-inline: auto; }
+  .breadcrumb ol { display: flex; max-inline-size: 100%; overflow-x: auto; white-space: nowrap; padding-block-end: .35rem; }
+  .breadcrumb li { flex: 0 0 auto; }
+}
+
+@media (max-width: 520px) {
+  .container { inline-size: min(100% - 1.5rem, var(--largura-maxima, 1200px)); }
+  .cabecalho-conteudo { gap: .5rem; }
+  .logo-imagem-link { min-inline-size: 0; max-inline-size: min(58vw, 12rem); }
+  .botao-menu { flex: 0 0 auto; }
+  .produto-pagina-main, .secao-plataforma, .hero { padding-block: clamp(1.5rem, 7vw, 2.5rem); }
+  .modal-conteudo, .chatbot-dialog {
+    inline-size: 100%;
+    max-inline-size: 100%;
+    border-radius: 1rem 1rem 0 0;
+  }
+  .chatbot { align-items: end; padding: 0; }
+  .chat-mensagens { min-block-size: 0; }
+}
+
+/* Equivale a zoom elevado: o layout segue legível mesmo com viewport CSS estreito. */
+@media (max-width: 360px) {
+  .container { inline-size: min(100% - 1rem, var(--largura-maxima, 1200px)); }
+  .acessibilidade-conteudo, .produto-topo-conteudo, .rodape-final { align-items: stretch; flex-direction: column; }
+  .acessibilidade-painel { grid-template-columns: minmax(0, 1fr); }
+  .hero-botoes > *, .produto-pagina-acoes > *, .checkout-actions > *,
+  .cta-atendimento-acoes > *, .admin-editor-acoes > *, .wl352-actions > * { inline-size: 100%; }
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),
+  select, textarea { inline-size: 100%; }
+  input[type="checkbox"], input[type="radio"], input[type="range"], input[type="color"] { inline-size: auto; }
+  .responsive-table-v357 table, .responsive-table-v358 table { min-inline-size: 32rem; }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .cabecalho { position: static; }
+  .acessibilidade-barra { position: static; }
+  .navegacao.ativo, .navegacao.aberto, body.menu-aberto .navegacao {
+    max-block-size: calc(var(--v358-viewport-height) - 4rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .modal, .chatbot { align-items: stretch; padding: 0; }
+  .modal-conteudo, .chatbot-dialog {
+    block-size: var(--v358-viewport-height);
+    max-block-size: var(--v358-viewport-height);
+    border-radius: 0;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .responsive-table-v358[data-overflow="true"] { border: 2px solid currentColor; box-shadow: none; }
+}
+
+@media print {
+  .responsive-table-v358 { overflow: visible; box-shadow: none; }
+  .v358-overflow-contained { max-inline-size: none !important; }
+}

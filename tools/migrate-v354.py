@@ -13,10 +13,10 @@ for pattern in ("*.json","*.js","*.py","*.md"):
         if p.name=="migrate-v354.py":continue
         try:s=p.read_text(encoding="utf-8")
         except UnicodeDecodeError:continue
-        if "3.5.3" in s:p.write_text(s.replace("3.5.3","3.5.4"),encoding="utf-8")
+        if "3.5.3" in s:p.write_text(s.replace("3.5.3","3.5.6"),encoding="utf-8")
 sw=root/"service-worker.js";s=sw.read_text(encoding="utf-8")
 needle="const SHELL = ["
 assets='\n  "./assets/styles/accessibility-v354.css", "./assets/scripts/accessibility-v354.js",'
 if "accessibility-v354.css" not in s:s=s.replace(needle,needle+assets)
 sw.write_text(s,encoding="utf-8")
-print("Migração 3.5.4 aplicada")
+print("Migração 3.5.6 aplicada")

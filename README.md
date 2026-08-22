@@ -1,6 +1,6 @@
 # Saúde Qualimax — Plataforma Web
 
-**Versão atual: 3.5.4**
+**Versão atual: 3.5.9**
 
 Plataforma web multipágina e white-label para casas de produtos naturais, construída com HTML, CSS e JavaScript sem framework obrigatório. O projeto prioriza catálogo orientado a dados, acessibilidade, descoberta assistida e preparação do atendimento via WhatsApp, mantendo compatibilidade com GitHub Pages e Netlify.
 
@@ -16,6 +16,13 @@ Technical paths and public routes use English while storefront content remains i
 - checkout 3.5.3 com etapas simples, ícone vetorial e continuidade até o WhatsApp;
 - modo leve automático para dispositivos modestos e conexões lentas;
 - acessibilidade 3.5.4 otimizada para computador, celular, tablet, zoom elevado, teclado virtual e leitores de tela;
+- copy 3.5.6 revisada em todas as jornadas e nos 60 produtos, com tom humano, acolhedor e responsável;
+- Max 3.5.6 com raciocínio contextual local, correções de conversa, memória curta e respostas compostas;
+- responsividade 3.5.7 consolidada nas 79 páginas, com celulares compactos, tablets, modo paisagem, zoom elevado e áreas seguras;
+- tabelas adaptativas e navegáveis por teclado, imagens com carregamento estratégico e controles flutuantes sem colisões;
+- estabilização 3.5.8 para teclado virtual, zoom extremo, paisagem curta e componentes que tentem ultrapassar a viewport;
+- correções 3.5.9 de conflitos sutis entre camadas responsivas, ordem de foco, controles de formulário e cache offline;
+- documentação técnica revisada e padronizada para colaboração e entrega profissional no GitHub;
 - experiência v3.4.7 com decisão assistida nos produtos, carrinho e atendimento;
 - experiência v3.4.7 com Minha Jornada, planejamento de orçamento, lembretes e compartilhamento;
 - responsividade v3.4.7 validada em celulares, tablets, zoom elevado e orientação horizontal;

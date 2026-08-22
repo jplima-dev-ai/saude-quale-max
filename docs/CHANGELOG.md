@@ -2,6 +2,90 @@
 
 O histórico segue uma adaptação de Keep a Changelog e versionamento semântico.
 
+## [3.5.9] — 2026-08-22
+
+### Correções sutis e documentação profissional
+
+- conflito entre as camadas 3.5.7 e 3.5.8 corrigido para impedir duas instruções acessíveis na mesma tabela;
+- tabelas sem conteúdo oculto removidas da ordem de tabulação, preservando foco apenas quando a rolagem é necessária;
+- checkboxes, radios, controles de faixa e seletores de cor protegidos contra largura total em zoom extremo;
+- regra genérica de botões em telas estreitas substituída por ações contextuais para não deformar controles compactos;
+- entrada duplicada de `security.js` removida do cache offline;
+- verificador 3.5.9 criado para detectar duplicação no cache, divergência de versão, regressões responsivas e links documentais quebrados;
+- índice da documentação ampliado com início rápido, público, idioma e estado da versão;
+- padrão editorial formal adicionado para manter consistência nas próximas entregas;
+- guias de publicação, testes, PWA, acessibilidade, configuração, catálogo, animações e white-label revisados;
+- comandos padronizados em blocos copiáveis e referências técnicas formatadas de modo consistente;
+- referências obsoletas de cache e release atualizadas para 3.5.9.
+
+## [3.5.8] — 2026-08-22
+
+### Estabilização responsiva e conclusão das pendências técnicas
+
+- tratamento específico para teclado virtual aberto em celulares;
+- Max ajustado à altura visual disponível sem ficar encoberto pelo teclado;
+- controles flutuantes ocultados temporariamente durante a digitação para liberar espaço;
+- suporte reforçado a zoom extremo equivalente a viewports de 360 px ou menos;
+- tabelas previamente envolvidas por componentes antigos agora também recebem nome, foco e instrução acessível;
+- proporção visual de imagens de produto estabilizada para reduzir deslocamentos de layout;
+- breadcrumbs e menus longos tornados roláveis sem ampliar a página inteira;
+- componentes que ultrapassem a viewport recebem contenção automática e segura;
+- modais, Max e navegação refinados para orientação horizontal com pouca altura;
+- cache offline, gerador de produtos, Admin e White-label Studio atualizados para 3.5.8;
+- tentativa de execução da matriz Chromium registrada como bloqueada pela indisponibilidade do binário no ambiente de desenvolvimento.
+
+## [3.5.7] — 2026-08-22
+
+### Responsividade consolidada em toda a plataforma
+
+- nova camada responsiva final aplicada às 79 páginas, sem alterar o conteúdo da loja;
+- grade de destaques corrigida para não comprimir dois produtos em celulares médios;
+- comportamento refinado para celulares compactos, tablets, modo paisagem e telas com pouca altura;
+- tabelas comuns convertidas em regiões roláveis, focáveis e identificadas para tecnologias assistivas;
+- imagens não prioritárias configuradas para carregamento e decodificação progressivos;
+- tamanhos de imagem orientados ao espaço disponível para reduzir tráfego em conexões móveis;
+- Max, WhatsApp e carrinho reposicionados em telas estreitas para evitar colisões;
+- componentes fixos do Admin, checkout e White-label Studio liberados em paisagem curta;
+- menu móvel recolhido com segurança após mudança de orientação;
+- suporte mantido a zoom, alvos de toque ampliados, redução de movimento e alto contraste forçado;
+- gerador de páginas de produto atualizado para preservar a camada 3.5.7;
+- cache offline versionado e testes automáticos de responsividade adicionados.
+
+## [3.5.6] — 2026-08-22
+
+### Voz humana, Max contextual e revisão integral
+
+- textos das principais jornadas reescritos com voz próxima, calorosa e sem fórmulas artificiais;
+- páginas de descoberta, comparação, orçamento, kits, receitas, conta, contato e atendimento humanizadas;
+- copy individual dos 60 produtos revisada, com seis ritmos editoriais e chamadas variadas;
+- linguagem técnica ou provisória removida da experiência do cliente;
+- preços unificados como valores fixos do catálogo em dados, Admin, produtos, atendimento e Max;
+- formatos de produto corrigidos para português natural nas 60 páginas individuais;
+- nova camada `max-reasoning-v356.js` com memória curta e limitada;
+- interpretação de intenções compostas, orçamento, preferências e continuação contextual;
+- Max capaz de resumir o entendimento, explicar recomendações e aceitar correções;
+- comparação contextual com alternativas mais econômicas e diferenças de preço;
+- armazenamento do novo contexto limitado a 12 turnos e higienizado antes da persistência;
+- testes específicos contra injeção de conteúdo, memória excessiva e regressões de raciocínio;
+- auditorias funcional, estrutural, de leitores de tela e de segurança executadas novamente.
+
+## [3.5.5] — 2026-08-22
+
+### Página 404 com o Max e documentação corrigida
+
+- página 404 reconstruída com humor coerente com uma casa de produtos naturais;
+- Max apresentado em uma cena visual leve, responsiva e acessível;
+- cinco respostas bem-humoradas alternadas por controle com anúncio para leitores de tela;
+- atalhos diretos para Início, Catálogo e atendimento humano;
+- animação automaticamente desativada quando o sistema solicita redução de movimento;
+- scripts não essenciais removidos da página de erro para acelerar o carregamento;
+- documentação revisada contra as rotas técnicas reais em inglês;
+- referência obsoleta da antiga rota portuguesa do catálogo removida;
+- instruções de publicação, cache e versão atualizadas;
+- versão histórica correta do White-label Studio restaurada para 3.5.2;
+- tabela canônica de equivalência entre nomes visíveis em português e arquivos em inglês;
+- teste automático para bloquear rotas portuguesas obsoletas e links Markdown quebrados.
+
 ## [3.5.4] — 2026-08-22
 
 ### Acessibilidade em computador, celular e tablet

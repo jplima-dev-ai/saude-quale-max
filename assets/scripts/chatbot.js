@@ -20,6 +20,7 @@
     const MaxDialogue = window.QualimaxMaxDialogue || null;
     const MaxPersonality = window.QualimaxMaxPersonality || null;
     const MaxHandoff = window.QualimaxMaxHandoff || null;
+    const MaxReasoning = window.QualimaxMaxReasoning || null;
     const maxBehavior = window.QualimaxSecurity?.readStorage?.("qualimax-max-editor-v340", {maxSuggestions:5,allowCrossSell:true,explainRecommendations:true}) || {maxSuggestions:5,allowCrossSell:true,explainRecommendations:true};
     const estado = MaxCore.criarEstado();
 
@@ -491,7 +492,7 @@
 
         if(!orcamento){
             estado.presente={ativo:true,destinatario,orcamento:null,produtoIds:[]};
-            adicionarMensagem(`Posso montar uma sugestão de cesta${destinatario?` para ${destinatario}`:""} usando os preços aproximados do catálogo. Qual valor você gostaria de gastar?`);
+            adicionarMensagem(`Posso montar uma sugestão de cesta${destinatario?` para ${destinatario}`:""} usando os preços do catálogo. Qual valor você gostaria de gastar?`);
             adicionarAcoes([
                 {texto:"Até R$ 50",valor:"cesta até 50 reais"},
                 {texto:"Até R$ 100",valor:"cesta até 100 reais"},
@@ -927,7 +928,7 @@
             partes.push("também considerei que você pediu atenção especial ao preço");
         }
         if(produto.preco){
-            partes.push(`O preço aproximado informado é ${precoTexto(produto)}.`);
+            partes.push(`O preço informado no catálogo é ${precoTexto(produto)}.`);
         }
         if(comparacao){
             partes.push("A melhor opção depende do que é mais importante para você: formato, características, quantidade ou preço.");
@@ -1373,7 +1374,7 @@
         if(categoria) partes.push(`Ele está cadastrado em ${categoria}.`);
         if(produto.tipo) partes.push(`O formato informado é ${produto.tipo}.`);
         if(beneficios.length) partes.push(`No catálogo, os principais destaques são ${beneficios.join(", ")}.`);
-        if(produto.preco) partes.push(`O preço aproximado é ${precoTexto(produto)}.`);
+        if(produto.preco) partes.push(`O preço do catálogo é ${precoTexto(produto)}.`);
         partes.push("Se desejar, posso comparar esta opção com outra e explicar as diferenças com calma.");
         adicionarMensagem(partes.join(" "));
         adicionarAcoes([
@@ -1399,7 +1400,7 @@
         const precoA=a.preco?precoTexto(a):"preço sob consulta";
         const precoB=b.preco?precoTexto(b):"preço sob consulta";
 
-        adicionarMensagem(`Vamos comparar com calma. ${a.nome}: categoria ${catA}, destaques ${benA}, preço aproximado ${precoA}. ${b.nome}: categoria ${catB}, destaques ${benB}, preço aproximado ${precoB}.`);
+        adicionarMensagem(`Vamos comparar com calma. ${a.nome}: categoria ${catA}, destaques ${benA}, preço no catálogo ${precoA}. ${b.nome}: categoria ${catB}, destaques ${benB}, preço no catálogo ${precoB}.`);
 
         if(Number(a.preco)>0 && Number(b.preco)>0){
             if(Number(a.preco)<Number(b.preco)){
@@ -1511,7 +1512,7 @@
         if(contexto.tipo==="produto" && contexto.produto && /\b(?:esse produto|esta pagina|esta página|esse aqui|este aqui|ele|isso)\b/.test(t)){
             definirProdutoContexto(contexto.produto);
             if(/\b(?:preco|preço|valor|custa)\b/.test(t)){
-                adicionarMensagem(`${contexto.produto.nome} está com preço aproximado de ${precoTexto(contexto.produto)}.`);
+                adicionarMensagem(`${contexto.produto.nome} está com preço de ${precoTexto(contexto.produto)} no catálogo.`);
             }else{
                 explicarProduto(contexto.produto);
             }
@@ -1760,14 +1761,14 @@
                 if(opcoes.length){
                     adicionarMensagem(`Com até ${moeda(orcamento)}, encontrei ${opcoes.length} opções para você explorar. Os valores são aproximados e a equipe confirma o total final.`);
                     registrarResultados(opcoes,`Opções até ${moeda(orcamento)}`);
-                }else adicionarMensagem(`Não encontrei no catálogo uma opção com preço aproximado de até ${moeda(orcamento)}. Posso tentar outra faixa.`);
+                }else adicionarMensagem(`Não encontrei no catálogo uma opção de até ${moeda(orcamento)}. Posso tentar outra faixa.`);
             }else if(produto){
                 definirProdutoContexto(produto);
-                adicionarMensagem(`${produto.nome} está com preço aproximado de ${precoTexto(produto)}. A equipe confirma disponibilidade e valor final antes do pedido.`);
+                adicionarMensagem(`${produto.nome} está com preço de ${precoTexto(produto)} no catálogo. A equipe confirma disponibilidade, entrega e total antes do pedido.`);
                 adicionarAcoes([{texto:"Preparar pedido",acao:()=>adicionarWhatsAppNoChat("Preparar pedido",produto.nome)}]);
             }else{
                 const baratos=[...estado.produtos].filter(p=>Number(p.preco)>0).sort((a,b)=>Number(a.preco)-Number(b.preco)).slice(0,6);
-                adicionarMensagem("Agora eu também conheço os preços aproximados do catálogo. Posso mostrar opções por orçamento ou informar o valor de um produto.");
+                adicionarMensagem("Também conheço os preços do catálogo. Posso mostrar opções por orçamento ou informar o valor de um produto.");
                 registrarResultados(baratos,"Algumas opções com preços mais acessíveis");
             }
             estado.ultimaIntencao = "preco";
@@ -2013,7 +2014,7 @@
 
         if (/^(ajuda|me ajuda|o que voce faz|o que você faz|como funciona)[?!. ]*$/.test(termo)) {
             if (mostrarUsuario) adicionarMensagem(original, "usuario");
-            adicionarMensagem("Eu ajudo você a conhecer o catálogo com mais tranquilidade. Posso procurar produtos, organizar preferências, comparar opções, informar preços aproximados e encaminhar você para a equipe quando desejar.");
+            adicionarMensagem("Eu ajudo você a conhecer o catálogo com mais tranquilidade. Posso procurar produtos, organizar preferências, comparar opções, informar preços e encaminhar você para a equipe quando desejar.");
             adicionarAcoes([
                 { texto: "Encontrar produto", acao: responderAjudaEscolha },
                 { texto: "Ver categorias", valor: "categorias" },
@@ -2054,6 +2055,12 @@
         }
         const encaminhamento=MaxHandoff?.evaluate?.(original,{catalogReady:estado.produtos.length>0});
         if(encaminhamento&&transferirParaWhatsApp(encaminhamento))return;
+        const raciocinio=MaxReasoning?.respond?.(original,{products:estado.produtos,lastResults:estado.ultimosResultados,preferences:estado.preferencias,config:window.QualimaxConfig,cart:window.QualimaxV333?.cart?.()||[]});
+        if(raciocinio){
+            adicionarMensagem(raciocinio.message);
+            if(raciocinio.actions?.length)adicionarAcoes(raciocinio.actions.map(item=>typeof item==="string"?{texto:item,valor:item}:item));
+            return;
+        }
         registrarConsulta(original);
 
         if (responderHorarioLocal(termo)) return;

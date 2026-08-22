@@ -7,9 +7,9 @@ Gerar lojas derivadas sem misturar identidade, conteúdo ou dados.
 ## Fluxo
 
 1. Criar cópia de trabalho.
-2. Editar data/config.json.
+2. Editar `data/config.json`.
 3. Substituir catálogo, categorias, imagens, FAQ e quiz.
-4. Revisar data/v333.json.
+4. Revisar `data/v333.json`.
 5. Sincronizar.
 6. Testar e auditar.
 7. Empacotar separadamente.
@@ -28,9 +28,11 @@ Gerar lojas derivadas sem misturar identidade, conteúdo ou dados.
 
 Nunca reutilize credenciais, dados pessoais, analytics ou IDs privados. Um pacote por cliente.
 
-    python tools/generate-store.py
-    python tools/sync-client.py --check
-    python tools/audit-client.py
-    python tools/package-release.py
+```bash
+python3 tools/generate-store.py
+python3 tools/sync-client.py --check
+python3 tools/audit-client.py
+python3 tools/package-release.py --saida ../nome-do-cliente-versao
+```
 
 Autenticação, pedidos reais, estoque central, pagamento e equipe multiusuário exigem backend.

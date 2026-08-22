@@ -1,6 +1,6 @@
 # Documentação da Saúde Qualimax
 
-Documentação técnica e operacional da versão **3.5.4**. Os guias abaixo descrevem o estado atual do produto; o histórico de versões permanece exclusivamente no changelog.
+Documentação técnica e operacional da versão **3.5.9**. Este diretório funciona como manual oficial do projeto: os guias descrevem o estado publicado, enquanto decisões anteriores permanecem no changelog.
 
 ## Mapa
 
@@ -23,6 +23,7 @@ Documentação técnica e operacional da versão **3.5.4**. Os guias abaixo desc
 | [Publicação](DEPLOYMENT.md) | GitHub Pages e Netlify |
 | [Segurança atual](SECURITY-REVIEW-V351.md) | Revisão ofensiva e limites arquiteturais |
 | [Changelog](CHANGELOG.md) | Histórico consolidado |
+| [Padrão de documentação](DOCUMENTATION-STANDARD.md) | Convenções editoriais e critério de atualização |
 
 ## Regras
 
@@ -32,3 +33,18 @@ Documentação técnica e operacional da versão **3.5.4**. Os guias abaixo desc
 4. Mudanças de dados, rotas, cache ou comportamento exigem atualização documental.
 5. Acessibilidade, privacidade e segurança integram o critério de conclusão.
 6. Relatórios temporários de uma versão devem ser consolidados nesses guias antes de serem removidos.
+
+## Início rápido
+
+1. Consulte `ARCHITECTURE.md` para entender os limites da plataforma.
+2. Use `CONFIGURATION.md` e `WHITE-LABEL.md` para preparar uma nova loja.
+3. Execute a suíte de `TESTING-AND-QUALITY.md`.
+4. Siga `DEPLOYMENT.md` para gerar e publicar o pacote.
+
+## Estado da documentação
+
+- versão coberta: 3.5.9;
+- idioma operacional: português do Brasil;
+- nomes técnicos: inglês;
+- público: desenvolvimento, implantação, operação e suporte;
+- fonte histórica: `CHANGELOG.md`.

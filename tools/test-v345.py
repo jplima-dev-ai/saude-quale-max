@@ -9,5 +9,5 @@ for page in pages:
 chat=(root/"assets/scripts/chatbot.js").read_text(encoding="utf-8")
 assert chat.count("if (responderInteligenciaV337(termo)) return;")==1
 assert "respostaHumana" in chat and "MaxPersonality?.reset" in chat
-assert json.loads((root/"data/config.json").read_text(encoding="utf-8"))["versao"]=="3.5.4"
-print(f"v3.5.4 OK: personalidade integrada em {len(pages)} páginas")
+assert json.loads((root/"data/config.json").read_text(encoding="utf-8"))["versao"]=="3.5.9"
+print(f"v3.5.9 OK: personalidade integrada em {len(pages)} páginas")

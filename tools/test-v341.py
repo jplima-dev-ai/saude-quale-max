@@ -2,7 +2,7 @@ from pathlib import Path
 import json,subprocess,sys
 R=Path(__file__).resolve().parents[1];e=[]
 cfg=json.loads((R/"data/config.json").read_text(encoding="utf-8"))
-if cfg.get("versao")!="3.5.4":e.append("versão")
+if cfg.get("versao")!="3.5.9":e.append("versão")
 for p in list(R.glob("*.html"))+list((R/"products").glob("*.html")):
  s=p.read_text(encoding="utf-8");prefix="../" if p.parent.name=="products" else ""
  if prefix+"assets/styles/experience-v341.css" not in s:e.append("CSS: "+str(p.relative_to(R)))
@@ -14,5 +14,5 @@ cmp=(R/"assets/scripts/platform-v340.js").read_text(encoding="utf-8")
 if 'cell.scope="row"' not in cmp:e.append("comparador sem cabeçalho de linha")
 r=subprocess.run(["node","--check","assets/scripts/experience-v341.js"],cwd=R,text=True,capture_output=True)
 if r.returncode:e.append(r.stderr)
-if e:print("v3.5.4 FAILED\n"+"\n".join(e));sys.exit(1)
-print("v3.5.4: OK")
+if e:print("v3.5.9 FAILED\n"+"\n".join(e));sys.exit(1)
+print("v3.5.9: OK")

@@ -1,0 +1,105 @@
+/* Saúde Qualimax 3.5.7 — camada responsiva final */
+:root {
+  --v357-gutter: clamp(1rem, 3vw, 2rem);
+  --v357-safe-bottom: max(1rem, env(safe-area-inset-bottom));
+  --v357-reading: 70ch;
+}
+
+html { overflow-x: clip; scroll-padding-bottom: calc(5rem + var(--v357-safe-bottom)); }
+body { min-inline-size: 0; }
+main, section, article, aside, form, fieldset, .container { min-inline-size: 0; }
+img, video, svg, canvas { max-inline-size: 100%; block-size: auto; }
+h1, h2, h3, h4, p, li, label, a, button, input, select, textarea { overflow-wrap: anywhere; }
+input, select, textarea { max-inline-size: 100%; }
+fieldset { margin-inline: 0; }
+
+.responsive-table-v357 {
+  position: relative;
+  max-inline-size: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-gutter: stable;
+  border: 1px solid var(--cor-borda, #d9e5dc);
+  border-radius: .8rem;
+  background: var(--cor-superficie, #fff);
+  -webkit-overflow-scrolling: touch;
+}
+.responsive-table-v357:focus-visible { outline: 3px solid var(--cor-primaria, #176b4d); outline-offset: 3px; }
+.responsive-table-v357 table { inline-size: 100%; min-inline-size: 42rem; margin: 0; }
+.responsive-table-v357[data-overflow="false"] table { min-inline-size: 100%; }
+
+.produtos-grid, .destaques-grid, .jornada-local-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+}
+.produto-card, .admin-card, .checkout-card { min-inline-size: 0; }
+.produto-card img, .produto-imagem img { object-fit: contain; }
+.botao, button, [role="button"] { max-inline-size: 100%; }
+
+@media (min-width: 700px) and (max-width: 1100px) {
+  .hero-grid, .produto-topo-conteudo { gap: clamp(1.25rem, 3vw, 2rem); }
+  .produtos-grid, .destaques-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rodape-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .admin-layout, .wl352-workspace { grid-template-columns: minmax(13rem, .7fr) minmax(0, 1.3fr); }
+}
+
+@media (max-width: 760px) {
+  :root { --v357-gutter: clamp(.9rem, 4vw, 1.35rem); }
+  .container { inline-size: min(100% - (2 * var(--v357-gutter)), var(--largura-maxima, 1200px)); }
+  .hero-grid, .produto-topo-conteudo, .plataforma-recursos, .admin-layout,
+  .wl352-workspace, .checkout-layout, .carrinho-item { grid-template-columns: minmax(0, 1fr); }
+  .hero-botoes, .produto-topo-acoes, .cta-atendimento-acoes, .admin-toolbar,
+  .checkout-actions, .wl352-actions { align-items: stretch; flex-direction: column; }
+  .hero-botoes > *, .produto-topo-acoes > *, .cta-atendimento-acoes > *,
+  .checkout-actions > *, .wl352-actions > * { inline-size: 100%; }
+  .admin-toolbar, .filtros, .catalogo-toolbar { gap: .75rem; }
+  .modal-conteudo, .chatbot-dialog { max-inline-size: calc(100vw - (2 * var(--v357-gutter))); }
+}
+
+@media (max-width: 640px) {
+  /* Corrige o legado que mantinha dois cards estreitos entre 481 e 600px. */
+  .produtos-grid, .destaques-grid, .beneficios-premium-grid, .categorias-populares-grid,
+  .jornada-local-grid, .rodape-grid { grid-template-columns: minmax(0, 1fr); }
+  .responsive-table-v357 table { min-inline-size: 36rem; }
+  .chat-acoes { display: flex; overflow-x: auto; overscroll-behavior-inline: contain; padding-bottom: .35rem; }
+  .chat-acoes > button { flex: 0 0 auto; }
+}
+
+@media (max-width: 430px) {
+  .chatbot-abrir, .whatsapp-flutuante { inline-size: 3.25rem; min-inline-size: 3.25rem; block-size: 3.25rem; padding: .45rem; justify-content: center; }
+  .chatbot-abrir-texto, .whatsapp-flutuante-texto { display: none; }
+  .chatbot-abrir { inset-inline-end: max(.75rem, env(safe-area-inset-right)); }
+  .whatsapp-flutuante { inset-inline-start: max(.75rem, env(safe-area-inset-left)); }
+  .carrinho-flutuante { max-inline-size: calc(100vw - 9rem); }
+  .produto-card, .checkout-card, .cta-atendimento { border-radius: .85rem; }
+  h1 { font-size: clamp(1.85rem, 9vw, 2.45rem); }
+}
+
+@media (max-height: 560px) and (orientation: landscape) {
+  html { scroll-padding-bottom: 1rem; }
+  .cart-summary, .checkout-primary, .wl352-actions, .wl352-preview,
+  .admin-editor-acoes, .admin-nav { position: static !important; inset: auto !important; }
+  .chatbot-dialog { block-size: calc(var(--v357-vh, 1vh) * 100); max-block-size: 100%; }
+  .chatbot-header { padding-block: .5rem; }
+  .chat-acoes { max-block-size: 4rem; overflow-x: auto; }
+  .whatsapp-flutuante, .carrinho-flutuante, .chatbot-abrir { transform: scale(.9); transform-origin: bottom right; }
+}
+
+@media (pointer: coarse) {
+  button, .botao, [role="button"], input, select { min-block-size: 48px; }
+  .responsive-table-v357 { scroll-snap-type: inline proximity; }
+  .responsive-table-v357 th { scroll-snap-align: start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .responsive-table-v357 { scroll-behavior: auto; }
+}
+
+@media (forced-colors: active) {
+  .responsive-table-v357 { border: 2px solid CanvasText; }
+}
+
+@media print {
+  .responsive-table-v357 { overflow: visible; border: 0; }
+  .responsive-table-v357 table { min-inline-size: 0; }
+  .chatbot-abrir, .whatsapp-flutuante, .carrinho-flutuante { display: none !important; }
+}

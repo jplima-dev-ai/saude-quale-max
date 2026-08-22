@@ -2,13 +2,13 @@
 
 ## Fonte de verdade
 
-Produtos ficam em data/products.json. Variantes, estoque demonstrativo, campanhas, kits e notificações ficam em data/v333.json.
+Produtos ficam em `data/products.json`. Variantes, estoque demonstrativo, campanhas, kits e notificações ficam em `data/v333.json`.
 
 O catálogo atual contém 60 produtos e 60 páginas individuais, distribuídos entre alimentos, chás, sementes, farinhas funcionais, frutas secas, snacks, suplementos e cuidados pessoais.
 
 ## Produto
 
-Cada item deve possuir id, nome, slug, categoria, preço, apresentação, imagem, descrição e benefícios. IDs e slugs são únicos e estáveis.
+Cada item deve possuir `id`, nome, `slug`, categoria, preço, apresentação, imagem, descrição e benefícios. IDs e slugs são únicos e estáveis.
 
 ## Preços
 
@@ -23,7 +23,7 @@ O estoque é demonstrativo e local; não substitui um sistema transacional. Vari
 ## Imagens
 
 - nomes seguros, sem espaços;
-- miniaturas em assets/images/thumbs/ quando usadas nos cards;
+- miniaturas em `assets/images/thumbs/` quando usadas nos cards;
 - proporção consistente e tamanho otimizado;
 - texto alternativo informativo.
 

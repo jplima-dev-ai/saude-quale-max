@@ -1,4 +1,4 @@
-# White-label Studio — versão 3.5.4
+# White-label Studio — versão 3.5.2
 
 ## Objetivo
 

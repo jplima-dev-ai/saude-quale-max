@@ -21,13 +21,13 @@ def main() -> None:
            "A PWA deve buscar a configuração relativamente à raiz calculada da página.")
     exigir('if (promessaConfig) return promessaConfig;' in pwa,
            "A configuração da PWA deve reutilizar a mesma promessa.")
-    exigir('const CACHE = "qualimax-v3.5.4";' in sw,
+    exigir('const CACHE = "qualimax-v3.5.9";' in sw,
            "O cache precisa estar renovado na versão atual.")
     exigir('return cached || response;' in sw,
            "JSON com resposta HTTP inválida deve permitir fallback para o cache.")
     exigir('for="admin-upload-imagem"' in admin and 'id="admin-upload-imagem"' in admin,
            "O seletor de imagem do Admin precisa de rótulo associado.")
-    exigir('ADMIN_BACKUP_VERSION="3.5.4"' in admin_js,
+    exigir('ADMIN_BACKUP_VERSION="3.5.9"' in admin_js,
            "O backup do Admin deve informar a versão atual.")
     print("CORRECOES_BASE_TESTS_OK")
 

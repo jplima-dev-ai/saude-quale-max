@@ -369,7 +369,7 @@
         });
         const observacao = document.createElement("p");
         observacao.className = "produto-modal-aviso";
-        observacao.textContent = "Preço aproximado de referência. Disponibilidade e total final são confirmados pela equipe.";
+        observacao.textContent = "Preço exibido no catálogo. Disponibilidade, entrega e total final são confirmados pela equipe.";
 
         informacoes.append(categoria, preco, descricao);
         if (caracteristicas.length) informacoes.append(lista);

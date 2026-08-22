@@ -6,7 +6,7 @@ O sistema orienta atenção, reforça confiança e confirma ações sem bloquear
 
 ## Configuração
 
-A seção animacoes de data/config.json controla ativação, intensidade, estilo, revelação, hero, cards, conversão e cabeçalho. Use suave como padrão white-label.
+A seção `animacoes` de `data/config.json` controla ativação, intensidade, estilo, revelação, hero, cards, conversão e cabeçalho. Use `suave` como padrão white-label.
 
 ## Camadas
 

@@ -14,6 +14,7 @@ O MAX ajuda a descobrir, comparar e organizar produtos. Não realiza diagnóstic
 - max-intents.js: respostas.
 - max-personality-v345.js: adaptação de tom e ritmo.
 - max-handoff-v346.js: transferência contextual para atendimento humano.
+- `max-reasoning-v356.js`: memória curta, intenções compostas, correção de entendimento, explicação e continuidade contextual.
 - chatbot.js: diálogo e interface.
 
 ## Capacidades
@@ -24,6 +25,12 @@ O MAX ajuda a descobrir, comparar e organizar produtos. Não realiza diagnóstic
 - cestas e seleções comerciais;
 - explicação de critérios;
 - encaminhamento explícito para atendimento humano.
+- resumo do que foi compreendido e correção sem reiniciar a conversa;
+- continuação de contexto para pedidos como “e uma mais barata?”;
+- explicação dos critérios usados nas sugestões;
+- limite de 12 turnos locais, com limpeza solicitável pelo visitante.
+
+O Max continua sendo um agente local baseado no catálogo e em regras verificáveis. Ele não é um modelo de linguagem remoto, não inventa disponibilidade e não deve ser apresentado como GPT ou como atendente humano.
 
 ## Personalidade e naturalidade
 

@@ -2,7 +2,7 @@
 
 ## Arquivo principal
 
-data/config.json controla identidade, contato, redes, MAX, SEO, módulos e condições comerciais. Mantenha JSON válido e nunca armazene segredos.
+`data/config.json` controla identidade, contato, redes, MAX, SEO, módulos e condições comerciais. Mantenha o JSON válido e nunca armazene segredos.
 
 ## Seções
 
@@ -16,14 +16,16 @@ data/config.json controla identidade, contato, redes, MAX, SEO, módulos e condi
 - comercial: horário, entrega, retirada e pagamento.
 - promocoes: regras demonstrativas.
 
-## Recursos 3.3.3
+## Módulos comerciais
 
 Carrinho, variantes, estoque, campanhas, kits, comandos e inteligência comercial devem ser ativados somente quando dados e páginas estiverem publicados.
 
 ## Validação
 
-    python tools/sync-client.py --check
-    python tools/audit-client.py
-    python tools/test-v333.py
+```bash
+python3 tools/sync-client.py --check
+python3 tools/audit-client.py
+python3 tools/test-v359.py
+```
 
 Revise também com teclado e NVDA.

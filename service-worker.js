@@ -1,5 +1,9 @@
-const CACHE = "qualimax-v3.5.4";
+const CACHE = "qualimax-v3.5.9";
 const SHELL = [
+  "./assets/styles/responsive-v358.css", "./assets/scripts/responsive-v358.js",
+  "./assets/styles/responsive-v357.css", "./assets/scripts/responsive-v357.js",
+  "./assets/scripts/max-reasoning-v356.js",
+  "./404.html", "./assets/styles/not-found-v355.css", "./assets/scripts/not-found-v355.js",
   "./assets/styles/accessibility-v354.css", "./assets/scripts/accessibility-v354.js",
   "./assets/styles/checkout-v353.css", "./assets/scripts/performance-v353.js", "./assets/images/icons/cart.svg",
   "./assets/styles/admin-products-v350.css", "./assets/scripts/admin-products-v350.js",
@@ -10,7 +14,7 @@ const SHELL = [
   "./assets/styles/responsive-v343.css", 
   "./guided-shopping.html", "./kit-builder.html", "./compare.html", "./discover.html", "./recipes.html", "./journey.html", "./budget-planner.html", "./data/v340.json", "./assets/styles/platform-v340.css", "./assets/scripts/platform-v340.js", "./assets/scripts/experience-v341.js", "./assets/styles/experience-v341.css", "./assets/styles/innovations-v342.css", "./assets/scripts/innovations-v342.js",
   "./", "./index.html", "./offline.html",
-  "./catalog.html", "./cart.html", "./campaigns.html", "./assets/styles/commerce.css", "./assets/styles/animations.css", "./assets/scripts/animations.js", "./assets/scripts/security.js", "./assets/scripts/security.js", "./assets/scripts/commerce-v333.js", "./data/v333.json",
+  "./catalog.html", "./cart.html", "./campaigns.html", "./assets/styles/commerce.css", "./assets/styles/animations.css", "./assets/scripts/animations.js", "./assets/scripts/security.js", "./assets/scripts/commerce-v333.js", "./data/v333.json",
   "./quiz.html",
   "./about.html",
   "./contact.html",

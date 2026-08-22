@@ -30,7 +30,7 @@ O arquivo `_headers` agora fornece CSP completa, HSTS, isolamento de origem, blo
 
 ## Bugs funcionais corrigidos
 
-- trilhas editoriais voltaram a preservar filtros após a migração de `catalogo.html` para `catalog.html`;
+- trilhas editoriais voltaram a preservar filtros após a migração da antiga rota portuguesa do catálogo para `catalog.html`;
 - logo e avatar white-label em `assets/images` voltaram a ser aceitos pelo validador de caminhos;
 - testes estruturais confirmam ausência de links locais quebrados, IDs duplicados e páginas sem `h1`.
 

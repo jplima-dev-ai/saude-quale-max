@@ -2,7 +2,7 @@
 "use strict";
 
 const DB_NAME="qualimax-admin-local-v3";
-const ADMIN_BACKUP_VERSION="3.5.4";
+const ADMIN_BACKUP_VERSION="3.5.9";
 const DB_VERSION=1;
 let dbPromise=null;
 const abrirDB=()=>{
@@ -248,7 +248,7 @@ const formParaProduto=()=>{
         unidade_venda:form.elements.venda_tipo?.value==="peso"?"g":"un.",
         incremento:form.elements.venda_tipo?.value==="peso"?100:1,
         preco_atualizado_em:"2026-08-20",
-        preco_aproximado:true,
+        preco_aproximado:false,
         vegana:form.elements.vegana.checked,
         sem_gluten:form.elements.sem_gluten.checked,
         experiencia_minima:(produtoPorId(id)||{}).experiencia_minima||"iniciante",
@@ -442,7 +442,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
         if(!confirmarDescarteEditor()) return;
         descartarImagemPendente();
         const id=Math.max(0,...state.produtos.map(x=>Number(x.id)||0))+1;
-        const novo={id,nome:"",slug:"",categoria:state.categorias[0]?.id||"",imagem:"",descricao:"",beneficios:[],tipo:"",preco:0,apresentacao:"",venda_tipo:"unidade",quantidade_base:1,unidade_venda:"un.",incremento:1,preco_aproximado:true,vegana:false,sem_gluten:false,experiencia_minima:"iniciante",tags:[],disponibilidade:"consultar",destaque:false,copy:"",cta:"Conhecer produto"};
+        const novo={id,nome:"",slug:"",categoria:state.categorias[0]?.id||"",imagem:"",descricao:"",beneficios:[],tipo:"",preco:0,apresentacao:"",venda_tipo:"unidade",quantidade_base:1,unidade_venda:"un.",incremento:1,preco_aproximado:false,vegana:false,sem_gluten:false,experiencia_minima:"iniciante",tags:[],disponibilidade:"consultar",destaque:false,copy:"",cta:"Conhecer produto"};
         state.selecionado=id;
         renderLista();
         await preencherForm(novo);

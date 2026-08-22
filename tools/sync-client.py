@@ -329,11 +329,12 @@ def gerar_pagina_produto(config: dict, produto: dict, categoria_nome: str) -> st
 
     itens = []
     if produto.get("tipo"):
-        itens.append(f"Formato: {produto['tipo']}")
+        tipos = {"capsula": "Cápsulas", "po": "Pó", "liquido": "Líquido", "alimento": "Alimento", "oleo": "Óleo"}
+        itens.append(f"Formato: {tipos.get(str(produto['tipo']).lower(), str(produto['tipo']).capitalize())}")
     if produto.get("vegana"):
-        itens.append("Cadastrado como vegano")
+        itens.append("Informado como vegano")
     if produto.get("sem_gluten"):
-        itens.append("Cadastrado como sem glúten")
+        itens.append("Informado como sem glúten")
     itens.extend(str(x) for x in produto.get("beneficios", []) if str(x).strip())
     lista_html = "".join(f"<li>{html.escape(x)}</li>" for x in itens)
 
@@ -404,6 +405,10 @@ def gerar_pagina_produto(config: dict, produto: dict, categoria_nome: str) -> st
 <link rel="stylesheet" href="../assets/styles/experience-v341.css">
 <link rel="stylesheet" href="../assets/styles/innovations-v342.css">
 <link rel="stylesheet" href="../assets/styles/responsive-v343.css">
+<link rel="stylesheet" href="../assets/styles/checkout-v353.css">
+<link rel="stylesheet" href="../assets/styles/accessibility-v354.css">
+<link rel="stylesheet" href="../assets/styles/responsive-v357.css">
+<link rel="stylesheet" href="../assets/styles/responsive-v358.css">
 <script src="../assets/scripts/pwa.js" defer></script>
 <script src="../assets/scripts/interactions.js" defer></script>
 </head>
@@ -419,8 +424,8 @@ def gerar_pagina_produto(config: dict, produto: dict, categoria_nome: str) -> st
 <p class="produto-pagina-copy">{html.escape(descricao)}</p>
 <div class="produto-pagina-preco"><strong>{html.escape(preco_rotulo)}</strong><span>Preço fixo do catálogo • atualizado em {html.escape(data_preco_br)}</span></div>
 <ul class="produto-modal-lista">{lista_html}</ul>
-<p class="produto-pagina-aviso">Gostou deste produto? Adicione ao atendimento para enviar item, quantidade e valor estimado à equipe. A disponibilidade e o total final são confirmados pela loja.</p>
-<div class="produto-pagina-acoes"><a class="botao botao-principal" href="#" data-produto-whatsapp>Preparar consulta deste produto</a><button class="botao botao-secundario" type="button" data-compartilhar>Compartilhar produto</button><a class="botao botao-secundario" href="../catalog.html#produtos" data-retomar-catalogo>Voltar ao catálogo</a></div>
+<p class="produto-pagina-aviso">Quer levar esta opção adiante? Prepare o atendimento com produto, quantidade e valor do catálogo. A equipe confirma disponibilidade e total antes do pedido.</p>
+<div class="produto-pagina-acoes"><a class="botao botao-principal" href="#" data-produto-whatsapp>Quero perguntar sobre este produto</a><button class="botao botao-secundario" type="button" data-compartilhar>Compartilhar produto</button><a class="botao botao-secundario" href="../catalog.html#produtos" data-retomar-catalogo>Continuar olhando o catálogo</a></div>
 <p class="sr-only" role="status" aria-live="polite" data-share-status></p>
 </article></div>
 <div class="container produto-pos-conteudo">
@@ -437,6 +442,10 @@ def gerar_pagina_produto(config: dict, produto: dict, categoria_nome: str) -> st
 <script src="../assets/scripts/screenreader-v344.js" defer></script>
 <script src="../assets/scripts/max-personality-v345.js" defer></script>
 <script src="../assets/scripts/max-handoff-v346.js" defer></script>
+<script src="../assets/scripts/performance-v353.js" defer></script>
+<script src="../assets/scripts/accessibility-v354.js" defer></script>
+<script src="../assets/scripts/responsive-v357.js" defer></script>
+<script src="../assets/scripts/responsive-v358.js" defer></script>
 </body>
 </html>'''
     return recalcular_csp(texto)
