@@ -321,6 +321,11 @@ def gerar_pagina_produto(config: dict, produto: dict, categoria_nome: str) -> st
     venda_tipo = str(produto.get("venda_tipo") or "unidade")
     preco_br = f"R$ {preco:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
     preco_rotulo = f"{preco_br} / {apresentacao}" if venda_tipo == "peso" else preco_br
+    data_preco = str(produto.get("preco_atualizado_em") or "")
+    try:
+        data_preco_br = dt.date.fromisoformat(data_preco).strftime("%d/%m/%Y")
+    except ValueError:
+        data_preco_br = data_preco or "data não informada"
 
     itens = []
     if produto.get("tipo"):
@@ -394,6 +399,11 @@ def gerar_pagina_produto(config: dict, produto: dict, categoria_nome: str) -> st
 <link rel="manifest" href="../manifest.webmanifest">
 <script type="application/ld+json" id="produto-estruturado">{json.dumps(estruturado, ensure_ascii=False, separators=(",", ":"))}</script>
 <link rel="stylesheet" href="../assets/styles/main.css">
+<link rel="stylesheet" href="../assets/styles/commerce.css">
+<link rel="stylesheet" href="../assets/styles/animations.css">
+<link rel="stylesheet" href="../assets/styles/experience-v341.css">
+<link rel="stylesheet" href="../assets/styles/innovations-v342.css">
+<link rel="stylesheet" href="../assets/styles/responsive-v343.css">
 <script src="../assets/scripts/pwa.js" defer></script>
 <script src="../assets/scripts/interactions.js" defer></script>
 </head>
@@ -407,7 +417,7 @@ def gerar_pagina_produto(config: dict, produto: dict, categoria_nome: str) -> st
 <p class="secao-subtitulo"><a class="produto-categoria-link" href="../catalog.html?categoria={html.escape(categoria, quote=True)}#produtos">{html.escape(categoria_nome)}</a></p>
 <h1>{html.escape(nome)}</h1>
 <p class="produto-pagina-copy">{html.escape(descricao)}</p>
-<div class="produto-pagina-preco"><strong>{html.escape(preco_rotulo)}</strong><span>Preço aproximado • referência atualizada em 20/08/2026</span></div>
+<div class="produto-pagina-preco"><strong>{html.escape(preco_rotulo)}</strong><span>Preço fixo do catálogo • atualizado em {html.escape(data_preco_br)}</span></div>
 <ul class="produto-modal-lista">{lista_html}</ul>
 <p class="produto-pagina-aviso">Gostou deste produto? Adicione ao atendimento para enviar item, quantidade e valor estimado à equipe. A disponibilidade e o total final são confirmados pela loja.</p>
 <div class="produto-pagina-acoes"><a class="botao botao-principal" href="#" data-produto-whatsapp>Preparar consulta deste produto</a><button class="botao botao-secundario" type="button" data-compartilhar>Compartilhar produto</button><a class="botao botao-secundario" href="../catalog.html#produtos" data-retomar-catalogo>Voltar ao catálogo</a></div>
@@ -417,8 +427,16 @@ def gerar_pagina_produto(config: dict, produto: dict, categoria_nome: str) -> st
 <section class="produto-relacionados-pagina" aria-labelledby="relacionados-titulo" data-produto-relacionados hidden><h2 id="relacionados-titulo">Você também pode explorar</h2><div class="produto-relacionados-grid-pagina" data-relacionados-grid></div></section>
 <nav class="produto-navegacao" aria-label="Navegação entre produtos" data-produto-navegacao></nav>
 </div></main>
+<script src="../assets/scripts/security.js" defer></script>
 <script src="../assets/scripts/db.js" defer></script>
 <script src="../assets/scripts/product-page.js" defer></script>
+<script src="../assets/scripts/commerce-v333.js" defer></script>
+<script src="../assets/scripts/animations.js" defer></script>
+<script src="../assets/scripts/experience-v341.js" defer></script>
+<script src="../assets/scripts/innovations-v342.js" defer></script>
+<script src="../assets/scripts/screenreader-v344.js" defer></script>
+<script src="../assets/scripts/max-personality-v345.js" defer></script>
+<script src="../assets/scripts/max-handoff-v346.js" defer></script>
 </body>
 </html>'''
     return recalcular_csp(texto)
@@ -541,7 +559,9 @@ def atualizar_manifest(config: dict):
 def atualizar_sitemap(config: dict, produtos: list[dict]):
     base = site_base(config.get("empresa", {}).get("site"))
     hoje = dt.date.today().isoformat()
-    paginas = ["catalog.html", "about.html", "contact.html"]
+    paginas = ["catalog.html", "about.html", "contact.html", "account.html",
+               "cart.html", "campaigns.html", "guided-shopping.html", "kit-builder.html",
+               "compare.html", "discover.html", "recipes.html", "journey.html", "budget-planner.html"]
     if config.get("recursos", {}).get("quiz", True) is not False:
         paginas.insert(1, "quiz.html")
     urls = [base] + [urljoin(base, x) for x in paginas]

@@ -1,5 +1,11 @@
-const CACHE = "qualimax-v3.3.6";
+const CACHE = "qualimax-v3.5.0";
 const SHELL = [
+  "./assets/styles/admin-products-v350.css", "./assets/scripts/admin-products-v350.js",
+  "./assets/scripts/max-handoff-v346.js", 
+  "./assets/scripts/max-personality-v345.js", 
+  "./assets/scripts/screenreader-v344.js", 
+  "./assets/styles/responsive-v343.css", 
+  "./guided-shopping.html", "./kit-builder.html", "./compare.html", "./discover.html", "./recipes.html", "./journey.html", "./budget-planner.html", "./data/v340.json", "./assets/styles/platform-v340.css", "./assets/scripts/platform-v340.js", "./assets/scripts/experience-v341.js", "./assets/styles/experience-v341.css", "./assets/styles/innovations-v342.css", "./assets/scripts/innovations-v342.js",
   "./", "./index.html", "./offline.html",
   "./catalog.html", "./cart.html", "./campaigns.html", "./assets/styles/commerce.css", "./assets/styles/animations.css", "./assets/scripts/animations.js", "./assets/scripts/security.js", "./assets/scripts/security.js", "./assets/scripts/commerce-v333.js", "./data/v333.json",
   "./quiz.html",
@@ -11,7 +17,7 @@ const SHELL = [
   "./data/config.json", "./data/routes.json", "./data/products.json", "./data/categories.json", "./data/quiz.json", "./data/faq.json",
   "./data/price-research.json", "./data/baskets.json", "./assets/scripts/commerce-v332.js",
   "./assets/images/max-avatar-v333.svg",
-  "./assets/images/logo-saude-qualimax.webp", "./assets/scripts/pwa.js", "./assets/scripts/offline.js", "./assets/scripts/frame-guard.js", "./assets/scripts/config.js", "./assets/scripts/db.js", "./assets/scripts/collections.js", "./assets/scripts/products.js", "./assets/scripts/max-core.js", "./assets/scripts/max-entities.js", "./assets/scripts/max-recommendation.js", "./assets/scripts/max-nlu.js", "./assets/scripts/max-decision.js", "./assets/scripts/max-intents.js", "./assets/scripts/chatbot.js",
+  "./assets/images/logo-saude-qualimax.webp", "./assets/scripts/pwa.js", "./assets/scripts/offline.js", "./assets/scripts/frame-guard.js", "./assets/scripts/config.js", "./assets/scripts/db.js", "./assets/scripts/collections.js", "./assets/scripts/products.js", "./assets/scripts/max-core.js", "./assets/scripts/max-entities.js", "./assets/scripts/max-recommendation.js", "./assets/scripts/max-nlu.js", "./assets/scripts/max-decision.js", "./assets/scripts/max-intelligence.js", "./assets/scripts/max-sales.js", "./assets/scripts/max-sales-advanced.js", "./assets/scripts/max-dialogue.js", "./assets/scripts/max-intents.js", "./assets/scripts/chatbot.js",
   "./assets/scripts/promotions.js",
   "./assets/scripts/discovery.js",
   "./assets/scripts/interactions.js",
@@ -45,13 +51,11 @@ self.addEventListener("fetch", event => {
 
   const url = new URL(event.request.url);
   if (url.username || url.password || event.request.headers.has("range")) return;
-  if (url.username || url.password || event.request.headers.has("range")) return;
   if (url.origin !== self.location.origin) return;
 
   event.respondWith((async () => {
     const cache = await caches.open(CACHE);
     const semQuery = url.search === "";
-    const cacheavel = /\.(?:html|css|js|json|webmanifest|png|jpe?g|webp|svg|ico|woff2?)$/i.test(url.pathname) || url.pathname.endsWith("/");
     const cacheavel = /\.(?:html|css|js|json|webmanifest|png|jpe?g|webp|svg|ico|woff2?)$/i.test(url.pathname) || url.pathname.endsWith("/");
     const dadoDinamico = /\/data\/[^/]+\.json$/i.test(url.pathname);
 

@@ -4,7 +4,7 @@ import json, sys
 ROOT=Path(__file__).resolve().parents[1]
 erros=[]
 produtos=json.loads((ROOT/"data/products.json").read_text(encoding="utf-8"))["produtos"]
-if len(produtos)!=47: erros.append(f"Esperados 47 produtos, encontrados {len(produtos)}")
+if len(produtos)!=60: erros.append(f"Esperados 60 produtos, encontrados {len(produtos)}")
 for p in produtos:
     if not isinstance(p.get("preco"),(int,float)) or p["preco"]<=0: erros.append(f"{p.get('nome')}: preço inválido")
     if not p.get("apresentacao"): erros.append(f"{p.get('nome')}: apresentação ausente")

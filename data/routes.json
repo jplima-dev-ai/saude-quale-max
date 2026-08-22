@@ -1,5 +1,5 @@
 {
-  "version": "3.3.6",
+  "version": "3.5.0",
   "defaultLocale": "pt-BR",
   "routes": {
     "about": {
@@ -41,6 +41,34 @@
     "quiz": {
       "path": "quiz.html",
       "label": "quiz"
+    },
+    "guided-shopping.html": {
+      "locale": "pt-BR",
+      "public": true
+    },
+    "kit-builder.html": {
+      "locale": "pt-BR",
+      "public": true
+    },
+    "compare.html": {
+      "locale": "pt-BR",
+      "public": true
+    },
+    "discover.html": {
+      "locale": "pt-BR",
+      "public": true
+    },
+    "recipes.html": {
+      "locale": "pt-BR",
+      "public": true
+    },
+    "journey.html": {
+      "locale": "pt-BR",
+      "public": true
+    },
+    "budget-planner.html": {
+      "locale": "pt-BR",
+      "public": true
     }
   },
   "legacyAliases": {

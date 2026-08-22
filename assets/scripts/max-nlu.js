@@ -7,7 +7,9 @@
         "glutem":"gluten","capsulas":"capsulas","capsula":"capsula",
         "cha":"cha","creatina":"creatina","granolla":"granola","camomilla":"camomila",
         "hibísco":"hibisco","himaláia":"himalaia","emalaia":"himalaia",
-        "acucar":"acucar","cacau":"cacau","castanha":"castanha"
+        "acucar":"acucar","cacau":"cacau","castanha":"castanha",
+        "qro":"quero","qr":"quero","baratin":"barato","baratinho":"barato",
+        "suplementu":"suplemento","vitamima":"vitamina","castania":"castanha"
     });
 
     const corrigir = texto => normalizar(texto)

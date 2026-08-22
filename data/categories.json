@@ -65,6 +65,24 @@
       "nome": "Temperos e Especiarias",
       "descricao": "Cor, aroma e personalidade: às vezes, uma pitada é tudo o que uma receita precisava.",
       "imagem": "natural-products.webp"
+    },
+    {
+      "id": "farinhas",
+      "nome": "Farinhas Funcionais",
+      "descricao": "Farinhas para explorar pães, bolos, massas e novas texturas na cozinha.",
+      "imagem": "almond-flour.webp"
+    },
+    {
+      "id": "frutas-secas",
+      "nome": "Frutas Secas",
+      "descricao": "Sabores concentrados e práticos para lanches, tábuas, granolas e receitas.",
+      "imagem": "dried-apricots.webp"
+    },
+    {
+      "id": "snacks",
+      "nome": "Snacks Naturais",
+      "descricao": "Opções crocantes e práticas para levar, dividir e aproveitar nos intervalos.",
+      "imagem": "sweet-potato-chips.webp"
     }
   ]
 }

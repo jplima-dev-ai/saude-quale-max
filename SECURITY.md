@@ -75,6 +75,6 @@ node tools/test-security-runtime-v336.cjs
 
 Esse teste é complementar à auditoria funcional e ao teste do Max.
 
-## Hardening da v3.3.6
+## Hardening da v3.4.7
 
-A v3.3.6 acrescenta validação de esquema para armazenamento local, bloqueio de chaves usadas em poluição de protótipo, limites de profundidade/tamanho, normalização de valores comerciais, validação do canal entre abas e política restritiva de cache. O relatório técnico está em `docs/SECURITY-AUDIT-V336.md`.
+A v3.4.7 acrescenta validação de esquema para armazenamento local, bloqueio de chaves usadas em poluição de protótipo, limites de profundidade/tamanho, normalização de valores comerciais, validação do canal entre abas e política restritiva de cache. O relatório técnico está em `docs/SECURITY-AUDIT-V336.md`.

@@ -1,0 +1,11 @@
+const fs=require("fs"),vm=require("vm"),assert=require("assert");const window={QualimaxMaxCore:{normalizar:v=>String(v||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim()}};
+vm.runInNewContext(fs.readFileSync("assets/scripts/max-handoff-v346.js","utf8"),{window});const h=window.QualimaxMaxHandoff;
+assert.equal(h.evaluate("quero falar com uma pessoa").id,"human");
+assert.equal(h.evaluate("tem em estoque agora?").id,"availability");
+assert.equal(h.evaluate("qual dose posso tomar?").id,"health");
+assert.equal(h.evaluate("onde fica a loja?"),null);
+assert.equal(h.evaluate("oi",{catalogReady:false}).id,"technical");
+const safe=h.clean("meu e-mail é teste@exemplo.com e telefone 11999999999");
+assert.ok(!safe.includes("teste@")&&!safe.includes("11999999999"));
+assert.equal(h.unresolved("uma dúvida diferente").id,"unresolved");
+console.log("MAX_HANDOFF_V346_OK");

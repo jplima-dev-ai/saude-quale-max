@@ -1,0 +1,15 @@
+{
+  "version": "3.4.0",
+  "discoveryTrails": [
+    {"id":"morning","title":"Começar o dia","description":"Ingredientes e opções para variar o café da manhã.","terms":["granola","aveia","chia","pasta","cafe"]},
+    {"id":"pause","title":"Uma pausa tranquila","description":"Chás e sabores para um momento acolhedor.","terms":["cha","camomila","melissa","hibisco"]},
+    {"id":"active","title":"Rotina ativa","description":"Produtos cadastrados nas áreas de energia e desempenho.","terms":["energia","creatina","proteina","vitamina"]},
+    {"id":"gift","title":"Presentear com cuidado","description":"Uma seleção variada dentro do orçamento escolhido.","terms":["cha","castanha","chocolate","cuidado"]}
+  ],
+  "recipes": [
+    {"id":"breakfast-bowl","title":"Bowl crocante para o café da manhã","description":"Uma combinação simples de cereais, sementes e pasta.","terms":["granola","aveia","chia","pasta de amendoim"],"steps":["Escolha uma base de granola ou aveia.","Acrescente uma semente.","Finalize com uma porção de pasta."]},
+    {"id":"cold-tea","title":"Chá gelado aromático","description":"Uma preparação refrescante baseada em itens do catálogo.","terms":["hibisco","gengibre","cha"],"steps":["Prepare o chá conforme o rótulo.","Espere esfriar.","Sirva gelado e ajuste a combinação ao seu gosto."]},
+    {"id":"snack-mix","title":"Mix prático para o intervalo","description":"Oleaginosas e ingredientes secos para montar porções.","terms":["castanha","amendoim","mix","semente"],"steps":["Escolha duas oleaginosas.","Separe em porções.","Conserve conforme as orientações do rótulo."]}
+  ],
+  "maxDefaults": {"persuasion":"consultative","responseLength":"balanced","askOneAtATime":true,"explainRecommendations":true,"allowCrossSell":true,"maxSuggestions":5}
+}

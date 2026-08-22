@@ -1,0 +1,14 @@
+const fs=require("fs"),vm=require("vm"),assert=require("assert");
+const memory={};const sessionStorage={getItem:k=>memory[k]??null,setItem:(k,v)=>memory[k]=v};
+const window={QualimaxMaxCore:{normalizar:v=>String(v||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim()}};
+vm.runInNewContext(fs.readFileSync("assets/scripts/max-personality-v345.js","utf8"),{window,sessionStorage});
+const p=window.QualimaxMaxPersonality;
+assert.equal(p.analyze("Estou perdido e confuso").emotion,"sobrecarregado");
+assert.equal(p.analyze("Estou com pressa").emotion,"apressado");
+assert.ok(p.response("me chamo ana").message.includes("Ana"));
+assert.equal(p.response("me chamo joão e quero chá").message.includes("João E Quero"),false);
+assert.ok(p.response("estou só olhando").message.includes("ritmo"));
+assert.ok(p.response("tenho medo de comprar errado").message.includes("controle"));
+p.response("respostas curtas");assert.equal(p.state().detail,"curto");
+assert.equal(p.naturalize("1 item(ns) e 2 produto(s)"),"1 item e 2 produtos");
+console.log("MAX_PERSONALITY_V345_OK");

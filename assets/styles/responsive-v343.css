@@ -1,0 +1,90 @@
+/* Saúde Qualimax 3.4.3 — camada responsiva final */
+:root{--v343-gutter:clamp(1rem,4vw,1.75rem);--v343-touch:44px}
+html{overflow-x:clip;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{min-width:0;overflow-wrap:anywhere}
+*,*::before,*::after{box-sizing:border-box}
+img,svg,video,canvas,iframe{max-width:100%;height:auto}
+input,select,textarea,button{max-width:100%;font:inherit}
+button,a,input,select,textarea{touch-action:manipulation}
+.container{width:min(calc(100% - (2 * var(--v343-gutter))),var(--largura-container,1180px))}
+.v341-section{width:min(calc(100% - (2 * var(--v343-gutter))),1180px)}
+.v340-page,.v342-page{width:min(calc(100% - (2 * var(--v343-gutter))),1180px);margin-inline:auto}
+.v340-grid,.v342-grid,.v341-strip,.kits-grid,.campaign-products{grid-template-columns:repeat(auto-fit,minmax(min(100%,14rem),1fr))}
+.v340-card,.v340-panel,.v342-card,.v341-tile,.v341-insight{min-width:0}
+.v340-compare,.admin-tabela-wrap,[class*="table-wrap"]{max-width:100%;overflow-x:auto;overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch}
+table{max-width:100%}
+pre,code{white-space:pre-wrap;overflow-wrap:anywhere}
+
+/* Cabeçalho compacto das páginas 3.4.2, antes sem regras próprias. */
+.topo{border-bottom:1px solid rgba(23,107,77,.16);background:#fff}
+.topo-conteudo{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:72px;padding-block:.65rem}
+.topo .logo{color:#0d4532;font-size:clamp(1.1rem,3vw,1.45rem);font-weight:900;text-decoration:none}
+.topo nav{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:.25rem .8rem}
+.topo nav a{display:inline-flex;align-items:center;min-height:var(--v343-touch);color:#174c39;font-weight:700;text-decoration:none}
+
+/* Controles confortáveis por toque, teclado e zoom. */
+.botao,button,[role="button"],input:not([type="range"]):not([type="checkbox"]):not([type="radio"]),select,textarea{min-height:var(--v343-touch)}
+input[type="checkbox"],input[type="radio"]{min-width:1.25rem;min-height:1.25rem}
+.v342-card form,.v340-panel form{display:grid;gap:.75rem}
+.v342-range{min-height:var(--v343-touch)}
+
+/* Elementos fixos não disputam o mesmo espaço em telas pequenas. */
+.chatbot{max-height:calc(100dvh - 1.5rem)}
+.chatbot-dialog{max-height:calc(100dvh - 1.5rem);display:flex;flex-direction:column}
+.chat-mensagens{height:auto;min-height:8rem;flex:1 1 16rem}
+.notificacao-v333{width:min(24rem,calc(100% - 2rem))}
+
+@media(max-width:850px){
+  .cabecalho-conteudo{flex-wrap:wrap}
+  .navegacao{max-height:calc(100dvh - 88px);overflow-y:auto;overscroll-behavior:contain}
+  .produto-pagina-grid,.produto-modal-layout{grid-template-columns:1fr}
+  .produto-pagina-img{width:min(100%,34rem);margin-inline:auto;max-height:none}
+  .topo-conteudo{align-items:flex-start;flex-direction:column}
+  .topo nav{justify-content:flex-start;width:100%}
+}
+
+@media(max-width:650px){
+  :root{--v343-gutter:.9rem}
+  .hero-botoes,.produto-pagina-acoes,.v340-actions,.v341-toolbar,.v342-actions,.cart-actions{align-items:stretch;flex-direction:column}
+  .hero-botoes>*,.produto-pagina-acoes>*,.v340-actions>*,.v341-toolbar>*,.v342-actions>*,.cart-actions>*{width:100%}
+  .v340-card,.v340-panel,.v342-card{padding:1rem}
+  .v342-hero{border-radius:18px}
+  .chatbot{inset:auto .5rem max(.5rem,env(safe-area-inset-bottom));width:auto;max-width:none}
+  .chatbot-dialog{max-height:calc(100dvh - 1rem)}
+  .chatbot-header{align-items:flex-start}
+  .chatbot-identidade{min-width:0}
+  .chatbot-subtitulo{display:none}
+  .chat-input>div{align-items:stretch;flex-direction:column}
+  .chat-input button{min-height:var(--v343-touch)}
+  .chatbot-abrir{right:max(.75rem,env(safe-area-inset-right));bottom:calc(5rem + env(safe-area-inset-bottom))}
+  .carrinho-atalho{right:max(.75rem,env(safe-area-inset-right));bottom:calc(8.9rem + env(safe-area-inset-bottom))}
+  .whatsapp-flutuante{bottom:max(.75rem,env(safe-area-inset-bottom))}
+  .notificacao-v333{inset:auto 1rem max(1rem,env(safe-area-inset-bottom));max-height:50dvh;overflow:auto}
+  .v342-toast{bottom:max(1rem,env(safe-area-inset-bottom));width:calc(100% - 2rem);text-align:center}
+  .v342-reminder{align-items:stretch}
+  .v342-reminder button{width:100%}
+}
+
+@media(max-width:480px){
+  h1{font-size:clamp(1.85rem,10vw,2.45rem)}
+  h2{font-size:clamp(1.45rem,7.5vw,2rem)}
+  .produtos-grid,.destaques-grid,.beneficios-premium-grid,.categorias-populares-grid,.contato-grid,.jornada-local-grid,.editorial-trilhas{grid-template-columns:1fr}
+  .destaques-grid .produto-conteudo p,.destaques-grid .produto-acoes .link-destaque{display:block}
+  .topo nav{display:grid;grid-template-columns:1fr;width:100%}
+  .topo nav a{border-top:1px solid rgba(23,107,77,.12)}
+  .produto-modal,.escolhas-modal{padding:.5rem}
+  .produto-modal-dialog,.escolhas-dialog{padding:1rem;border-radius:16px}
+  .escolhas-cabecalho{padding-right:3.25rem}
+  .chatbot-abrir-texto{display:none}
+}
+
+@media(max-height:560px) and (orientation:landscape){
+  .chatbot{inset:.35rem .35rem .35rem auto;width:min(30rem,70vw);max-height:none}
+  .chatbot-dialog{max-height:calc(100dvh - .7rem)}
+  .chat-mensagens{min-height:4rem}
+  .chat-acoes{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+@media(forced-colors:active){
+  .v340-card,.v340-panel,.v342-card,.topo{border:1px solid CanvasText}
+}

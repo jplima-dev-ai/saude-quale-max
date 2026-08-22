@@ -2,7 +2,7 @@
 "use strict";
 
 const DB_NAME="qualimax-admin-local-v3";
-const ADMIN_BACKUP_VERSION="3.3.6";
+const ADMIN_BACKUP_VERSION="3.5.0";
 const DB_VERSION=1;
 let dbPromise=null;
 const abrirDB=()=>{
@@ -183,16 +183,24 @@ const produtoPorId=id=>state.produtos.find(p=>Number(p.id)===Number(id));
 const renderLista=()=>{
     const box=document.querySelector("[data-admin-lista-produtos]"); if(!box)return;
     const q=String(document.querySelector("[data-admin-busca-produto]")?.value||"").toLowerCase().trim();
-    const filtrados=state.produtos.filter(p=>`${p.nome} ${p.slug} ${p.categoria}`.toLowerCase().includes(q))
-        .sort((a,b)=>String(a.nome).localeCompare(String(b.nome),"pt-BR"));
+    let filtrados=state.produtos.filter(p=>`${p.nome} ${p.slug} ${p.categoria} ${(p.tags||[]).join(" ")}`.toLowerCase().includes(q));
+    if(typeof window.QualimaxAdmin350?.filtrarOrdenar==="function") filtrados=window.QualimaxAdmin350.filtrarOrdenar(filtrados);
+    else filtrados.sort((a,b)=>String(a.nome).localeCompare(String(b.nome),"pt-BR"));
     box.replaceChildren(...filtrados.map(p=>{
+        const row=document.createElement("div");row.className="admin-v350-product-row";row.dataset.v350RowId=p.id;
+        const check=document.createElement("input");check.type="checkbox";check.dataset.v350Select=p.id;check.setAttribute("aria-label",`Selecionar ${p.nome}`);
+        check.checked=!!window.QualimaxAdmin350?.selecionados?.has(Number(p.id));
         const b=document.createElement("button");b.type="button";b.className="admin-produto-item";
         if(Number(p.id)===Number(state.selecionado)) b.classList.add("ativo");
         b.dataset.produtoId=p.id;
         const strong=document.createElement("strong");strong.textContent=p.nome;
-        const small=document.createElement("small");small.textContent=`${p.categoria} • ${p.slug}`;
-        b.append(strong,small); return b;
+        const small=document.createElement("small");small.textContent=`${p.categoria} • ${Number(p.preco||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"})}`;
+        const quality=document.createElement("span");quality.className="admin-v350-row-quality";
+        const score=window.QualimaxAdmin350?.qualidade?.(p)??0;quality.textContent=`${score}%`;
+        quality.title="Qualidade do cadastro";
+        b.append(strong,small,quality);row.append(check,b);return row;
     }));
+    window.dispatchEvent(new CustomEvent("qualimax:admin-list-rendered",{detail:{produtos:filtrados}}));
 };
 
 const imagemLocal=async(produto)=>{
@@ -309,6 +317,11 @@ const validarProduto=p=>{
     return erros;
 };
 
+window.QualimaxAdminAPI={
+    state,renderLista,persistir,marcarDirty,preencherForm,formParaProduto,selecionar,validarProduto,
+    produtoPorId,atualizarMetricas,auditar,clone
+};
+
 const auditar=async()=>{
     const erros=[]; const avisos=[];
     const slugs=new Set();
@@ -405,6 +418,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
         state.config=clone(savedC?.value||state.baseConfig);
         document.title=`Admin Studio | ${state.config.empresa?.nome||"Loja"}`;
         preencherCategorias();renderLista();preencherLoja();preencherRecursos();preencherPromocoes();await atualizarMetricas();await auditar();
+        window.dispatchEvent(new CustomEvent("qualimax:admin-ready"));
     }catch(e){
         const box=document.querySelector("[data-admin-auditoria]");if(box)box.textContent="Não foi possível carregar os dados publicados.";
         console.error(e);

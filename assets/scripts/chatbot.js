@@ -14,6 +14,13 @@
     const { normalizar, nomeArquivoSeguro, slugSeguro } = MaxCore;
     const MaxNLU = window.QualimaxMaxNLU || { corrigir: normalizar, extrair: () => ({}), ehRespostaCurta: () => false };
     const MaxDecision = window.QualimaxMaxDecision || null;
+    const MaxIntelligence = window.QualimaxMaxIntelligence || null;
+    const MaxSales = window.QualimaxMaxSales || null;
+    const MaxSalesAdvanced = window.QualimaxMaxSalesAdvanced || null;
+    const MaxDialogue = window.QualimaxMaxDialogue || null;
+    const MaxPersonality = window.QualimaxMaxPersonality || null;
+    const MaxHandoff = window.QualimaxMaxHandoff || null;
+    const maxBehavior = window.QualimaxSecurity?.readStorage?.("qualimax-max-editor-v340", {maxSuggestions:5,allowCrossSell:true,explainRecommendations:true}) || {maxSuggestions:5,allowCrossSell:true,explainRecommendations:true};
     const estado = MaxCore.criarEstado();
 
 
@@ -42,7 +49,7 @@
         if (!area) return null;
         const elemento = document.createElement("div");
         elemento.className = `chat-mensagem chat-mensagem-${tipo}`;
-        elemento.textContent = String(texto || "");
+        elemento.textContent = MaxPersonality?.naturalize?.(texto,{type:tipo}) ?? String(texto || "");
         area.append(elemento);
         rolarFim();
         return elemento;
@@ -136,7 +143,7 @@
         const grupo = document.createElement("div");
         grupo.className = "chat-refinamentos";
         grupo.setAttribute("aria-label", "Sugestões de resposta");
-        acoes.forEach(({ texto, valor, acao }) => {
+        acoes.slice(0, Math.min(8, Math.max(1, Number(maxBehavior.maxSuggestions)||5))).forEach(({ texto, valor, acao }) => {
             const botao = document.createElement("button");
             botao.type = "button";
             botao.className = "chat-refinamento";
@@ -201,11 +208,12 @@
 
     const numeroWhatsApp = () => String(window.QualimaxConfig?.contato?.whatsapp || "").replace(/\D/g, "");
 
-    const adicionarWhatsAppNoChat = (textoBotao = "Preparar atendimento", contexto = "") => {
+    const adicionarWhatsAppNoChat = (textoBotao = "Preparar atendimento", contexto = "", assunto = "Tirar dúvida sobre produtos") => {
         const area = mensagens();
         const numero = numeroWhatsApp();
         if (!area || !numero) {
-            adicionarMensagem("O WhatsApp não está disponível neste momento. Posso encaminhar você para a página de contato.");
+            adicionarMensagem("O WhatsApp não está configurado neste momento. Você ainda pode usar a página de contato.");
+            if(area){const fallback=document.createElement("a");fallback.className="chat-whatsapp-cta";fallback.href="contact.html";fallback.textContent="Abrir página de contato";area.append(fallback);rolarFim()}
             return;
         }
 
@@ -231,13 +239,22 @@
         const link = document.createElement("a");
         link.className = "chat-whatsapp-cta";
         const produto = produtoContextual();
-        const params = new URLSearchParams({ origem:"max", assunto:"Tirar dúvida sobre produtos" });
+        const params = new URLSearchParams({ origem:"max", assunto:String(assunto||"Tirar dúvida sobre produtos").slice(0,80) });
         if (produto?.slug && slugSeguro(produto.slug)) params.set("produto",produto.slug);
         link.href = `support.html?${params.toString()}`;
         link.textContent = textoBotao;
         link.setAttribute("aria-label", `${textoBotao}. Você revisa os dados antes de abrir o WhatsApp.`);
         area.append(link);
         rolarFim();
+    };
+
+    const transferirParaWhatsApp = dados => {
+        if(!dados)return false;
+        adicionarMensagem(dados.message);
+        adicionarMensagem("Antes de abrir o WhatsApp, você poderá revisar e editar a mensagem. Nada será enviado automaticamente.");
+        adicionarWhatsAppNoChat(dados.button||"Continuar com a equipe",dados.summary||"",dados.subject||"Atendimento iniciado pelo Max");
+        document.dispatchEvent(new CustomEvent("qualimax:max-handoff",{detail:{motivo:dados.id||"unknown"}}));
+        return true;
     };
 
     const mostrarRedesNoChat = () => {
@@ -1792,6 +1809,184 @@
         return false;
     };
 
+    const responderDialogoV339 = (termo) => {
+        if(!MaxDialogue)return false;const leitura=MaxDialogue.analisar(termo),carrinho=window.QualimaxV333?.cart?.()||[],produto=produtoContextual();
+        const gl=MaxDialogue.glossario(termo);if(gl&&/\b(?:o que significa|o que e|o que é|explique|quer dizer)\b/.test(leitura.texto)){adicionarMensagem(gl.explicacao);return true;}
+        if(leitura.querSimples&&produto){adicionarMensagem(MaxDialogue.simplificarProduto(produto));adicionarAcoes([{texto:"Comparar de forma simples",valor:`comparar ${produto.nome} com `},{texto:"Ver preço",valor:`qual o preço de ${produto.nome}?`}]);return true;}
+        if(leitura.querContinuar){const r=MaxDialogue.resumo({preferencias:estado.preferencias,resultados:estado.ultimosResultados,produto,carrinho});adicionarMensagem(`${r.texto}${r.produto?` Produto em foco: ${r.produto}.`:""} ${r.resultados} resultado(s) recente(s) e ${r.carrinho} item(ns) no carrinho.`);const passo=MaxSalesAdvanced?.proximoPasso?.({carrinho,resultados:estado.ultimosResultados,produto});if(passo)adicionarMensagem(`Podemos continuar assim: ${passo.texto}.`);return true;}
+        if(leitura.querGuiado||/\b(?:qual e melhor para mim|qual é melhor para mim|me recomende uma)\b/.test(leitura.texto)){const q=MaxDialogue.proximaPergunta({preferencias:estado.preferencias,resultados:estado.ultimosResultados});if(q){estado.perguntaPendente=q.id;adicionarMensagem(q.texto);return true;}adicionarMensagem("Já tenho critérios suficientes. Vou reduzir as opções para facilitar sua decisão.");processarEntrada("mostrar três opções: econômica, intermediária e premium",false);return true;}
+        if(/\b(?:isso nao ajudou|isso não ajudou|nao era isso|não era isso)\b/.test(leitura.texto)){adicionarMensagem("Entendi. Vou abandonar essa direção sem apagar todo o seu contexto. O que ficou errado: objetivo, orçamento, formato ou produtos mostrados?");adicionarAcoes([{texto:"Objetivo",valor:"esqueça o objetivo anterior"},{texto:"Orçamento",valor:"esqueça o orçamento"},{texto:"Formato",valor:"esqueça o formato"},{texto:"Produtos",valor:"quero refazer a busca"}]);return true;}
+        return false;
+    };
+
+    const responderVendasAvancadasV338 = (termo) => {
+        if(!MaxSalesAdvanced||!estado.produtos.length)return false;
+        const habilidades=MaxSalesAdvanced.detectar(termo);if(!habilidades.length)return false;
+        const carrinho=window.QualimaxV333?.cart?.()||[];
+
+        if(habilidades.includes("auditar-carrinho")){
+            const a=MaxSalesAdvanced.analisarCarrinho(carrinho,estado.produtos);
+            if(!a.itens.length){adicionarMensagem("Seu carrinho está vazio. Posso começar por objetivo, orçamento ou montar uma seleção pronta.");adicionarAcoes([{texto:"Montar seleção",valor:"monte um kit até R$ 100"},{texto:"Escolher por objetivo",valor:"quero uma recomendação"}]);return true;}
+            adicionarMensagem(`Seu carrinho tem ${a.quantidade} unidade(s), ${a.categorias.length} categoria(s) e total aproximado de ${moeda(a.total)}. Índice de variedade: ${a.diversidade} de 100.${a.alertas.length?` Ponto para revisar: ${a.alertas.join("; ")}.`:" A composição está coerente para revisão final."}`);
+            adicionarAcoes([{texto:"Procurar economia",valor:"otimize meu carrinho"},{texto:"Ver o que falta",valor:"falta alguma coisa no carrinho?"},{texto:"Revisar carrinho",acao:()=>{fecharChat();location.href="cart.html"}}]);return true;
+        }
+        if(habilidades.includes("otimizar-carrinho")){
+            if(!carrinho.length){adicionarMensagem("Não há itens para otimizar ainda. Posso montar uma seleção diretamente dentro do seu orçamento.");return true;}
+            const plano=MaxSalesAdvanced.planoEconomia(carrinho,estado.produtos);
+            if(!plano.trocas.length){adicionarMensagem("Não encontrei substituições claramente semelhantes e mais baratas. Prefiro não sugerir uma troca fraca apenas para reduzir o valor.");return true;}
+            adicionarMensagem(`Encontrei ${plano.trocas.length} troca(s) possíveis, com economia potencial de até ${moeda(plano.economiaPotencial)}: ${plano.trocas.slice(0,3).map(x=>`${x.item.nome} por ${x.alternativa.nome}, economizando ${moeda(x.economia)}`).join("; ")}. Nada será alterado sem sua confirmação.`);
+            registrarResultados(plano.trocas.map(x=>x.alternativa),"Alternativas para economizar no carrinho");return true;
+        }
+        if(habilidades.includes("lacunas")){
+            if(!carrinho.length){adicionarMensagem("O carrinho ainda está vazio. Primeiro posso montar uma base e depois verificar complementos.");return true;}
+            const r=MaxSalesAdvanced.lacunas(carrinho,estado.produtos);
+            adicionarMensagem(r.sugestoes.length?`A seleção já pode ser finalizada como está. Se você quiser mais variedade, encontrei complementos em ${r.categoriasAusentes.join(", ")||"categorias relacionadas"}.`:`Não identifiquei uma lacuna relevante. Seu carrinho pode seguir para revisão sem adicionar itens desnecessários.`);
+            if(r.sugestoes.length)registrarResultados(r.sugestoes,"Complementos opcionais para o carrinho");return true;
+        }
+        if(habilidades.includes("recompra")){
+            const pedidos=window.QualimaxSecurity?.readStorage?.("qualimax-pedidos-v333",[])||[],ultimo=MaxSalesAdvanced.pedidoRecente(pedidos);
+            if(!ultimo){adicionarMensagem("Não encontrei pedido preparado anteriormente neste navegador. Posso montar uma nova seleção.");return true;}
+            adicionarMensagem(`Encontrei um pedido preparado em ${new Date(ultimo.em).toLocaleDateString("pt-BR")}, com ${ultimo.itens.length} item(ns) e total aproximado de ${moeda(ultimo.total)}. Quer recuperar essa seleção?`);
+            adicionarAcoes([{texto:"Recuperar pedido",acao:()=>{let n=0;ultimo.itens.forEach(i=>{const p=estado.produtos.find(x=>String(x.id)===String(i.id));if(p&&window.QualimaxV333?.add?.(p,null,Math.min(99,Number(i.qtd)||1)))n++});adicionarMensagem(`${n} produto(s) foram recuperados. Revise disponibilidade, preço e quantidade antes de continuar.`);}},{texto:"Ver carrinho",acao:()=>{fecharChat();location.href="cart.html"}},{texto:"Montar uma seleção nova",valor:"monte uma nova seleção até R$ 100"}]);return true;
+        }
+        if(habilidades.includes("frete")){
+            const cfg=window.QualimaxConfig,calc=window.QualimaxPromocoes?.calcular?.(cfg,carrinho.map(i=>({...i,quantidade:i.qtd,quantidade_base:1})));
+            if(!calc){adicionarMensagem("A regra de frete não está disponível para cálculo neste momento. A equipe confirma antes do pedido.");return true;}
+            adicionarMensagem(calc.freteGratis?"Pelas regras publicadas, esta seleção já atingiu a condição de frete grátis. A equipe confirma a disponibilidade final.":calc.faltaFrete>0?`Faltam aproximadamente ${moeda(calc.faltaFrete)} para atingir a condição configurada de frete grátis. Só vale adicionar algo se for realmente útil para você.`:"Não há uma meta ativa de frete grátis informada.");return true;
+        }
+        if(habilidades.includes("custo-real")){
+            const candidatos=produtosMencionados(termo);const lista=MaxSalesAdvanced.compararCusto(candidatos.length?candidatos:estado.ultimosResultados.slice(0,5));
+            if(!lista.length){adicionarMensagem("As apresentações disponíveis não informam uma quantidade comparável. Posso comparar preço total, formato e benefícios cadastrados.");return true;}
+            adicionarMensagem(lista.map((x,i)=>`${i+1}. ${x.produto.nome}: cerca de ${moeda(x.custo)} por unidade informada.`).join(" "));return true;
+        }
+        if(habilidades.includes("confianca")){
+            const p=estado.preferencias,c=MaxSalesAdvanced.confiancaEscolha({criterios:(p.termos||[]).length+(p.categoria?1:0)+(p.tipo?1:0),candidatos:estado.ultimosResultados.length,temOrcamento:Number.isFinite(p.orcamento),temRestricao:p.vegana!==null||p.semGluten!==null||(p.excluirTipos||[]).length>0,temAfinidade:estado.produtosGostei.length>0});
+            adicionarMensagem(`Minha confiança nesta direção é ${c.valor} de 100, nível ${c.nivel}. Isso mede a quantidade de critérios disponíveis, não a qualidade médica do produto. Para aumentar a precisão, falta definir ${c.faltante}.`);return true;
+        }
+        if(habilidades.includes("proximo-passo")){
+            const p=MaxSalesAdvanced.proximoPasso({carrinho,resultados:estado.ultimosResultados,produto:produtoContextual()});adicionarMensagem(`O próximo passo mais útil é: ${p.texto}.`);
+            const acoes={revisar:{texto:"Revisar carrinho",acao:()=>{fecharChat();location.href="cart.html"}},decidir:{texto:"Comparar agora",valor:`comparar ${produtoContextual()?.nome||"esta opção"} com `},reduzir:{texto:"Ver três níveis",valor:"mostrar três opções: econômica, intermediária e premium"},descobrir:{texto:"Começar diagnóstico",valor:"quero uma recomendação"}};adicionarAcoes([acoes[p.id]]);return true;
+        }
+        return false;
+    };
+
+    const responderVendasV338 = (termo) => {
+        if(!MaxSales||!estado.produtos.length)return false;
+        const habilidades=MaxSales.detectar(termo),base=produtosMencionados(termo)[0]||produtoContextual()||null;
+        if(!habilidades.length)return false;
+
+        if(habilidades.includes("fechamento")){
+            if(!base){adicionarMensagem("Posso ajudar a fechar a escolha. Você quer partir de um produto, de um orçamento ou de um objetivo?");adicionarAcoes([{texto:"Escolher por objetivo",valor:"quero uma recomendação"},{texto:"Escolher por orçamento",valor:"tenho até R$ "},{texto:"Abrir carrinho",acao:()=>{fecharChat();location.href="cart.html"}}]);return true;}
+            adicionarMensagem(`Ótima escolha para avaliar: ${base.nome}, por ${precoTexto(base)}. ${MaxSales.argumentoValor(base)}. Você mantém o controle: posso adicionar ao carrinho demonstrativo ou preparar o atendimento.`);
+            adicionarAcoes([{texto:`Adicionar ${base.nome} ao carrinho`,acao:()=>{const ok=window.QualimaxV333?.add?.(base);adicionarMensagem(ok?`${base.nome} foi adicionado. Quer complementar a seleção ou revisar o carrinho?`:"Não consegui adicionar agora. Posso abrir o catálogo para você.");}},{texto:"Revisar carrinho",acao:()=>{fecharChat();location.href="cart.html"}},{texto:"Preparar atendimento",acao:()=>adicionarWhatsAppNoChat("Preparar pedido",base.nome)}]);
+            return true;
+        }
+        if(habilidades.includes("objecao-preco")&&base){
+            const opcoes=MaxSales.alternativasEconomicas(base,estado.produtos);
+            adicionarMensagem(opcoes.length?`Entendi: o preço de ${base.nome} pesa na decisão. Separei alternativas próximas e mais econômicas, sem fingir equivalência perfeita.`:`Não encontrei alternativa realmente semelhante e mais barata. Posso montar uma seleção dentro de um teto ou explicar o valor desta opção.`);
+            if(opcoes.length)registrarResultados(opcoes,`Alternativas mais econômicas a ${base.nome}`);
+            adicionarAcoes([{texto:"Explicar custo-benefício",valor:`${base.nome} vale a pena?`},{texto:"Definir orçamento",valor:"tenho até R$ "}]);return true;
+        }
+        if(habilidades.includes("valor")&&base){
+            const urgencia=MaxSales.urgenciaVerdadeira(base);
+            adicionarMensagem(`${base.nome}: ${MaxSales.argumentoValor(base)}. O valor depende principalmente de quanto o formato e os destaques combinam com o que você realmente procura.${urgencia?` ${urgencia}`:""}`);
+            adicionarAcoes([{texto:"Comparar com outra opção",valor:`comparar ${base.nome} com `},{texto:"Quero comprar",valor:`quero comprar ${base.nome}`},{texto:"Ver opção mais barata",valor:`uma opção mais barata parecida com ${base.nome}`}]);return true;
+        }
+        if(habilidades.includes("complemento")&&base&&maxBehavior.allowCrossSell!==false){
+            const itens=MaxSales.complementos(base,estado.produtos);
+            adicionarMensagem(itens.length?`Para acompanhar ${base.nome}, encontrei opções de categorias complementares. A sugestão é por coerência de uso e variedade, não para aumentar o carrinho sem necessidade.`:"Não encontrei um complemento forte o suficiente para recomendar.");
+            if(itens.length)registrarResultados(itens,`Produtos que combinam com ${base.nome}`);return true;
+        }
+        if(habilidades.includes("faixas")){
+            const candidatos=estado.ultimosResultados.length?estado.ultimosResultados:estado.produtos;
+            const faixas=MaxSales.tresFaixas(candidatos);if(!faixas.length)return false;
+            adicionarMensagem(faixas.map(x=>`${x.nivel}: ${x.produto.nome}, ${precoTexto(x.produto)}.`).join(" "));
+            adicionarAcoes(faixas.map(x=>({texto:`Escolher ${x.nivel}`,acao:()=>explicarProduto(x.produto)})));return true;
+        }
+        if(habilidades.includes("kit")||habilidades.includes("rotina")||habilidades.includes("presente")){
+            const orcamento=extrairOrcamento(termo)||estado.preferencias.orcamento;
+            if(!orcamento){adicionarMensagem("Eu monto uma seleção sem ultrapassar o valor definido. Qual é o orçamento máximo?");adicionarAcoes([{texto:"Até R$ 60",valor:"monte um kit até R$ 60"},{texto:"Até R$ 100",valor:"monte um kit até R$ 100"},{texto:"Até R$ 200",valor:"monte um kit até R$ 200"}]);return true;}
+            const kit=MaxSales.montarKit(estado.produtos,orcamento,{base,maxItens:4});
+            if(!kit.itens.length){adicionarMensagem(`Não encontrei uma composição dentro de ${moeda(orcamento)}. Podemos aumentar o teto ou escolher apenas um produto.`);return true;}
+            adicionarMensagem(`Montei uma seleção de ${kit.itens.length} item(ns) por aproximadamente ${moeda(kit.total)}, dentro do teto de ${moeda(orcamento)}. Restam ${moeda(kit.falta)} no orçamento.`);
+            registrarResultados(kit.itens,"Seleção comercial personalizada");
+            adicionarAcoes([{texto:"Adicionar seleção ao carrinho",acao:()=>{let adicionados=0;kit.itens.forEach(p=>{if(window.QualimaxV333?.add?.(p))adicionados++});adicionarMensagem(`${adicionados} item(ns) foram adicionados. Você pode revisar tudo antes de continuar.`);}},{texto:"Montar outra seleção",valor:`outra seleção até ${orcamento}`},{texto:"Preparar atendimento",acao:()=>adicionarWhatsAppNoChat("Preparar seleção",kit.itens.map(p=>p.nome).join(", "))}]);return true;
+        }
+        if(habilidades.includes("objecao-duvida")){
+            adicionarMensagem("Sem problema. Para decidir com clareza, podemos comparar preço, formato e aderência à sua necessidade. Não vou criar urgência falsa nem pressionar você.");
+            adicionarAcoes([{texto:"Comparar opções",valor:base?`comparar ${base.nome} com `:"comparar minhas opções"},{texto:"Ver três faixas",valor:"mostrar três opções: econômica, intermediária e premium"},{texto:"Salvar e decidir depois",acao:()=>adicionarMensagem("Você pode manter a conversa e suas escolhas neste navegador e voltar quando quiser.")}]);return true;
+        }
+        return false;
+    };
+
+    const responderInteligenciaV337 = (termo) => {
+        if (!MaxIntelligence || !estado.produtos.length) return false;
+        const analise=MaxIntelligence.analisar(termo);
+
+        if (analise.querResumo) {
+            const partes=[];
+            if (estado.preferencias.categoria) partes.push(`categoria ${estado.preferencias.categoria}`);
+            if (estado.preferencias.tipo) partes.push(`formato ${estado.preferencias.tipo}`);
+            if (estado.preferencias.vegana) partes.push("opções veganas");
+            if (estado.preferencias.semGluten) partes.push("sem glúten");
+            if (estado.preferencias.orcamento) partes.push(`até ${moeda(estado.preferencias.orcamento)}`);
+            if (estado.produtosGostei.length) partes.push(`${estado.produtosGostei.length} produto(s) marcado(s) como gostei`);
+            adicionarMensagem(partes.length ? `Meu entendimento atual é: ${partes.join(", ")}. Você pode corrigir qualquer critério.` : "Ainda não formei um perfil de busca. Diga um objetivo, orçamento ou restrição e eu organizo os próximos passos.");
+            return true;
+        }
+
+        if (analise.querExplicacao && estado.ultimoLoteExibido?.length) {
+            const base=MaxIntelligence.recomendar(estado.ultimoLoteExibido, {...analise,objetivos:analise.objetivos.length?analise.objetivos:estado.preferencias.termos||[],limite:3}, {gostei:estado.produtosGostei,naoGostei:estado.produtosNaoGostei});
+            const linhas=base.map((x,i)=>`${i+1}. ${x.produto.nome}: ${x.motivos.length?x.motivos.join(", "):"afinidade geral com os filtros e o catálogo"}.`);
+            adicionarMensagem(`Usei compatibilidade, restrições, preço e suas escolhas anteriores. ${linhas.join(" ")}`);
+            return true;
+        }
+
+        if (/\b(?:esqueca|esqueça|remova|retire|nao considere)\b/.test(analise.texto)) {
+            const removidos=[];
+            if (/orcamento|preco|valor/.test(analise.texto)) { estado.preferencias.orcamento=null; removidos.push("orçamento"); }
+            if (/formato|capsula|po|liquido/.test(analise.texto)) { estado.preferencias.tipo=""; estado.preferencias.excluirTipos=[]; removidos.push("formato"); }
+            if (/vegano|vegana/.test(analise.texto)) { estado.preferencias.vegana=null; removidos.push("preferência vegana"); }
+            if (/gluten/.test(analise.texto)) { estado.preferencias.semGluten=null; removidos.push("restrição de glúten"); }
+            if (removidos.length) { adicionarMensagem(`Certo. Removi ${removidos.join(" e ")} da busca atual.`); return true; }
+        }
+
+        const mencionados=produtosMencionados(termo);
+        if (analise.querComparar && mencionados.length>=2) {
+            const dados=MaxIntelligence.comparar(mencionados);
+            adicionarMensagem(dados.map((p,i)=>`${i+1}. ${p.nome}: ${precoTexto(mencionados[i])}; formato ${p.tipo}; ${p.vegana?"vegano":"característica vegana não informada"}; ${p.semGluten?"sem glúten":"informação de glúten não confirmada"}; destaques: ${p.beneficios.join(", ")||"consulte a descrição"}.`).join(" "));
+            estado.ultimaComparacao=mencionados.slice(0,3);
+            adicionarAcoes(mencionados.slice(0,3).map(p=>({texto:`Ver ${p.nome}`,acao:()=>explicarProduto(p)})));
+            return true;
+        }
+
+        const temSinal=analise.objetivos.length || Number.isFinite(analise.orcamento) || Object.values(analise.restricoes).some(Boolean);
+        if (temSinal && !/\b(?:curar|tratar|doenca|doença|medicamento|remedio|remédio|dose|posologia)\b/.test(analise.texto)) {
+            const ranking=MaxIntelligence.recomendar(estado.produtos,analise,{gostei:estado.produtosGostei,naoGostei:estado.produtosNaoGostei});
+            if (ranking.length) {
+                const resumo=ranking.slice(0,3).map(x=>`${x.produto.nome} (${x.motivos.join(", ")||"boa afinidade"})`).join("; ");
+                adicionarMensagem(`Cruzei os critérios da sua frase. As combinações mais fortes são: ${resumo}. Isso é orientação de catálogo, não recomendação médica.`);
+                registrarResultados(ranking.map(x=>x.produto),"Ranking inteligente do Max");
+                document.dispatchEvent(new CustomEvent("qualimax:max-recommendation", { detail: { quantidade: ranking.length, objetivos: analise.objetivos.slice(), temOrcamento: Number.isFinite(analise.orcamento) } }));
+                if (ranking.length>3) adicionarAcoes([{texto:"Mostrar mais",valor:"mostrar mais"},{texto:"Explicar critérios",valor:"por que você escolheu essas opções?"}]);
+                return true;
+            }
+            adicionarMensagem(`Não encontrei uma combinação segura para todos os critérios ao mesmo tempo. ${MaxIntelligence.perguntaSeguinte(analise)}`);
+            return true;
+        }
+
+        if (!mencionados.length && analise.texto.split(/\s+/).length<=5) {
+            const aproximados=MaxIntelligence.encontrarAproximados(analise.texto,estado.produtos);
+            if (aproximados[0]?.similaridade>=.62) {
+                const melhor=aproximados[0].produto;
+                adicionarMensagem(`Você quis dizer ${melhor.nome}?`);
+                adicionarAcoes([{texto:`Sim, ${melhor.nome}`,acao:()=>explicarProduto(melhor)},{texto:"Não, buscar de outro jeito",valor:"quero refazer a busca"}]);
+                return true;
+            }
+        }
+        return false;
+    };
+
     const processarEntrada = (texto, mostrarUsuario = true) => {
         const original = String(texto || "").trim().slice(0, 300);
         const termo = normalizar(original);
@@ -1850,9 +2045,22 @@
         }
 
         if (mostrarUsuario) adicionarMensagem(original, "usuario");
+        MaxDialogue?.registrarTurno(original,"usuario");
+        const respostaHumana=MaxPersonality?.response?.(original);
+        if(respostaHumana){
+            adicionarMensagem(respostaHumana.message);
+            if(respostaHumana.actions?.length)adicionarAcoes(respostaHumana.actions.map(texto=>({texto,valor:texto})));
+            return;
+        }
+        const encaminhamento=MaxHandoff?.evaluate?.(original,{catalogReady:estado.produtos.length>0});
+        if(encaminhamento&&transferirParaWhatsApp(encaminhamento))return;
         registrarConsulta(original);
 
         if (responderHorarioLocal(termo)) return;
+        if (responderDialogoV339(termo)) return;
+        if (responderVendasAvancadasV338(termo)) return;
+        if (responderVendasV338(termo)) return;
+        if (responderInteligenciaV337(termo)) return;
         if (responderContextoDaPagina(termo)) return;
         if (responderAfinidade(termo)) return;
         if (responderModoPresente(termo)) return;
@@ -1960,12 +2168,14 @@
             return;
         }
 
-        adicionarMensagem("Não encontrei uma opção que atenda bem a todos esses critérios. Se desejar, posso retirar algum filtro e ampliar a busca.");
+        const naoResolvido=MaxHandoff?.unresolved?.(original);
+        if(naoResolvido)transferirParaWhatsApp(naoResolvido);
+        else adicionarMensagem("Não encontrei uma opção que atenda bem a todos esses critérios. Se quiser, posso retirar algum filtro e ampliar a busca.");
         const acoes = [
             { texto: "Limpar preferências", valor: "limpar preferencias" }
         ];
         if (quizAtivo()) acoes.push({ texto: "Fazer o quiz", acao: () => { fecharChat(); irQuiz(); } });
-        acoes.push({ texto: "Falar com a equipe", acao: () => adicionarWhatsAppNoChat() });
+        if(!naoResolvido)acoes.push({ texto: "Falar com a equipe", acao: () => adicionarWhatsAppNoChat() });
         adicionarAcoes(acoes);
     };
 
@@ -2017,7 +2227,7 @@
             }
         } catch (erro) {
             console.error(erro);
-            adicionarMensagem("Não consegui carregar o catálogo neste momento. Se preferir, você ainda pode continuar pelo atendimento da equipe.");
+            transferirParaWhatsApp(MaxHandoff?.evaluate?.("falha ao carregar catálogo",{catalogReady:false})||{id:"technical",message:"Não consegui carregar o catálogo agora.",button:"Continuar com a equipe",subject:"Falha ao consultar o catálogo"});
         }
 
         const abrir = () => {
@@ -2039,6 +2249,7 @@
         };
 
         document.querySelectorAll("[data-chat-abrir]").forEach((botao) => botao.addEventListener("click", abrir));
+        document.querySelectorAll("[data-chat-abrir]").forEach((botao) => botao.setAttribute("aria-keyshortcuts", "Alt+M"));
         document.querySelector("[data-chat-fechar]")?.addEventListener("click", fechar);
 
         const enviar = () => {
@@ -2077,6 +2288,7 @@
         limpar.textContent = "Nova conversa";
         limpar.addEventListener("click", () => {
             limparPreferencias();
+            MaxPersonality?.reset?.();
             const area = mensagens();
             area?.querySelectorAll(":scope > :not([data-chat-saudacao])").forEach(el => el.remove());
             adicionarMensagem("A conversa foi limpa. O que você gostaria de procurar agora?");
@@ -2085,6 +2297,11 @@
         document.querySelector(".chatbot-header")?.append(limpar);
 
         document.addEventListener("keydown", (evento) => {
+            if (evento.altKey && evento.key.toLowerCase() === "m") {
+                evento.preventDefault();
+                widget.hidden ? abrir() : fechar();
+                return;
+            }
             if (widget.hidden) return;
             if (evento.key === "Escape") { fechar(); return; }
             if (evento.key !== "Tab") return;

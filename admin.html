@@ -12,7 +12,7 @@
 <script src="assets/scripts/admin.js" defer></script>
 <script src="assets/scripts/accessibility.js" defer></script>
 <script src="assets/scripts/interactions.js" defer></script>
-<link rel="stylesheet" href="assets/styles/commerce.css"><link rel="stylesheet" href="assets/styles/animations.css"></head>
+<link rel="stylesheet" href="assets/styles/commerce.css"><link rel="stylesheet" href="assets/styles/animations.css"><link rel="stylesheet" href="assets/styles/platform-v340.css"><link rel="stylesheet" href="assets/styles/experience-v341.css"><link rel="stylesheet" href="assets/styles/innovations-v342.css"><link rel="stylesheet" href="assets/styles/responsive-v343.css"><link rel="stylesheet" href="assets/styles/admin-products-v350.css"></head>
 <body class="admin-body" data-page="admin">
 <a class="skip-link" href="#admin-conteudo">Ir para o conteúdo</a>
 <header class="admin-topo">
@@ -73,15 +73,48 @@
 
     <section class="admin-tab" data-admin-panel="produtos" hidden>
       <div class="admin-section-head">
-        <div><p class="admin-kicker">Catálogo</p><h2>Produtos</h2></div>
+        <div><p class="admin-kicker">Central de catálogo 3.5</p><h2>Gerenciamento de produtos</h2><p>Edite, organize e reajuste o catálogo sem precisar conhecer código.</p></div>
         <button class="botao botao-principal" type="button" data-admin-novo-produto>+ Novo produto</button>
       </div>
 
+      <div class="admin-v350-metricas" aria-label="Resumo do catálogo">
+        <article><span>Total</span><strong data-v350-total>0</strong><small>produtos cadastrados</small></article>
+        <article><span>Preço médio</span><strong data-v350-preco-medio>R$ 0,00</strong><small>do catálogo atual</small></article>
+        <article><span>Em destaque</span><strong data-v350-destaques>0</strong><small>na vitrine principal</small></article>
+        <article><span>Precisam de atenção</span><strong data-v350-pendencias>0</strong><small>cadastros incompletos</small></article>
+      </div>
+
+      <section class="admin-v350-toolbar" aria-labelledby="v350-filtros-titulo">
+        <div class="admin-v350-toolbar-head">
+          <div><h3 id="v350-filtros-titulo">Localize rapidamente</h3><p data-v350-resultados role="status" aria-live="polite">Carregando produtos…</p></div>
+          <button type="button" class="botao botao-secundario" data-v350-limpar-filtros>Limpar filtros</button>
+        </div>
+        <div class="admin-v350-filtros">
+          <div><label for="admin-busca-produto">Buscar</label><input id="admin-busca-produto" type="search" data-admin-busca-produto placeholder="Nome, categoria, tag ou endereço"></div>
+          <div><label for="v350-categoria">Categoria</label><select id="v350-categoria" data-v350-filtro-categoria><option value="">Todas</option></select></div>
+          <div><label for="v350-status">Situação</label><select id="v350-status" data-v350-filtro-status><option value="">Todas</option><option value="destaque">Em destaque</option><option value="completo">Cadastro completo</option><option value="pendente">Precisa de atenção</option></select></div>
+          <div><label for="v350-ordem">Ordenar por</label><select id="v350-ordem" data-v350-ordem><option value="nome">Nome (A–Z)</option><option value="preco-asc">Menor preço</option><option value="preco-desc">Maior preço</option><option value="qualidade">Qualidade do cadastro</option></select></div>
+        </div>
+      </section>
+
+      <section class="admin-v350-bulk" data-v350-bulk aria-labelledby="v350-acoes-lote-titulo">
+        <div><h3 id="v350-acoes-lote-titulo">Ações em lote</h3><p><strong data-v350-selecionados>0</strong> selecionado(s)</p></div>
+        <div class="admin-v350-bulk-controls">
+          <label for="v350-reajuste-tipo">Reajuste <span class="sr-only">de preço</span></label>
+          <select id="v350-reajuste-tipo" data-v350-reajuste-tipo><option value="percentual">Percentual (%)</option><option value="fixo">Valor fixo (R$)</option></select>
+          <label for="v350-reajuste-valor" class="sr-only">Valor do reajuste</label><input id="v350-reajuste-valor" data-v350-reajuste-valor type="number" step="0.01" placeholder="Ex.: 5 ou -5">
+          <button type="button" class="botao botao-principal" data-v350-aplicar-reajuste>Aplicar reajuste</button>
+          <button type="button" class="botao botao-secundario" data-v350-marcar-destaque>Destacar</button>
+          <button type="button" class="botao botao-secundario" data-v350-exportar-csv>Exportar CSV</button>
+          <button type="button" class="botao botao-secundario" data-v350-desfazer disabled>Desfazer última ação</button>
+        </div>
+        <p class="admin-status" data-v350-status role="status" aria-live="polite"></p>
+      </section>
+
       <div class="admin-produtos-layout">
         <aside class="admin-lista-produtos">
-          <label for="admin-busca-produto">Buscar produto</label>
-          <input id="admin-busca-produto" type="search" data-admin-busca-produto placeholder="Nome, categoria ou slug">
-          <div data-admin-lista-produtos class="admin-lista-scroll" aria-label="Produtos"></div>
+          <div class="admin-v350-list-head"><h3>Produtos</h3><label><input type="checkbox" data-v350-selecionar-todos> Selecionar visíveis</label></div>
+          <div data-admin-lista-produtos class="admin-lista-scroll" aria-label="Produtos cadastrados"></div>
         </aside>
 
         <section class="admin-editor" aria-labelledby="admin-editor-titulo">
@@ -92,74 +125,84 @@
 
           <form data-admin-produto-form hidden>
             <input type="hidden" name="id">
+            <div class="admin-v350-editor-head">
+              <div><p class="admin-kicker">Editor guiado</p><h3 data-v350-editor-nome>Produto</h3><p data-v350-salvamento>As alterações ficam no rascunho deste navegador.</p></div>
+              <div class="admin-v350-quality" aria-label="Qualidade do cadastro"><strong data-v350-quality-value>0%</strong><span>completo</span></div>
+            </div>
+            <nav class="admin-v350-steps" aria-label="Seções do cadastro">
+              <button type="button" data-v350-step-button="essencial" aria-current="step">1. Essencial</button>
+              <button type="button" data-v350-step-button="venda">2. Venda</button>
+              <button type="button" data-v350-step-button="conteudo">3. Conteúdo</button>
+              <button type="button" data-v350-step-button="midia">4. Mídia e revisão</button>
+            </nav>
             <div class="admin-form-grid">
-              <div class="admin-campo-largo">
+              <div class="admin-campo-largo" data-v350-step="essencial">
                 <label for="adm-nome">Nome do produto</label>
                 <input id="adm-nome" name="nome" required maxlength="120">
               </div>
-              <div>
+              <div data-v350-step="essencial">
                 <label for="adm-slug">Endereço da página</label>
                 <input id="adm-slug" name="slug" required pattern="[a-z0-9]+(?:-[a-z0-9]+)*">
                 <small>Ex.: creatina-monohidratada</small>
               </div>
-              <div>
+              <div data-v350-step="essencial">
                 <label for="adm-categoria">Categoria</label>
                 <select id="adm-categoria" name="categoria" required data-admin-categorias></select>
               </div>
-              <div>
+              <div data-v350-step="essencial">
                 <label for="adm-tipo">Formato</label>
                 <input id="adm-tipo" name="tipo" maxlength="50" placeholder="pó, cápsula, chá...">
               </div>
-              <div>
+              <div data-v350-step="venda">
                 <label for="adm-preco">Preço aproximado (R$)</label>
                 <input id="adm-preco" name="preco" type="number" min="0" step="0.01" inputmode="decimal">
               </div>
-              <div>
+              <div data-v350-step="venda">
                 <label for="adm-apresentacao">Apresentação</label>
                 <input id="adm-apresentacao" name="apresentacao" maxlength="60" placeholder="Ex.: 300 g, 60 cápsulas">
               </div>
-              <div>
+              <div data-v350-step="venda">
                 <label for="adm-venda-tipo">Forma de venda</label>
                 <select id="adm-venda-tipo" name="venda_tipo">
                   <option value="unidade">Por unidade/embalagem</option>
                   <option value="peso">A granel / por peso</option>
                 </select>
               </div>
-              <div>
+              <div data-v350-step="midia">
                 <label for="adm-imagem">Nome da imagem</label>
                 <input id="adm-imagem" name="imagem" maxlength="160" pattern="[A-Za-z0-9._-]+">
               </div>
-              <div class="admin-campo-largo">
+              <div class="admin-campo-largo" data-v350-step="conteudo">
                 <label for="adm-copy">Copy de destaque</label>
                 <textarea id="adm-copy" name="copy" rows="4" maxlength="700"></textarea>
                 <small data-admin-contador-copy></small>
               </div>
-              <div class="admin-campo-largo">
+              <div class="admin-campo-largo" data-v350-step="conteudo">
                 <label for="adm-descricao">Descrição</label>
                 <textarea id="adm-descricao" name="descricao" rows="3" maxlength="700"></textarea>
               </div>
-              <div class="admin-campo-largo">
+              <div class="admin-campo-largo" data-v350-step="conteudo">
                 <label for="adm-cta">Texto do botão</label>
                 <input id="adm-cta" name="cta" maxlength="80">
               </div>
-              <div class="admin-campo-largo">
+              <div class="admin-campo-largo" data-v350-step="conteudo">
                 <label for="adm-beneficios">Benefícios / características cadastradas</label>
                 <textarea id="adm-beneficios" name="beneficios" rows="3" placeholder="Um por linha"></textarea>
               </div>
-              <div class="admin-campo-largo">
+              <div class="admin-campo-largo" data-v350-step="conteudo">
                 <label for="adm-tags">Tags de busca</label>
                 <textarea id="adm-tags" name="tags" rows="2" placeholder="Separadas por vírgula"></textarea>
               </div>
             </div>
 
-            <fieldset class="admin-checks">
+            <fieldset class="admin-checks" data-v350-step="venda">
               <legend>Características</legend>
               <label><input type="checkbox" name="vegana"> Vegano</label>
               <label><input type="checkbox" name="sem_gluten"> Sem glúten</label>
               <label><input type="checkbox" name="destaque"> Produto em destaque</label>
             </fieldset>
 
-            <section class="admin-upload">
+            <section class="admin-upload" data-v350-step="midia">
               <div>
                 <h3>Imagem local</h3>
                 <p>Envie uma imagem para pré-visualização. O Admin prepara também uma miniatura para o catálogo; nada é publicado automaticamente.</p>
@@ -169,7 +212,7 @@
               <div class="admin-preview-imagem" data-admin-preview-imagem></div>
             </section>
 
-            <section class="admin-preview-card" aria-labelledby="admin-preview-titulo">
+            <section class="admin-preview-card" data-v350-step="midia" aria-labelledby="admin-preview-titulo">
               <p class="admin-kicker">Prévia</p>
               <h3 id="admin-preview-titulo">Como o produto vai parecer</h3>
               <article class="admin-produto-preview" data-admin-produto-preview></article>
@@ -276,6 +319,7 @@
     </section>
   </main>
 </div>
+<script src="assets/scripts/admin-products-v350.js" defer></script>
 <script src="assets/scripts/promotions.js" defer></script>
-<script src="assets/scripts/commerce-v332.js" defer></script><script src="assets/scripts/commerce-v333.js" defer></script><script src="assets/scripts/animations.js" defer></script></body>
+<script src="assets/scripts/commerce-v332.js" defer></script><script src="assets/scripts/commerce-v333.js" defer></script><script src="assets/scripts/animations.js" defer></script><script src="assets/scripts/platform-v340.js" defer></script><script src="assets/scripts/experience-v341.js" defer></script><script src="assets/scripts/innovations-v342.js" defer></script><script src="assets/scripts/screenreader-v344.js" defer></script><script src="assets/scripts/max-personality-v345.js" defer></script><script src="assets/scripts/max-handoff-v346.js" defer></script></body>
 </html>
